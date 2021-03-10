@@ -1,5 +1,5 @@
 import { buildSchema } from "type-graphql";
-import { authChecker } from "../src/authChecker";
+import { authChecker } from "./authChecker";
 import { UserResolver } from "../src/resolvers/UserResolver";
 
 export const createSchema = () => buildSchema({
