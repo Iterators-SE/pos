@@ -1,9 +1,8 @@
 import { createConnection } from "typeorm";
-import { buildSchema } from "type-graphql";
-import { UserResolver } from "./resolvers/UserResolver";
 import express = require('express');
 import { ApolloServer } from 'apollo-server-express';
 import jwt = require('express-jwt');
+import { createSchema } from "./utils/createSchema";
 
 require('dotenv').config();
 
@@ -18,9 +17,7 @@ const startServer = async () => {
     algorithms: [process.env.JWT_ALGORITHM as string]
   });
 
-  const schema = await buildSchema({
-    resolvers: [UserResolver]
-  });
+  const schema = await createSchema();
 
   const server = new ApolloServer({ 
     schema, 
@@ -31,7 +28,11 @@ const startServer = async () => {
     })
   });
 
-  app.use(authMiddleware);
+  app.use(authMiddleware, (err: any, req: any, res: any, next: any)=> {
+    if(err.code === "invalid_token") return next();
+    return next(err);
+  });
+
   server.applyMiddleware({app});
 
   app.listen({ port }, () => {
