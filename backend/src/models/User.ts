@@ -1,4 +1,4 @@
-import { Field, ObjectType } from "type-graphql";
+import { Field, ID, ObjectType } from "type-graphql";
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 // TODO [2021-03-12]: Add count
@@ -6,7 +6,7 @@ import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 @ObjectType()
 export class User extends BaseEntity {
     @PrimaryGeneratedColumn()
-    @Field()
+    @Field(() => ID)
     id: number;
 
     @Column()
@@ -18,4 +18,7 @@ export class User extends BaseEntity {
 
     @Column()
     password: string;
+
+    @Column("bool", {default: false})
+    confirmed: boolean;
 }
