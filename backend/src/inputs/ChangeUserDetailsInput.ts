@@ -2,9 +2,9 @@ import { InputType, Field } from "type-graphql";
 
 @InputType()
 export class ChangeUserDetailsInput {
-  @Field()
+  @Field({nullable: true})
   name: string;
 
-  @Field()
+  @Field({nullable: true})
   email: string;
 }
