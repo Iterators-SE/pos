@@ -1,25 +1,17 @@
-import { Resolver, Query, Arg, Mutation } from "type-graphql";
+import { Resolver, Query, Arg, Mutation, Authorized, Ctx } from "type-graphql";
 import { ChangeUserDetailsInput } from "../inputs/ChangeUserDetailsInput";
 import { User } from "../models/User";
 import { compare, hash } from "bcrypt";
 import { sign } from "jsonwebtoken";
+import { Context } from "../types/context";
 require('dotenv').config()
 
 @Resolver(of => User)
 export class UserResolver {
-    @Query(() => User)
-    async getUser(@Arg("id") id: number) {
-        const user = await User.findOne({ where: { id } });
-        if (user) {
-            return user;
-        }
-
-        throw Error("No user found")
-    }
-
-    @Mutation(() => User)
-    async changeUserDetails(@Arg("id") id: string, @Arg("data") data: ChangeUserDetailsInput) {
-        const user = await User.findOne({ where: { id } });
+    @Authorized()
+    @Mutation(() => User, {nullable: true})
+    async changeUserDetails(@Ctx() ctx: Context, @Arg("data") data: ChangeUserDetailsInput) {
+        const user = await User.findOne({ where: { id: ctx.currentUser.id } });
 
         if (!user) throw new Error("User does not exist!");
         Object.assign(user, data);
@@ -27,11 +19,10 @@ export class UserResolver {
         return user;
     }
 
-        // TODO [2021-03-11]: Access context
+    // TODO [2021-03-11]: Access context  
     @Query(() => String)
-    async login( @Arg("email") email: string, @Arg("password") password: string) {
-        // check that user is not already logged in
-        // if (context) throw new Error("Already logged in.");
+    async login(@Ctx() ctx: Context, @Arg("email") email: string, @Arg("password") password: string) {
+        if (ctx.currentUser) throw new Error("Already logged in.");
         const user = await User.findOne({ where: { email } })
 
         if (!user) throw new Error('No user with that email')
@@ -48,9 +39,9 @@ export class UserResolver {
 
     // TODO [2021-03-11]: Access context
     @Query(() => String)
-    async signup(@Arg("name") name: string, @Arg("email") email: string, @Arg("password") password: string) {
-        // check if user is logged in
-        // if (context) throw new Error("Already logged in.");
+    async signup(@Ctx() ctx: Context, @Arg("name") name: string, @Arg("email") email: string, @Arg("password") password: string) {
+        if (ctx.currentUser) throw new Error("Already logged in.");
+        
         const user = await User.findOne({ where: { email } })
         if (user) throw new Error('User with that email exists.')
 
