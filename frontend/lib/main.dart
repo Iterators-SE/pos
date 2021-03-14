@@ -9,6 +9,7 @@ import 'package:frontend/repositories/authentication_repository.dart';
 import 'package:frontend/repositories/authentication_repository_implementation.dart';
 import 'package:graphql/client.dart';
 import 'package:provider/provider.dart';
+import 'views/auth/login_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -62,7 +63,7 @@ class _MyAppState extends State<MyApp> {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: Scaffold() // Views here,
+          home: LoginPage() // Views here,
           ),
     );
   }
