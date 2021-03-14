@@ -1,5 +1,7 @@
 # pos
 
+A point-of-sale system by the Iterators
+
 ## Setup
 1. Create local `pos` database
 1. Go to `/backend`
