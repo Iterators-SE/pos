@@ -9,7 +9,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npx --no-install commitlint --edit $1"
+      "commit-msg": "npx --no-install commitlint --edit $1"
     }
   },
   "repository": {
