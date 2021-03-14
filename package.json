@@ -1,0 +1,36 @@
+{
+  "name": "pos",
+  "version": "1.0.0",
+  "description": "A point-of-sale system by the Iterators",
+  "main": "frontend/lib/main.dart",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npx --no-install commitlint --edit $1"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Iterators-SE/pos.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Iterators-SE/pos/issues"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "homepage": "https://github.com/Iterators-SE/pos#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^12.0.1",
+    "@commitlint/config-conventional": "^12.0.1",
+    "husky": "^5.1.3"
+  }
+}
