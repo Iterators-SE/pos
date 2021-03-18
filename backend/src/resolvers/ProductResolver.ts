@@ -1,4 +1,5 @@
 import { Resolver, Query, Arg, Mutation, Authorized, Ctx } from "type-graphql";
+import { ChangeProductDetailsInput } from "../inputs/ChangeProductDetailsInput";
 import { ChangeUserDetailsInput } from "../inputs/ChangeUserDetailsInput";
 import { Product } from "../models/Product";
 import { Context } from "../types/context";
@@ -8,7 +9,7 @@ require('dotenv').config()
 export class ProductResolver {
     @Mutation(() => Boolean, { nullable: true })
 
-    async addProduct(@Ctx() ctx: Context, @Arg("productName") productname: string, @Arg("description") description: string, @Arg("isTaxable") taxable: boolean) {
+    async addProduct(@Ctx() ctx: Context, @Arg("productname") productname: string, @Arg("description") description: string, @Arg("taxable") taxable: boolean) {
         await Product.create({
             productname,
             description,
@@ -26,6 +27,15 @@ export class ProductResolver {
         if(!product) throw new Error("Deletion not possible! Product doesn't exist!")
         await product.remove()
         return true;
+    }
+
+    @Mutation(() => Product)
+        async changeProductDetails(@Ctx() ctx: Context, @Arg("productid") productid: number, @Arg("data") data: ChangeProductDetailsInput) {
+        const product = await Product.findOne({ where: { id: productid, ownerid: ctx.currentUser.id} });
+        if (!product) throw new Error("Can't update a non existent product!");
+        Object.assign(product, data);
+        await product.save();
+        return product;
     }
 
     @Query(() => Product, {nullable: true})
