@@ -4,7 +4,7 @@ import { User } from "../models/User";
 import { Context } from "../types/context";
 require('dotenv').config()
 
-@Resolver(of => User)
+@Resolver(() => User)
 export class UserResolver {
     @Authorized()
     @Mutation(() => User, {nullable: true})
@@ -19,6 +19,10 @@ export class UserResolver {
 
     @Query(() => User, {nullable: true})
     async getUserDetails(@Ctx() ctx: Context) {
+        if (!ctx.currentUser) {
+            throw Error("Unable to get user details.") 
+        }
+
         const user = await User.findOne({ where: { id: ctx.currentUser.id } });
         return user;
     }
