@@ -2,7 +2,10 @@ import { createConnection } from "typeorm";
 import express = require('express');
 import { ApolloServer } from 'apollo-server-express';
 import jwt = require('express-jwt');
+import {verify} from "jsonwebtoken";
 import { createSchema } from "./utils/createSchema";
+import { Token } from "./types/token";
+import { User } from "./models/User";
 
 require('dotenv').config();
 
@@ -33,10 +36,31 @@ const startServer = async () => {
     return next(err);
   });
 
+  app.use(express.json());
+  app.use(express.urlencoded({extended: false}));
+
+  app.get('/confirm/:token', async (req, res) => {
+    const token = req.params.token;
+
+    return verify(token,  process.env.JWT_SECRET as string, {ignoreExpiration: false}, (err, decoded) => {
+      if (err) return res.status(400).json({message: "Could not confirm email - please request a new link"});
+
+      const {id} = decoded as Token;
+
+      return connection.getRepository(User).update({id}, {confirmed: true}).then((_) => {
+        return res.status(200).json({message: "Email successfully confirmed!"})
+      }).catch(() => {
+        return res.status(500).json({message: "Could not confirm email - please try again"});
+      });
+    });
+  });
+
   server.applyMiddleware({app});
 
   app.listen({ port }, () => {
     console.log(`Server is up on http://localhost:${port}${server.graphqlPath}`);
+  }).on('close', () => {
+    connection.close();
   });
 }
 
