@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType } from "type-graphql";
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./User";
 
 @Entity()
@@ -13,8 +13,9 @@ export class Product extends BaseEntity {
     @Field()
     productname: string;
 
-    @Column()
-    ownerid : number
+    @Field(() => User)
+    @ManyToOne(() => User, owner => owner.product, {eager: true})
+    owner : User;
 
     @Column()
     @Field()
