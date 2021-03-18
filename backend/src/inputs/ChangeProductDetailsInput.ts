@@ -9,7 +9,7 @@ export class ChangeProductDetailsInput {
   description?: string;
 
   @Field({ nullable: true })
-  isTaxable?: boolean;
+  taxable?: boolean;
 
   @Field({ nullable: true })
   photolink?: string;
