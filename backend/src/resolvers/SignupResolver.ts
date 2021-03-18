@@ -20,6 +20,8 @@ export class SignupResolver {
             password: hashedPassword
         }).save();
 
+        await sendEmail(name, email, await createConfirmationUrl(user.id), {confirm: true});
+
         return true;
     }
 }
