@@ -20,6 +20,14 @@ export class ProductResolver {
         return true;
     }
     
+    @Mutation(() => Boolean, {nullable: true})
+    async deleteProduct(@Arg("productId") productID: number){
+        const product = await Product.findOne({ where: { ownerid: 1, id: productID} });
+        if(!product) throw new Error("Deletion not possible! Product doesn't exist!")
+        await product.remove()
+        return true;
+    }
+
     @Query(() => Product, {nullable: true})
     async getProducts(@Ctx() ctx: Context){
         const products = await Product.find({ where: { ownerid: ctx.currentUser.id } });
@@ -32,5 +40,6 @@ export class ProductResolver {
         if (!productDetails) throw new Error("Product doesn't exist!");
         return productDetails;
     }
+
 
 }
