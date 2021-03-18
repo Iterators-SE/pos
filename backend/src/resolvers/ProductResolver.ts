@@ -26,4 +26,11 @@ export class ProductResolver {
         return products;
     }
 
+    @Query(() => Product, {nullable: true})
+    async getProductDetails(@Ctx() ctx: Context, @Arg("productId") productID: number){
+        const productDetails = await Product.findOne({ where: { ownerid: ctx.currentUser.id, id: productID  } });
+        if (!productDetails) throw new Error("Product doesn't exist!");
+        return productDetails;
+    }
+
 }
