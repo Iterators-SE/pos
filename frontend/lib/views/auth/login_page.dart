@@ -53,14 +53,8 @@ class _LoginPageState extends State<LoginPage> {
               width: 400,
               child: ListView(
                 children: <Widget>[
-                  SizedBox(height: 80),
-                  Container(
-                    height: 60,
-                    child: Text(
-                      'POSSIBLE™',
-                      style: TextStyle(fontSize: 40),
-                    ),
-                  ),
+                  SizedBox(height: 20),
+                  Image(image: AssetImage('Xpos.png')),
                   Padding(
                     padding: EdgeInsets.only(top: 40, bottom: 5),
                     child: Align(
@@ -102,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                     },
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 20,
                   ),
                   TextFormField(
                     decoration: InputDecoration(
