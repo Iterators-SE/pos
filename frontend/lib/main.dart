@@ -8,7 +8,10 @@ import 'package:frontend/datasources/authentication/authentication_remote_dataso
 import 'package:frontend/repositories/authentication_repository.dart';
 import 'package:frontend/repositories/authentication_repository_implementation.dart';
 import 'package:graphql/client.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
+
+import 'models/user.dart';
 import 'views/auth/login_page.dart';
 
 void main() {
@@ -29,10 +32,9 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    final scheme = Platform.isAndroid ? '10.0.0.2' : 'localhost';
+    // final scheme = Platform.isAndroid ? '10.0.0.2' : 'localhost';
     final uri =
-        kReleaseMode ? 'WHEN_SERVER_IS_HOSTED' : 'http://$scheme:5000/graphql';
-
+        kReleaseMode ? 'WHEN_SERVER_IS_HOSTED' : 'http://localhost:5000/graphql';
     _httpLink = HttpLink(uri);
 
     _client = GraphQLClient(
@@ -52,18 +54,26 @@ class _MyAppState extends State<MyApp> {
     );
 
     super.initState();
-  }
+  } 
 
+  
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [],
+      providers: [
+        Provider<User>(create: (context) => User()),
+        Provider<AuthenticationRemoteDataSource>(
+          create:(context) => _authenticationDataSource,),
+        Provider<AuthenticationRepository>(
+          create: (context) => _authenticationRepository,
+        )
+      ],
       child: MaterialApp(
           title: 'Flutter Demo',
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: LoginPage() // Views here,
+          home: LoginPage(),
           ),
     );
   }

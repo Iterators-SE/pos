@@ -42,12 +42,30 @@ class AuthenticationRemoteDataSource implements IAuthenticationDataSource {
 
   @override
   Future<User> login({String email, String password}) async {
-    // TODO: implement login and replace [user] with actual data
-    final user = User(token: 'TOKEN_HERE');
+    print('Client: $client');
+    try {
+      final query = r'''
+        mutation login($email: String!, $password: String!) {
+          action: login(email: $email, password: $password)
+        }''';
 
-    // On success
-    await storage.write(key: _posToken, value: user.token);
-    return user;
+      final response = await client.query(
+        QueryOptions(
+          document: gql(query),
+          variables: {'email': email, 'password': password},
+        ),
+      );
+
+      if (response.hasException) {
+        throw response.exception;
+      }
+      final user = User(token: response.data["login"] );
+
+      await storage.write(key: _posToken, value: user.token);
+      return user;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override

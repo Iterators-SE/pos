@@ -21,7 +21,8 @@ export class LoginResolver {
         const refreshToken = sign({
             id: user.id,
         }, process.env.JWT_SECRET as string, { expiresIn: '15m' });
-
+        
+        
         return refreshToken;
     }
 }
