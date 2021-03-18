@@ -19,4 +19,11 @@ export class ProductResolver {
 
         return true;
     }
+    
+    @Query(() => Product, {nullable: true})
+    async getProducts(@Ctx() ctx: Context){
+        const products = await Product.find({ where: { ownerid: ctx.currentUser.id } });
+        return products;
+    }
+
 }
