@@ -4,7 +4,7 @@ import { User } from "../models/User";
 import { Context } from "../types/context";
 require('dotenv').config()
 
-@Resolver(of => User)
+@Resolver(() => User)
 export class UserResolver {
     @Authorized()
     @Mutation(() => User, {nullable: true})
