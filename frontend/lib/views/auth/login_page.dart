@@ -31,7 +31,6 @@ class _LoginPageState extends State<LoginPage> {
       print(dataSource);
       final user =
           await dataSource.login(email: _emailAddress, password: _password);
-      print('Email:  $_emailAddress, Password: $_password');
       print("LOGGED IN");
       print(user.token);
       HomePage();

@@ -10,6 +10,7 @@ import 'package:frontend/repositories/authentication_repository_implementation.d
 import 'package:graphql/client.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'models/user.dart';
 import 'views/auth/login_page.dart';
@@ -28,8 +29,8 @@ class _MyAppState extends State<MyApp> {
   GraphQLClient _client;
   IAuthenticationDataSource _authenticationDataSource;
   IAuthenticationRepository _authenticationRepository;
-  FlutterSecureStorage _storage;
-
+  SharedPreferences _storage;
+  
   @override
   void initState() {
     // final scheme = Platform.isAndroid ? '10.0.0.2' : 'localhost';
@@ -41,8 +42,6 @@ class _MyAppState extends State<MyApp> {
       cache: GraphQLCache(),
       link: _httpLink,
     );
-
-    _storage = FlutterSecureStorage();
 
     _authenticationDataSource = AuthenticationRemoteDataSource(
       client: _client,

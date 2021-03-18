@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:graphql/client.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../models/user.dart';
 import 'authentication_datasource.dart';
@@ -11,7 +12,8 @@ class AuthenticationRemoteDataSource implements IAuthenticationDataSource {
 
   final _posToken = 'POS_TOKEN';
   final GraphQLClient client;
-  final FlutterSecureStorage storage;
+  // final FlutterSecureStorage storage;
+  final SharedPreferences storage;
 
   @override
   Future<bool> signup({String name, String email, String password}) async {
@@ -42,6 +44,7 @@ class AuthenticationRemoteDataSource implements IAuthenticationDataSource {
 
   @override
   Future<User> login({String email, String password}) async {
+    final storage = await SharedPreferences.getInstance();
     print('Client: $client');
     try {
       final query = r'''
@@ -55,13 +58,15 @@ class AuthenticationRemoteDataSource implements IAuthenticationDataSource {
           variables: {'email': email, 'password': password},
         ),
       );
+      print(response);
+      print(response.exception);
 
       if (response.hasException) {
         throw response.exception;
       }
-      final user = User(token: response.data["login"] );
+      final user = User(token: response.data["action"] );
 
-      await storage.write(key: _posToken, value: user.token);
+      await storage.setString( _posToken,user.token);
       return user;
     } catch (e) {
       rethrow;
@@ -73,7 +78,7 @@ class AuthenticationRemoteDataSource implements IAuthenticationDataSource {
     // TODO: implement logout
 
     // On success
-    await storage.delete(key: _posToken);
+    // await storage.delete(key: _posToken);
     throw UnimplementedError();
   }
 }
