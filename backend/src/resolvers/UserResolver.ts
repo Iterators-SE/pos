@@ -19,6 +19,10 @@ export class UserResolver {
 
     @Query(() => User, {nullable: true})
     async getUserDetails(@Ctx() ctx: Context) {
+        if (!ctx.currentUser) {
+            throw Error("Unable to get user details.") 
+        }
+
         const user = await User.findOne({ where: { id: ctx.currentUser.id } });
         return user;
     }
