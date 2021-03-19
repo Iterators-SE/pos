@@ -1,8 +1,10 @@
 import { compare } from "bcrypt";
-import { sign } from "jsonwebtoken";
+import jwt = require("express-jwt");
+import { sign, decode } from "jsonwebtoken";
 import { Arg, Ctx, Mutation, Resolver } from "type-graphql";
 import { User } from "../models/User";
 import { Context } from "../types/context";
+import { Token } from "../types/token";
 
 @Resolver()
 export class LoginResolver {
@@ -16,7 +18,9 @@ export class LoginResolver {
 
         if (!valid) throw new Error('Incorrect password');
 
-        // add user confirmation
+        if (!user.confirmed) {
+            throw new Error("Please validate your email");
+        }
 
         const refreshToken = sign({
             id: user.id,
@@ -25,6 +29,8 @@ export class LoginResolver {
             password: user.password,
             confirmed : user.confirmed
         }, process.env.JWT_SECRET as string, { expiresIn: '15m' });
+
+        ctx.currentUser = decode(refreshToken) as Token;
         
         return refreshToken;
     }
