@@ -32,10 +32,28 @@ class _RegisterPageState extends State<RegisterPage> {
         final dataSource = await Provider.of<AuthenticationRemoteDataSource>(
             context,
             listen: false);
-        final signup = await dataSource.signup(
-            name: _name, email: _emailAddress, password: _password);
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (BuildContext context) => LoginPage()));
+        try {
+          await dataSource.signup(
+              name: _name, email: _emailAddress, password: _password);
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => LoginPage()));
+        } catch (e) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => AlertDialog(
+                        content: Text(e.graphqlErrors[0].message),
+                        actions: [
+                          MaterialButton(
+                            color: Colors.grey,
+                            onPressed: () => Navigator.pop(context),
+                            child: Text('Close'),
+                          )
+                        ],
+                      )));
+        }
       }
     }
 

@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/models/user.dart';
 import 'package:frontend/views/auth/register_page.dart';
 import 'package:frontend/views/home/home_page.dart';
 import 'package:frontend/views/checker.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:provider/provider.dart';
 
 import '../../datasources/authentication/authentication_remote_datasource.dart';
@@ -29,11 +32,48 @@ class _LoginPageState extends State<LoginPage> {
           context,
           listen: false);
       print(dataSource);
-      final user =
-          await dataSource.login(email: _emailAddress, password: _password);
-      print("LOGGED IN");
-      print(user.token);
-      HomePage();
+      try {
+        final user =
+            await dataSource.login(email: _emailAddress, password: _password);
+        print(JwtDecoder.decode(user.token));
+        if (!JwtDecoder.decode(user.token)['confirmed']) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => AlertDialog(
+                        content: Text('User not yet confirmed'),
+                        actions: [
+                          MaterialButton(
+                            color: Colors.grey,
+                            onPressed: () => Navigator.pop(context),
+                            child: Text('Close'),
+                          )
+                        ],
+                      )));
+        } else {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Provider<User>(
+                        create: (_) => user,
+                        child: HomePage(),
+                      )));
+        }
+      } catch (e) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => AlertDialog(
+                      content: Text(e.graphqlErrors[0].message),
+                      actions: [
+                        MaterialButton(
+                          color: Colors.grey,
+                          onPressed: () => Navigator.pop(context),
+                          child: Text('Close'),
+                        )
+                      ],
+                    )));
+      }
     }
   }
 
@@ -127,13 +167,15 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-                  FlatButton(
+                  MaterialButton(
                     textColor: Colors.grey,
                     child: Text('New Here? Sign Up Now!'),
                     onPressed: () {
                       Navigator.pushReplacement(
-                        context, MaterialPageRoute(
-                          builder: (BuildContext context) => RegisterPage()));
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  RegisterPage()));
                     },
                   ),
                 ],

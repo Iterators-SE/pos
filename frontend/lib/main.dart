@@ -60,7 +60,6 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<User>(create: (context) => User()),
         Provider<AuthenticationRemoteDataSource>(
           create:(context) => _authenticationDataSource,),
         Provider<AuthenticationRepository>(

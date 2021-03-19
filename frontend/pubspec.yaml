@@ -24,7 +24,6 @@ dependencies:
   flutter:
     sdk: flutter
   # State Management
-  email_validator: '^1.0.6'
   graphql_flutter: ^4.0.0-beta
   provider:
   # Remote
@@ -35,6 +34,9 @@ dependencies:
   flutter_secure_storage:
   # fp
   either_option: ^1.0.6
+  #auth
+  jwt_decoder: ^2.0.0
+  email_validator: '^1.0.6'
 
 
   # The following adds the Cupertino Icons font to your application.

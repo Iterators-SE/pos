@@ -9,7 +9,7 @@ import 'authentication_datasource.dart';
 
 class AuthenticationRemoteDataSource implements IAuthenticationDataSource {
   AuthenticationRemoteDataSource({this.client, this.storage});
-
+  
   final _posToken = 'POS_TOKEN';
   final GraphQLClient client;
   // final FlutterSecureStorage storage;
@@ -58,13 +58,12 @@ class AuthenticationRemoteDataSource implements IAuthenticationDataSource {
           variables: {'email': email, 'password': password},
         ),
       );
-      print(response);
-      print(response.exception);
 
       if (response.hasException) {
         throw response.exception;
       }
       final user = User(token: response.data["action"] );
+    
 
       await storage.setString( _posToken,user.token);
       return user;
