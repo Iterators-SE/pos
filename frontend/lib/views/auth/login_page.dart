@@ -93,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
               child: ListView(
                 children: <Widget>[
                   SizedBox(height: 20),
-                  Image(image: AssetImage('Xpos.png')),
+                  Image(image: AssetImage('assets/Xpos.png')),
                   Padding(
                     padding: EdgeInsets.only(top: 40, bottom: 5),
                     child: Align(
