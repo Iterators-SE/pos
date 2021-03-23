@@ -40,19 +40,17 @@ class _RegisterPageState extends State<RegisterPage> {
               MaterialPageRoute(
                   builder: (BuildContext context) => LoginPage()));
         } catch (e) {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) => AlertDialog(
-                        content: Text(e.graphqlErrors[0].message),
-                        actions: [
-                          MaterialButton(
-                            color: Colors.grey,
-                            onPressed: () => Navigator.pop(context),
-                            child: Text('Close'),
-                          )
-                        ],
-                      )));
+          showDialog(context: context, 
+          builder: (context) => AlertDialog(
+            content: Text(e.graphqlErrors[0].message),
+                      actions: [
+                        MaterialButton(
+                          color: Colors.grey,
+                          onPressed: () => Navigator.pop(context),
+                          child: Text('Close'),
+                        )
+                      ],
+                    ));
         }
       }
     }

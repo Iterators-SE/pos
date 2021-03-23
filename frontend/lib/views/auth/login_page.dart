@@ -30,25 +30,26 @@ class _LoginPageState extends State<LoginPage> {
       try {
         final user =
             await dataSource.login(email: _emailAddress, password: _password);
-            Navigator.pushReplacement(context, 
-            MaterialPageRoute(builder: (context) =>
-            Provider<User>(create: (context) => user, child: Checker(),)
-            ));
-      } catch (e) {
-        print("emailerssss");
-        Navigator.push(
+        Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) => AlertDialog(
-                      content: Text(e.graphqlErrors[0].message),
-                      actions: [
-                        MaterialButton(
-                          color: Colors.grey,
-                          onPressed: () => Navigator.pop(context),
-                          child: Text('Close'),
-                        )
-                      ],
+                builder: (context) => Provider<User>(
+                      create: (context) => user,
+                      child: Checker(),
                     )));
+      } catch (e) {
+        showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+                  content: Text(e.graphqlErrors[0].message),
+                  actions: [
+                    MaterialButton(
+                      color: Colors.grey,
+                      onPressed: () => Navigator.pop(context),
+                      child: Text('Close'),
+                    )
+                  ],
+                ));
       }
     }
   }
@@ -150,8 +151,7 @@ class _LoginPageState extends State<LoginPage> {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  RegisterPage()));
+                              builder: (context) => RegisterPage()));
                     },
                   ),
                 ],
