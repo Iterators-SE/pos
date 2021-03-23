@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'models/user.dart';
+import 'models/user.dart';
 import 'views/auth/login_page.dart';
 
 void main() {
@@ -60,6 +61,8 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        Provider<User>(create:
+        (context) => Provider.of<User>(context) ,),
         Provider<AuthenticationRemoteDataSource>(
           create:(context) => _authenticationDataSource,),
         Provider<AuthenticationRepository>(

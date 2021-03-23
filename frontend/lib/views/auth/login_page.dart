@@ -1,15 +1,11 @@
-import 'dart:convert';
-
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/models/user.dart';
-import 'package:frontend/views/auth/register_page.dart';
-import 'package:frontend/views/home/home_page.dart';
-import 'package:frontend/views/checker.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:provider/provider.dart';
 
 import '../../datasources/authentication/authentication_remote_datasource.dart';
+import '../../models/user.dart';
+import '../checker.dart';
+import 'register_page.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -26,44 +22,24 @@ class _LoginPageState extends State<LoginPage> {
     return false;
   }
 
-  submitForm() async {
+  void submitForm() async {
     if (validateForm()) {
       final dataSource = await Provider.of<AuthenticationRemoteDataSource>(
           context,
           listen: false);
-      print(dataSource);
       try {
         final user =
             await dataSource.login(email: _emailAddress, password: _password);
-        print(JwtDecoder.decode(user.token));
-        if (!JwtDecoder.decode(user.token)['confirmed']) {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) => AlertDialog(
-                        content: Text('User not yet confirmed'),
-                        actions: [
-                          MaterialButton(
-                            color: Colors.grey,
-                            onPressed: () => Navigator.pop(context),
-                            child: Text('Close'),
-                          )
-                        ],
-                      )));
-        } else {
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => Provider<User>(
-                        create: (_) => user,
-                        child: HomePage(),
-                      )));
-        }
+            Navigator.pushReplacement(context, 
+            MaterialPageRoute(builder: (context) =>
+            Provider<User>(create: (context) => user, child: Checker(),)
+            ));
       } catch (e) {
+        print("emailerssss");
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (BuildContext context) => AlertDialog(
+                builder: (context) => AlertDialog(
                       content: Text(e.graphqlErrors[0].message),
                       actions: [
                         MaterialButton(
@@ -174,7 +150,7 @@ class _LoginPageState extends State<LoginPage> {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (BuildContext context) =>
+                              builder: (context) =>
                                   RegisterPage()));
                     },
                   ),

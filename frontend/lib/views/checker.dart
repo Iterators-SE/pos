@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/views/auth/login_page.dart';
 import 'package:provider/provider.dart';
 
 import '../models/user.dart';
+import 'auth/login_page.dart';
 import 'home/home_page.dart';
 
 class Checker extends StatelessWidget{
