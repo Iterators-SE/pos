@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -36,21 +38,21 @@ class _RegisterPageState extends State<RegisterPage> {
           await dataSource.signup(
               name: _name, email: _emailAddress, password: _password);
           Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => LoginPage()));
+        } catch (e) {
+          Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (BuildContext context) => LoginPage()));
-        } catch (e) {
-          showDialog(context: context, 
-          builder: (context) => AlertDialog(
-            content: Text(e.graphqlErrors[0].message),
-                      actions: [
-                        MaterialButton(
-                          color: Colors.grey,
-                          onPressed: () => Navigator.pop(context),
-                          child: Text('Close'),
-                        )
-                      ],
-                    ));
+                  builder: (context) => AlertDialog(
+                        content: Text(e.graphqlErrors[0].message),
+                        actions: [
+                          MaterialButton(
+                            color: Colors.grey,
+                            onPressed: () => Navigator.pop(context),
+                            child: Text('Close'),
+                          )
+                        ],
+                      )));
         }
       }
     }
@@ -155,17 +157,20 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     ),
                   ),
-                  FlatButton(
-                    textColor: Colors.grey,
+                  TextButton(
+                    style: TextButton.styleFrom(
+                        textStyle: TextStyle(color: Colors.grey)),
                     child: Text(
                       'Already have an account? Login Here!',
                       textAlign: TextAlign.end,
                     ),
                     onPressed: () {
                       Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) => LoginPage()));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LoginPage(),
+                        ),
+                      );
                     },
                   ),
                 ],
