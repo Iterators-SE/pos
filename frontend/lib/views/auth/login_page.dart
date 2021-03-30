@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../datasources/authentication/authentication_remote_datasource.dart';
 import '../../models/user.dart';
+import '../checker.dart';
 import '../home/home_page.dart';
 import 'register_page.dart';
 
@@ -28,10 +29,10 @@ class _LoginPageState extends State<LoginPage> {
       final dataSource = await Provider.of<AuthenticationRemoteDataSource>(
           context,
           listen: false);
-      print(dataSource);
       try {
         final user =
             await dataSource.login(email: _emailAddress, password: _password);
+
         print(JwtDecoder.decode(user.token));
         if (!JwtDecoder.decode(user.token)['confirmed']) {
           Navigator.push(
@@ -122,6 +123,15 @@ class _LoginPageState extends State<LoginPage> {
                       style: TextStyle(fontSize: 12, color: Colors.black),
                     ),
                   ),
+                  MaterialButton(
+                    textColor: Colors.grey,
+                    child: Text('New Here? Sign Up Now!'),
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RegisterPage()));
+                    },
                 ),
                 TextFormField(
                   decoration: InputDecoration(
