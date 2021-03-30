@@ -68,7 +68,7 @@ class _RegisterPageState extends State<RegisterPage> {
               child: ListView(
                 children: <Widget>[
                   SizedBox(height: 20),
-                  Image(image: AssetImage('Xpos.png')),
+                  Image(image: AssetImage('assets/images/Xpos.png')),
                   Padding(
                     padding: EdgeInsets.only(top: 40, bottom: 5),
                     child: Align(
