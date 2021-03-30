@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 
 import '../../datasources/authentication/authentication_remote_datasource.dart';
 import '../../models/user.dart';
-import '../checker.dart';
 import '../home/home_page.dart';
 import 'register_page.dart';
 
@@ -123,15 +122,16 @@ class _LoginPageState extends State<LoginPage> {
                       style: TextStyle(fontSize: 12, color: Colors.black),
                     ),
                   ),
-                  MaterialButton(
-                    textColor: Colors.grey,
-                    child: Text('New Here? Sign Up Now!'),
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => RegisterPage()));
-                    },
+                ),
+                MaterialButton(
+                  textColor: Colors.grey,
+                  child: Text('New Here? Sign Up Now!'),
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RegisterPage()));
+                  },
                 ),
                 TextFormField(
                   decoration: InputDecoration(
