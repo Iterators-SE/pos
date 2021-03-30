@@ -22,5 +22,3 @@ jobs:
       - run: flutter pub get
       - run: flutter analyze
       - run: flutter test
-  server_test:
-    name: Run server side tests
