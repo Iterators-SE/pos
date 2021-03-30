@@ -1,15 +1,12 @@
-import 'dart:convert';
-
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/models/user.dart';
-import 'package:frontend/views/auth/register_page.dart';
-import 'package:frontend/views/home/home_page.dart';
-import 'package:frontend/views/checker.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:provider/provider.dart';
 
 import '../../datasources/authentication/authentication_remote_datasource.dart';
+import '../../models/user.dart';
+import '../home/home_page.dart';
+import 'register_page.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -26,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
     return false;
   }
 
-  submitForm() async {
+  void submitForm() async {
     if (validateForm()) {
       final dataSource = await Provider.of<AuthenticationRemoteDataSource>(
           context,
@@ -38,150 +35,159 @@ class _LoginPageState extends State<LoginPage> {
         print(JwtDecoder.decode(user.token));
         if (!JwtDecoder.decode(user.token)['confirmed']) {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) => AlertDialog(
-                        content: Text('User not yet confirmed'),
-                        actions: [
-                          MaterialButton(
-                            color: Colors.grey,
-                            onPressed: () => Navigator.pop(context),
-                            child: Text('Close'),
-                          )
-                        ],
-                      )));
+            context,
+            MaterialPageRoute(
+              builder: (context) => AlertDialog(
+                content: Text('User not yet confirmed'),
+                actions: [
+                  MaterialButton(
+                    color: Colors.grey,
+                    onPressed: () => Navigator.pop(context),
+                    child: Text('Close'),
+                  )
+                ],
+              ),
+            ),
+          );
         } else {
           Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => Provider<User>(
-                        create: (_) => user,
-                        child: HomePage(),
-                      )));
+            context,
+            MaterialPageRoute(
+              builder: (context) => Provider<User>(
+                create: (_) => user,
+                child: HomePage(),
+              ),
+            ),
+          );
         }
       } catch (e) {
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (BuildContext context) => AlertDialog(
-                      content: Text(e.graphqlErrors[0].message),
-                      actions: [
-                        MaterialButton(
-                          color: Colors.grey,
-                          onPressed: () => Navigator.pop(context),
-                          child: Text('Close'),
-                        )
-                      ],
-                    )));
+          context,
+          MaterialPageRoute(
+            builder: (context) => AlertDialog(
+              content: Text(e.graphqlErrors[0].message),
+              actions: [
+                MaterialButton(
+                  color: Colors.grey,
+                  onPressed: () => Navigator.pop(context),
+                  child: Text('Close'),
+                )
+              ],
+            ),
+          ),
+        );
       }
     }
   }
 
   String _emailAddress;
   String _password;
+
   final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: Container(
-          padding: EdgeInsets.only(top: 80, left: 40, right: 40),
-          child: Form(
-            key: formKey,
-            child: SizedBox(
-              width: 400,
-              child: ListView(
-                children: <Widget>[
-                  SizedBox(height: 20),
-                  Image(image: AssetImage('assets/Xpos.png')),
-                  Padding(
-                    padding: EdgeInsets.only(top: 40, bottom: 5),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        "Login",
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black,
-                        ),
+      backgroundColor: Colors.white,
+      body: Container(
+        padding: EdgeInsets.only(top: 80, left: 40, right: 40),
+        child: Form(
+          key: formKey,
+          child: SizedBox(
+            width: 400,
+            child: ListView(
+              children: <Widget>[
+                SizedBox(height: 20),
+                Image(image: AssetImage('assets/Xpos.png')),
+                Padding(
+                  padding: EdgeInsets.only(top: 40, bottom: 5),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "Login",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: 30,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    bottom: 30,
+                  ),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "Continue to your Store",
+                      style: TextStyle(fontSize: 12, color: Colors.black),
                     ),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        "Continue to your Store",
-                        style: TextStyle(fontSize: 12, color: Colors.black),
+                  ),
+                ),
+                TextFormField(
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      hintText: 'Enter Email',
+                      labelText: 'Email'),
+                  validator: (value) => value.isEmpty
+                      ? 'Email can\'t be empty'
+                      : !EmailValidator.validate(value.toString())
+                          ? "Email Is Invalid"
+                          : null,
+                  onSaved: (value) {
+                    _emailAddress = value;
+                  },
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      hintText: 'Enter Password',
+                      labelText: 'Password'),
+                  obscureText: true,
+                  validator: (value) =>
+                      value.isEmpty ? "Password can\'t be empty" : null,
+                  onSaved: (value) {
+                    _password = value;
+                  },
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                Container(
+                  height: 40,
+                  width: 80,
+                  decoration: BoxDecoration(
+                      color: Colors.green[900],
+                      borderRadius: BorderRadius.circular(10)),
+                  child: MaterialButton(
+                    onPressed: submitForm,
+                    child: Text(
+                      'Login',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+                MaterialButton(
+                  textColor: Colors.grey,
+                  child: Text('New Here? Sign Up Now!'),
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => RegisterPage(),
                       ),
-                    ),
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        hintText: 'Enter Email',
-                        labelText: 'Email'),
-                    validator: (value) => value.isEmpty
-                        ? 'Email can\'t be empty'
-                        : !EmailValidator.validate(value.toString())
-                            ? "Email Is Invalid"
-                            : null,
-                    onSaved: (value) {
-                      _emailAddress = value;
-                    },
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        hintText: 'Enter Password',
-                        labelText: 'Password'),
-                    obscureText: true,
-                    validator: (value) =>
-                        value.isEmpty ? "Password can\'t be empty" : null,
-                    onSaved: (value) {
-                      _password = value;
-                    },
-                  ),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  Container(
-                    height: 40,
-                    width: 80,
-                    decoration: BoxDecoration(
-                        color: Colors.green[900],
-                        borderRadius: BorderRadius.circular(10)),
-                    child: MaterialButton(
-                      onPressed: submitForm,
-                      child: Text(
-                        'Login',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                  MaterialButton(
-                    textColor: Colors.grey,
-                    child: Text('New Here? Sign Up Now!'),
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  RegisterPage()));
-                    },
-                  ),
-                ],
-              ),
+                    );
+                  },
+                ),
+              ],
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
