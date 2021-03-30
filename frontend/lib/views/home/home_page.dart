@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:draggable_flutter_list/draggable_flutter_list.dart';
+// import 'package:draggable_flutter_list/draggable_flutter_list.dart';
 
 import 'menu.dart';
 
@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
       if (newIndex > oldIndex) {
         newIndex -= 1;
       }
-      final Menu item = items.removeAt(oldIndex);
+      final item = items.removeAt(oldIndex);
       items.insert(newIndex, item);
     });
   }
@@ -45,9 +45,7 @@ class _HomePageState extends State<HomePage> {
               child: Container(
                 margin: EdgeInsets.only(top:250),
                 child: ListView(
-                children: drawerLists.map((list) {
-                  return drawerList(list);
-                }).toList(),
+                children: drawerLists.map(drawerList).toList(),
               ),
               ) 
               ),
@@ -67,9 +65,7 @@ class _HomePageState extends State<HomePage> {
                             image: AssetImage("assets/images/coffee-icon.png"),
                           )
                         ]))),
-            children: items.map((task) {
-              return menuWidget(task);
-            }).toList(),
+            children: items.map(menuWidget).toList(),
             onReorder: _onReorder));
   }
 }
