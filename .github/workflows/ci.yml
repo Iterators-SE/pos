@@ -37,6 +37,10 @@ jobs:
         run: | 
           sudo systemctl start postgresql.service
           pg_isready
+      - name: Alter PostgresSQL superuser password
+        run: |
+          sudo -u postgres psql
+          ALTER USER postgres PASSWORD $env.TYPEORM_PASSWORD;
       - name: Create pos_test database
         run: sudo -u postgres createdb pos_test
       - name: Use Node.js 14.x
