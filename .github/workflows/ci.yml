@@ -25,10 +25,7 @@ jobs:
   server_test:
     name: Test server
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [10.x, 12.x, 14.x, 15.x]
-    defaults:
+        defaults:
       run:
         working-directory: backend
     env:
@@ -44,9 +41,9 @@ jobs:
         run: |
           sudo -u postgres createdb pos_test
           PGPASSWORD=$TYPEORM_PASSWORD --username=$TYPEORM_USERNAME --host=localhost
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 14.x
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 14.x
       - run: npm install
       - run: npm test
