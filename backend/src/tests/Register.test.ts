@@ -53,6 +53,5 @@ describe('Signup', () => {
         const dbUser = await User.findOne({ where: { email: user.email } });
         expect(dbUser).toBeDefined();
         expect(dbUser!.confirmed).toBeFalsy();
-        expect(dbUser!.name).toBe(user.name);
     }, 20000);
 })
