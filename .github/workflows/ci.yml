@@ -22,3 +22,31 @@ jobs:
       - run: flutter pub get
       - run: flutter analyze
       - run: flutter test
+  server_test:
+    name: Test server
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x, 14.x, 15.x]
+    defaults:
+      run:
+        working-directory: backend
+      env:
+        TYPEORM_USERNAME: ${{ secrets.TYPEORM_USERNAME }}
+        TYPEORM_PASSWORD: ${{ secrets.TYPEORM_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v2   
+      - name: Start PostgresSQL on on ubuntu
+        run: | 
+          sudo systemctl start postgresql.service
+          pg_isready
+      - name: Create pos_test database
+        run: |
+          sudo -u postgres createdb pos_test
+          PGPASSWORD=$TYPEORM_PASSWORD --username=$TYPEORM_USERNAME --host=localhost
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
+      - run: npm test
