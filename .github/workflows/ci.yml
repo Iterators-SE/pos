@@ -38,8 +38,7 @@ jobs:
           sudo systemctl start postgresql.service
           pg_isready
       - name: Create pos_test database
-        run: |
-          sudo createdb pos_test
+        run: sudo -u postgres createdb pos_test
       - name: Use Node.js 14.x
         uses: actions/setup-node@v1
         with:
