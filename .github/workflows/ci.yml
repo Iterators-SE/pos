@@ -25,7 +25,7 @@ jobs:
   server_test:
     name: Test server
     runs-on: ubuntu-latest
-        defaults:
+    defaults:
       run:
         working-directory: backend
     env:
