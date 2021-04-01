@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../core/ui/styled_text_button.dart';
-import '../models/order.dart';
-import '../models/product.dart';
-import '../presenters/orders/order_screen_presenter.dart';
-import '../views/orders/order_screen_view.dart';
+import '../../core/ui/styled_text_button.dart';
+import '../../models/order.dart';
+import '../../models/product.dart';
+import '../../presenters/orders/order_screen_presenter.dart';
+import '../../views/orders/order_screen_view.dart';
 import 'widget/product_card.dart';
 
 class OrderScreen extends StatefulWidget {
