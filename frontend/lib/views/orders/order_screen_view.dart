@@ -9,7 +9,7 @@ abstract class OrderScreenView {
   bool hasProducts;
   Widget body;
 
-  onError();
+  void onError();
 
   void addProduct(Product product);
   Function cancelOrder();

@@ -27,7 +27,7 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
   }
 
   @override
-  onError() {
+  void onError() {
     // TODO: implement onError
     // throw UnimplementedError();
   }
