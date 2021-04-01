@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon -w src --ext ts --exec ts-node src/index.ts",
     "db:setup": "ts-node ./src/test-utils/setup.ts",
-    "test": "npm run db:setup && jest --detectOpenHandles"
+    "test": "npm run db:setup && jest --detectOpenHandles --forceExit"
   },
   "eslintConfig": {
     "extends": "plugin:unicorn/recommended"
