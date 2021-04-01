@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -8,12 +6,15 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'core/themes/config.dart';
+import 'core/themes/xpos_theme.dart';
 import 'datasources/authentication/authentication_datasource.dart';
 import 'datasources/authentication/authentication_remote_datasource.dart';
 import 'models/user.dart';
 import 'repositories/authentication_repository.dart';
 import 'repositories/authentication_repository_implementation.dart';
 import 'views/auth/login_page.dart';
+// import 'screens/orders/order_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -34,8 +35,8 @@ class _MyAppState extends State<MyApp> {
   
   @override
   void initState() {
-    final scheme = Platform.isAndroid ? '10.0.0.2' : 'localhost';
-    final uri = kReleaseMode ? 'WHEN_SERVER_IS_HOSTED' : 'http://$scheme:5000/graphql';
+    // final scheme = Platform.isAndroid ? '10.0.0.2' : 'localhost';
+    final uri = kReleaseMode ? 'WHEN_SERVER_IS_HOSTED' : 'http://localhost:5000/graphql';
 
     _httpLink = HttpLink(uri);
 
@@ -71,11 +72,11 @@ class _MyAppState extends State<MyApp> {
       ],
       child: MaterialApp(
           title: 'Flutter Demo',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
+          theme: XPosTheme.lightTheme,
+          darkTheme: XPosTheme.darkTheme,
+          themeMode: currentTheme.currentTheme,
           home: LoginPage(),
-          ),
+      ),
     );
   }
 }
