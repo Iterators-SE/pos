@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 
-import '../../core/ui/base_presenter.dart';
-import 'order_screen_view.dart';
+import '../../core/presenters/base_presenter.dart';
+import '../../views/orders/order_screen_view.dart';
+
 
 class OrderScreenPresenter extends BasePresenter<OrderScreenView> {
   // Widget getMessage() {
