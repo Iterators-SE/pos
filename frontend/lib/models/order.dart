@@ -4,7 +4,7 @@ import 'product.dart';
 
 // TODO: Transform to ChangeNotifier
 class Order {
-  List<Product> _products = [];
+  final List<Product> _products = [];
 
   void addProduct(Product product) => _products.add(product);
   void editProduct(Product product) {
