@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/order.dart';
-import '../../models/product.dart';
+import '../../models/product_variant.dart';
 
 abstract class OrderScreenView {
   Order order;
@@ -11,7 +11,7 @@ abstract class OrderScreenView {
 
   void onError();
 
-  void addProduct(Product product);
+  void addProduct(ProductVariant product);
   Function cancelOrder();
   Function processOrder();
 }
