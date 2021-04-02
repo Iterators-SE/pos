@@ -12,4 +12,20 @@ class ProductVariant {
     this.quantity,
     this.variant,
   });
+
+  ProductVariant copyWith({
+    int id,
+    String parent,
+    double basePrice,
+    int quantity,
+    String variant,
+  }) {
+    return ProductVariant(
+      id: id ?? this.id,
+      parent: parent ?? this.parent,
+      basePrice: basePrice ?? this.basePrice,
+      quantity: quantity ?? this.quantity,
+      variant: variant ?? this.variant,
+    );
+  }
 }
