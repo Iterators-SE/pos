@@ -8,10 +8,18 @@ class Order {
 
   void addProduct(ProductVariant product) => _products.add(product);
   void editProduct(ProductVariant product) {
-    var index = _products.indexWhere((element) => element.id == product.id);
+    var index = _products.indexWhere(
+      (element) =>
+          element.parent == product.parent &&
+          element.variant == product.variant,
+    );
 
     if (index != -1) {
-      _products[index] = product;
+      product.quantity > 0
+          ? _products[index] = product
+          : _products.removeAt(index);
+    } else {
+      addProduct(product);
     }
   }
 
