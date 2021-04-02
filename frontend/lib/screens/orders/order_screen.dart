@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import '../../core/ui/styled_text_button.dart';
 import '../../models/order.dart';
 import '../../models/product.dart';
+import '../../models/product_variant.dart';
 import '../../presenters/orders/order_screen_presenter.dart';
 import '../../views/orders/order_screen_view.dart';
+import 'widget/custom_alert_dialog.dart';
+import 'widget/custom_floating_action_button.dart';
 import 'widget/product_card.dart';
 
 class OrderScreen extends StatefulWidget {
@@ -41,40 +44,63 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
   }
 
   @override
-  void addProduct(Product product) {
+  void addProduct(ProductVariant product) {
     setState(() {
       hasProducts = true;
-      order.addProduct(product);
-      _items++;
+      order.editProduct(product);
     });
   }
 
   // Dummy data
-  List<Product> productsList = [
-    Product(
-      name: "Poseidon",
-      basePrice: 100,
-      quantity: 2,
-      id: 1,
-      variant: "Small",
-    ),
-    Product(
-      name: "Hera",
-      basePrice: 120,
-      quantity: 7,
-      id: 2,
-      variant: "Medium",
-    ),
-    Product(
-      name: "Zeus",
-      basePrice: 150,
-      quantity: 1,
-      id: 3,
-      variant: "Large",
-    )
+  List<Product> allProducts = [
+    Product(name: "Poseidon", variants: [
+      ProductVariant(
+        id: 1,
+        basePrice: 100,
+        quantity: 300,
+        variant: "Small",
+        parent: "Poseidon",
+      ),
+      ProductVariant(
+        id: 2,
+        basePrice: 120,
+        quantity: 40,
+        variant: "Regular",
+        parent: "Poseidon",
+      ),
+      ProductVariant(
+        id: 3,
+        basePrice: 180,
+        quantity: 3,
+        variant: "Large",
+        parent: "Poseidon",
+      ),
+    ]),
+    Product(name: "Olympus Cappucino", variants: [
+      ProductVariant(
+        id: 4,
+        basePrice: 100,
+        quantity: 300,
+        variant: "Small",
+        parent: "Olympus Cappucino",
+      ),
+      ProductVariant(
+        id: 5,
+        basePrice: 120,
+        quantity: 40,
+        variant: "Regular",
+        parent: "Olympus Cappucino",
+      ),
+      ProductVariant(
+        id: 6,
+        basePrice: 180,
+        quantity: 3,
+        variant: "Large",
+        parent: "Olympus Cappucino",
+      ),
+    ]),
   ];
 
-  int _items = 0;
   List list = [];
 
   @override
@@ -90,55 +116,80 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: body = hasProducts
-            ? SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      "Orders",
-                      style: TextStyle(fontSize: 48, fontFamily: 'Montserrat'),
-                    ),
-                    ...order.products
-                        .map((i) => ConstrainedBox(
-                              constraints: BoxConstraints(
-                                maxWidth: double.infinity,
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              title: Text("Orders"),
+            ),
+            SliverFillRemaining(
+              child: body = hasProducts
+                  ? SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          ...order.products
+                              .map(
+                                (i) => ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                    maxWidth: double.infinity,
+                                  ),
+                                  child: ProductCard(product: i),
+                                ),
+                              )
+                              .toList(),
+                          Text(
+                            order.total.toString(),
+                            textAlign: TextAlign.end,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              StyledTextButton(
+                                text: "Cancel Order",
+                                onPressed: order.products.isEmpty
+                                    ? null
+                                    : cancelOrder(),
                               ),
-                              child: ProductCard(product: i),
-                            ))
-                        .toList(),
-                    Text(order.total.toString(), textAlign: TextAlign.end),
-                    Row(
+                              StyledTextButton(
+                                text: "Process Order",
+                                onPressed: order.products.isEmpty
+                                    ? null
+                                    : processOrder(),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    )
+                  : Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Center(child: Text("Looks a little empty...")),
                         StyledTextButton(
-                          text: "Cancel Order",
-                          onPressed: _items == 0 ? null : cancelOrder(),
-                        ),
-                        StyledTextButton(
-                          text: "Process Order",
-                          onPressed: _items == 0 ? null : processOrder(),
-                        ),
+                          text: "Add an Order",
+                          onPressed: () async => await showDialog(
+                            context: context,
+                            builder: (context) => CustomAlertDialog(
+                              allProducts: allProducts,
+                              onPressed: () => addProduct,
+                            ),
+                          ),
+                        )
                       ],
-                    )
-                  ],
-                ),
-              )
-            : Center(
-                child: Column(
-                  children: [
-                    Text("Looks a little empty..."),
-                    StyledTextButton(
-                      text: "Add an Order",
-                      onPressed: () => addProduct(productsList[_items]),
-                    )
-                  ],
-                ),
-              ),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () => _items < productsList.length
-              ? addProduct(productsList[_items])
-              : null,
+                    ),
+            ),
+          ],
+        ),
+        floatingActionButton: CustomFAB(
+          onAddProduct: () async => await showDialog(
+            context: context,
+            builder: (context) => CustomAlertDialog(
+              allProducts: allProducts,
+              onPressed: () => addProduct,
+            ),
+          ),
+          onAddDiscount: null,
         ),
       ),
     );
