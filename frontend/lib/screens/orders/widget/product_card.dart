@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import '../../../models/product.dart';
+import '../../../models/product_variant.dart';
 
 class ProductCard extends StatelessWidget {
-  final Product product;
+  final ProductVariant product;
 
   const ProductCard({Key key, this.product}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      // TODO: Update or Remove as Needed
       leading: CircleAvatar(
         backgroundImage: AssetImage('assets/images/Xpos.png'),
       ),
-      title: Text("${product.name} [${product.variant}]"),
+      title: Text("${product.parent} [${product.variant}]"),
     );
   }
 }
