@@ -1,4 +1,4 @@
-import 'package:frontend/models/product_variant.dart';
+import 'product_variant.dart';
 
 class Product {
   int id;
