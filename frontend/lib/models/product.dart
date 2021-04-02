@@ -1,7 +1,9 @@
+import 'package:frontend/models/product_variant.dart';
+
 class Product {
   int id;
   int quantity;
-  List variants = [];
+  List<ProductVariant> variants = [];
   String name;
   double discount;
 
@@ -14,7 +16,7 @@ class Product {
   }) {
     quantity = variants.fold(
       0,
-      (previousValue, item) => previousValue + item?.quantity ?? 0,
+      (previousValue, item) => previousValue + item.quantity ?? 0,
     );
   }
 }
