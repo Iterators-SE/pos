@@ -1,18 +1,20 @@
 class Product {
   int id;
   int quantity;
-  double basePrice;
-  String variant;
+  List variants = [];
   String name;
   double discount;
 
   // make required
   Product({
     this.id,
-    this.quantity,
     this.name,
-    this.variant,
-    this.basePrice,
+    this.variants = const [],
     this.discount = 0,
-  });
+  }) {
+    quantity = variants.fold(
+      0,
+      (previousValue, item) => previousValue + item?.quantity ?? 0,
+    );
+  }
 }
