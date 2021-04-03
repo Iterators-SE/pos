@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/orders/order_screen.dart';
 // import 'package:draggable_flutter_list/draggable_flutter_list.dart';
 
 import 'menu.dart';
@@ -9,12 +10,29 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Menu> items = [
-    Menu(id: '0', option: "PROCESS ORDERS", url: "assets/images/orders.png"),
-    Menu(id: '1', option: "SEE STOCK", url: "assets/images/stocks.png"),
-    Menu(id: '2', option: "DISCOUNTS", url: "assets/images/coffee-icon.png"),
-    Menu(id: '3', option: "USERS", url: "assets/images/coffee-icon.png")
-  ];
+  List<Menu> items;
+
+  @override
+  void initState() {
+    items = [
+      Menu(
+        id: '0',
+        option: "PROCESS ORDERS",
+        url: "assets/images/orders.png",
+        onTap: () async => await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => OrderScreen(),
+          ),
+        ),
+      ),
+      Menu(id: '1', option: "SEE STOCK", url: "assets/images/stocks.png"),
+      Menu(id: '2', option: "DISCOUNTS", url: "assets/images/coffee-icon.png"),
+      Menu(id: '3', option: "USERS", url: "assets/images/coffee-icon.png")
+    ];
+
+    super.initState();
+  }
 
   List<String> drawerLists = [
     "Add User",
