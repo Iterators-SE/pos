@@ -4,14 +4,15 @@ class Menu {
   String id;
   String option;
   String url;
+  final Function onTap;
 
-  Menu({this.id, this.option, this.url});
+  Menu({this.id, this.option, this.url, this.onTap});
 }
 
 Widget menuWidget(Menu element) {
   return InkWell(
     key: Key(element.id),
-    onTap: ()=> print(element.option),
+    onTap: element.onTap,
     child: Container(
       margin: EdgeInsets.only(left: 40, right: 40, bottom: 10),
       height: 180,
