@@ -21,7 +21,10 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+
+  # other packages
   draggable_flutter_list: ^1.0.3
+
   flutter:
     sdk: flutter
   # State Management
@@ -30,10 +33,11 @@ dependencies:
   data_connection_checker: ^0.3.4
   graphql:
   # Local
-  shared_preferences:
+  shared_preferences: ^2.0.5
   flutter_secure_storage:
   # fp
   either_option: ^1.0.6
+
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -59,6 +63,7 @@ flutter:
     - assets/images/coffee-icon.png
     - assets/images/stocks.png
     - assets/images/orders.png
+    - assets/images/cappuccino.jpg
 
     
 
