@@ -7,8 +7,8 @@ import '../../models/product_variant.dart';
 import '../../presenters/orders/order_screen_presenter.dart';
 import '../../views/orders/order_screen_view.dart';
 import 'widget/custom_alert_dialog.dart';
+import 'widget/custom_data_table.dart';
 import 'widget/custom_floating_action_button.dart';
-import 'widget/product_card.dart';
 
 class OrderScreen extends StatefulWidget {
   @override
@@ -126,20 +126,67 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
                   ? SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          ...order.products
-                              .map(
-                                (i) => ConstrainedBox(
-                                  constraints: BoxConstraints(
-                                    maxWidth: double.infinity,
+                          CustomDataTable(
+                            order: order,
+                            onPressed: () => (productVariant) async =>
+                                await showDialog(
+                                  context: context,
+                                  builder: (context) => CustomAlertDialog(
+                                    chosenProduct: allProducts.firstWhere(
+                                      (e) => e.name == productVariant.parent,
+                                    ),
+                                    quantity: productVariant.quantity,
+                                    chosenVariant: productVariant.variant,
+                                    allProducts: allProducts,
+                                    onPressed: () => addProduct,
                                   ),
-                                  child: ProductCard(product: i),
                                 ),
-                              )
-                              .toList(),
-                          Text(
-                            order.total.toString(),
-                            textAlign: TextAlign.end,
+                          ),
+                          CustomDataTable(
+                            columns: [
+                              DataColumn(label: Text('Description')),
+                              DataColumn(
+                                label: Text('Breakdown'),
+                                numeric: true,
+                              ),
+                            ],
+                            rows: [
+                              DataRow(
+                                cells: [
+                                  DataCell(Text("Base Price")),
+                                  DataCell(
+                                    Text(
+                                      order.total.toString(),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              DataRow(
+                                cells: [
+                                  DataCell(Text("Discount")),
+                                  DataCell(
+                                    Text(
+                                      "0",
+                                    ),
+                                  )
+                                ],
+                              ),
+                              DataRow(
+                                cells: [
+                                  DataCell(Text("Total")),
+                                  DataCell(
+                                    Text(
+                                      '${order.total + 0}', // discount
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ],
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
