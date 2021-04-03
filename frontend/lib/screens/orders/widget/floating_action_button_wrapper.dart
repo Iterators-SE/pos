@@ -12,6 +12,7 @@ class FABWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: FloatingActionButton(
+        heroTag: tooltip,
         onPressed: onPressed,
         tooltip: tooltip,
         child: Icon(iconData),
