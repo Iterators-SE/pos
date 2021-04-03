@@ -123,6 +123,7 @@ class _LoginPageState extends State<LoginPage> {
                       style: TextStyle(fontSize: 12, color: Colors.black),
                     ),
                   ),
+                ),
                   MaterialButton(
                     textColor: Colors.grey,
                     child: Text('New Here? Sign Up Now!'),

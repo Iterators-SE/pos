@@ -2,15 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:graphql/client.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'models/user.dart';
 import 'datasources/authentication/authentication_datasource.dart';
 import 'datasources/authentication/authentication_remote_datasource.dart';
+import 'models/user.dart';
 import 'repositories/authentication_repository.dart';
 import 'repositories/authentication_repository_implementation.dart';
 import 'views/auth/login_page.dart';
