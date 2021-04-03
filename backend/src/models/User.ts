@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType } from "type-graphql";
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Product } from "./Product";
 
 // TODO [2021-03-12]: Add count
 @Entity()
@@ -13,11 +14,15 @@ export class User extends BaseEntity {
     @Field()
     name: string;
 
+    @Field()
     @Column({unique: true})
     email: string;
 
     @Column()
     password: string;
+
+    @OneToMany(() => Product, product => product.owner, {nullable: true})
+    product: Product[];
 
     @Column("bool", {default: false})
     confirmed: boolean;
