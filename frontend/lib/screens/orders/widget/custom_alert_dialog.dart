@@ -7,9 +7,18 @@ import '../../../models/product.dart';
 class CustomAlertDialog extends StatefulWidget {
   final List<Product> allProducts;
   final Function onPressed;
+  final Product chosenProduct;
+  final String chosenVariant;
+  final int quantity;
 
-  CustomAlertDialog({Key key, this.allProducts, this.onPressed})
-      : super(key: key);
+  CustomAlertDialog({
+    Key key,
+    this.allProducts,
+    this.onPressed,
+    this.chosenProduct,
+    this.chosenVariant,
+    this.quantity,
+  }) : super(key: key);
 
   @override
   _CustomAlertDialogState createState() => _CustomAlertDialogState();
@@ -19,6 +28,15 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
   Product chosenProduct;
   String chosenVariant;
   int quantity;
+
+  @override
+  void initState() {
+    chosenProduct = widget.chosenProduct;
+    chosenVariant = widget.chosenVariant;
+    quantity = widget.quantity;
+
+    super.initState();
+  }
 
   final _formKey = GlobalKey<FormState>();
 
@@ -35,7 +53,6 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
             DropdownButtonFormField(
               hint: Text("Please select a product"),
               value: chosenProduct?.name,
-              // validator: (value) {},
               items: widget.allProducts
                   .map((e) => DropdownMenuItem(
                         child: Text(e.name),
@@ -56,8 +73,6 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
             Text("Variant"),
             DropdownButtonFormField(
               value: chosenVariant,
-              // autovalidateMode: AutovalidateMode.onUserInteraction,
-              // validator: (value) {},
               items: chosenProduct?.variants
                       ?.map(
                         (e) => DropdownMenuItem(
@@ -116,7 +131,7 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
           onPressed: () {
             if (_formKey.currentState.validate()) {
               _formKey.currentState.save();
-              
+
               var variant = chosenProduct.variants.firstWhere(
                 (element) => element.variant == chosenVariant,
               );
