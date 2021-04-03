@@ -5,8 +5,6 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/datasources/authentication/authentication_datasource.dart';
@@ -46,7 +44,7 @@ class MockAuthenticationRepository extends Mock
 class MockNavigatorObserver extends Mock implements NavigatorObserver {}
 
 void main() {
-  testWidgets('Authentication: Login smoke test', (WidgetTester tester) async {
+  testWidgets('Authentication: Login smoke test', (tester) async {
     final _authenticationRemote = MockAuthenticationRemoteDataSource();
     final _authenticationRepository = MockAuthenticationRepository(
       remote: _authenticationRemote,

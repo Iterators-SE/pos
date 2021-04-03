@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+// ignore: unused_import
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:graphql/client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
