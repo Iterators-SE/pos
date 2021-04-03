@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
-
-class Menu {
-  String id;
-  String option;
-  String url;
-
-  Menu({this.id, this.option, this.url});
-}
+//import '../presenter/menu_presenter.dart';
+import '../model/menu_data.dart';
 
 Widget menuWidget(Menu element) {
   return InkWell(
       key: Key(element.id),
       onTap: () {
+        print(element.option);
       },
       child: Container(
         margin: EdgeInsets.only(left: 40, right: 40, bottom: 10),
@@ -34,13 +29,4 @@ Widget menuWidget(Menu element) {
           ),
         )),
       ));
-}
-
-Widget drawerList(String list) {
-  return ListTile(
-      onTap: () {
-        print("list tile tapable");
-      },
-      title: Text(list,
-          style: TextStyle(fontFamily: "Montserrat Bold", fontSize: 15)));
 }

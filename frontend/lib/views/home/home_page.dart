@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:draggable_flutter_list/draggable_flutter_list.dart';
-
 import 'menu.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,14 +11,16 @@ class _HomePageState extends State<HomePage> {
     Menu(id: '0', option: "PROCESS ORDERS", url: "assets/images/orders.png"),
     Menu(id: '1', option: "SEE STOCK", url: "assets/images/stocks.png"),
     Menu(id: '2', option: "DISCOUNTS", url: "assets/images/coffee-icon.png"),
-    Menu(id: '3', option: "USERS", url: "assets/images/coffee-icon.png")
+    Menu(id: '3', option: "USERS", url: "assets/images/coffee-icon.png"),
+    Menu(id: '3', option: "PRODUCTS", url: "assets/images/coffee-icon.png")
   ];
 
   List<String> drawerLists = [
     "Add User",
     "Edit Business Detail",
     "Tutorial",
-    "Upgrade to Pro"
+    "Upgrade to Pro",
+    "Log out"
   ];
 
   void _onReorder(int oldIndex, int newIndex) {
