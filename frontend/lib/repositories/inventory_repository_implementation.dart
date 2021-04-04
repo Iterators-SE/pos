@@ -71,8 +71,18 @@ class InventoryRepository implements AbstractInventoryRepository {
   }
 
   @override
-  Future<Either<Failure, Product>> getProductDetails({y productId}) {
-    // TODO: implement getProductDetails
-    throw UnimplementedError();
+  Future<Either<Failure, Product>> getProductDetails({int productId}) async {
+    try {
+      final data = await remote.getProductDetails(productId: productId);
+      return Right(data);
+    } on OperationException catch (e) {
+      return Left(OperationFailure(e.graphqlErrors.first.message));
+    } on NoResultsFoundException {
+      return Left(NoResultsFoundFailure());
+    } on Exception {
+      return Left(ServerFailure());
+    } catch (e) {
+      return Left(UnhandledFailure());
+    }
   }
 }
