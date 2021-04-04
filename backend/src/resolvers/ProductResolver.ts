@@ -26,8 +26,8 @@ export class ProductResolver {
 
     @Authorized()
     @Mutation(() => Boolean, { nullable: true })
-    async deleteProduct(@Arg("productId") productID: number) {
-        const product = await Product.findOne({ where: { owner: 1, id: productID }, relations: ["user"]  });
+    async deleteProduct(@Ctx() ctx: Context, @Arg("productId") productId: number) {
+        const product = await Product.findOne({ where: { owner: ctx.currentUser.id, id: productId }, relations: ["user"]  });
         if (!product) throw new Error("Deletion not possible! Product doesn't exist!")
         await product.remove()
         return true;
@@ -35,8 +35,8 @@ export class ProductResolver {
 
     @Authorized()
     @Mutation(() => Product)
-    async changeProductDetails(@Ctx() ctx: Context, @Arg("productid") productid: number, @Arg("data") data: ChangeProductDetailsInput) {
-        const product = await Product.findOne({ where: { id: productid, owner: ctx.currentUser.id } });
+    async changeProductDetails(@Ctx() ctx: Context, @Arg("productId") productId: number, @Arg("data") data: ChangeProductDetailsInput) {
+        const product = await Product.findOne({ where: { id: productId, owner: ctx.currentUser.id } });
         if (!product) throw new Error("Can't update a non existent product!");
         Object.assign(product, data);
         await product.save();
@@ -52,8 +52,8 @@ export class ProductResolver {
 
     @Authorized()
     @Query(() => Product, { nullable: true })
-    async getProductDetails(@Ctx() ctx: Context, @Arg("productId") productID: number) {
-        const productDetails = await Product.findOne({ where: { owner: ctx.currentUser.id, id: productID } });
+    async getProductDetails(@Ctx() ctx: Context, @Arg("productId") productId: number) {
+        const productDetails = await Product.findOne({ where: { owner: ctx.currentUser.id, id: productId } });
         if (!productDetails) throw new Error("Product doesn't exist!");
 
         console.log(productDetails)
