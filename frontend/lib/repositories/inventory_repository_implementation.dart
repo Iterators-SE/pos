@@ -39,19 +39,39 @@ class InventoryRepository implements AbstractInventoryRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> deleteProduct({int productId}) {
-    // TODO: implement deleteProduct
-    throw UnimplementedError();
+  Future<Either<Failure, bool>> deleteProduct({int productId}) async {
+    try {
+      final data = await remote.deleteProduct(productId: productId);
+      return Right(data);
+    } on OperationException catch (e) {
+      return Left(OperationFailure(e.graphqlErrors.first.message));
+    } on NoResultsFoundException {
+      return Left(NoResultsFoundFailure());
+    } on Exception {
+      return Left(ServerFailure());
+    } catch (e) {
+      return Left(UnhandledFailure());
+    }
   }
 
   @override
-  Future<Either<Failure, List<Product>>> getProducts() {
-    // TODO: implement getProducts
-    throw UnimplementedError();
+  Future<Either<Failure, List<Product>>> getProducts() async {
+    try {
+      final data = await remote.getProducts();
+      return Right(data);
+    } on OperationException catch (e) {
+      return Left(OperationFailure(e.graphqlErrors.first.message));
+    } on NoResultsFoundException {
+      return Left(NoResultsFoundFailure());
+    } on Exception {
+      return Left(ServerFailure());
+    } catch (e) {
+      return Left(UnhandledFailure());
+    }
   }
 
   @override
-  Future<Either<Failure, Product>> getProductDetails({int productId}) {
+  Future<Either<Failure, Product>> getProductDetails({y productId}) {
     // TODO: implement getProductDetails
     throw UnimplementedError();
   }
