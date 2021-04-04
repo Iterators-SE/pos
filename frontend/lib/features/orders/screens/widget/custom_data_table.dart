@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../models/order.dart';
+import '../../models/order.dart';
 
 class CustomDataTable extends StatefulWidget {
   final Order order;
