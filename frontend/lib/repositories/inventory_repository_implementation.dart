@@ -1,13 +1,11 @@
 import 'package:either_option/either_option.dart';
-import 'package:frontend/datasources/inventory/inventory_datasource.dart';
-import 'package:frontend/models/product.dart';
-import 'package:frontend/repositories/inventory_repository.dart';
 import 'package:graphql/client.dart';
 
 import '../core/error/exception.dart';
 import '../core/error/failure.dart';
-import '../datasources/authentication/authentication_datasource.dart';
-import '../models/user.dart';
+import '../datasources/inventory/inventory_datasource.dart';
+import '../models/product.dart';
+import 'inventory_repository.dart';
 
 class InventoryRepository implements AbstractInventoryRepository {
   final InventoryDataSource remote;
