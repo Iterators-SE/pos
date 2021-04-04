@@ -15,7 +15,7 @@ class _Inventory extends State<Inventory> {
   List<Widget> itemsData = [];
 
   void getPostsData() {
-    List<dynamic> responseList = COFFEE_DATA;
+    List<dynamic> responseList = coffeeData;
     List<Widget> listItems = responseList.map((post) {
         return Card(
           margin: EdgeInsets.fromLTRB(20, 20, 20, 50),
@@ -69,7 +69,7 @@ class _Inventory extends State<Inventory> {
 
       );
     }).toList();
-    
+
     setState(() {
       itemsData = listItems;
     });

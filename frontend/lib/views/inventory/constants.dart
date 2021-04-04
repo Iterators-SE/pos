@@ -1,6 +1,6 @@
 
 
-const COFFEE_DATA = [
+const coffeeData = [
   {
     "name": "Caramel Butterscotch",
     "description": "Arabica coffee",
