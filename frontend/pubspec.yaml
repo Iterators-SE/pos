@@ -25,7 +25,7 @@ dependencies:
   flutter:
     sdk: flutter
   # State Management
-  graphql_flutter: ^4.0.0-beta
+  graphql_flutter: ^5.0.0-nullsafety.1
   provider:
   # Remote
   data_connection_checker: ^0.3.4
