@@ -29,9 +29,10 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    final scheme = Platform.isAndroid ? '10.0.0.2' : 'localhost';
-    final uri =
-        kReleaseMode ? 'WHEN_SERVER_IS_HOSTED' : 'http://$scheme:5000/graphql';
+    // final scheme = Platform.isAndroid ? '10.0.0.2' : 'localhost';
+    final uri = kReleaseMode
+        ? 'WHEN_SERVER_IS_HOSTED'
+        : 'http://localhost:5000/graphql';
 
     _httpLink = HttpLink(uri);
 
