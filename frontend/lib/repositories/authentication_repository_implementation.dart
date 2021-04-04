@@ -29,16 +29,10 @@ class AuthenticationRepository implements IAuthenticationRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> logout() async {
+  Future<Either<Failure, void>> logout() async {
     try {
-      final data = await remote.signup();
+      final data = await remote.logout();
       return Right(data);
-    } on OperationException catch (e) {
-      return Left(OperationFailure(e.graphqlErrors.first.message));
-    } on NoResultsFoundException {
-      return Left(NoResultsFoundFailure());
-    } on Exception {
-      return Left(ServerFailure());
     } catch (e) {
       return Left(UnhandledFailure());
     }
