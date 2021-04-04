@@ -25,11 +25,12 @@ dependencies:
   flutter:
     sdk: flutter
   # State Management
-  graphql_flutter: ^4.0.0-beta
   provider:
   # Remote
   data_connection_checker: ^0.3.4
-  graphql:
+  graphql_flutter: 
+  graphql: 
+  # graphql:
   # Local
   shared_preferences: ^2.0.5
   flutter_secure_storage:
@@ -38,6 +39,7 @@ dependencies:
   #auth
   jwt_decoder: ^2.0.0
   email_validator: '^1.0.6'
+  
 
 
 
