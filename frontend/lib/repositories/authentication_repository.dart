@@ -7,5 +7,5 @@ abstract class IAuthenticationRepository {
   Future<Either<Failure, bool>> signup(
       {String name, String email, String password});
   Future<Either<Failure, User>> login({String email, String password});
-  Future<Either<Failure, bool>> logout();
+  Future<Either<Failure, void>> logout();
 }
