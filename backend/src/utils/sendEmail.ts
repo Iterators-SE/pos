@@ -36,6 +36,6 @@ export async function sendEmail(name: string, email: string, url: string, { conf
 
     // debugging purposes only
     // TODO [03-21-2021]: REMOVE THIS
-    console.log(`Message: ${info.messageId}`);
-    console.log(`Preview URL: ${nodemailer.getTestMessageUrl(info)}`);
+    // console.log(`Message: ${info.messageId}`);
+    // console.log(`Preview URL: ${nodemailer.getTestMessageUrl(info)}`);
 }

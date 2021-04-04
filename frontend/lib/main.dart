@@ -1,15 +1,20 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:frontend/datasources/authentication/authentication_datasource.dart';
-import 'package:frontend/datasources/authentication/authentication_remote_datasource.dart';
-import 'package:frontend/repositories/authentication_repository.dart';
-import 'package:frontend/repositories/authentication_repository_implementation.dart';
+// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:graphql/client.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'core/themes/config.dart';
+import 'core/themes/xpos_theme.dart';
+import 'datasources/authentication/authentication_datasource.dart';
+import 'datasources/authentication/authentication_remote_datasource.dart';
+import 'models/user.dart';
+import 'repositories/authentication_repository.dart';
+import 'repositories/authentication_repository_implementation.dart';
 import 'views/auth/login_page.dart';
+// import 'screens/orders/order_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -24,15 +29,20 @@ class _MyAppState extends State<MyApp> {
   HttpLink _httpLink;
   GraphQLClient _client;
   IAuthenticationDataSource _authenticationDataSource;
+  // ignore: unused_field
   IAuthenticationRepository _authenticationRepository;
-  FlutterSecureStorage _storage;
-
+  SharedPreferences _storage;
+  
   @override
   void initState() {
     // final scheme = Platform.isAndroid ? '10.0.0.2' : 'localhost';
+<<<<<<< HEAD
     final uri = kReleaseMode
         ? 'WHEN_SERVER_IS_HOSTED'
         : 'http://localhost:5000/graphql';
+=======
+    final uri = kReleaseMode ? 'WHEN_SERVER_IS_HOSTED' : 'http://localhost:5000/graphql';
+>>>>>>> 80c847787f9a2eb16bea2858e7cc2fb5c93df5b3
 
     _httpLink = HttpLink(uri);
 
@@ -40,8 +50,6 @@ class _MyAppState extends State<MyApp> {
       cache: GraphQLCache(),
       link: _httpLink,
     );
-
-    _storage = FlutterSecureStorage();
 
     _authenticationDataSource = AuthenticationRemoteDataSource(
       client: _client,
@@ -53,19 +61,28 @@ class _MyAppState extends State<MyApp> {
     );
 
     super.initState();
-  }
+  } 
 
+  
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [],
+      providers: [
+        Provider<User>(create:
+        (context) => Provider.of<User>(context) ,),
+        Provider<AuthenticationRemoteDataSource>(
+          create:(context) => _authenticationDataSource,),
+        Provider<AuthenticationRepository>(
+          create: (context) => _authenticationRepository,
+        )
+      ],
       child: MaterialApp(
           title: 'Flutter Demo',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
-          home: LoginPage() // Views here,
-          ),
+          theme: XPosTheme.lightTheme,
+          darkTheme: XPosTheme.darkTheme,
+          themeMode: currentTheme.currentTheme,
+          home: LoginPage(),
+      ),
     );
   }
 }

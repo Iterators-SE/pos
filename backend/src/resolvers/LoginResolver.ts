@@ -24,6 +24,10 @@ export class LoginResolver {
 
         const refreshToken = sign({
             id: user.id,
+            name: user.name,
+            email: user.email,
+            password: user.password,
+            confirmed : user.confirmed
         }, process.env.JWT_SECRET as string, { expiresIn: '15m' });
 
         ctx.currentUser = decode(refreshToken) as Token;

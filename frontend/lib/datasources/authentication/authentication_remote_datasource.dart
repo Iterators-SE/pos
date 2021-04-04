@@ -1,17 +1,20 @@
 import 'dart:convert';
 
+// ignore: unused_import
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:graphql/client.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../models/user.dart';
 import 'authentication_datasource.dart';
 
 class AuthenticationRemoteDataSource implements IAuthenticationDataSource {
   AuthenticationRemoteDataSource({this.client, this.storage});
-
+  
   final _posToken = 'POS_TOKEN';
   final GraphQLClient client;
-  final FlutterSecureStorage storage;
+  // final FlutterSecureStorage storage;
+  final SharedPreferences storage;
 
   @override
   Future<bool> signup({String name, String email, String password}) async {
@@ -42,12 +45,32 @@ class AuthenticationRemoteDataSource implements IAuthenticationDataSource {
 
   @override
   Future<User> login({String email, String password}) async {
-    // TODO: implement login and replace [user] with actual data
-    final user = User(token: 'TOKEN_HERE');
+    final storage = await SharedPreferences.getInstance();
+    print('Client: $client');
+    try {
+      final query = r'''
+        mutation login($email: String!, $password: String!) {
+          action: login(email: $email, password: $password)
+        }''';
 
-    // On success
-    await storage.write(key: _posToken, value: user.token);
-    return user;
+      final response = await client.query(
+        QueryOptions(
+          document: gql(query),
+          variables: {'email': email, 'password': password},
+        ),
+      );
+
+      if (response.hasException) {
+        throw response.exception;
+      }
+      final user = User(token: response.data["action"] );
+    
+
+      await storage.setString( _posToken,user.token);
+      return user;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
@@ -55,7 +78,7 @@ class AuthenticationRemoteDataSource implements IAuthenticationDataSource {
     // TODO: implement logout
 
     // On success
-    await storage.delete(key: _posToken);
+    // await storage.delete(key: _posToken);
     throw UnimplementedError();
   }
 }
