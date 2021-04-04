@@ -16,10 +16,8 @@ class _Inventory extends State<Inventory> {
 
   void getPostsData() {
     List<dynamic> responseList = COFFEE_DATA;
-    List<Widget> listItems = [];
-    responseList.forEach((post) {
-      listItems.add(
-        Card(
+    List<Widget> listItems = responseList.map((post) {
+        return Card(
           margin: EdgeInsets.fromLTRB(20, 20, 20, 50),
           child: Container(
             height: 120,
@@ -68,9 +66,10 @@ class _Inventory extends State<Inventory> {
               ),
             ),
           ),
-        ),
+
       );
-    });
+    }).toList();
+    
     setState(() {
       itemsData = listItems;
     });
@@ -104,7 +103,7 @@ class _Inventory extends State<Inventory> {
                     controller: controller,
                     itemCount: itemsData.length,
                     itemBuilder: (context, index) {
-                      double scale = 1.0;
+                      var scale = 1.0;
                       if (topContainer > 0.5) {
                         scale = index + 0.5 - topContainer;
                         if (scale < 0) {
@@ -130,6 +129,7 @@ class _Inventory extends State<Inventory> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        onPressed: null,
         child: Icon(Icons.add),
         backgroundColor: Colors.grey,
       ),
