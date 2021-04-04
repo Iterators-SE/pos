@@ -1,10 +1,10 @@
 import 'package:either_option/either_option.dart';
 import 'package:graphql/client.dart';
 
-import '../core/error/exception.dart';
-import '../core/error/failure.dart';
-import '../datasources/authentication/authentication_datasource.dart';
-import '../models/user.dart';
+import '../../core/error/exception.dart';
+import '../../core/error/failure.dart';
+import '../../datasources/authentication/authentication_datasource.dart';
+import '../../models/user.dart';
 import 'authentication_repository.dart';
 
 class AuthenticationRepository implements IAuthenticationRepository {

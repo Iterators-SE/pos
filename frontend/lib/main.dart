@@ -1,20 +1,19 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:graphql/client.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'core/themes/config.dart';
 import 'core/themes/xpos_theme.dart';
 import 'datasources/authentication/authentication_datasource.dart';
 import 'datasources/authentication/authentication_remote_datasource.dart';
 import 'models/user.dart';
-import 'repositories/authentication_repository.dart';
-import 'repositories/authentication_repository_implementation.dart';
-import 'views/auth/login_page.dart';
-// import 'screens/orders/order_screen.dart';
+import 'repositories/authentication/authentication_repository.dart';
+import 'repositories/authentication/authentication_repository_implementation.dart';
+import 'views/home/home_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -75,7 +74,9 @@ class _MyAppState extends State<MyApp> {
           theme: XPosTheme.lightTheme,
           darkTheme: XPosTheme.darkTheme,
           themeMode: currentTheme.currentTheme,
-          home: LoginPage(),
+          // home: LoginPage(),
+          // home: OrderScreen()
+          home: HomePage(),
       ),
     );
   }

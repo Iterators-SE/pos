@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/user.dart';
-import '../repositories/authentication_repository_implementation.dart';
+import '../repositories/authentication/authentication_repository_implementation.dart';
 
 class UserProvider extends ChangeNotifier {
   User _user;

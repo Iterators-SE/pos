@@ -1,7 +1,7 @@
 import 'package:either_option/either_option.dart';
 
-import '../core/error/failure.dart';
-import '../models/user.dart';
+import '../../core/error/failure.dart';
+import '../../models/user.dart';
 
 abstract class IAuthenticationRepository {
   Future<Either<Failure, bool>> signup(
