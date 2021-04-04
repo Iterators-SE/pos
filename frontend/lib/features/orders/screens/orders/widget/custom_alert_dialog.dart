@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/ui/styled_text_button.dart';
-import '../../../models/product.dart';
+import '../../../../../core/ui/styled_text_button.dart';
+import '../../../../../models/product.dart';
 
 // TODO: Add styling
 class CustomAlertDialog extends StatefulWidget {

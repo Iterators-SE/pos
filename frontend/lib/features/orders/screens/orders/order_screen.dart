@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../core/ui/styled_text_button.dart';
+import '../../../../core/ui/styled_text_button.dart';
+import '../../../../models/product.dart';
+import '../../../../models/product_variant.dart';
 import '../../models/order.dart';
-import '../../models/product.dart';
-import '../../models/product_variant.dart';
-import '../../presenters/orders/order_screen_presenter.dart';
-import '../../views/orders/order_screen_view.dart';
+import '../../presenters/order_screen_presenter.dart';
+import '../../views/order_screen_view.dart';
 import 'widget/custom_alert_dialog.dart';
 import 'widget/custom_data_table.dart';
 import 'widget/custom_floating_action_button.dart';

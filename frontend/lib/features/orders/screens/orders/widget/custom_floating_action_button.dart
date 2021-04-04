@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/themes/xpos_theme.dart';
+import '../../../../../core/themes/xpos_theme.dart';
 import 'floating_action_button_wrapper.dart';
 
 class CustomFAB extends StatefulWidget {

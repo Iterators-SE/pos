@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../models/order.dart';
-import '../../models/product_variant.dart';
+import '../../../models/product_variant.dart';
+import '../models/order.dart';
 
 abstract class OrderScreenView {
   Order order;

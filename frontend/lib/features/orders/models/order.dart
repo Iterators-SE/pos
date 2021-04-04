@@ -1,6 +1,6 @@
 import 'dart:collection';
 
-import 'product_variant.dart';
+import '../../../models/product_variant.dart';
 
 // TODO: Transform to ChangeNotifier
 class Order {
