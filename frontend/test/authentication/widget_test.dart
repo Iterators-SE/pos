@@ -11,7 +11,7 @@ import 'package:frontend/datasources/authentication/authentication_datasource.da
 import 'package:frontend/datasources/authentication/authentication_remote_datasource.dart';
 
 import 'package:frontend/models/user.dart';
-import 'package:frontend/repositories/authentication_repository_implementation.dart';
+import 'package:frontend/repositories/authentication/authentication_repository_implementation.dart';
 import 'package:frontend/views/auth/login_page.dart';
 import 'package:frontend/views/home/home_page.dart';
 import 'package:graphql/client.dart';
