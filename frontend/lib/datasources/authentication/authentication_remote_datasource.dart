@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-// ignore: unused_import
-// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:graphql/client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,21 +11,22 @@ class AuthenticationRemoteDataSource implements IAuthenticationDataSource {
 
   final _posToken = 'POS_TOKEN';
   final GraphQLClient client;
-  // final FlutterSecureStorage storage;
   final SharedPreferences storage;
 
   @override
   Future<bool> signup({String name, String email, String password}) async {
     try {
       final query = r'''
-        mutation signup($name: String!, $email: String!, $password: String!) {
-          action: signup(name: $name, email: $email, password: $password)
+        mutation signup($data: SignupInput!) {
+          action: signup(data: $data)
         }''';
 
       final response = await client.query(
         QueryOptions(
           document: gql(query),
-          variables: {'name': name, 'email': email, 'password': password},
+          variables: {
+            'data': {'name': name, 'email': email, 'password': password}
+          },
         ),
       );
 
