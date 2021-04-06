@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/views/product_details/product_details.dart';
 import '../../features/orders/screens/order_screen.dart';
 import 'menu.dart';
 
@@ -28,7 +29,18 @@ class _HomePageState extends State<HomePage> {
       ),
       Menu(id: '1', option: "SEE STOCK", url: "assets/images/stocks.png"),
       Menu(id: '2', option: "DISCOUNTS", url: "assets/images/coffee-icon.png"),
-      Menu(id: '3', option: "USERS", url: "assets/images/coffee-icon.png")
+      Menu(id: '3', option: "USERS", url: "assets/images/coffee-icon.png"),
+      Menu(
+        id: '4',
+        option: "PRODUCTS",
+        url: "assets/images/orders.png",
+        onTap: () async => await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductDetail(),
+          ),
+        ),
+      ),
     ];
 
     super.initState();
