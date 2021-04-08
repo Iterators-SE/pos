@@ -1,9 +1,9 @@
 import 'package:either_option/either_option.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/core/error/failure.dart';
 import 'package:provider/provider.dart';
 
+import '../core/error/failure.dart';
 import '../models/user.dart';
 import '../repositories/authentication/authentication_repository_implementation.dart';
 
@@ -14,7 +14,7 @@ class UserProvider extends ChangeNotifier {
 
   String get token => _token;
   User get user => _user;
-  bool get signedUp => _signedUp;
+  Either<Failure, bool> get signedUp => _signedUp;
 
   void login(BuildContext context, {String email, String password}) async {
     var data =
