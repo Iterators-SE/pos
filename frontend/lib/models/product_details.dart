@@ -17,4 +17,20 @@ class ProductDetails {
   String get desc => description;
   bool get isTaxable => taxable;
   String get photo => photoLink;
+
+   factory ProductDetails.fromJson(Map<String, dynamic> json) => ProductDetails(
+        productId: json["id"],
+        productName: json["productname"],
+        description: json["description"],
+        taxable: json["taxable"],
+        photoLink: json["photoLink"]
+  );
+
+    Map<String, dynamic> toJson() => {
+        "id": productId,
+        "productName": productName,
+        "description": description,
+        "taxable": taxable,
+        "photoLink": photoLink
+    };
 }
