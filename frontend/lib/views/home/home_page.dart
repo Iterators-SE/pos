@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/views/product_details/product_details.dart';
+
 import '../../features/orders/screens/order_screen.dart';
+import '../product_details/product_details.dart';
 import 'menu.dart';
 
 // import 'package:draggable_flutter_list/draggable_flutter_list.dart';
