@@ -123,16 +123,6 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                MaterialButton(
-                  textColor: Colors.grey,
-                  child: Text('New Here? Sign Up Now!'),
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => RegisterPage()));
-                  },
-                ),
                 TextFormField(
                   decoration: InputDecoration(
                       border: OutlineInputBorder(
