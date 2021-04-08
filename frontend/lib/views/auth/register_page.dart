@@ -33,26 +33,29 @@ class _RegisterPageState extends State<RegisterPage> {
       if (validateForm()) {
         final dataSource = await Provider.of<AuthenticationRemoteDataSource>(
             context,
-            listen: false);
+            listen: false
+        );
         try {
           await dataSource.signup(
               name: _name, email: _emailAddress, password: _password);
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => LoginPage()));
+              context, MaterialPageRoute(builder: (context) => LoginPage())
+          );
         } catch (e) {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => AlertDialog(
-                        content: Text(e.graphqlErrors[0].message),
-                        actions: [
-                          MaterialButton(
-                            color: Colors.grey,
-                            onPressed: () => Navigator.pop(context),
-                            child: Text('Close'),
-                          )
-                        ],
-                      )));
+          Navigator.push(context,
+            MaterialPageRoute(
+              builder: (context) => AlertDialog(
+                content: Text(e.graphqlErrors[0].message),
+                actions: [
+                  MaterialButton(
+                    color: Colors.grey,
+                    onPressed: () => Navigator.pop(context),
+                    child: Text('Close'),
+                  )
+                ],
+              )
+            )
+          );
         }
       }
     }
