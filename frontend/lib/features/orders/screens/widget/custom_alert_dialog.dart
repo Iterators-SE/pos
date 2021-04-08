@@ -17,7 +17,7 @@ class CustomAlertDialog extends StatefulWidget {
     this.onPressed,
     this.chosenProduct,
     this.chosenVariant,
-    this.quantity,
+    this.quantity, chosenvariantName,
   }) : super(key: key);
 
   @override
@@ -76,8 +76,8 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
               items: chosenProduct?.variants
                       ?.map(
                         (e) => DropdownMenuItem(
-                          child: Text(e.variant),
-                          value: e.variant,
+                          child: Text(e.variantName),
+                          value: e.variantName,
                         ),
                       )
                       ?.toList() ??
@@ -112,7 +112,7 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
 
                 if (chosenProduct.variants
                         .firstWhere(
-                            (element) => element.variant == chosenVariant)
+                            (element) => element.variantName == chosenVariant)
                         .quantity <
                     int.parse(value)) {
                   return "Insufficient stock";
@@ -133,7 +133,7 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
               _formKey.currentState.save();
 
               var variant = chosenProduct.variants.firstWhere(
-                (element) => element.variant == chosenVariant,
+                (element) => element.variantName == chosenVariant,
               );
 
               var newVariant = variant.copyWith(quantity: quantity);

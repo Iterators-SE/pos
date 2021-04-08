@@ -34,7 +34,7 @@ class _CustomDataTableState extends State<CustomDataTable> {
             (e) => DataRow(
               cells: [
                 DataCell(
-                  Text('${e.parent} [${e.variant}]'),
+                  Text('${e.productID} [${e.variantName}]'),
                 ),
                 DataCell(
                   Text('${e.quantity}'),
@@ -42,10 +42,10 @@ class _CustomDataTableState extends State<CustomDataTable> {
                   onTap: () => widget.onPressed()(e),
                 ),
                 DataCell(
-                  Text('${e.basePrice}'),
+                  Text('${e.price}'),
                 ),
                 DataCell(
-                  Text('${e.quantity * e.basePrice}'),
+                  Text('${e.quantity * e.price}'),
                 ),
               ],
             ),

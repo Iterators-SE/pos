@@ -12,7 +12,7 @@ class ProductCard extends StatelessWidget {
       leading: CircleAvatar(
         backgroundImage: AssetImage('assets/images/Xpos.png'),
       ),
-      title: Text("${product.parent} [${product.variant}]"),
+      title: Text("${product.productID} [${product.variantName}]"),
     );
   }
 }
