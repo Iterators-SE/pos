@@ -19,6 +19,7 @@ dependencies:
   # Local
   shared_preferences: ^2.0.5
   flutter_secure_storage:
+  sqflite: ^1.3.0
   # fp
   either_option: ^1.0.6
   #auth
