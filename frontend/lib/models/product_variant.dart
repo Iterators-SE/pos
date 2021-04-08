@@ -1,19 +1,17 @@
-class ProductVariant {
-  final int id;
-  final String parent;
-  final double basePrice;
-  final int quantity;
-  final String variant;
+class ProductVariant{
+  int variantid;
+  String variantName;
+  int quantity;
+  int productID;
+  int price;
 
   ProductVariant({
-    this.id,
-    this.parent,
-    this.basePrice,
-    this.quantity,
-    this.variant,
-  });
-
-  ProductVariant copyWith({
+    this.variantid, 
+    this.variantName, 
+    this.quantity, 
+    this.productID, 
+    this.price});
+    ProductVariant copyWith({
     int id,
     String parent,
     double basePrice,
@@ -21,11 +19,11 @@ class ProductVariant {
     String variant,
   }) {
     return ProductVariant(
-      id: id ?? this.id,
-      parent: parent ?? this.parent,
-      basePrice: basePrice ?? this.basePrice,
-      quantity: quantity ?? this.quantity,
-      variant: variant ?? this.variant,
+      variantid: id ?? variantid,
+      productID: parent ?? productID,
+      price: basePrice ?? price,
+      quantity: quantity ?? quantity,
+      variantName: variant ?? variantName,
     );
   }
 }

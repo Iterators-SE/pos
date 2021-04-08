@@ -10,8 +10,8 @@ class Order {
   void editProduct(ProductVariant product) {
     var index = _products.indexWhere(
       (element) =>
-          element.parent == product.parent &&
-          element.variant == product.variant,
+          element.productID == product.productID &&
+          element.variantName == product.variantName,
     );
 
     if (index != -1) {
@@ -27,6 +27,6 @@ class Order {
 
   double get total {
     return _products.fold(
-        0, (prev, next) => prev + next.quantity * next.basePrice);
+        0, (prev, next) => prev + next.quantity * next.price);
   }
 }
