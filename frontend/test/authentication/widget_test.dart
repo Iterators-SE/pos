@@ -11,9 +11,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/core/error/failure.dart';
 import 'package:frontend/datasources/authentication/authentication_datasource.dart';
 import 'package:frontend/datasources/authentication/authentication_remote_datasource.dart';
-import 'package:frontend/features/authentication/screens/authentication_screen.dart';
 import 'package:frontend/features/home/screens/home_screen.dart';
-import 'package:frontend/features/home/screens/widget/menu_item_card.dart';
 import 'package:frontend/main.dart';
 
 import 'package:frontend/models/user.dart';
