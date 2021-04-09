@@ -9,7 +9,7 @@ import 'authentication_datasource.dart';
 class AuthenticationRemoteDataSource implements IAuthenticationDataSource {
   AuthenticationRemoteDataSource({this.client, this.storage});
 
-  final _posToken = 'POS_TOKEN';
+  static final _posToken = 'POS_TOKEN';
   final GraphQLClient client;
   final SharedPreferences storage;
 
@@ -75,5 +75,11 @@ class AuthenticationRemoteDataSource implements IAuthenticationDataSource {
   @override
   Future<void> logout() async {
     await storage.remove(_posToken);
+  }
+
+  @override
+  Future<dynamic> getUser() async {
+    final storage = await SharedPreferences.getInstance();
+    return await storage.getString(_posToken);
   }
 }
