@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../providers/user_provider.dart';
-import '../../../repositories/authentication/authentication_repository_implementation.dart';
 import '../presenter/authentication_screen_presenter.dart';
 import '../views/authentication_screen_view.dart';
 import 'widgets/login_view.dart';

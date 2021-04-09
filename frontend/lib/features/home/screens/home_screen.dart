@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:frontend/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/themes/xpos_theme.dart';
+import '../../../providers/user_provider.dart';
 import '../../../views/product_details/product_details.dart';
 import '../../orders/screens/order_screen.dart';
 import '../models/menu_item.dart';
