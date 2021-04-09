@@ -31,7 +31,9 @@ class UserProvider extends ChangeNotifier {
     );
 
     if (data.isRight) {
-      _user = data.fold((error) => null, (user) => user);
+      data.fold((error) => null, (user) {
+        token = user.token;
+      });
       notifyListeners();
     }
   }
