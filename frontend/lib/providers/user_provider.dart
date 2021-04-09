@@ -16,6 +16,12 @@ class UserProvider extends ChangeNotifier {
   User get user => _user;
   Either<Failure, bool> get signedUp => _signedUp;
 
+  set token(String token) {
+    _user = User(token: token);
+    _token = token;
+    notifyListeners();
+  }
+
   void login(BuildContext context, {String email, String password}) async {
     var data =
         await Provider.of<AuthenticationRepository>(context, listen: false)
@@ -28,22 +34,21 @@ class UserProvider extends ChangeNotifier {
       _user = data.fold((error) => null, (user) => user);
       notifyListeners();
     }
-
-    // show visual indication that something went wrong ?
   }
 
   void signup(BuildContext context,
       {String name, String email, String password}) async {
-    var data =
-        await Provider.of<AuthenticationRepository>(context, listen: false)
-            .signup(
-      name: name,
-      email: email,
-      password: password,
-    );
+    print('Hi');
+    // var data =
+    //     await Provider.of<AuthenticationRepository>(context, listen: false)
+    //         .signup(
+    //   name: name,
+    //   email: email,
+    //   password: password,
+    // );
 
-    _signedUp = data;
-      notifyListeners();
+    // _signedUp = data;
+    // notifyListeners();
   }
 
   void logout(BuildContext context) async {
@@ -53,7 +58,5 @@ class UserProvider extends ChangeNotifier {
       _user = null;
       notifyListeners();
     }
-
-    // show visual indication that something went wrong ?
   }
 }
