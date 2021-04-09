@@ -54,15 +54,16 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
 
   @override
   void onReorder(int oldIndex, int newIndex) {
-    setState(() {
-      if (newIndex > oldIndex) {
-        newIndex -= 1;
-      }
+    if (newIndex > oldIndex) {
+      newIndex -= 1;
 
-      final item = menuItems.removeAt(oldIndex);
-      menuItems.insert(newIndex, item);
+      setState(() {
+        final item = menuItems.removeAt(oldIndex);
+        menuItems.insert(newIndex, item);
+      });
+
       persistOrder();
-    });
+    }
   }
 
   @override
@@ -122,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
     ];
 
     getMenuItems().then(
-      (value) => value.isNotEmpty ? (() => menuItems = value) : null,
+      (value) => value.isNotEmpty ? setState(() => menuItems = value) : null,
     );
 
     super.initState();
