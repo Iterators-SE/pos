@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../providers/user_provider.dart';
+import '../../../repositories/authentication/authentication_repository_implementation.dart';
 import '../presenter/authentication_screen_presenter.dart';
 import '../views/authentication_screen_view.dart';
 import 'widgets/login_view.dart';
@@ -38,13 +39,13 @@ class _AuthenticationScreenState extends State<AuthenticationScreen>
     login = LoginWidget(
       toggle: toggleView,
       formKey: formKey,
-      login: onLogin,
+      login: () => onLogin,
     );
 
     signup = SignupWidget(
       toggle: toggleView,
       formKey: formKey,
-      signup: onSignup,
+      signup: () => onSignup,
     );
 
     super.initState();
@@ -60,25 +61,23 @@ class _AuthenticationScreenState extends State<AuthenticationScreen>
     // TODO: implement onError
   }
 
-
   @override
   void onLogin(BuildContext context, String email, String password) async {
     var provider = Provider.of<UserProvider>(context, listen: false);
-
-    // print('here');
     await provider.login(context, email: email, password: password);
-
-    // print(provider.user);
-    // print(provider.signedUp);
   }
 
   @override
   void onSignup(
       BuildContext context, String email, String name, String password) async {
-    var provider = Provider.of<UserProvider>(context, listen: false);
-    await provider.signup(context,
-        name: name, email: email, password: password);
+    print('hi');
+    var data =
+        await Provider.of<AuthenticationRepository>(context, listen: false)
+            .signup(name: name, email: email, password: password);
 
+    data.isLeft ? null : print(data.right);
+    // await Provider.of<UserProvider>(context, listen: false)
+    //     .signup(context, name: name, email: email, password: password);
     // provider.signedUp ?
   }
 
