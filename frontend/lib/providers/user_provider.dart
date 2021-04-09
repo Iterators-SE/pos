@@ -40,17 +40,16 @@ class UserProvider extends ChangeNotifier {
 
   void signup(BuildContext context,
       {String name, String email, String password}) async {
-    print('Hi');
-    // var data =
-    //     await Provider.of<AuthenticationRepository>(context, listen: false)
-    //         .signup(
-    //   name: name,
-    //   email: email,
-    //   password: password,
-    // );
+    var data =
+        await Provider.of<AuthenticationRepository>(context, listen: false)
+            .signup(
+      name: name,
+      email: email,
+      password: password,
+    );
 
-    // _signedUp = data;
-    // notifyListeners();
+    _signedUp = data;
+    notifyListeners();
   }
 
   void logout(BuildContext context) async {
