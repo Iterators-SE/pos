@@ -14,6 +14,7 @@ class LoginWidget extends StatefulWidget {
 }
 
 class _LoginWidgetState extends State<LoginWidget> {
+  bool hide = true;
   String email, password;
 
   @override
@@ -59,7 +60,7 @@ class _LoginWidgetState extends State<LoginWidget> {
               ),
             ),
             TextFormField(
-              key: Key('email'),
+                key: Key('email'),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
@@ -77,14 +78,18 @@ class _LoginWidgetState extends State<LoginWidget> {
               height: 20,
             ),
             TextFormField(
-              key: Key('password'),
+                key: Key('password'),
                 decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                    icon: Icon(hide ? Icons.visibility : Icons.visibility_off),
+                    onPressed: () => setState(() => hide = !hide),
+                  ),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10)),
                   hintText: 'Enter Password',
                   labelText: 'Password',
                 ),
-                obscureText: true,
+                obscureText: hide,
                 validator: (value) =>
                     value.isEmpty ? "Password can\'t be empty" : null,
                 onChanged: (value) => setState(() => password = value)),
