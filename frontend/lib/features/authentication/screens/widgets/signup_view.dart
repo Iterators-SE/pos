@@ -26,7 +26,7 @@ class _SignupWidgetState extends State<SignupWidget> {
           width: 400,
           child: ListView(
             children: <Widget>[
-              SizedBox(height: 20),
+              Spacer(),
               Image(image: AssetImage('assets/images/Xpos.png')),
               Padding(
                 padding: EdgeInsets.only(top: 40, bottom: 5),
