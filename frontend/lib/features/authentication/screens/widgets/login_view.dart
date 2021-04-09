@@ -27,8 +27,12 @@ class _LoginWidgetState extends State<LoginWidget> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Spacer(),
-            // constrain image
-            Image(image: AssetImage('assets/images/Xpos.png')),
+            Container(
+              constraints: BoxConstraints(maxHeight: 150),
+              child: Image(
+                image: AssetImage('assets/images/Xpos.png'),
+              ),
+            ),
             Padding(
               padding: EdgeInsets.only(top: 40, bottom: 5),
               child: Align(
@@ -103,13 +107,18 @@ class _LoginWidgetState extends State<LoginWidget> {
                 ),
               ),
             ),
-            MaterialButton(
-              textColor: Colors.grey,
-              child: Text(
-                'New Here? Sign Up Now!',
-                textAlign: TextAlign.end,
+            Align(
+              alignment: Alignment.centerRight,
+              child: MaterialButton(
+                child: RichText(
+                  text: TextSpan(
+                    text: 'New here? ',
+                    style: TextStyle(color: Colors.grey[500], fontSize: 12),
+                    children: [TextSpan(text: 'Sign up!')],
+                  ),
+                ),
+                onPressed: widget.toggle,
               ),
-              onPressed: widget.toggle,
             ),
             Spacer()
           ],
