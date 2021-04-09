@@ -14,6 +14,8 @@ class SignupWidget extends StatefulWidget {
 }
 
 class _SignupWidgetState extends State<SignupWidget> {
+  bool hide = true;
+
   @override
   Widget build(BuildContext context) {
     String name, email, password;
@@ -76,14 +78,19 @@ class _SignupWidgetState extends State<SignupWidget> {
             TextFormField(
               autovalidateMode: AutovalidateMode.onUserInteraction,
               decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  hintText: 'Enter Password',
-                  labelText: 'Password'),
-              obscureText: true,
+                suffixIcon: IconButton(
+                  icon: Icon(hide ? Icons.visibility : Icons.visibility_off),
+                  onPressed: () => setState(() => hide = !hide),
+                ),
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                hintText: 'Enter Password',
+                labelText: 'Password',
+              ),
+              obscureText: hide,
               validator: (value) => value.isEmpty
                   ? "Password can\'t be empty"
-                  : value.trim().length <= 8
+                  : value.trim().length < 8
                       ? "Password must be at least 8 characters long"
                       : null,
               onChanged: (value) => setState(() => password = value),
@@ -104,8 +111,9 @@ class _SignupWidgetState extends State<SignupWidget> {
               height: 40,
               width: 80,
               decoration: BoxDecoration(
-                  color: Colors.green[900],
-                  borderRadius: BorderRadius.circular(10)),
+                color: Colors.green[900],
+                borderRadius: BorderRadius.circular(10),
+              ),
               child: MaterialButton(
                 onPressed: () {
                   widget.formKey.currentState.validate()
