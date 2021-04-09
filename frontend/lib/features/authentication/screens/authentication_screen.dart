@@ -70,15 +70,15 @@ class _AuthenticationScreenState extends State<AuthenticationScreen>
   @override
   void onSignup(
       BuildContext context, String email, String name, String password) async {
-    print('hi');
-    var data =
-        await Provider.of<AuthenticationRepository>(context, listen: false)
-            .signup(name: name, email: email, password: password);
+    var provider = Provider.of<UserProvider>(context, listen: false);
+    await provider.signup(
+      context,
+      name: name,
+      email: email,
+      password: password,
+    );
 
-    data.isLeft ? null : print(data.right);
-    // await Provider.of<UserProvider>(context, listen: false)
-    //     .signup(context, name: name, email: email, password: password);
-    // provider.signedUp ?
+    // show alert dialog on success or fail
   }
 
   @override
