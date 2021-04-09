@@ -59,27 +59,31 @@ class _LoginWidgetState extends State<LoginWidget> {
               ),
             ),
             TextFormField(
+              key: Key('email'),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    hintText: 'Enter Email',
-                    labelText: 'Email'),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  hintText: 'Enter Email',
+                  labelText: 'Email',
+                ),
                 validator: (value) => value.isEmpty
                     ? 'Email can\'t be empty'
                     : !EmailValidator.validate(value.toString())
-                        ? "Email Is Invalid"
+                        ? "Email is invalid"
                         : null,
                 onChanged: (value) => setState(() => email = value)),
             SizedBox(
               height: 20,
             ),
             TextFormField(
+              key: Key('password'),
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    hintText: 'Enter Password',
-                    labelText: 'Password'),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  hintText: 'Enter Password',
+                  labelText: 'Password',
+                ),
                 obscureText: true,
                 validator: (value) =>
                     value.isEmpty ? "Password can\'t be empty" : null,
@@ -92,6 +96,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                   color: Colors.green[900],
                   borderRadius: BorderRadius.circular(10)),
               child: MaterialButton(
+                key: Key('login'),
                 onPressed: () {
                   widget.formKey.currentState.validate()
                       ? widget.login()(context, email, password)
