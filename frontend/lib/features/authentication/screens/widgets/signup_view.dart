@@ -15,11 +15,10 @@ class SignupWidget extends StatefulWidget {
 
 class _SignupWidgetState extends State<SignupWidget> {
   bool hide = true;
+  String name, email, password;
 
   @override
   Widget build(BuildContext context) {
-    String name, email, password;
-
     return Container(
       padding: EdgeInsets.only(top: 80, left: 40, right: 40),
       child: Form(
@@ -117,12 +116,7 @@ class _SignupWidgetState extends State<SignupWidget> {
               child: MaterialButton(
                 onPressed: () {
                   widget.formKey.currentState.validate()
-                      ? widget.signup(
-                          context,
-                          email,
-                          name,
-                          password,
-                        )
+                      ? widget.signup()(context, email, name, password)
                       : null;
                 },
                 child: Text(
