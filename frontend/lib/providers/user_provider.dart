@@ -54,10 +54,13 @@ class UserProvider extends ChangeNotifier {
   }
 
   void logout(BuildContext context) async {
-    var data = await Provider.of<AuthenticationRepository>(context).logout();
+    var data =
+        await Provider.of<AuthenticationRepository>(context, listen: false)
+            .logout();
 
     if (data.isRight) {
       _user = null;
+      _token = null;
       notifyListeners();
     }
   }
