@@ -94,11 +94,7 @@ class _LoginWidgetState extends State<LoginWidget> {
               child: MaterialButton(
                 onPressed: () {
                   widget.formKey.currentState.validate()
-                      ? widget.login(
-                          context,
-                          email,
-                          password,
-                        )
+                      ? widget.login()(context, email, password)
                       : null;
                 },
                 child: Text(
