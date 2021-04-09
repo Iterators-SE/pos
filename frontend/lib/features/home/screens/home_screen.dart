@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:frontend/providers/user_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/themes/xpos_theme.dart';
@@ -135,7 +137,15 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () => Provider.of<UserProvider>(context, listen: false)
+                .logout(context),
+          )
+        ],
+      ),
       drawer: Drawer(
         child: Container(
           color: Color(XPosTheme.primaryColor),
