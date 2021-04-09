@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
   Future<List<MenuItem>> getMenuItems() async {
     final preferences = await SharedPreferences.getInstance();
 
-    var list = preferences.getStringList(persistKey);
+    var list = await preferences.getStringList(persistKey);
 
     var menuList = list.map((i) {
           final json = jsonDecode(i);
@@ -123,7 +123,10 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
     ];
 
     getMenuItems().then(
-      (value) => value.isNotEmpty ? setState(() => menuItems = value) : null,
+      (value) => value.isNotEmpty
+          ? setState(() => menuItems = value ?? menuItems)
+          : null,
+      onError: (error) => setState(() => menuItems = menuItems),
     );
 
     super.initState();
