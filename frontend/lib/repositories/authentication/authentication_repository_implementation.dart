@@ -29,11 +29,12 @@ class AuthenticationRepository implements IAuthenticationRepository {
   }
 
   @override
-  Future<Either<Failure, void>> logout() async {
+  Future<Either<Failure, bool>> logout() async {
     try {
       final data = await remote.logout();
       return Right(data);
     } catch (e) {
+      print(e);
       return Left(UnhandledFailure());
     }
   }

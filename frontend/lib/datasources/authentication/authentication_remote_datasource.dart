@@ -65,7 +65,7 @@ class AuthenticationRemoteDataSource implements IAuthenticationDataSource {
 
       final user = User(token: response.data["action"]);
       await storage.setString(_posToken, user.token);
-      
+
       return user;
     } catch (e) {
       rethrow;
@@ -73,8 +73,9 @@ class AuthenticationRemoteDataSource implements IAuthenticationDataSource {
   }
 
   @override
-  Future<void> logout() async {
-    await storage.remove(_posToken);
+  Future<bool> logout() async {
+    final storage = await SharedPreferences.getInstance();
+    return await storage.remove(_posToken);
   }
 
   @override
