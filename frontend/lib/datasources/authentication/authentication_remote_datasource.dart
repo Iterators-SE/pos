@@ -25,7 +25,7 @@ class AuthenticationRemoteDataSource implements IAuthenticationDataSource {
         QueryOptions(
           document: gql(query),
           variables: {
-            'data': {'name': name, 'email': email, 'password': password}
+            'data': {"name": name, "email": email, "password": password}
           },
         ),
       );
@@ -34,9 +34,8 @@ class AuthenticationRemoteDataSource implements IAuthenticationDataSource {
         throw response.exception;
       }
 
-      // Can be extracted to a model
-      final data = jsonEncode(response.data['signup']);
-      return jsonDecode(data); // or data.toLowerCase() == 'true'
+      final data = jsonEncode(response.data["action"]);
+      return jsonDecode(data);
     } catch (e) {
       rethrow;
     }
@@ -44,9 +43,9 @@ class AuthenticationRemoteDataSource implements IAuthenticationDataSource {
 
   @override
   Future<User> login({String email, String password}) async {
-    final storage = await SharedPreferences.getInstance();
-
     try {
+      final storage = await SharedPreferences.getInstance();
+
       final query = r'''
         mutation login($email: String!, $password: String!) {
           action: login(email: $email, password: $password)
@@ -74,13 +73,21 @@ class AuthenticationRemoteDataSource implements IAuthenticationDataSource {
 
   @override
   Future<bool> logout() async {
-    final storage = await SharedPreferences.getInstance();
-    return await storage.remove(_posToken);
+    try {
+      final storage = await SharedPreferences.getInstance();
+      return await storage.remove(_posToken);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<dynamic> getUser() async {
-    final storage = await SharedPreferences.getInstance();
-    return await storage.getString(_posToken);
+    try {
+      final storage = await SharedPreferences.getInstance();
+      return await storage.getString(_posToken);
+    } catch (e) {
+      rethrow;
+    }
   }
 }
