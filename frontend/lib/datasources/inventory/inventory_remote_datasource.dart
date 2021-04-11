@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/product.dart';
 import 'inventory_datasource.dart';
 
-class InventoryRemoteDataSource implements InventoryDataSource {
+class InventoryRemoteDataSource implements IInventoryDataSource {
   InventoryRemoteDataSource({this.client, this.storage});
 
   // final _userProducts = 'USER_PRODUCTS';

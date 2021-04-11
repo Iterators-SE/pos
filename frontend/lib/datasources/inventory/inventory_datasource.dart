@@ -1,6 +1,6 @@
 import '../../models/product.dart';
 
-abstract class InventoryDataSource {
+abstract class IInventoryDataSource {
   Future<bool> addProduct(
       {String productname,
       String description,

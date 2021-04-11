@@ -29,11 +29,12 @@ class AuthenticationRepository implements IAuthenticationRepository {
   }
 
   @override
-  Future<Either<Failure, void>> logout() async {
+  Future<Either<Failure, bool>> logout() async {
     try {
       final data = await remote.logout();
       return Right(data);
     } catch (e) {
+      print(e);
       return Left(UnhandledFailure());
     }
   }
@@ -47,6 +48,22 @@ class AuthenticationRepository implements IAuthenticationRepository {
         email: email,
         password: password,
       );
+      return Right(data);
+    } on OperationException catch (e) {
+      return Left(OperationFailure(e.graphqlErrors.first.message));
+    } on NoResultsFoundException {
+      return Left(NoResultsFoundFailure());
+    } on Exception {
+      return Left(ServerFailure());
+    } catch (e) {
+      return Left(UnhandledFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, dynamic>> getUser() async {
+    try {
+      final data = await remote.getUser();
       return Right(data);
     } on OperationException catch (e) {
       return Left(OperationFailure(e.graphqlErrors.first.message));

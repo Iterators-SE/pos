@@ -1,11 +1,12 @@
-class ProductDetails {
+class ProductTemp {
+
   final int productId;
   final String productName;
   final String description;
   final bool taxable;
   final String photoLink;
 
-  ProductDetails(
+  ProductTemp(
       {this.productId,
       this.productName,
       this.description,
@@ -18,7 +19,7 @@ class ProductDetails {
   bool get isTaxable => taxable;
   String get photo => photoLink;
 
-   factory ProductDetails.fromJson(Map<String, dynamic> json) => ProductDetails(
+   factory ProductTemp.fromMap(Map<String, dynamic> json) => ProductTemp(
         productId: json["id"],
         productName: json["productname"],
         description: json["description"],
@@ -26,7 +27,7 @@ class ProductDetails {
         photoLink: json["photoLink"]
   );
 
-    Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toMap() => {
         "id": productId,
         "productName": productName,
         "description": description,

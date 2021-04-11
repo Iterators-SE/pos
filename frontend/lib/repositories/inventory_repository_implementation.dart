@@ -7,8 +7,8 @@ import '../datasources/inventory/inventory_datasource.dart';
 import '../models/product.dart';
 import 'inventory_repository.dart';
 
-class InventoryRepository implements AbstractInventoryRepository {
-  final InventoryDataSource remote;
+class InventoryRepository implements IInventoryRepository {
+  final IInventoryDataSource remote;
 
   InventoryRepository({this.remote});
 

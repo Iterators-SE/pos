@@ -2,7 +2,7 @@ import 'package:either_option/either_option.dart';
 import '../core/error/failure.dart';
 import '../models/product.dart';
 
-abstract class AbstractInventoryRepository {
+abstract class IInventoryRepository {
   Future<Either<Failure, bool>> addProduct(
       {String productname,
       String description,
