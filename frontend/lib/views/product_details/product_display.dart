@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import 'package:frontend/views/product_details/mock_products.dart';
+import 'mock_products.dart';
 
 Widget productListTile(Products product) {
 
