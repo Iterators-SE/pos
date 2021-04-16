@@ -10,7 +10,7 @@ export class ProductResolver {
     @Authorized()
     @Mutation(() => Boolean, { nullable: true })
 
-    async addProduct(@Ctx() ctx: Context, @Arg("productname") productname: string, @Arg("description") description: string, @Arg("taxable") taxable: boolean) {
+    async addProduct(@Ctx() ctx: Context, @Arg("productname") productname: string, @Arg("description") description: string, @Arg("taxable") taxable: boolean, @Arg("photolink") photolink: String) {
         const user = await User.findOne({id: ctx.currentUser.id});
 
         await Product.create({
