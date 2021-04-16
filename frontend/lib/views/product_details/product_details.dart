@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/views/product_details/product_edit.dart';
-import 'mock_products.dart';
+
+import 'product_edit.dart';
 
 class ProductDetail extends StatefulWidget {
   @override
@@ -21,7 +21,7 @@ class _ProductDetailState extends State<ProductDetail> {
                 )),
             child: Align(
               alignment: Alignment.topLeft,
-              child: FlatButton(
+              child: TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
@@ -176,7 +176,7 @@ class _ProductDetailState extends State<ProductDetail> {
               border: Border.all(color: Colors.black),
               borderRadius: BorderRadius.circular(20)
             ),
-            child: FlatButton(
+            child: TextButton(
               child: Text(
                 "EDIT",
                 style: TextStyle(
