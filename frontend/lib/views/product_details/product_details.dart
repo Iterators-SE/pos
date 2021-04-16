@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'mock_variants.dart';
+
+import 'product_edit.dart';
 
 class ProductDetail extends StatefulWidget {
   @override
@@ -7,11 +8,6 @@ class ProductDetail extends StatefulWidget {
 }
 
 class _ProductDetailState extends State<ProductDetail> {
-  List<Variant> sample = [
-    Variant(type: "R", price: "50"),
-    Variant(type: "M", price: "70"),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,8 +17,19 @@ class _ProductDetailState extends State<ProductDetail> {
             height: 250,
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage("assets/images/cappuccino.jpg"),
-                    fit: BoxFit.cover)),
+                  image: AssetImage("assets/images/cappuccino.jpg")
+                )),
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                  )),
+            ),
           ),
           Container(
             margin: EdgeInsets.only(top: 30),
@@ -106,25 +113,87 @@ class _ProductDetailState extends State<ProductDetail> {
               ),
             ),
           ),
-         Container(
-            height: 200,
-            child: Row(children: <Widget>[
-              Flexible(
-                flex: 3,
-                child: Container(
-                  
+          Container(
+            width: 100,
+            margin: EdgeInsets.only(bottom: 30, top: 10),
+              child: Row(
+              children: [
+                Expanded(
+                    flex: 1,
+                    child: Container(
+                      child: Column(children: [
+                        Text(
+                          "Name:",
+                          style: TextStyle(
+                              fontFamily: "Montserrat Bold", fontSize: 14),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top:5),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              border: Border.all(color: Colors.black)),
+                          padding: EdgeInsets.all(10),
+                          child: Text("REGULAR",
+                              style: TextStyle(
+                                  fontFamily: "Montserrat Bold", fontSize: 18)),
+                        )
+                      ]),
+                    )),
+                Expanded(
+                    flex: 1,
+                    child: Container(
+                      child: Column(children: [
+                        Text(
+                          "Price:",
+                          style: TextStyle(
+                              fontFamily: "Montserrat Bold", fontSize: 14),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top:5),
+                            width: 80,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                border: Border.all(color: Colors.black)),
+                            padding: EdgeInsets.all(10),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text("100",
+                                  style: TextStyle(
+                                      fontFamily: "Montserrat Bold",
+                                      fontSize: 18)),
+                            ))
+                      ]),
+                    )),
+              ],
+            ),
+          ),
+          Container(
+            //width: 50,
+            margin: EdgeInsets.only(left:130, right: 130, bottom: 20),
+            height: 50,
+            decoration: BoxDecoration(
+              color: Colors.grey[400],
+              border: Border.all(color: Colors.black),
+              borderRadius: BorderRadius.circular(20)
+            ),
+            child: TextButton(
+              child: Text(
+                "EDIT",
+                style: TextStyle(
+                  fontFamily: "Montserrat Bold"  
+                  ),
                 ),
-              ),
-              Flexible(
-                flex: 1,
-                  child: Container(
-                  child: Icon(Icons.close),
-              ))
-            ]),
-          )
+              onPressed: () {
+                Navigator.push(context,
+                  MaterialPageRoute(
+                    builder: (context) => EditProductDetail()
+                  )
+                );
+              },
+          ),
+            )
         ],
       ),
-      )
-    ;
+    );
   }
 }

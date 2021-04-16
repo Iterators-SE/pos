@@ -16,10 +16,14 @@ export class Product extends BaseEntity {
 
     @Field(() => User)
     @ManyToOne(() => User, owner => owner.product, {eager: true})
+<<<<<<< HEAD
     owner : User;
     
     @OneToMany(() => Variant, variant => variant.product, {nullable: true})
     variant: Variant[];
+=======
+    user : User;
+>>>>>>> 72a3de150e3fc0cc5cce43b49e89deedff3b392c
 
     @Column()
     @Field()
