@@ -1,11 +1,9 @@
-import 'dart:js';
 
 import 'package:flutter/material.dart';
-import 'package:frontend/models/product.dart';
-import 'package:frontend/views/product_details/product_details.dart';
-import 'package:frontend/views/product_details/product_display.dart';
-import 'package:frontend/views/product_details/product_edit.dart';
+
 import 'mock_products.dart';
+import 'product_details.dart';
+import 'product_edit.dart';
 
 class AddProduct extends StatefulWidget {
   @override
@@ -31,7 +29,7 @@ class _AddProductState extends State<AddProduct> {
         ),
         body: ListView.builder(
             itemCount: products.length,
-            itemBuilder: (BuildContext, index) {
+            itemBuilder: (context, index) {
               return Container(
                 margin: EdgeInsets.all(5),
                 decoration: BoxDecoration(
