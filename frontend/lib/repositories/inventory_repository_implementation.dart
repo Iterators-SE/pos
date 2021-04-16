@@ -14,15 +14,15 @@ class InventoryRepository implements IInventoryRepository {
 
   @override
   Future<Either<Failure, bool>> addProduct(
-      {String productname,
+      {String productName,
       String description,
-      bool taxable,
+      bool isTaxable,
       String photoLink}) async {
     try {
       final data = await remote.addProduct(
-          productname: productname,
+          productName: productName,
           description: description,
-          taxable: taxable,
+          isTaxable: isTaxable,
           photoLink: photoLink);
       return Right(data);
     } on OperationException catch (e) {
@@ -56,6 +56,7 @@ class InventoryRepository implements IInventoryRepository {
   Future<Either<Failure, List<Product>>> getProducts() async {
     try {
       final data = await remote.getProducts();
+      print(data);
       return Right(data);
     } on OperationException catch (e) {
       return Left(OperationFailure(e.graphqlErrors.first.message));
@@ -72,6 +73,34 @@ class InventoryRepository implements IInventoryRepository {
   Future<Either<Failure, Product>> getProductDetails({int productId}) async {
     try {
       final data = await remote.getProductDetails(productId: productId);
+      return Right(data);
+    } on OperationException catch (e) {
+      return Left(OperationFailure(e.graphqlErrors.first.message));
+    } on NoResultsFoundException {
+      return Left(NoResultsFoundFailure());
+    } on Exception {
+      return Left(ServerFailure());
+    } catch (e) {
+      return Left(UnhandledFailure());
+    }
+  }
+
+  @override
+  @override
+  Future<Either<Failure, bool>> changeProductDetails(
+      {int productId,
+      String productName,
+      String description,
+      bool isTaxable,
+      String photoLink}) async {
+    try {
+      final data = await remote.changeProductDetails(
+          productId: productId,
+          description: description,
+          productName: productName,
+          isTaxable: isTaxable,
+          photoLink: photoLink
+      );
       return Right(data);
     } on OperationException catch (e) {
       return Left(OperationFailure(e.graphqlErrors.first.message));

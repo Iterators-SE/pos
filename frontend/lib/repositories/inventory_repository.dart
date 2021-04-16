@@ -4,13 +4,18 @@ import '../models/product.dart';
 
 abstract class IInventoryRepository {
   Future<Either<Failure, bool>> addProduct(
-      {String productname,
+      {String productName,
       String description,
-      bool taxable,
+      bool isTaxable,
       String photoLink});
   Future<Either<Failure, List<Product>>> getProducts();
   Future<Either<Failure, bool>> deleteProduct({int productId});
   Future<Either<Failure, Product>> getProductDetails({int productId});
-  //  Future<Either<Failure, bool>> changeProductDetails({int productId});
-
+  Future<Either<Failure, bool>> changeProductDetails(
+    {int productId,
+    String productName, 
+    String description, 
+    bool isTaxable, 
+    String photoLink}
+  );
 }
