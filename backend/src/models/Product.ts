@@ -15,7 +15,7 @@ export class Product extends BaseEntity {
 
     @Field(() => User)
     @ManyToOne(() => User, owner => owner.product, {eager: true})
-    owner : User;
+    user : User;
 
     @Column()
     @Field()
