@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'mock_products.dart';
 
 class EditProductDetail extends StatefulWidget {
   @override
@@ -15,7 +14,7 @@ class _EditProductDetailState extends State<EditProductDetail> {
         children: <Widget>[
           Container(
             height: 250,
-            child: FlatButton(
+            child: TextButton(
               onPressed: () {}, 
               child: Icon(
                 Icons.add_a_photo,
@@ -168,7 +167,7 @@ class _EditProductDetailState extends State<EditProductDetail> {
                 flex: 1,
                 child: Container(
                   padding: EdgeInsets.only(right:10),
-                  child: FlatButton(
+                  child: TextButton(
                     onPressed: (){}, 
                     child: Icon(
                     Icons.add_box_rounded,
