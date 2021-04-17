@@ -21,7 +21,7 @@ export class User extends BaseEntity {
     @Column()
     password: string;
 
-    @OneToMany(() => Product, product => product.owner, {nullable: true})
+    @OneToMany(() => Product, product => product.user, {nullable: true})
     product: Product[];
 
     @Column("bool", {default: false})
