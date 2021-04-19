@@ -10,7 +10,7 @@ export class Product extends BaseEntity {
     @Field(() => ID)
     id: number;
 
-    @Column({unique: true})
+    @Column()
     @Field()
     productname: string;
 
