@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType } from "type-graphql";
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Product } from "./Product";
 
 // TODO [2021-03-12]: Add count
@@ -26,4 +26,7 @@ export class User extends BaseEntity {
 
     @Column("bool", {default: false})
     confirmed: boolean;
+
+    @CreateDateColumn({name: 'created_at'})
+    createdAt: Date;
 }
