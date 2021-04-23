@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType } from "type-graphql";
-import { BaseEntity, Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Discount } from "./Discount";
 import { User } from "./User";
 import { Variant } from './Variant';
 
@@ -28,6 +29,9 @@ export class Product extends BaseEntity {
     @Column()
     @Field()
     photolink: string;
+
+    @ManyToMany(() => Discount, discount => discount.products)
+    discounts: Discount[]
 
     @Column()
     @Field()
