@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/themes/xpos_theme.dart';
 import '../../../providers/user_provider.dart';
-import '../../../views/product_details/product_details.dart';
+import '../../inventory/listview/inventory_list.dart';
 import '../../orders/screens/order_screen.dart';
 import '../models/menu_item.dart';
 import '../presenters/home_screen_presenter.dart';
@@ -103,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
       'PRODUCTS': () => _presenter.navigate(
             context,
             MaterialPageRoute(
-              builder: (context) => ProductDetail(),
+              builder: (context) => InventoryList(),
             ),
           ),
     };
@@ -114,14 +114,14 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
         url: "assets/images/orders.png",
         onTap: defaultItemMap['PROCESS ORDERS'],
       ),
-      MenuItem(option: "SEE STOCK", url: "assets/images/stocks.png"),
-      MenuItem(option: "DISCOUNTS", url: "assets/images/coffee-icon.png"),
-      MenuItem(option: "USERS", url: "assets/images/coffee-icon.png"),
       MenuItem(
         option: "PRODUCTS",
         url: "assets/images/orders.png",
         onTap: defaultItemMap['PRODUCTS'],
       ),
+      // MenuItem(option: "SEE STOCK", url: "assets/images/stocks.png"),
+      MenuItem(option: "DISCOUNTS", url: "assets/images/coffee-icon.png"),
+      MenuItem(option: "USERS", url: "assets/images/coffee-icon.png"),
     ];
 
     getMenuItems().then(
@@ -138,6 +138,10 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text(
+          "XPOS",
+          textAlign: TextAlign.center
+        ),
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
@@ -165,9 +169,9 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text("Coffee Shop",
-                    style:
-                        TextStyle(fontFamily: "Montserrat Bold", fontSize: 30)),
+                // Text("Coffee Shop",
+                //     style:
+                //         TextStyle(fontFamily: "Montserrat Bold", fontSize: 30)),
                 Image(
                   height: 40,
                   image: AssetImage("assets/images/coffee-icon.png"),
