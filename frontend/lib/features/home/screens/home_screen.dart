@@ -170,8 +170,11 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 // Text("Coffee Shop",
-                //     style:
-                //         TextStyle(fontFamily: "Montserrat Bold", fontSize: 30)),
+                //   style: TextStyle(
+                //     fontFamily: "Montserrat Bold", 
+                //     fontSize: 30
+                //   )
+                // ),
                 Image(
                   height: 40,
                   image: AssetImage("assets/images/coffee-icon.png"),

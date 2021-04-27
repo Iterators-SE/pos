@@ -1,4 +1,5 @@
 class MutationQuery {
+  // ignore: avoid_positional_boolean_parameters
   String addProducts(String productName, String description, bool isTaxable,
       String photoLink) {
     return """

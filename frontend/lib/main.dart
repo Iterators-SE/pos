@@ -11,7 +11,6 @@ import 'datasources/authentication/authentication_datasource.dart';
 import 'datasources/authentication/authentication_remote_datasource.dart';
 import 'features/authentication/screens/authentication_screen.dart';
 import 'features/home/screens/home_screen.dart';
-import 'graphql/graphql_config.dart';
 import 'providers/user_provider.dart';
 import 'repositories/authentication/authentication_repository.dart';
 import 'repositories/authentication/authentication_repository_implementation.dart';
@@ -24,8 +23,6 @@ void main() {
   IAuthenticationDataSource _authenticationDataSource;
   IAuthenticationRepository _authenticationRepository;
   SharedPreferences _storage;
-
-  GraphQLConfiguration _graphQL = new GraphQLConfiguration();
 
   final uri =
       kReleaseMode ? 'WHEN_SERVER_IS_HOSTED' : 'http://localhost:5000/graphql';
