@@ -24,14 +24,11 @@ class _AddProductState extends State<AddProduct> {
         document: gql(query.addProducts(
             _productName, _description, _isTaxable, _photoURL))));
 
-    if(result.data['addProducts']){
+    if (result.data['addProduct']) {
       Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => InventoryList()
-        ),
-        (route) => false
-      );
+          context,
+          MaterialPageRoute(builder: (context) => InventoryList()),
+          (route) => false);
     }
   }
 
