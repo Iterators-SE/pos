@@ -23,6 +23,16 @@ class _AddProductState extends State<AddProduct> {
     var result = await client.mutate(MutationOptions(
         document: gql(query.addProducts(
             _productName, _description, _isTaxable, _photoURL))));
+
+    if(result.data['addProducts']){
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => InventoryList()
+        ),
+        (route) => false
+      );
+    }
   }
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -130,14 +140,6 @@ class _AddProductState extends State<AddProduct> {
                     print(_isTaxable);
 
                     addProduct();
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => InventoryList()
-                      ),
-                      (route) => false
-                    );
-                    //Send to API
                   },
                 )
               ],
