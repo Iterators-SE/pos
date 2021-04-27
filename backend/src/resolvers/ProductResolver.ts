@@ -18,7 +18,7 @@ export class ProductResolver {
             description,
             user: user,
             taxable,
-            photolink: "http://something/1234" // will work on this at a later time
+            photolink:`${photolink}`
         }).save();
 
         return true;
