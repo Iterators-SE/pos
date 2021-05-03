@@ -3,6 +3,7 @@ import 'package:graphql/client.dart';
 
 import '../../../graphql/graphql_config.dart';
 import '../../../graphql/queries.dart';
+import '../edit/edit_details.dart';
 import '../listview/inventory_list.dart';
 
 class ProductDetails extends StatefulWidget {
@@ -23,13 +24,20 @@ class _ProductDetailsState extends State<ProductDetails> {
         document:
             gql(query.deleteProduct(int.parse(widget.productData['id'])))));
 
-    if(result.data['deleteProduct']){
+    if (result.data['deleteProduct']) {
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => InventoryList()),
           (route) => false);
     }
+  }
 
+  void _editProductDetails() async {
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+            builder: (context) => EditDetails(productData: widget.productData)),
+        (route) => false);
   }
 
   @override
@@ -51,7 +59,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                 Icons.edit,
                 color: Colors.white,
               ),
-              onPressed: null),
+              onPressed: () {
+                _editProductDetails();
+              }),
         ],
       ),
       body: ListView(
