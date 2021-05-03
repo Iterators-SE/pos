@@ -19,7 +19,6 @@ export class Product extends BaseEntity {
     @ManyToOne(() => User, user => user.product, {eager: true})
     user : User;
     
-    @Field()
     @OneToMany(() => Variant, variant => variant.product, {nullable: true})
     variant: Variant[];
 
