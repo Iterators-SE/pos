@@ -28,6 +28,26 @@ class MutationQuery {
     """;
   }
 
+    String editProductDetails(
+      int productId, 
+      String productName, 
+      String description, 
+      bool isTaxable, 
+      String photoLink) {
+    return """
+      mutation {
+        changeProductDetails(
+          productId: $productId, 
+          data:{
+            productname: "$productName",
+            description: "$description",
+            taxable: $isTaxable,
+            photolink: "$photoLink"
+          })
+      }
+    """;
+  }
+
   String deleteProduct(int productId) {
     return """
       mutation {
@@ -37,4 +57,5 @@ class MutationQuery {
       }
     """;
   }
+
 }
