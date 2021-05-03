@@ -58,4 +58,23 @@ class MutationQuery {
     """;
   }
 
+  //variantQueries
+  
+  String addVariant(
+    String variantName, 
+    int quantity, 
+    int price, 
+    int productId) {
+    return """
+      mutation {
+        addVariant(
+          variantname: "$variantName",
+          quantity: $quantity,
+          price: $price,
+          productId: $productId 
+        )
+      }
+    """;
+  }
+
 }
