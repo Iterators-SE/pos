@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/features/inventory/listview/inventory_list.dart';
 import 'package:graphql/client.dart';
 
 import '../../../graphql/graphql_config.dart';
 import '../../../graphql/queries.dart';
-import '../details/product_details.dart';
+import '../listview/inventory_list.dart';
 
 class EditDetails extends StatefulWidget {
   final Map productData;
