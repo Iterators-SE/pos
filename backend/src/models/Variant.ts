@@ -17,8 +17,8 @@ export class Variant extends BaseEntity {
     @Field()
     price: Number;
 
-    @ManyToOne(() => Product, product => product.id, {eager : true})
-    product : Number
+    @ManyToOne(() => Product, product => product.variant, {eager : true})
+    product : Product;
 
     @Column()
     @Field()
