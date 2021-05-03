@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 import '../../../graphql/graphql_config.dart';
@@ -14,17 +15,21 @@ class _AddProductState extends State<AddProduct> {
   String _productName;
   String _description;
   String _photoURL;
+
   bool _isTaxable = false;
+
+  // double _price;
+  // int _quantity;
 
   dynamic addProduct() async {
     var query = MutationQuery();
     var client = GraphQLConfiguration().clientToQuery();
 
-    var result = await client.mutate(MutationOptions(
+    var addProductResult = await client.mutate(MutationOptions(
         document: gql(query.addProducts(
             _productName, _description, _isTaxable, _photoURL))));
 
-    if (result.data['addProduct']) {
+    if (addProductResult.data['addProduct']) {
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => InventoryList()),
@@ -50,6 +55,27 @@ class _AddProductState extends State<AddProduct> {
       },
     );
   }
+
+  // Widget _buildQuantityField() {
+  //   return TextFormField(
+  //     maxLines: 1,
+  //     decoration: InputDecoration(labelText: 'Quantity'),
+  //     validator: (value) {
+  //       if (value.isEmpty) {
+  //         return 'Quantity is Required';
+  //       }
+
+  //       if (int.tryParse(value) == null) {
+  //         return 'Quantity must be a number';
+  //       }
+
+  //       return null;
+  //     },
+  //     onSaved: (value) {
+  //       _quantity = int.parse(value);
+  //     },
+  //   );
+  // }
 
   Widget _buildDescription() {
     return TextFormField(
@@ -117,6 +143,8 @@ class _AddProductState extends State<AddProduct> {
                 _buildDescription(),
                 _builURL(),
                 SizedBox(height: 25),
+                // _buildQuantityField(),
+                // SizedBox(height: 25),
                 _buildCheckBox(),
                 SizedBox(height: 100),
                 ElevatedButton(
