@@ -38,7 +38,7 @@ class _AddProductState extends State<AddProduct> {
     final metadata =
         firebase_storage.SettableMetadata(contentType: 'image/jpeg');
 
-    firebase_storage.UploadTask uploadTask =
+    var uploadTask =
         ref.putData(await file.readAsBytes(), metadata);
     var url = await uploadTask.snapshot.ref.getDownloadURL();
     setState(() {
