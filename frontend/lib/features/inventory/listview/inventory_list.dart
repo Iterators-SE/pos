@@ -7,6 +7,22 @@ import '../../../graphql/queries.dart';
 import '../add/add_products.dart';
 import '../details/product_details.dart';
 
+/*
+NOTE:
+  if youre getting failed to load network image errors, just run this
+  project using the code below:
+
+  flutter run -d chrome --web-renderer html
+
+
+  Until a fix is found for this issue use code below for the release version:
+
+  flutter build web --web-renderer html --release
+
+  references: https://doalongme.com/failed-to-load-network-image-flutter-web/
+
+*/
+
 class InventoryList extends StatefulWidget {
   @override
   IinventoryListState createState() => IinventoryListState();
@@ -73,8 +89,9 @@ class IinventoryListState extends State<InventoryList> {
                       isThreeLine: true,
                       leading: CircleAvatar(
                         radius: 40,
-                        backgroundImage:
-                            NetworkImage(snapshot.data[index]['photolink']),
+                        backgroundImage: NetworkImage(
+                          snapshot.data[index]['photolink']
+                        )
                       ),
                       title: Padding(
                         padding: EdgeInsets.only(top: 8),
