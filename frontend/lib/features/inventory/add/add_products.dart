@@ -1,6 +1,7 @@
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../graphql/graphql_config.dart';
 import '../../../graphql/queries.dart';
@@ -15,15 +16,45 @@ class _AddProductState extends State<AddProduct> {
   String _productName;
   String _description;
   String _photoURL;
+  PickedFile _imageFile;
 
   bool _isTaxable = false;
 
-  // double _price;
-  // int _quantity;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  void getImage() async {
+    var file = await ImagePicker().getImage(source: ImageSource.gallery);
+    setState(() {
+      _imageFile = file;
+    });
+  }
+
+  dynamic uploadFile(PickedFile file) async {
+    var ref = firebase_storage.FirebaseStorage.instance
+        .refFromURL('gs://iterators-pos-photo-storage.appspot.com')
+        .child('images')
+        .child('1.jpg');
+
+    final metadata =
+        firebase_storage.SettableMetadata(contentType: 'image/jpeg');
+
+    firebase_storage.UploadTask uploadTask =
+        ref.putData(await file.readAsBytes(), metadata);
+    var url = await uploadTask.snapshot.ref.getDownloadURL();
+    setState(() {
+      _photoURL = url;
+    });
+  }
+
 
   dynamic addProduct() async {
+    // FirebaseStorageService cloudService;
     var query = MutationQuery();
     var client = GraphQLConfiguration().clientToQuery();
+
+    String link = await uploadFile(_imageFile);
+
+    print(link);
 
     var addProductResult = await client.mutate(MutationOptions(
         document: gql(query.addProducts(
@@ -37,8 +68,6 @@ class _AddProductState extends State<AddProduct> {
     }
   }
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   Widget _buildProductName() {
     return TextFormField(
       decoration: InputDecoration(labelText: 'Product Name'),
@@ -47,7 +76,6 @@ class _AddProductState extends State<AddProduct> {
         if (value.isEmpty) {
           return 'Product Name is Required';
         }
-
         return null;
       },
       onSaved: (value) {
@@ -55,27 +83,6 @@ class _AddProductState extends State<AddProduct> {
       },
     );
   }
-
-  // Widget _buildQuantityField() {
-  //   return TextFormField(
-  //     maxLines: 1,
-  //     decoration: InputDecoration(labelText: 'Quantity'),
-  //     validator: (value) {
-  //       if (value.isEmpty) {
-  //         return 'Quantity is Required';
-  //       }
-
-  //       if (int.tryParse(value) == null) {
-  //         return 'Quantity must be a number';
-  //       }
-
-  //       return null;
-  //     },
-  //     onSaved: (value) {
-  //       _quantity = int.parse(value);
-  //     },
-  //   );
-  // }
 
   Widget _buildDescription() {
     return TextFormField(
@@ -94,22 +101,22 @@ class _AddProductState extends State<AddProduct> {
     );
   }
 
-  Widget _builURL() {
-    return TextFormField(
-      decoration: InputDecoration(labelText: 'Photo URL'),
-      keyboardType: TextInputType.url,
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'URL is Required';
-        }
+  // Widget _builURL() {
+  //   return TextFormField(
+  //     decoration: InputDecoration(labelText: 'Photo URL'),
+  //     keyboardType: TextInputType.url,
+  //     validator: (value) {
+  //       if (value.isEmpty) {
+  //         return 'URL is Required';
+  //       }
 
-        return null;
-      },
-      onSaved: (value) {
-        _photoURL = value;
-      },
-    );
-  }
+  //       return null;
+  //     },
+  //     onSaved: (value) {
+  //       _photoURL = value;
+  //     },
+  //   );
+  // }
 
   Widget _buildCheckBox() {
     return CheckboxListTile(
@@ -141,10 +148,13 @@ class _AddProductState extends State<AddProduct> {
               children: <Widget>[
                 _buildProductName(),
                 _buildDescription(),
-                _builURL(),
+                // _builURL(),
                 SizedBox(height: 25),
-                // _buildQuantityField(),
-                // SizedBox(height: 25),
+
+                ElevatedButton(
+                    onPressed: getImage, child: Text("Select an image")),
+                SizedBox(height: 10),
+                SizedBox(height: 25),
                 _buildCheckBox(),
                 SizedBox(height: 100),
                 ElevatedButton(
@@ -161,7 +171,6 @@ class _AddProductState extends State<AddProduct> {
 
                     print(_productName);
                     print(_description);
-                    print(_photoURL);
                     print(_isTaxable);
 
                     addProduct();
