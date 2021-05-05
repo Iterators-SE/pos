@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "960020822414",
+    "project_id": "iterators-pos-photo-storage",
+    "storage_bucket": "iterators-pos-photo-storage.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960020822414:android:fec21132daf7ec4b9e0cdf",
+        "android_client_info": {
+          "package_name": "com.example.frontend"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "960020822414-8mujrh4sr13bti6jucjg2de0u6k5po6i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2-54plDJW91YQzMnnxHKQTLo5OH5mlhE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "960020822414-8mujrh4sr13bti6jucjg2de0u6k5po6i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
