@@ -46,6 +46,13 @@ class _AddProductState extends State<AddProduct> {
     });
   }
 
+  Widget renderImage() {
+    if (_imageFile != null) {
+      return Image.network(_imageFile.path);
+    }
+
+    return Text("An image has not been selected yet.");
+  }
 
   dynamic addProduct() async {
     // FirebaseStorageService cloudService;
@@ -154,6 +161,7 @@ class _AddProductState extends State<AddProduct> {
                 ElevatedButton(
                     onPressed: getImage, child: Text("Select an image")),
                 SizedBox(height: 10),
+                renderImage(),
                 SizedBox(height: 25),
                 _buildCheckBox(),
                 SizedBox(height: 100),
