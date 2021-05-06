@@ -30,17 +30,17 @@ class _AddProductState extends State<AddProduct> {
   }
 
   dynamic uploadFile(PickedFile file) async {
+    var dateNow = DateTime.now().millisecondsSinceEpoch.toString();
     var ref = firebase_storage.FirebaseStorage.instance
         .refFromURL('gs://iterators-pos-photo-storage.appspot.com')
         .child('images')
-        .child('1.jpg');
+        .child('/$dateNow.jpg');
 
     final metadata =
         firebase_storage.SettableMetadata(contentType: 'image/jpeg');
 
-    var uploadTask =
-        ref.putData(await file.readAsBytes(), metadata);
-    var url = await uploadTask.snapshot.ref.getDownloadURL();
+    var uploadTask = await ref.putData(await file.readAsBytes(), metadata);
+       var url = await uploadTask.ref.getDownloadURL();
     setState(() {
       _photoURL = url;
     });
