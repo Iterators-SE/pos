@@ -16,9 +16,9 @@ import 'providers/user_provider.dart';
 import 'repositories/authentication/authentication_repository.dart';
 import 'repositories/authentication/authentication_repository_implementation.dart';
 
-void main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
-   await Firebase.initializeApp();
+  //  await Firebase.initializeApp();
 
   HttpLink _httpLink;
   GraphQLClient _client;
