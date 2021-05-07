@@ -24,7 +24,7 @@ class _TimeAndDateState extends State<TimeAndDate> {
     if (dateUntil == null) {
       return "Select date";
     } else {
-      return '${dateFrom.month}/${dateFrom.day}/${dateFrom.year}';
+      return '${dateUntil.month}/${dateUntil.day}/${dateUntil.year}';
     }
   }
 
