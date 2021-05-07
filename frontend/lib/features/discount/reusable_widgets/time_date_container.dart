@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/core/themes/config.dart';
+import '../../../core/themes/config.dart';
 
 Widget timeAndDateContainer(String input) {
   return Container(

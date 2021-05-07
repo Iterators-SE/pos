@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:graphql/client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

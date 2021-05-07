@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/core/themes/config.dart';
-import 'package:frontend/features/discount/dicount_page/discountpage.dart';
-import 'package:frontend/features/discount/reusable_widgets/formfield.dart';
-import 'package:frontend/features/discount/reusable_widgets/subtitle.dart';
-import 'package:frontend/features/discount/reusable_widgets/time_date.dart';
+import '../../../core/themes/config.dart';
+import '../dicount_page/discountpage.dart';
+import '../reusable_widgets/formfield.dart';
+import '../reusable_widgets/subtitle.dart';
+import '../reusable_widgets/time_date.dart';
 import '../reusable_widgets/title.dart';
 
 class EditDiscount extends StatefulWidget {

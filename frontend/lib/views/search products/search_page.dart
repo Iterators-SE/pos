@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'data.dart';
+import 'constants.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -63,9 +63,11 @@ class _SearchPage extends State<SearchPage> {
                       Container(
                         width: 50.0,
                         height: 20.0, 
-                        child: FlatButton(  
-                        child: Text('edit', style: TextStyle(fontSize: 12.0),),  
-                        color: Colors.green,    
+                        child: TextButton(  
+                        child: Text(
+                          'edit', 
+                          style: TextStyle(fontSize: 12.0),
+                        ),  
                         onPressed: () {},  
                         ),  
                       )
