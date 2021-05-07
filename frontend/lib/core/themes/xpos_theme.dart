@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'config.dart';
 
 class XPosTheme extends ChangeNotifier {
-  static final primaryColor = 0xff185C37;
+  static final primaryColor = 0xFF7EBCC4;
   static final backgroundColor = 0xfffefefe;
   static bool _isDarkTheme = false;
 
@@ -23,7 +23,7 @@ class XPosTheme extends ChangeNotifier {
         buttonColor: xposGreen[500],
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: xposGreen,
+        backgroundColor: xposGreen[500],
       ),
     );
   }

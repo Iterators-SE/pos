@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:frontend/features/discount/dicount_page/discountpage.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -98,7 +99,12 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
             ),
           ),
       'SEE STOCK': () {},
-      'DISCOUNTS': () {},
+      'DISCOUNTS': () => _presenter.navigate(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DiscountPage(),
+            ),
+          ),
       'USERS': () {},
       'PRODUCTS': () => _presenter.navigate(
             context,
@@ -119,8 +125,11 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
         url: "assets/images/orders.png",
         onTap: defaultItemMap['PRODUCTS'],
       ),
-      // MenuItem(option: "SEE STOCK", url: "assets/images/stocks.png"),
-      MenuItem(option: "DISCOUNTS", url: "assets/images/coffee-icon.png"),
+      MenuItem(
+        option: "DISCOUNTS", 
+        url: "assets/images/coffee-icon.png",
+        onTap: defaultItemMap['DISCOUNTS']
+        ),
       MenuItem(option: "USERS", url: "assets/images/coffee-icon.png"),
     ];
 

@@ -51,3 +51,9 @@ flutter:
     - family: Montserrat Bold
       fonts:
         - asset: "assets/fonts/montserrat.ttf"
+    - family: Montserrat
+      fonts:
+        - asset: "assets/fonts/montserrat_reg.ttf"
+    - family: Montserrat Superbold
+      fonts:
+        - asset: "assets/fonts/montserrat_superbold.ttf"
