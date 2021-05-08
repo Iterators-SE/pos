@@ -84,8 +84,13 @@ class _AddProductState extends State<AddProduct> {
 
   Widget _buildProductName() {
     return TextFormField(
-      decoration: InputDecoration(labelText: 'Product Name'),
-      maxLength: 10,
+      decoration: InputDecoration(
+        labelText: '  Product Name',
+        border: OutlineInputBorder( 
+          borderRadius: BorderRadius.circular(30), 
+        )
+      ),
+      maxLength: 25,
       validator: (value) {
         if (value.isEmpty) {
           return 'Product Name is Required';
@@ -95,9 +100,9 @@ class _AddProductState extends State<AddProduct> {
       onSaved: (value) {
         _productName = value;
       },
-    );
+    );   
   }
-
+  
   Widget _buildQuantityPrice() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
