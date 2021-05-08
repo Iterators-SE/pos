@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/views/inventory/inventory_page.dart';
 import 'package:graphql/client.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +11,7 @@ import 'core/themes/xpos_theme.dart';
 import 'datasources/authentication/authentication_datasource.dart';
 import 'datasources/authentication/authentication_remote_datasource.dart';
 import 'features/authentication/screens/authentication_screen.dart';
+import 'features/discount/edit/discount_edit.dart';
 import 'features/home/screens/home_screen.dart';
 import 'providers/user_provider.dart';
 import 'repositories/authentication/authentication_repository.dart';
@@ -89,7 +91,7 @@ class _MyAppState extends State<MyApp> {
       themeMode: currentTheme.currentTheme,
       home: Consumer<UserProvider>(
         builder: (context, user, child) {
-          return user.token != null ? HomeScreen() : AuthenticationScreen();
+          return EditDiscount();
         },
       ),
     );
