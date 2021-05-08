@@ -21,6 +21,9 @@ class _EditDetailsState extends State<EditDetails> {
   String _productName;
   String _description;
   String _photoURL;
+  //String _name;
+  //int _quantity;
+  //num _price;
   bool _isTaxable = true;
   PickedFile _imageFile;
 
@@ -97,40 +100,131 @@ class _EditDetailsState extends State<EditDetails> {
     }
   }
 
-  Widget _buildProductName() {
+   Widget _buildProductName() {
     return TextFormField(
       initialValue: widget.productData['productname'],
-      decoration: InputDecoration(labelText: 'Product Name'),
-      maxLength: 10,
+      decoration: InputDecoration(
+        labelText: '  Product Name',
+        border: OutlineInputBorder( 
+          borderRadius: BorderRadius.circular(30), 
+        )
+      ),
+      maxLength: 25,
       validator: (value) {
         if (value.isEmpty) {
           return 'Product Name is Required';
         }
-
         return null;
       },
       onSaved: (value) {
         _productName = value;
       },
-    );
+    );   
   }
 
   Widget _buildDescription() {
     return TextFormField(
       initialValue: widget.productData['description'],
+      decoration: InputDecoration(
+        labelText: '  Description',
+        border: OutlineInputBorder( 
+          borderRadius: BorderRadius.circular(30), 
+        )
+      ),
       minLines: 1,
       maxLines: 3,
-      decoration: InputDecoration(labelText: 'Description'),
       validator: (value) {
         if (value.isEmpty) {
           return 'Description is Required';
         }
-
         return null;
       },
       onSaved: (value) {
         _description = value;
       },
+    
+    );
+  }
+
+  Widget _buildQuantityPrice() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Flexible(
+          child: TextFormField(
+          decoration: InputDecoration(
+            labelText: 'Name',
+            border: OutlineInputBorder( 
+              borderRadius: BorderRadius.circular(30), 
+            )
+          ),
+          validator: (value) {
+            if (value.isEmpty) {
+              return 'Name is Required';
+            }
+            return null;
+          },
+          onSaved: (value) {
+            //_name = value;
+          },
+        
+        )
+        ),
+        SizedBox(
+          width: 15.0,
+        ),
+        Flexible(
+          child: TextFormField(
+            decoration: InputDecoration(
+              labelText: 'Quantity',
+              border: OutlineInputBorder( 
+              borderRadius: BorderRadius.circular(30), 
+            )
+            ),
+            keyboardType: TextInputType.number,
+            validator: (value) {
+              if (value == null) {
+                return null;
+              }
+              final n = int.tryParse(value);
+              if (n == null) {
+                return 'Enter a valid whole number!';
+              }
+              return null;
+            },
+            onSaved: (value) {
+              //_quantity = int.parse(value);
+            },
+          ),
+        ),
+        SizedBox(
+          width: 15.0,
+        ),
+        Flexible(
+          child: TextFormField(
+            decoration: InputDecoration(
+              labelText: 'Price',
+              border: OutlineInputBorder( 
+                borderRadius: BorderRadius.circular(30), 
+            )
+            ),
+            keyboardType: TextInputType.number,
+            validator: (value) {
+              if (value == null) {
+                return null;
+              }
+              final n = num.tryParse(value);
+              if (n == null) {
+                return 'Enter a price!';
+              }
+              return null;
+            },
+            onSaved: (value) {
+              //_price = num.parse(value);
+            },
+          ),
+        ),
+      ],
     );
   }
 
@@ -162,19 +256,31 @@ class _EditDetailsState extends State<EditDetails> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                _buildProductName(),
-                _buildDescription(),
                 SizedBox(height: 25),
                 ElevatedButton(
                     onPressed: getImage, child: Text("Change Image")),
                 SizedBox(height: 25),
                 _renderImage(),
-                SizedBox(height: 25),
+                _buildProductName(),
+                _buildDescription(),
+                SizedBox(height: 10),
+                Text('Variants', 
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold, 
+                    fontSize: 15,
+                  )
+                ),                
+                _buildQuantityPrice(),
+                SizedBox(height: 10),
+                _buildQuantityPrice(),
+                SizedBox(height: 10),
+                _buildQuantityPrice(),
+                SizedBox(height: 20),
                 _buildCheckBox(),
-                SizedBox(height: 100),
+                SizedBox(height: 30),
                 ElevatedButton(
                   child: Text(
-                    'Submit',
+                    'Save Changes',
                     style: TextStyle(),
                   ),
                   onPressed: () {
