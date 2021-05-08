@@ -1,10 +1,9 @@
-import 'dart:html';
 import 'package:flutter/material.dart';
-import '../reusable_widgets/subtitle.dart';
-import '../reusable_widgets/title.dart';
+
 import '../../../models/mock_discounts.dart';
 import '../details/discount_details.dart';
 import '../edit/discount_edit.dart';
+import '../reusable_widgets/title.dart';
 
 class DiscountPage extends StatefulWidget {
   @override

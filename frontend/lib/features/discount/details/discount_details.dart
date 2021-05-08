@@ -38,7 +38,7 @@ class _DiscountDetailsState extends State<DiscountDetails> {
                   border: Border.all(color: xposGreen[500])),
               child: duration()),
           subtitle("Discount percent:"),
-          durationContainer("40%"),
+          durationContainer("40%")
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
