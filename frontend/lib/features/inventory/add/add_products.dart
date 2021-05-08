@@ -131,7 +131,12 @@ class _AddProductState extends State<AddProduct> {
       children: <Widget>[
         Flexible(
           child: TextFormField(
-            decoration: InputDecoration(labelText: 'Quantity'),
+            decoration: InputDecoration(
+              labelText: 'Quantity',
+              border: OutlineInputBorder( 
+              borderRadius: BorderRadius.circular(30), 
+            )
+            ),
             keyboardType: TextInputType.number,
             validator: (value) {
               if (value == null) {
@@ -149,11 +154,16 @@ class _AddProductState extends State<AddProduct> {
           ),
         ),
         SizedBox(
-          width: 20.0,
+          width: 15.0,
         ),
         Flexible(
           child: TextFormField(
-            decoration: InputDecoration(labelText: 'Price'),
+            decoration: InputDecoration(
+              labelText: 'Price',
+              border: OutlineInputBorder( 
+                borderRadius: BorderRadius.circular(30), 
+            )
+            ),
             keyboardType: TextInputType.number,
             validator: (value) {
               if (value == null) {
