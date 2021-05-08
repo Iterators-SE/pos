@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:frontend/core/themes/config.dart';
 
 class LoginWidget extends StatefulWidget {
   final GlobalKey<FormState> formKey;
@@ -98,7 +99,7 @@ class _LoginWidgetState extends State<LoginWidget> {
               height: 40,
               width: 80,
               decoration: BoxDecoration(
-                  color: Colors.green[900],
+                  color: xposGreen[50],
                   borderRadius: BorderRadius.circular(10)),
               child: MaterialButton(
                 key: Key('login'),

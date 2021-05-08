@@ -9,8 +9,8 @@ Widget title(String title) {
         title,
         textAlign: TextAlign.right,
         style: TextStyle(
-          fontFamily: "Montserrat Superbold", 
-          fontSize: 30, 
+          fontFamily: "Montserrat Superbold",
+          fontSize: 30,
           //fontWeight: FontWeight.w500
         ),
       ),
@@ -27,8 +27,8 @@ Widget details(String details) {
         details,
         textAlign: TextAlign.right,
         style: TextStyle(
-          fontFamily: "Montserrat Bold", 
-          fontSize:28, 
+          fontFamily: "Montserrat Bold",
+          fontSize: 28,
           //fontWeight: FontWeight.w500
         ),
       ),
@@ -36,3 +36,16 @@ Widget details(String details) {
   );
 }
 
+Widget discountTitles(String name) {
+  return Align(
+   alignment: Alignment.center,
+    child: Text(
+      name,
+      style: TextStyle(
+      fontFamily: "Montserrat Bold",
+      fontSize: 23
+    ),
+      textAlign: TextAlign.center,
+  ),
+  );
+}

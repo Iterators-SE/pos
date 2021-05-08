@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import '../edit/discount_edit.dart';
-import '../reusable_widgets/formfield.dart';
 import '../reusable_widgets/subtitle.dart';
-import '../reusable_widgets/time_date.dart';
 import '../reusable_widgets/title.dart';
 import '/core/themes/config.dart';
 
@@ -42,10 +40,9 @@ class _DiscountDetailsState extends State<DiscountDetails> {
                 color: xposGreen[500]
               )
             ),
-            child: TimeAndDate(),
+            child: Text("diri ka edit ze")
           ),
           subtitle("Discount percent:"),
-          form2()
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(

@@ -1,9 +1,10 @@
 import 'dart:html';
 import 'package:flutter/material.dart';
+import '../reusable_widgets/subtitle.dart';
+import '../reusable_widgets/title.dart';
 import '../../../models/mock_discounts.dart';
 import '../details/discount_details.dart';
 import '../edit/discount_edit.dart';
-
 
 class DiscountPage extends StatefulWidget {
   @override
@@ -13,7 +14,9 @@ class DiscountPage extends StatefulWidget {
 class _DiscountPageState extends State<DiscountPage> {
   List<Discount> products = [
     Discount(name: "VIP discount"),
-    Discount(name: "PWD discont")
+    Discount(name: "PWD discount"),
+    Discount(name: "PWD discount"),
+    Discount(name: "PWD discount"),
   ];
 
   @override
@@ -29,42 +32,43 @@ class _DiscountPageState extends State<DiscountPage> {
         icon: Icon(Icons.add),
         label: Text("ADD", style: TextStyle(fontFamily: "Montserrat Bold")),
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => EditDiscount()));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => EditDiscount()));
         },
       ),
-      body: GridView.builder(
-          itemCount: products.length,
-          gridDelegate:SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: MediaQuery.of(context).orientation ==
-                Orientation.landscape ? 3: 2,
-                crossAxisSpacing: 8,
-                mainAxisSpacing: 8,
-                childAspectRatio: (2 / 1),
-                ),
-          itemBuilder: (context, index) {
-            return Container(
-              margin: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.black),
-                borderRadius: BorderRadius.circular(20),
-                ),
-              child: ListTile(
-                  onTap: () {
+      body: Padding(
+        padding: const EdgeInsets.only(left: 50, right: 50),
+        child: GridView.builder(
+            itemCount: products.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount:
+                  MediaQuery.of(context).orientation == Orientation.landscape
+                      ? 3
+                      : 2,
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 8,
+            ),
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: EdgeInsets.all(20),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                   borderRadius: BorderRadius.circular(30.0),
+               ),),
+                  onPressed: () {
                     Navigator.push(
-                        context, 
+                        context,
                         MaterialPageRoute(
                           builder: (contex) => DiscountDetails()
                       )
                     );
                   },
-                  title: Text(
-                    products[index].name,
-                    style: TextStyle(fontFamily: "Montserrat Bold"),
+                  child: discountTitles(products[index].name),
                   ),
-                ),
-            );
-          }),
+                );
+            }),
+      ),
     );
   }
 }
