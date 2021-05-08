@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:graphql/client.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 import '../../../graphql/graphql_config.dart';
 import '../../../graphql/queries.dart';
@@ -19,10 +22,56 @@ class _EditDetailsState extends State<EditDetails> {
   String _description;
   String _photoURL;
   bool _isTaxable = true;
+  PickedFile _imageFile;
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    _photoURL = widget.productData['photolink'];
+  }
+
+  void getImage() async {
+    var file = await ImagePicker().getImage(source: ImageSource.gallery);
+    setState(() {
+      _imageFile = file;
+    });
+  }
+
+
+  dynamic uploadFile(PickedFile file) async {
+    var dateNow = DateTime.now().millisecondsSinceEpoch.toString();
+    var ref = firebase_storage.FirebaseStorage.instance
+        .refFromURL('gs://iterators-pos-photo-storage.appspot.com')
+        .child('images')
+        .child('/$dateNow.jpg');
+
+    final metadata =
+        firebase_storage.SettableMetadata(contentType: 'image/jpeg');
+
+    var uploadTask = await ref.putData(await file.readAsBytes(), metadata);
+    var url = await uploadTask.ref.getDownloadURL();
+    setState(() {
+      _photoURL = url;
+    });
+  }
+
+  Widget _renderImage() {
+    if (_imageFile == null) {
+      return Image.network(widget.productData['photolink']);
+    }
+
+    return Image.network(_imageFile.path);
+  }
 
   dynamic handleEdit() async {
     var query = MutationQuery();
     var client = GraphQLConfiguration().clientToQuery();
+
+    if (_imageFile != null) {
+      await uploadFile(_imageFile);
+    }
 
     var result = await client.mutate(MutationOptions(
         document: gql(query.editProductDetails(
@@ -31,6 +80,7 @@ class _EditDetailsState extends State<EditDetails> {
             _description,
             _isTaxable, // for istaxable value bug
             _photoURL))));
+
 
     if (result.data['changeProductDetails']) {
       // Navigator.pushAndRemoveUntil(
@@ -46,8 +96,6 @@ class _EditDetailsState extends State<EditDetails> {
           (route) => false);
     }
   }
-
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Widget _buildProductName() {
     return TextFormField(
@@ -70,7 +118,8 @@ class _EditDetailsState extends State<EditDetails> {
   Widget _buildDescription() {
     return TextFormField(
       initialValue: widget.productData['description'],
-      maxLines: 2,
+      minLines: 1,
+      maxLines: 3,
       decoration: InputDecoration(labelText: 'Description'),
       validator: (value) {
         if (value.isEmpty) {
@@ -85,26 +134,7 @@ class _EditDetailsState extends State<EditDetails> {
     );
   }
 
-  Widget _builURL() {
-    return TextFormField(
-      initialValue: widget.productData['photolink'],
-      decoration: InputDecoration(labelText: 'Photo URL'),
-      keyboardType: TextInputType.url,
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'URL is Required';
-        }
-
-        return null;
-      },
-      onSaved: (value) {
-        _photoURL = value;
-      },
-    );
-  }
-
   Widget _buildCheckBox() {
-
     return CheckboxListTile(
         value: _isTaxable,
         title: Text("Apply tax to this product."),
@@ -134,7 +164,11 @@ class _EditDetailsState extends State<EditDetails> {
               children: <Widget>[
                 _buildProductName(),
                 _buildDescription(),
-                _builURL(),
+                SizedBox(height: 25),
+                ElevatedButton(
+                    onPressed: getImage, child: Text("Change Image")),
+                SizedBox(height: 25),
+                _renderImage(),
                 SizedBox(height: 25),
                 _buildCheckBox(),
                 SizedBox(height: 100),
