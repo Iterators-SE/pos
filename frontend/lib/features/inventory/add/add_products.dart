@@ -229,23 +229,36 @@ class _AddProductState extends State<AddProduct> {
       appBar: AppBar(title: Text("Add Product")),
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.all(24),
+          margin: EdgeInsets.all(20),
           child: Form(
             key: _formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                _buildProductName(),
-                _buildDescription(),
-                _buildQuantityPrice(),
                 SizedBox(height: 25),
                 ElevatedButton(
                     onPressed: getImage, child: Text("Select an image")),
                 SizedBox(height: 10),
                 _renderImage(),
-                SizedBox(height: 25),
+                SizedBox(height: 10),
+                _buildProductName(),
+                SizedBox(height: 10),
+                _buildDescription(),
+                SizedBox(height: 10),
+                Text('Variants', 
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold, 
+                    fontSize: 15,
+                  )
+                ),                
+                _buildQuantityPrice(),
+                SizedBox(height: 10),
+                _buildQuantityPrice(),
+                SizedBox(height: 10),
+                _buildQuantityPrice(),
+                SizedBox(height: 20),
                 _buildCheckBox(),
-                SizedBox(height: 100),
+                SizedBox(height: 30),
                 ElevatedButton(
                   child: Text(
                     'Submit',
