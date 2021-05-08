@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/features/discount/reusable_widgets/duration_container.dart';
+import 'duration_container.dart';
 
 Widget duration() {
   return Container(

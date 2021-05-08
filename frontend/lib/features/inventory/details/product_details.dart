@@ -30,49 +30,6 @@ class _ProductDetailsState extends State<ProductDetails> {
     return result.data['getVariants'];
   }
 
-  Widget _variantWidget(var variantData) {
-    return Stack(
-      children: <Widget>[
-        Container(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Flexible(child: Text("Price: ${variantData['price']}")),
-              SizedBox(
-                width: 10.0,
-              ),
-              Flexible(child: Text("Quantity: ${variantData['quantity']}")),
-              SizedBox(
-                width: 20.0,
-              ),
-            ],
-          ),
-          width: double.infinity,
-          height: 75,
-          margin: EdgeInsets.fromLTRB(20, 20, 20, 10),
-          padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            border:
-                Border.all(color: Color.fromARGB(255, 51, 204, 255), width: 1),
-            borderRadius: BorderRadius.circular(5),
-            shape: BoxShape.rectangle,
-          ),
-        ),
-        Positioned(
-            left: 50,
-            top: 12,
-            child: Container(
-              padding: EdgeInsets.only(bottom: 10, left: 10, right: 10),
-              color: Colors.white,
-              child: Text(
-                '${variantData['variantname']}',
-                style: TextStyle(color: Colors.black, fontSize: 15),
-              ),
-            )),
-      ],
-    );
-  }
-
   void deleteProduct() async {
     var query = MutationQuery();
     var client = GraphQLConfiguration().clientToQuery();
@@ -196,8 +153,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
+                                // ignore: lines_longer_than_80_chars
                                 Text("Variant Name: ${snapshot.data[index]['variantname']}"),
                                 Text("Price: ${snapshot.data[index]['price']}"),
+                                // ignore: lines_longer_than_80_chars
                                 Text("Quantity: ${snapshot.data[index]['quantity']}"),
                               ],
                             ),
