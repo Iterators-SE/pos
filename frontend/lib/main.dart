@@ -9,7 +9,8 @@ import 'core/themes/config.dart';
 import 'core/themes/xpos_theme.dart';
 import 'datasources/authentication/authentication_datasource.dart';
 import 'datasources/authentication/authentication_remote_datasource.dart';
-import 'features/discount/edit/discount_edit.dart';
+import 'features/authentication/screens/authentication_screen.dart';
+import 'features/home/screens/home_screen.dart';
 import 'providers/user_provider.dart';
 import 'repositories/authentication/authentication_repository.dart';
 import 'repositories/authentication/authentication_repository_implementation.dart';
@@ -88,7 +89,7 @@ class _MyAppState extends State<MyApp> {
       themeMode: currentTheme.currentTheme,
       home: Consumer<UserProvider>(
         builder: (context, user, child) {
-          return EditDiscount();
+          return user.token != null ? HomeScreen() : AuthenticationScreen();
         },
       ),
     );
