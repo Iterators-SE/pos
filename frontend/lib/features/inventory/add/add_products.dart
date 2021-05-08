@@ -15,6 +15,7 @@ class AddProduct extends StatefulWidget {
 class _AddProductState extends State<AddProduct> {
   String _productName;
   String _description;
+  //String _name;
   String _photoURL;
   PickedFile _imageFile;
 
@@ -144,7 +145,7 @@ class _AddProductState extends State<AddProduct> {
             return null;
           },
           onSaved: (value) {
-            _name = value;
+           // _name = value;
           },
         
         )
