@@ -131,6 +131,29 @@ class _AddProductState extends State<AddProduct> {
       children: <Widget>[
         Flexible(
           child: TextFormField(
+          decoration: InputDecoration(
+            labelText: 'Name',
+            border: OutlineInputBorder( 
+              borderRadius: BorderRadius.circular(30), 
+            )
+          ),
+          validator: (value) {
+            if (value.isEmpty) {
+              return 'Name is Required';
+            }
+            return null;
+          },
+          onSaved: (value) {
+            _name = value;
+          },
+        
+        )
+        ),
+        SizedBox(
+          width: 15.0,
+        ),
+        Flexible(
+          child: TextFormField(
             decoration: InputDecoration(
               labelText: 'Quantity',
               border: OutlineInputBorder( 
