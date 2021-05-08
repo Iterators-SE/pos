@@ -31,6 +31,18 @@ export class VariantResolver{
     }
 
     @Authorized()
+    @Mutation(() => Boolean, {nullable: true})
+    async deleteAllVariants(@Arg('productId') productId : number){
+
+        const parentProduct = await Product.findOne({where: {id: productId}})
+        const variant = await Variant.find({where: {product: parentProduct}})
+        if (!variant) throw new Error("Variant does not exist!")
+        console.log(variant);
+        await variant.forEach((value) => value.remove());
+        return true;
+    }
+
+    @Authorized()
     @Mutation(() => Boolean ,{nullable: true})
     async editVariant(@Ctx() ctx: Context, @Arg('variantid') variantid: number, @Arg('data') data: ChangeVariantInput){
         const variant = await Variant.findOne({where: {variantid: variantid}})
@@ -41,9 +53,10 @@ export class VariantResolver{
 
     @Authorized()
     @Query(() => [Variant], {nullable: true})
-    async getVariants(@Ctx() ctx: Context, @Arg('product') product: Number){
-        const variants = await Variant.find({where: {productid: product}})
+    async getVariants(@Ctx() ctx: Context, @Arg('productId') productId: Number){
+        const parentProduct = await Product.findOne({where: {id: productId}});
+        const variants = await Variant.find({where: {product: parentProduct}});
 
-        return variants
+        return variants;
     }
 }
