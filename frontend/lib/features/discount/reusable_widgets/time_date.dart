@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../reusable_widgets/time_date_container.dart';
+import 'time_date_container.dart';
 
 class TimeAndDate extends StatefulWidget {
   @override

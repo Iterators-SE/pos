@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/themes/config.dart';
 import '../dicount_page/discountpage.dart';
 import '../reusable_widgets/formfield.dart';
 import '../reusable_widgets/subtitle.dart';

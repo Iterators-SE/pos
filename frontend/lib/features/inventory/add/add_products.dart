@@ -55,7 +55,6 @@ class _AddProductState extends State<AddProduct> {
   }
 
   dynamic addProduct() async {
-    // FirebaseStorageService cloudService;
     var query = MutationQuery();
     var client = GraphQLConfiguration().clientToQuery();
 
