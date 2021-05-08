@@ -18,6 +18,9 @@ class _AddProductState extends State<AddProduct> {
   String _photoURL;
   PickedFile _imageFile;
 
+  int _quantity;
+  num _price;
+
   bool _isTaxable = false;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -40,13 +43,14 @@ class _AddProductState extends State<AddProduct> {
         firebase_storage.SettableMetadata(contentType: 'image/jpeg');
 
     var uploadTask = await ref.putData(await file.readAsBytes(), metadata);
-       var url = await uploadTask.ref.getDownloadURL();
+    var url = await uploadTask.ref.getDownloadURL();
+
     setState(() {
       _photoURL = url;
     });
   }
 
-  Widget renderImage() {
+  Widget _renderImage() {
     if (_imageFile != null) {
       return Image.network(_imageFile.path);
     }
@@ -54,7 +58,7 @@ class _AddProductState extends State<AddProduct> {
     return Text("An image has not been selected yet.");
   }
 
-  dynamic addProduct() async {
+  dynamic _addProduct() async {
     var query = MutationQuery();
     var client = GraphQLConfiguration().clientToQuery();
 
@@ -66,7 +70,11 @@ class _AddProductState extends State<AddProduct> {
         document: gql(query.addProducts(
             _productName, _description, _isTaxable, _photoURL))));
 
-    if (addProductResult.data['addProduct']) {
+    if (addProductResult.data['addProduct'] != null) {
+      await client.mutate(MutationOptions(
+          document: gql(query.addVariant("Regular", _quantity, _price,
+              addProductResult.data['addProduct']))));
+
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => InventoryList()),
@@ -90,6 +98,55 @@ class _AddProductState extends State<AddProduct> {
     );
   }
 
+  Widget _buildQuantityPrice() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Flexible(
+          child: TextFormField(
+            decoration: InputDecoration(labelText: 'Quantity'),
+            keyboardType: TextInputType.number,
+            validator: (value) {
+              if (value == null) {
+                return null;
+              }
+              final n = int.tryParse(value);
+              if (n == null) {
+                return 'Enter a valid whole number!';
+              }
+              return null;
+            },
+            onSaved: (value) {
+              _quantity = int.parse(value);
+            },
+          ),
+        ),
+        SizedBox(
+          width: 20.0,
+        ),
+        Flexible(
+          child: TextFormField(
+            decoration: InputDecoration(labelText: 'Price'),
+            keyboardType: TextInputType.number,
+            validator: (value) {
+              if (value == null) {
+                return null;
+              }
+              final n = num.tryParse(value);
+              if (n == null) {
+                return 'Enter a price!';
+              }
+              return null;
+            },
+            onSaved: (value) {
+              _price = num.parse(value);
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _buildDescription() {
     return TextFormField(
       maxLines: 2,
@@ -106,23 +163,6 @@ class _AddProductState extends State<AddProduct> {
       },
     );
   }
-
-  // Widget _builURL() {
-  //   return TextFormField(
-  //     decoration: InputDecoration(labelText: 'Photo URL'),
-  //     keyboardType: TextInputType.url,
-  //     validator: (value) {
-  //       if (value.isEmpty) {
-  //         return 'URL is Required';
-  //       }
-
-  //       return null;
-  //     },
-  //     onSaved: (value) {
-  //       _photoURL = value;
-  //     },
-  //   );
-  // }
 
   Widget _buildCheckBox() {
     return CheckboxListTile(
@@ -154,13 +194,12 @@ class _AddProductState extends State<AddProduct> {
               children: <Widget>[
                 _buildProductName(),
                 _buildDescription(),
-                // _builURL(),
+                _buildQuantityPrice(),
                 SizedBox(height: 25),
-
                 ElevatedButton(
                     onPressed: getImage, child: Text("Select an image")),
                 SizedBox(height: 10),
-                renderImage(),
+                _renderImage(),
                 SizedBox(height: 25),
                 _buildCheckBox(),
                 SizedBox(height: 100),
@@ -179,8 +218,7 @@ class _AddProductState extends State<AddProduct> {
                     print(_productName);
                     print(_description);
                     print(_isTaxable);
-
-                    addProduct();
+                    _addProduct();
                   },
                 )
               ],
