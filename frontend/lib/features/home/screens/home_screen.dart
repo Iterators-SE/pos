@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/themes/xpos_theme.dart';
 import '../../../providers/user_provider.dart';
-import '../../discount/dicount_page/discountpage.dart';
+import '../../discount/discount_page/discountpage.dart';
 import '../../inventory/listview/inventory_list.dart';
 import '../../orders/screens/order_screen.dart';
 import '../models/menu_item.dart';

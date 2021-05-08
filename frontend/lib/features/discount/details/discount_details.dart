@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+
+import '../../../core/themes/config.dart';
 import '../edit/discount_edit.dart';
 import '../reusable_widgets/subtitle.dart';
 import '../reusable_widgets/title.dart';
-import '/core/themes/config.dart';
 
 
 class DiscountDetails extends StatefulWidget {
