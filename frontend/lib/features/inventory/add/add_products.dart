@@ -102,7 +102,29 @@ class _AddProductState extends State<AddProduct> {
       },
     );   
   }
-  
+
+  Widget _buildDescription() {
+    return TextFormField(
+      decoration: InputDecoration(
+        labelText: '  Description',
+        border: OutlineInputBorder( 
+          borderRadius: BorderRadius.circular(30), 
+        )
+      ),
+      maxLines: 2,
+      validator: (value) {
+        if (value.isEmpty) {
+          return 'Description is Required';
+        }
+        return null;
+      },
+      onSaved: (value) {
+        _description = value;
+      },
+    
+    );
+  }
+
   Widget _buildQuantityPrice() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -149,23 +171,6 @@ class _AddProductState extends State<AddProduct> {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildDescription() {
-    return TextFormField(
-      maxLines: 2,
-      decoration: InputDecoration(labelText: 'Description'),
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Description is Required';
-        }
-
-        return null;
-      },
-      onSaved: (value) {
-        _description = value;
-      },
     );
   }
 
