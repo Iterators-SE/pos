@@ -6,8 +6,7 @@ import '../reusable_widgets/formfield.dart';
 import '../reusable_widgets/subtitle.dart';
 import '../reusable_widgets/time_date.dart';
 import '../reusable_widgets/title.dart';
-
-
+import '../reusable_widgets/duration.dart';
 
 class EditDiscount extends StatefulWidget {
   @override
@@ -33,41 +32,37 @@ class _EditDiscountState extends State<EditDiscount> {
           form(),
           subtitle("Product:"),
           Container(
-            padding: EdgeInsets.only(left: 20, right: 20),
-            margin: EdgeInsets.only(left: 20, right: 20, top: 10),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.black),
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: Center(
-              child: DropdownButton(
-              hint: Text("Select product"),
-              isExpanded: true,
-              underline: SizedBox(),
-              value: valueChoose,
-              onChanged: (newValue) {
-                setState(() {
-                  valueChoose = newValue;
-                });
-              },
-              items: products.map((product) {
-                return DropdownMenuItem(
-                  child: Text(product),
-                  value: product,
-                );
-              }).toList(),
-            ),
-              )
-          ),
+              padding: EdgeInsets.only(left: 20, right: 20),
+              margin: EdgeInsets.only(left: 20, right: 20, top: 10),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black),
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: Center(
+                child: DropdownButton(
+                  hint: Text("Select product"),
+                  isExpanded: true,
+                  underline: SizedBox(),
+                  value: valueChoose,
+                  onChanged: (newValue) {
+                    setState(() {
+                      valueChoose = newValue;
+                    });
+                  },
+                  items: products.map((product) {
+                    return DropdownMenuItem(
+                      child: Text(product),
+                      value: product,
+                    );
+                  }).toList(),
+                ),
+              )),
           subtitle("Time:"),
           Container(
             padding: EdgeInsets.all(20),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(15)),
-              border: Border.all(
-                color: xposGreen[500]
-              )
-            ),
+                borderRadius: BorderRadius.all(Radius.circular(15)),
+                border: Border.all(color: xposGreen[500])),
             child: TimeAndDate(),
           ),
           subtitle("Discount percent:"),
@@ -78,8 +73,8 @@ class _EditDiscountState extends State<EditDiscount> {
         icon: Icon(Icons.check_box_outlined),
         label: Text("SAVE", style: TextStyle(fontFamily: "Montserrat Bold")),
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => DiscountPage()));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => DiscountPage()));
         },
       ),
     );

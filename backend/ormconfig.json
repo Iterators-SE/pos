@@ -1,6 +1,10 @@
 {
-    "type": "sqlite",
-    "database": "./db.sqlite3",
-    "entities": ["./src/models/*.ts"],
-    "synchronize": true
-  }
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "postgres",
+  "password": "postgres",
+  "database": "pos",
+  "entities": ["./src/models/*.ts"],
+  "synchronize": true
+}
