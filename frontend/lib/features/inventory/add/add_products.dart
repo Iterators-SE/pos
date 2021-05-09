@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../../graphql/graphql_config.dart';
 import '../../../graphql/queries.dart';
 import '../listview/inventory_list.dart';
+import 'model/variants.dart';
 
 class AddProduct extends StatefulWidget {
   @override
@@ -13,14 +14,20 @@ class AddProduct extends StatefulWidget {
 }
 
 class _AddProductState extends State<AddProduct> {
+  String addVariantName;
+  int addVariantQuantity;
+  int addVariantPrice;
+
   String _productName;
   String _description;
-  //String _name;
+  // String _name;
   String _photoURL;
   PickedFile _imageFile;
 
-  int _quantity;
-  num _price;
+  List variants = [];
+
+  int _quantity = 0;
+  int _price = 0;
 
   bool _isTaxable = false;
 
@@ -32,6 +39,10 @@ class _AddProductState extends State<AddProduct> {
       _imageFile = file;
     });
   }
+
+  // void pushWidget(Widget variantBox){
+  //   variants.
+  // }
 
   dynamic uploadFile(PickedFile file) async {
     var dateNow = DateTime.now().millisecondsSinceEpoch.toString();
@@ -65,6 +76,7 @@ class _AddProductState extends State<AddProduct> {
 
     String link = await uploadFile(_imageFile);
 
+    print('link');
     print(link);
 
     var addProductResult = await client.mutate(MutationOptions(
@@ -72,9 +84,23 @@ class _AddProductState extends State<AddProduct> {
             _productName, _description, _isTaxable, _photoURL))));
 
     if (addProductResult.data['addProduct'] != null) {
-      await client.mutate(MutationOptions(
-          document: gql(query.addVariant("Regular", _quantity, _price,
-              addProductResult.data['addProduct']))));
+      if (variants.isEmpty) {
+        print("No variants added");
+        await client.mutate(MutationOptions(
+            document: gql(query.addVariant("Regular", _quantity, _price,
+                addProductResult.data['addProduct']))));
+      } else {
+        print("Have variants added");
+
+        for (var i = 0; i < variants.length; i++) {
+          await client.mutate(MutationOptions(
+              document: gql(query.addVariant(
+                  variants[i].name,
+                  variants[i].quantity,
+                  variants[i].price,
+                  addProductResult.data['addProduct']))));
+        }
+      }
 
       Navigator.pushAndRemoveUntil(
           context,
@@ -86,12 +112,10 @@ class _AddProductState extends State<AddProduct> {
   Widget _buildProductName() {
     return TextFormField(
       decoration: InputDecoration(
-        labelText: '  Product Name',
-        border: OutlineInputBorder( 
-          borderRadius: BorderRadius.circular(30), 
-        )
-      ),
-      maxLength: 25,
+          labelText: '  Product Name',
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+          )),
       validator: (value) {
         if (value.isEmpty) {
           return 'Product Name is Required';
@@ -101,18 +125,18 @@ class _AddProductState extends State<AddProduct> {
       onSaved: (value) {
         _productName = value;
       },
-    );   
+    );
   }
 
   Widget _buildDescription() {
     return TextFormField(
       decoration: InputDecoration(
-        labelText: '  Description',
-        border: OutlineInputBorder( 
-          borderRadius: BorderRadius.circular(30), 
-        )
-      ),
-      maxLines: 2,
+          labelText: '  Description',
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+          )),
+      minLines: 1,
+      maxLines: 3,
       validator: (value) {
         if (value.isEmpty) {
           return 'Description is Required';
@@ -122,89 +146,6 @@ class _AddProductState extends State<AddProduct> {
       onSaved: (value) {
         _description = value;
       },
-    
-    );
-  }
-
-  Widget _buildQuantityPrice() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Flexible(
-          child: TextFormField(
-          decoration: InputDecoration(
-            labelText: 'Name',
-            border: OutlineInputBorder( 
-              borderRadius: BorderRadius.circular(30), 
-            )
-          ),
-          validator: (value) {
-            if (value.isEmpty) {
-              return 'Name is Required';
-            }
-            return null;
-          },
-          onSaved: (value) {
-           // _name = value;
-          },
-        
-        )
-        ),
-        SizedBox(
-          width: 15.0,
-        ),
-        Flexible(
-          child: TextFormField(
-            decoration: InputDecoration(
-              labelText: 'Quantity',
-              border: OutlineInputBorder( 
-              borderRadius: BorderRadius.circular(30), 
-            )
-            ),
-            keyboardType: TextInputType.number,
-            validator: (value) {
-              if (value == null) {
-                return null;
-              }
-              final n = int.tryParse(value);
-              if (n == null) {
-                return 'Enter a valid whole number!';
-              }
-              return null;
-            },
-            onSaved: (value) {
-              _quantity = int.parse(value);
-            },
-          ),
-        ),
-        SizedBox(
-          width: 15.0,
-        ),
-        Flexible(
-          child: TextFormField(
-            decoration: InputDecoration(
-              labelText: 'Price',
-              border: OutlineInputBorder( 
-                borderRadius: BorderRadius.circular(30), 
-            )
-            ),
-            keyboardType: TextInputType.number,
-            validator: (value) {
-              if (value == null) {
-                return null;
-              }
-              final n = num.tryParse(value);
-              if (n == null) {
-                return 'Enter a price!';
-              }
-              return null;
-            },
-            onSaved: (value) {
-              _price = num.parse(value);
-            },
-          ),
-        ),
-      ],
     );
   }
 
@@ -224,6 +165,212 @@ class _AddProductState extends State<AddProduct> {
         });
   }
 
+  Future<void> alertDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (context) {
+        return AlertDialog(
+          insetPadding: EdgeInsets.all(10),
+          title: Center(child: Text('Add a variant')),
+          content: Container(
+            width: 250,
+            height: 225,
+            child: Column(
+              children: <Widget>[
+                TextFormField(
+                  decoration: InputDecoration(
+                      labelText: 'Name',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      )),
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Name is Required';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      addVariantName = value;
+                    });
+                  },
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                TextFormField(
+                  decoration: InputDecoration(
+                      labelText: 'Quantity',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      )),
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value == null) {
+                      return null;
+                    }
+                    final n = int.tryParse(value);
+                    if (n == null) {
+                      return 'Enter a valid whole number!';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      addVariantQuantity = int.parse(value);
+                    });
+                  },
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                TextFormField(
+                  decoration: InputDecoration(
+                      labelText: 'Price',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      )),
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value == null) {
+                      return null;
+                    }
+                    final n = int.tryParse(value);
+                    if (n == null) {
+                      return 'Enter a price!';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      addVariantPrice = int.parse(value);
+                    });
+                  },
+                ),
+                SizedBox(height: 15),
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        child: Text('Confirm'),
+                        onPressed: () {
+                          setState(() {
+                            variants.add(
+                              Variant(
+                                  variantName: addVariantName,
+                                  variantPrice: addVariantPrice,
+                                  variantQuantity: addVariantQuantity),
+                            );
+                          });
+
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      ElevatedButton(
+                        child: Text('cancel'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget variantBox(String name, int quantity, int price) {
+    return Column(children: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Flexible(
+            child: TextFormField(
+              readOnly: true,
+              initialValue: '$name',
+              decoration: InputDecoration(
+                  labelText: 'Name',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  )),
+            ),
+          ),
+          SizedBox(
+            width: 15.0,
+          ),
+          Flexible(
+            child: TextFormField(
+              readOnly: true,
+              initialValue: '$quantity',
+              decoration: InputDecoration(
+                  labelText: 'Quantity',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  )),
+            ),
+          ),
+          SizedBox(
+            width: 15.0,
+          ),
+          Flexible(
+            child: TextFormField(
+              readOnly: true,
+              initialValue: '$price',
+              decoration: InputDecoration(
+                  labelText: 'Price',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  )),
+            ),
+          ),
+        ],
+      ),
+      SizedBox(
+        height: 10,
+      )
+    ]);
+  }
+
+  Widget variantAddDelete() {
+    if (variants.isEmpty) {
+      return ElevatedButton(onPressed: alertDialog, child: Text("Add"));
+    }
+
+    return Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ElevatedButton(onPressed: alertDialog, child: Text("Add")),
+          SizedBox(width: 5),
+          ElevatedButton(
+            onPressed: () {
+              setState(() {
+                variants.removeLast();
+              });
+            },
+            child: Text("Delete"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget showVariant() {
+    return Column(
+        children: variants.map((value) {
+      return variantBox(value.name, value.quantity, value.price);
+    }).toList());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -241,22 +388,19 @@ class _AddProductState extends State<AddProduct> {
                     onPressed: getImage, child: Text("Select an image")),
                 SizedBox(height: 10),
                 _renderImage(),
-                SizedBox(height: 10),
+                SizedBox(height: 25),
                 _buildProductName(),
                 SizedBox(height: 10),
                 _buildDescription(),
+                SizedBox(height: 25),
+                Text('Variants',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                    )),
                 SizedBox(height: 10),
-                Text('Variants', 
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold, 
-                    fontSize: 15,
-                  )
-                ),                
-                _buildQuantityPrice(),
-                SizedBox(height: 10),
-                _buildQuantityPrice(),
-                SizedBox(height: 10),
-                _buildQuantityPrice(),
+                showVariant(),
+                variantAddDelete(),
                 SizedBox(height: 20),
                 _buildCheckBox(),
                 SizedBox(height: 30),
