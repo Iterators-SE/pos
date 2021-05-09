@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graphql/client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:math';
 
 import '../../../graphql/graphql_config.dart';
 import '../../../graphql/queries.dart';
@@ -34,6 +35,7 @@ class IinventoryListState extends State<InventoryList> {
     var token = prefs.getString('POS_TOKEN');
     GraphQLConfiguration.setToken(token);
     print(token);
+
     var query = MutationQuery();
     var client = GraphQLConfiguration().clientToQuery();
 
@@ -44,6 +46,30 @@ class IinventoryListState extends State<InventoryList> {
     // print(result.data['getProducts']);
     // print(result.data['getProducts'].length);
     return result.data['getProducts'];
+  }
+
+  dynamic getVariants(var productId) async {
+    var query = MutationQuery();
+    var client = GraphQLConfiguration().clientToQuery();
+
+    var result = await client.query(
+      QueryOptions(document: gql(query.getVariants(productId))),
+    );
+
+    return result.data['getVariants'];
+  }
+
+  dynamic getProductsAndVariants() async {
+    var products = await getProducts();
+    var productsAndVariants = [];
+
+    for (var i = 0; i < products.length; i++) {
+      var variants = await getVariants(int.parse(products[i]['id']));
+      print(variants);
+      productsAndVariants.add({"variants": variants, "product": products[i]});
+    }
+
+    return productsAndVariants;
   }
 
   @override
@@ -62,51 +88,85 @@ class IinventoryListState extends State<InventoryList> {
       ),
       body: Container(
         child: FutureBuilder(
-          future: getProducts(),
+          future: getProductsAndVariants(),
           builder: (context, snapshot) {
-            
-            // print(snapshot.data.runtimeType);  
-            
+            // print(snapshot.data.runtimeType);
+
             if (snapshot.data == null) {
               return Container(child: Center(child: Text("Loading...")));
             } else {
-
               // print("data in snapshot");
               // print(snapshot.data);
 
-              if(snapshot.data.isEmpty){
+              if (snapshot.data.isEmpty) {
                 return Container(
-                  child: Center(
-                    child: Text("Your inventory is empty."),
-                  )
-                );
+                    child: Center(
+                  child: Text("Your inventory is empty."),
+                ));
               }
               return ListView.builder(
                 itemCount: snapshot.data.length,
                 itemBuilder: (context, index) {
+                  var prices = [];
+
+                  for (var i = 0;
+                      i < snapshot.data[index]['variants'].length;
+                      i++) {
+                    prices.add(snapshot.data[index]['variants'][i]['price']);
+                  }
+                  print(prices);
+
+                  var min =
+                      prices.reduce((curr, next) => curr < next ? curr : next);
+
+                  var max =
+                      prices.reduce((curr, next) => curr > next ? curr : next);
+
                   return Card(
                     child: ListTile(
                       isThreeLine: true,
                       leading: CircleAvatar(
                         radius: 40,
                         backgroundImage: NetworkImage(
-                          snapshot.data[index]['photolink']
-                        )
+                            snapshot.data[index]['product']['photolink']),
                       ),
                       title: Padding(
                         padding: EdgeInsets.only(top: 8),
-                        child: Text(snapshot.data[index]['productname']),
+                        child: Text(
+                          snapshot.data[index]['product']['productname'],
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25,
+                          ),
+                        ),
                       ),
-                      subtitle: Text(snapshot.data[index]['description']),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            // ignore: lines_longer_than_80_chars
+                            "${snapshot.data[index]['product']['description'].substring(0, 15)}...",
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 20,
+                            ),
+                          ),
+                          Text(
+                            'Price: $min - $max',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ],
+                      ),
                       onTap: () {
                         Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ProductDetails(
-                              productData: snapshot.data[index],
-                            )
-                          )
-                        );
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ProductDetails(
+                                      productData: snapshot.data[index],
+                                    )));
                       },
                     ),
                   );
