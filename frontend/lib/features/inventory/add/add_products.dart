@@ -26,8 +26,8 @@ class _AddProductState extends State<AddProduct> {
 
   List variants = [];
 
-  int _quantity = 0;
-  int _price = 0;
+  final int _quantity = 0;
+  final int _price = 0;
 
   bool _isTaxable = false;
 

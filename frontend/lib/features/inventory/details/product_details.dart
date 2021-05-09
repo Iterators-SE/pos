@@ -16,10 +16,6 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
-  dynamic getProductDetails() async {
-    var query = MutationQuery();
-    var client = GraphQLConfiguration().clientToQuery();
-  }
 
   void deleteProduct() async {
     var query = MutationQuery();
@@ -55,6 +51,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     }
   }
 
+  // ignore: avoid_positional_boolean_parameters
   Widget isTaxable(bool taxable) {
     if (taxable) {
       return Text(
@@ -79,7 +76,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   }
 
   dynamic showVariant() {
-    List<Widget> widgets = [];
+    var widgets = <Widget>[];
 
     for (var i = 0; i < widget.productData['variants'].length; i++) {
       widgets.add(

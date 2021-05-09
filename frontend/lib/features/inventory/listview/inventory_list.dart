@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql/client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:math';
 
 import '../../../graphql/graphql_config.dart';
 import '../../../graphql/queries.dart';
@@ -48,7 +47,7 @@ class IinventoryListState extends State<InventoryList> {
     return result.data['getProducts'];
   }
 
-  dynamic getVariants(var productId) async {
+  dynamic getVariants(int productId) async {
     var query = MutationQuery();
     var client = GraphQLConfiguration().clientToQuery();
 
