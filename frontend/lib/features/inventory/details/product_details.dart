@@ -178,6 +178,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             Container(
               width: 350,
               child: TextFormField(
+                readOnly: true,
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 initialValue: widget.productData['product']['productname'],
                 decoration: InputDecoration(
@@ -192,6 +193,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             Container(
               width: 350,
               child: TextFormField(
+                readOnly: true,
                 minLines: 1,
                 maxLines: 5,
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
