@@ -6,6 +6,7 @@ import '../../../graphql/graphql_config.dart';
 import '../../../graphql/queries.dart';
 import '../add/add_products.dart';
 import '../details/product_details.dart';
+import '../search/search.dart';
 
 /*
 NOTE:
@@ -85,7 +86,9 @@ class IinventoryListState extends State<InventoryList> {
               context, MaterialPageRoute(builder: (context) => AddProduct()));
         },
       ),
-      body: 
+      body: Center(
+        child: ListSearch()
+      )
       /*Container(
         child: FutureBuilder(
           future: getProductsAndVariants(),
