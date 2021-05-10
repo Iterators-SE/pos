@@ -85,7 +85,8 @@ class IinventoryListState extends State<InventoryList> {
               context, MaterialPageRoute(builder: (context) => AddProduct()));
         },
       ),
-      body: Container(
+      body: 
+      /*Container(
         child: FutureBuilder(
           future: getProductsAndVariants(),
           builder: (context, snapshot) {
@@ -174,7 +175,9 @@ class IinventoryListState extends State<InventoryList> {
             }
           },
         ),
-      ),
+      ),*/
     );
   }
+
 }
+
