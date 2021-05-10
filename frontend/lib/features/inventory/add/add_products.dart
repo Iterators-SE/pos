@@ -93,8 +93,14 @@ class _AddProductState extends State<AddProduct> {
                 addProductResult.data['addProduct']))));
       } else {
         print("Have variants added");
-
+        print(variants);
         for (var i = 0; i < variants.length; i++) {
+          await client.mutate(MutationOptions(
+              document: gql(query.addVariant(
+                variants[i].name, 
+                variants[i].quantity, 
+                variants[i].price,
+                addProductResult.data['addProduct']))));
         }
       }
 
