@@ -91,14 +91,14 @@ class MutationQuery {
   String editVariant(
     String variantName,
     int quantity,
-    num price,
+    int price,
     int variantId,
   ) {
     return """
       mutation {
         editVariant(
           data:{
-            variantname: $variantName,
+            variantname: "$variantName",
             quantity: $quantity,
             price: $price,
           }, 
