@@ -89,7 +89,7 @@ class _MyAppState extends State<MyApp> {
       themeMode: currentTheme.currentTheme,
       home: Consumer<UserProvider>(
         builder: (context, user, child) {
-          return HomeScreen();
+          return user.token != null ? HomeScreen() : AuthenticationScreen();
         },
       ),
     );
