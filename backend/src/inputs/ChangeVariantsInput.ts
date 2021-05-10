@@ -6,7 +6,7 @@ export class ChangeVariantInput {
   variantname?: string;
 
   @Field({ nullable: true })
-  quantity?: string;
+  quantity?: number;
 
   @Field({ nullable: true })
   price?: number;
