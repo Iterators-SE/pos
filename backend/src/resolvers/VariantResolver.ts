@@ -47,7 +47,10 @@ export class VariantResolver{
     async editVariant(@Ctx() ctx: Context, @Arg('variantid') variantid: number, @Arg('data') data: ChangeVariantInput){
         const variant = await Variant.findOne({where: {variantid: variantid}})
         if (!variant) throw new Error("Variant does not exist")
+        console.log(data);
+        console.log(variant);
         Object.assign(variant, data);
+        variant.save();
         return true
     }
 
