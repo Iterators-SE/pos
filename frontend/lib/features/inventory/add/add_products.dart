@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../../graphql/graphql_config.dart';
 import '../../../graphql/queries.dart';
 import '../listview/inventory_list.dart';
+import '../widgets/loading.dart';
 import 'model/variants.dart';
 
 class AddProduct extends StatefulWidget {
@@ -73,13 +74,14 @@ class _AddProductState extends State<AddProduct> {
   dynamic _addProduct() async {
     var query = MutationQuery();
     var client = GraphQLConfiguration().clientToQuery();
+    var addProductResult;
 
     String link = await uploadFile(_imageFile);
 
     print('link');
     print(link);
 
-    var addProductResult = await client.mutate(MutationOptions(
+    addProductResult = await client.mutate(MutationOptions(
         document: gql(query.addProducts(
             _productName, _description, _isTaxable, _photoURL))));
 
@@ -93,12 +95,6 @@ class _AddProductState extends State<AddProduct> {
         print("Have variants added");
 
         for (var i = 0; i < variants.length; i++) {
-          await client.mutate(MutationOptions(
-              document: gql(query.addVariant(
-                  variants[i].name,
-                  variants[i].quantity,
-                  variants[i].price,
-                  addProductResult.data['addProduct']))));
         }
       }
 
@@ -165,122 +161,140 @@ class _AddProductState extends State<AddProduct> {
         });
   }
 
-  Future<void> alertDialog() async {
+  Future<void> loading() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (context) {
+        return LoadingModal();
+      },
+    );
+  }
+
+  Future<void> variantForm() async {
+    var _variantKey = GlobalKey<FormState>();
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (context) {
         return AlertDialog(
-          insetPadding: EdgeInsets.all(10),
+          insetPadding: EdgeInsets.all(5),
           title: Center(child: Text('Add a variant')),
           content: Container(
             width: 250,
-            height: 225,
-            child: Column(
-              children: <Widget>[
-                TextFormField(
-                  decoration: InputDecoration(
-                      labelText: 'Name',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      )),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Name is Required';
-                    }
-                    return null;
-                  },
-                  onChanged: (value) {
-                    setState(() {
-                      addVariantName = value;
-                    });
-                  },
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                TextFormField(
-                  decoration: InputDecoration(
-                      labelText: 'Quantity',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      )),
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == null) {
+            height: 300,
+            child: Form(
+              key: _variantKey,
+              child: Column(
+                children: <Widget>[
+                  TextFormField(
+                    decoration: InputDecoration(
+                        labelText: 'Name',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        )),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Name is Required';
+                      }
                       return null;
-                    }
-                    final n = int.tryParse(value);
-                    if (n == null) {
-                      return 'Enter a valid whole number!';
-                    }
-                    return null;
-                  },
-                  onChanged: (value) {
-                    setState(() {
-                      addVariantQuantity = int.parse(value);
-                    });
-                  },
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                TextFormField(
-                  decoration: InputDecoration(
-                      labelText: 'Price',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      )),
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == null) {
-                      return null;
-                    }
-                    final n = int.tryParse(value);
-                    if (n == null) {
-                      return 'Enter a price!';
-                    }
-                    return null;
-                  },
-                  onChanged: (value) {
-                    setState(() {
-                      addVariantPrice = int.parse(value);
-                    });
-                  },
-                ),
-                SizedBox(height: 15),
-                Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                        child: Text('Confirm'),
-                        onPressed: () {
-                          setState(() {
-                            variants.add(
-                              Variant(
-                                  variantName: addVariantName,
-                                  variantPrice: addVariantPrice,
-                                  variantQuantity: addVariantQuantity),
-                            );
-                          });
-
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      ElevatedButton(
-                        child: Text('cancel'),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
+                    },
+                    onChanged: (value) {
+                      setState(() {
+                        addVariantName = value;
+                      });
+                    },
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                        labelText: 'Quantity',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        )),
+                    keyboardType: TextInputType.number,
+                    validator: (value) {
+                      if (value == null) {
+                        return null;
+                      }
+                      final n = int.tryParse(value);
+                      if (n == null) {
+                        return 'Enter a valid whole number!';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      setState(() {
+                        addVariantQuantity = int.parse(value);
+                      });
+                    },
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                        labelText: 'Price',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        )),
+                    keyboardType: TextInputType.number,
+                    validator: (value) {
+                      if (value == null) {
+                        return null;
+                      }
+                      final n = int.tryParse(value);
+                      if (n == null) {
+                        return 'Enter a price!';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      setState(() {
+                        addVariantPrice = int.parse(value);
+                      });
+                    },
+                  ),
+                  SizedBox(height: 15),
+                  Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          child: Text('Confirm'),
+                          onPressed: () {
+                            if (!_variantKey.currentState.validate()) {
+                              return;
+                            }
+                            _variantKey.currentState.save();
+                            setState(() {
+                              variants.add(
+                                Variant(
+                                    variantName: addVariantName,
+                                    variantPrice: addVariantPrice,
+                                    variantQuantity: addVariantQuantity),
+                              );
+                            });
+
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        ElevatedButton(
+                          child: Text('cancel'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         );
@@ -342,14 +356,14 @@ class _AddProductState extends State<AddProduct> {
 
   Widget variantAddDelete() {
     if (variants.isEmpty) {
-      return ElevatedButton(onPressed: alertDialog, child: Text("Add"));
+      return ElevatedButton(onPressed: variantForm, child: Text("Add"));
     }
 
     return Center(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ElevatedButton(onPressed: alertDialog, child: Text("Add")),
+          ElevatedButton(onPressed: variantForm, child: Text("Add")),
           SizedBox(width: 5),
           ElevatedButton(
             onPressed: () {
@@ -419,6 +433,7 @@ class _AddProductState extends State<AddProduct> {
                     print(_productName);
                     print(_description);
                     print(_isTaxable);
+                    loading();
                     _addProduct();
                   },
                 )

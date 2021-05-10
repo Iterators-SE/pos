@@ -107,13 +107,20 @@ class IinventoryListState extends State<InventoryList> {
                 itemCount: snapshot.data.length,
                 itemBuilder: (context, index) {
                   var prices = [];
+                  var quantity = [];
+
+                  // ignore: lines_longer_than_80_chars
+                  for (var i = 0; i < snapshot.data[index]['variants'].length; i++) {
+                    quantity
+                        .add(snapshot.data[index]['variants'][i]['quantity']);
+                  }
+
 
                   for (var i = 0;
                       i < snapshot.data[index]['variants'].length;
                       i++) {
                     prices.add(snapshot.data[index]['variants'][i]['price']);
                   }
-                  print(prices);
 
                   var min =
                       prices.reduce((curr, next) => curr < next ? curr : next);
@@ -142,21 +149,39 @@ class IinventoryListState extends State<InventoryList> {
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          SizedBox(height: 10),
                           Text(
                             // ignore: lines_longer_than_80_chars
-                            "${snapshot.data[index]['product']['description'].substring(0, 15)}...",
+                            "${snapshot.data[index]['product']['description']}...",
+                            maxLines: 2,
                             style: TextStyle(
                               fontWeight: FontWeight.normal,
                               fontSize: 20,
                             ),
                           ),
-                          Text(
-                            'Price: $min - $max',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                            ),
-                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            children: [
+                              Text(
+                                'Price: $min - $max',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                ),
+                              ),
+
+                              SizedBox(width: 25),
+
+                              Text(
+                                // ignore: lines_longer_than_80_chars
+                                'Quantity: ${quantity.reduce((value, element) => value + element)}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                ),
+                              ),
+                            ],
+                          )
                         ],
                       ),
                       onTap: () {
