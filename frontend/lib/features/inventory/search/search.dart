@@ -5,7 +5,7 @@ class ListSearch extends StatefulWidget {
 }
  
 class ListSearchState extends State<ListSearch> {
-  TextEditingController _textController = TextEditingController();
+  final TextEditingController _textController = TextEditingController();
  
   static List<String> mainDataList = [
    "Coffee",
@@ -17,7 +17,7 @@ class ListSearchState extends State<ListSearch> {
   // Copy Main List into New List.
   List<String> newDataList = List.from(mainDataList);
  
-  onItemChanged(String value) {
+  dynamic onItemChanged(String value) {
     setState(() {
       newDataList = mainDataList
           .where((string) => string.toLowerCase().contains(value.toLowerCase()))
