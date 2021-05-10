@@ -37,12 +37,12 @@ class _DiscountDetailsState extends State<DiscountDetails> {
                   borderRadius: BorderRadius.all(Radius.circular(15)),
                   border: Border.all(color: xposGreen[500])),
               child: duration()),
-          subtitle("Discount percent:"),
+          subtitle("Discount Percent:"),
           durationContainer("40%")
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        icon: Icon(Icons.check_box_outlined),
+        icon: Icon(Icons.edit),
         label: Text("EDIT", style: TextStyle(fontFamily: "Montserrat Bold")),
         onPressed: () {
           Navigator.push(

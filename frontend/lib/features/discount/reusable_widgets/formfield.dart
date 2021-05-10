@@ -7,7 +7,7 @@ Widget form() {
         decoration: InputDecoration(
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(30))),
-            hintText: "Enter Discount Name")),
+            labelText: "Discount Name")),
   );
 }
 
@@ -20,7 +20,7 @@ Widget form2() {
           decoration: InputDecoration(
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(30))),
-              hintText: "Enter percent")),
+              labelText: "Percentage")),
     ),
   );
 }

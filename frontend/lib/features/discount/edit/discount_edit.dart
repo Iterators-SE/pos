@@ -64,7 +64,7 @@ class _EditDiscountState extends State<EditDiscount> {
                 border: Border.all(color: xposGreen[500])),
             child: TimeAndDate(),
           ),
-          subtitle("Discount percent:"),
+          subtitle("Discount Percentage:"),
           form2()
         ],
       ),
