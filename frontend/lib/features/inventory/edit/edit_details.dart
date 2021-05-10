@@ -96,6 +96,7 @@ class _EditDetailsState extends State<EditDetails> {
     var client = GraphQLConfiguration().clientToQuery();
     var variantUpdateResult;
     var productUpdateResult;
+    var addVariantsResult;
 
     if (_imageFile != null) {
       await uploadFile(_imageFile);
@@ -117,6 +118,16 @@ class _EditDetailsState extends State<EditDetails> {
       }
 
       for (var i = 0; i < addedVariants.length; i++) {
+        addVariantsResult = await client.mutate(MutationOptions(
+          document: gql(
+            query.addVariant(
+              addedVariants[i].name,
+              addedVariants[i].quantity,
+              addedVariants[i].price,
+              int.parse(widget.productData['product']['id']),
+            ),
+          ),
+        ));
       }
 
       for (var i = 0; i < updatedVariants.length; i++) {
