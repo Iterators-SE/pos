@@ -53,7 +53,7 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
 
   // Dummy data
   List<Product> allProducts = [
-    Product(name: "Poseidon", variants: [
+    Product(id: 2, name: "Poseidon", variants: [
       ProductVariant(
         variantid: 1,
         price: 100,
@@ -76,7 +76,7 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
         productID: 2,
       ),
     ]),
-    Product(name: "Olympus Cappucino", variants: [
+    Product(id: 1, name: "Olympus Cappucino", variants: [
       ProductVariant(
         variantid: 4,
         price: 100,
@@ -130,20 +130,22 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
                         children: [
                           CustomDataTable(
                             order: order,
-                            onPressed: () => (productVariant) async =>
-                                await showDialog(
-                                  context: context,
-                                  builder: (context) => CustomAlertDialog(
-                                    chosenProduct: allProducts.firstWhere(
-                                      (e) =>
-                                          e.variants.contains(productVariant),
+                            onPressed: () =>
+                                (productVariant) async =>
+                                    await showDialog(
+                                      context: context,
+                                      builder: (context) => CustomAlertDialog(
+                                        chosenProduct: allProducts.firstWhere(
+                                          (e) =>
+                                              e.id == productVariant.productID,
+                                        ),
+                                        quantity: productVariant.quantity,
+                                        chosenVariant:
+                                            productVariant.variantName,
+                                        allProducts: allProducts,
+                                        onPressed: () => addProduct,
+                                      ),
                                     ),
-                                    quantity: productVariant.quantity,
-                                    chosenvariantName: productVariant.variant,
-                                    allProducts: allProducts,
-                                    onPressed: () => addProduct,
-                                  ),
-                                ),
                           ),
                           CustomDataTable(
                             columns: [
