@@ -127,8 +127,6 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
       ),
       MenuItem(
           option: "DISCOUNTS",
-        option: "DISCOUNTS", 
-          option: "DISCOUNTS",
           url: "assets/images/coffee-icon.png",
           onTap: defaultItemMap['DISCOUNTS']),
       MenuItem(option: "USERS", url: "assets/images/coffee-icon.png"),
