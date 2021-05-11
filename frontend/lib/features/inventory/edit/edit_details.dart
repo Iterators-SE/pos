@@ -174,7 +174,7 @@ class _EditDetailsState extends State<EditDetails> {
       decoration: InputDecoration(
           labelText: 'Product Name',
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(10),
           )),
       validator: (value) {
         if (value.isEmpty) {
@@ -194,7 +194,7 @@ class _EditDetailsState extends State<EditDetails> {
       decoration: InputDecoration(
           labelText: 'Description',
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(10),
           )),
       minLines: 1,
       maxLines: 5,
@@ -324,7 +324,7 @@ class _EditDetailsState extends State<EditDetails> {
                   decoration: InputDecoration(
                       labelText: 'Name',
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
+                        borderRadius: BorderRadius.circular(10),
                       )),
                 ),
               ),
@@ -338,7 +338,7 @@ class _EditDetailsState extends State<EditDetails> {
                   decoration: InputDecoration(
                       labelText: 'Quantity',
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
+                        borderRadius: BorderRadius.circular(10),
                       )),
                 ),
               ),
@@ -352,7 +352,7 @@ class _EditDetailsState extends State<EditDetails> {
                   decoration: InputDecoration(
                     labelText: 'Price',
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
                 ),
@@ -395,7 +395,7 @@ class _EditDetailsState extends State<EditDetails> {
                 decoration: InputDecoration(
                     labelText: 'Name',
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(10),
                     )),
               ),
             ),
@@ -415,7 +415,7 @@ class _EditDetailsState extends State<EditDetails> {
                 decoration: InputDecoration(
                     labelText: 'Quantity',
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(10),
                     )),
               ),
             ),
@@ -435,7 +435,7 @@ class _EditDetailsState extends State<EditDetails> {
                 decoration: InputDecoration(
                   labelText: 'Price',
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
               ),
@@ -480,7 +480,7 @@ class _EditDetailsState extends State<EditDetails> {
                       decoration: InputDecoration(
                           labelText: 'Name',
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
+                            borderRadius: BorderRadius.circular(10),
                           )),
                       validator: (value) {
                         if (value.isEmpty) {
@@ -501,7 +501,7 @@ class _EditDetailsState extends State<EditDetails> {
                       decoration: InputDecoration(
                           labelText: 'Quantity',
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
+                            borderRadius: BorderRadius.circular(10),
                           )),
                       keyboardType: TextInputType.number,
                       validator: (value) {
@@ -527,7 +527,7 @@ class _EditDetailsState extends State<EditDetails> {
                       decoration: InputDecoration(
                           labelText: 'Price',
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
+                            borderRadius: BorderRadius.circular(10),
                           )),
                       keyboardType: TextInputType.number,
                       validator: (value) {

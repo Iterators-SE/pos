@@ -116,7 +116,7 @@ class _AddProductState extends State<AddProduct> {
       decoration: InputDecoration(
           labelText: '  Product Name',
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(10),
           )),
       validator: (value) {
         if (value.isEmpty) {
@@ -135,7 +135,7 @@ class _AddProductState extends State<AddProduct> {
       decoration: InputDecoration(
           labelText: '  Description',
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(10),
           )),
       minLines: 1,
       maxLines: 3,
@@ -197,7 +197,7 @@ class _AddProductState extends State<AddProduct> {
                     decoration: InputDecoration(
                         labelText: 'Name',
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
+                          borderRadius: BorderRadius.circular(10),
                         )),
                     validator: (value) {
                       if (value.isEmpty) {
@@ -218,7 +218,7 @@ class _AddProductState extends State<AddProduct> {
                     decoration: InputDecoration(
                         labelText: 'Quantity',
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
+                          borderRadius: BorderRadius.circular(10),
                         )),
                     keyboardType: TextInputType.number,
                     validator: (value) {
@@ -244,7 +244,7 @@ class _AddProductState extends State<AddProduct> {
                     decoration: InputDecoration(
                         labelText: 'Price',
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
+                          borderRadius: BorderRadius.circular(10),
                         )),
                     keyboardType: TextInputType.number,
                     validator: (value) {

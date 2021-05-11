@@ -116,7 +116,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 decoration: InputDecoration(
                     labelText: 'Name',
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(10),
                     )),
               ),
             ),
@@ -130,7 +130,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 decoration: InputDecoration(
                     labelText: 'Quantity',
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(10),
                     )),
               ),
             ),
@@ -144,7 +144,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 decoration: InputDecoration(
                     labelText: 'Price',
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(10),
                     )),
               ),
             ),
@@ -203,7 +203,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   decoration: InputDecoration(
                     labelText: 'Product Name',
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
                 ),
@@ -220,7 +220,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   decoration: InputDecoration(
                     labelText: 'Product Description',
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
                 ),
