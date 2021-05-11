@@ -135,7 +135,8 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
                                   context: context,
                                   builder: (context) => CustomAlertDialog(
                                     chosenProduct: allProducts.firstWhere(
-                                      (e) => e.name == productVariant.parent,
+                                      (e) =>
+                                          e.variants.contains(productVariant),
                                     ),
                                     quantity: productVariant.quantity,
                                     chosenvariantName: productVariant.variant,
