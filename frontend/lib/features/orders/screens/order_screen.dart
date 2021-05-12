@@ -10,6 +10,7 @@ import '../views/order_screen_view.dart';
 import 'widget/custom_alert_dialog.dart';
 import 'widget/custom_data_table.dart';
 import 'widget/custom_floating_action_button.dart';
+import 'process_order.dart';
 
 class OrderScreen extends StatefulWidget {
   @override
@@ -213,10 +214,12 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
                                 margin: EdgeInsets.only(right: 5),
                                 child: StyledTextButton(
                                   text: "Process Order",
-                                  onPressed: order.products.isEmpty
-                                      ? null
-                                      : processOrder(),
-                                ),
+                                  onPressed: () => 
+                                    Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: 
+                                    (context) => ProcessScreen()),
+                                )),
                                 decoration: BoxDecoration(
                                     border: Border.all(color: xposGreen[50]),
                                     borderRadius:

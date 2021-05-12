@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'receipt.dart';
 
-class OrderScreen extends StatefulWidget {
+class ProcessScreen extends StatefulWidget {
   @override
-  _OrderScreenState createState() => _OrderScreenState();
+  _ProcessScreenState createState() => _ProcessScreenState();
 }
 
-class _OrderScreenState extends State<OrderScreen>  {
+class _ProcessScreenState extends State<ProcessScreen>  {
 
   Widget _addedDetails() {
     return Container(  
