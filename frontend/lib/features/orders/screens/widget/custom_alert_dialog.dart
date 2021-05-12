@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/core/themes/config.dart';
 
-import '../../../../core/ui/styled_text_button.dart';
+//import '../../../../core/ui/styled_text_button.dart';
 import '../../../../models/product.dart';
 
 // TODO: Add styling

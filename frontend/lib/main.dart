@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/features/inventory/add/add_products.dart';
-import 'package:frontend/features/inventory/details/product_details.dart';
-import 'package:frontend/features/inventory/listview/inventory_list.dart';
+//import 'package:frontend/features/inventory/add/add_products.dart';
+//import 'package:frontend/features/inventory/details/product_details.dart';
+//import 'package:frontend/features/inventory/listview/inventory_list.dart';
 import 'package:graphql/client.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
