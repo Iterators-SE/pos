@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'receipt.dart';
 
 class OrderScreen extends StatefulWidget {
   @override
@@ -100,9 +101,11 @@ class _OrderScreenState extends State<OrderScreen>  {
                 'Checkout',
                 style: TextStyle(),
               ),
-              onPressed: () {}
-                
-            )
+              onPressed: () => 
+                Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ReceiptScreen()),
+            ))
           ])  
       
         
