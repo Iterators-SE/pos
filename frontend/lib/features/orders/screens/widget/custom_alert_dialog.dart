@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/core/themes/config.dart';
 
 import '../../../../core/ui/styled_text_button.dart';
 import '../../../../models/product.dart';
@@ -17,7 +18,8 @@ class CustomAlertDialog extends StatefulWidget {
     this.onPressed,
     this.chosenProduct,
     this.chosenVariant,
-    this.quantity, chosenvariantName,
+    this.quantity,
+    chosenvariantName,
   }) : super(key: key);
 
   @override
@@ -43,13 +45,23 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Add a Product"),
+      title: Center(
+        child: Text("Add a Product"),
+      ),
       content: Form(
         key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text("Products"),
+            Container(
+              padding: EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
+              margin: EdgeInsets.only(right: 5, top: 10),
+              alignment: Alignment.center,
+              child: Text("Products"),
+              decoration: BoxDecoration(
+                  border: Border.all(color: xposGreen[50]),
+                  borderRadius: BorderRadius.all(Radius.circular(30))),
+            ),
             DropdownButtonFormField(
               hint: Text("Please select a product"),
               value: chosenProduct?.name,
@@ -70,7 +82,15 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
                 });
               },
             ),
-            Text("Variant"),
+            Container(
+              padding: EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
+              margin: EdgeInsets.only(right: 5, top: 10),
+              alignment: Alignment.center,
+              child: Text("Variants"),
+              decoration: BoxDecoration(
+                  border: Border.all(color: xposGreen[50]),
+                  borderRadius: BorderRadius.all(Radius.circular(30))),
+            ),
             DropdownButtonFormField(
               value: chosenVariant,
               items: chosenProduct?.variants
@@ -89,7 +109,15 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
                 });
               },
             ),
-            Text("Quantity", textAlign: TextAlign.start),
+            Container(
+              padding: EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
+              margin: EdgeInsets.only(right: 5, top: 10),
+              alignment: Alignment.center,
+              child: Text("Quantity"),
+              decoration: BoxDecoration(
+                  border: Border.all(color: xposGreen[50]),
+                  borderRadius: BorderRadius.all(Radius.circular(30))),
+            ),
             TextFormField(
               autovalidateMode: AutovalidateMode.onUserInteraction,
               onSaved: (value) {
@@ -126,8 +154,8 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
         ),
       ),
       actions: [
-        StyledTextButton(
-          text: "Add Product",
+        FloatingActionButton.extended(
+          label: Text("Add Product"),
           onPressed: () {
             if (_formKey.currentState.validate()) {
               _formKey.currentState.save();
@@ -143,7 +171,7 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
               Navigator.pop(context);
             }
           },
-        )
+        ),
       ],
     );
   }
