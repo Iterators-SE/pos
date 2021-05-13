@@ -320,7 +320,7 @@ class _AddProductState extends State<AddProduct> {
               decoration: InputDecoration(
                   labelText: 'Name',
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(10),
                   )),
             ),
           ),
@@ -334,7 +334,7 @@ class _AddProductState extends State<AddProduct> {
               decoration: InputDecoration(
                   labelText: 'Quantity',
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(10),
                   )),
             ),
           ),
@@ -348,7 +348,7 @@ class _AddProductState extends State<AddProduct> {
               decoration: InputDecoration(
                   labelText: 'Price',
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(10),
                   )),
             ),
           ),
@@ -423,7 +423,7 @@ class _AddProductState extends State<AddProduct> {
                 variantAddDelete(),
                 SizedBox(height: 20),
                 _buildCheckBox(),
-                SizedBox(height: 30),
+                SizedBox(height: 40),
                 ElevatedButton(
                   child: Text(
                     'Submit',
