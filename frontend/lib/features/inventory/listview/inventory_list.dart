@@ -106,21 +106,21 @@ class IinventoryListState extends State<InventoryList> {
             snapshot.data[index]['product']['productname'],
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 25,
+              fontSize: 20,
             ),
           ),
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 10),
+            SizedBox(height: 8),
             Text(
               // ignore: lines_longer_than_80_chars
               "${snapshot.data[index]['product']['description']}",
               maxLines: 2,
               style: TextStyle(
                 fontWeight: FontWeight.normal,
-                fontSize: 20,
+                fontSize: 17,
               ),
             ),
             SizedBox(height: 10),
@@ -130,7 +130,7 @@ class IinventoryListState extends State<InventoryList> {
                   'Price: $min - $max',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 15,
+                    fontSize: 12,
                   ),
                 ),
                 SizedBox(width: 25),
@@ -139,7 +139,7 @@ class IinventoryListState extends State<InventoryList> {
                   'Quantity: ${quantity.reduce((value, element) => value + element)}',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 15,
+                    fontSize: 12,
                   ),
                 ),
               ],
@@ -158,35 +158,37 @@ class IinventoryListState extends State<InventoryList> {
     );
       }
     } else {
-      return Card(
+      return Container(
+      height: 115,
+      child: Card(
       child: ListTile(
         isThreeLine: true,
         leading: CircleAvatar(
-          radius: 40,
+          radius: 38,
           backgroundImage:
               NetworkImage(snapshot.data[index]['product']['photolink']),
         ),
         title: Padding(
-          padding: EdgeInsets.only(top: 8),
+          padding: EdgeInsets.only(top: 2),
           child: Text(
             snapshot.data[index]['product']['productname'],
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 25,
+              fontSize: 20,
             ),
           ),
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 10),
+            SizedBox(height: 4),
             Text(
               // ignore: lines_longer_than_80_chars
               "${snapshot.data[index]['product']['description']}",
               maxLines: 2,
               style: TextStyle(
                 fontWeight: FontWeight.normal,
-                fontSize: 20,
+                fontSize: 16,
               ),
             ),
             SizedBox(height: 10),
@@ -196,7 +198,7 @@ class IinventoryListState extends State<InventoryList> {
                   'Price: $min - $max',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 15,
+                    fontSize: 12,
                   ),
                 ),
                 SizedBox(width: 25),
@@ -205,7 +207,7 @@ class IinventoryListState extends State<InventoryList> {
                   'Quantity: ${quantity.reduce((value, element) => value + element)}',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 15,
+                    fontSize: 12,
                   ),
                 ),
               ],
@@ -221,7 +223,9 @@ class IinventoryListState extends State<InventoryList> {
                       )));
         },
       ),
-    );
+      elevation: 5,
+     margin: EdgeInsets.fromLTRB(10, 11, 10, 0)
+    ));
     }
   }
 
@@ -244,7 +248,7 @@ class IinventoryListState extends State<InventoryList> {
                       Icons.search,
                       color: Colors.white,
                     ),
-                    hintText: "Search product here",
+                    hintText: "Search product",
                     hintStyle: TextStyle(color: Colors.white)),
               ),
         actions: <Widget>[
