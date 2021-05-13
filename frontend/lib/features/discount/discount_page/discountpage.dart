@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../../models/mock_discounts.dart';
 import '../details/discount_details.dart';
 import '../edit/discount_edit.dart';
@@ -53,19 +52,18 @@ class _DiscountPageState extends State<DiscountPage> {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
-                   borderRadius: BorderRadius.circular(30.0),
-               ),),
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                  ),
                   onPressed: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (contex) => DiscountDetails()
-                      )
-                    );
+                            builder: (contex) => DiscountDetails()));
                   },
                   child: discountTitles(products[index].name),
-                  ),
-                );
+                ),
+              );
             }),
       ),
     );

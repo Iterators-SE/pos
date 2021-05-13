@@ -30,6 +30,9 @@ class InventoryList extends StatefulWidget {
 }
 
 class IinventoryListState extends State<InventoryList> {
+  bool isSearching = false;
+  String productToSearch = "";
+
   dynamic getProducts() async {
     var prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('POS_TOKEN');
@@ -43,8 +46,6 @@ class IinventoryListState extends State<InventoryList> {
       QueryOptions(document: gql(query.getProducts())),
     );
 
-    // print(result.data['getProducts']);
-    // print(result.data['getProducts'].length);
     return result.data['getProducts'];
   }
 
@@ -72,11 +73,209 @@ class IinventoryListState extends State<InventoryList> {
     return productsAndVariants;
   }
 
+  dynamic buildListTile(int index, dynamic snapshot) {
+    var prices = [];
+    var quantity = [];
+
+    // ignore: lines_longer_than_80_chars
+    for (var i = 0; i < snapshot.data[index]['variants'].length; i++) {
+      quantity.add(snapshot.data[index]['variants'][i]['quantity']);
+    }
+    for (var i = 0; i < snapshot.data[index]['variants'].length; i++) {
+      prices.add(snapshot.data[index]['variants'][i]['price']);
+    }
+    var min = prices.reduce((curr, next) => curr < next ? curr : next);
+    var max = prices.reduce((curr, next) => curr > next ? curr : next);
+
+    if(isSearching){
+      if(snapshot.data[index]['product']['productname']
+        .toLowerCase()
+        .contains(productToSearch.toLowerCase())
+      ){
+      return Container(
+      height: 115,
+      child: Card(
+        child: ListTile(
+        isThreeLine: true,
+        leading: CircleAvatar(
+          radius: 38,
+          backgroundImage:
+              NetworkImage(snapshot.data[index]['product']['photolink']),
+        ),
+        title: Padding(
+          padding: EdgeInsets.only(top: 2),
+          child: Text(
+            snapshot.data[index]['product']['productname'],
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+          ),
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 4),
+            Text(
+              // ignore: lines_longer_than_80_chars
+              "${snapshot.data[index]['product']['description']}",
+              maxLines: 2,
+              style: TextStyle(
+                fontWeight: FontWeight.normal,
+                fontSize: 16,
+              ),
+            ),
+            SizedBox(height: 10),
+            Row(
+              children: [
+                Text(
+                  'Price: $min - $max',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
+                ),
+                SizedBox(width: 25),
+                Text(
+                  // ignore: lines_longer_than_80_chars
+                  'Quantity: ${quantity.reduce((value, element) => value + element)}',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ProductDetails(
+                        productData: snapshot.data[index],
+                      )));
+        },
+      ),
+       elevation: 5,
+      margin: EdgeInsets.fromLTRB(10, 11, 10, 0)
+    )
+    );
+      }
+    } else {
+      return Container(
+      height: 115,
+      child: Card(
+      child: ListTile(
+        isThreeLine: true,
+        leading: CircleAvatar(
+          radius: 38,
+          backgroundImage:
+              NetworkImage(snapshot.data[index]['product']['photolink']),
+        ),
+        title: Padding(
+          padding: EdgeInsets.only(top: 2),
+          child: Text(
+            snapshot.data[index]['product']['productname'],
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+          ),
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 4),
+            Text(
+              // ignore: lines_longer_than_80_chars
+              "${snapshot.data[index]['product']['description']}",
+              maxLines: 2,
+              style: TextStyle(
+                fontWeight: FontWeight.normal,
+                fontSize: 16,
+              ),
+            ),
+            SizedBox(height: 10),
+            Row(
+              children: [
+                Text(
+                  'Price: $min - $max',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
+                ),
+                SizedBox(width: 25),
+                Text(
+                  // ignore: lines_longer_than_80_chars
+                  'Quantity: ${quantity.reduce((value, element) => value + element)}',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ProductDetails(
+                        productData: snapshot.data[index],
+                      )));
+        },
+      ),
+      elevation: 5,
+     margin: EdgeInsets.fromLTRB(10, 11, 10, 0)
+    ));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Inventory"),
+        title: !isSearching
+            ? Text('Inventory')
+            : TextField(
+                onChanged: (value) {
+                  setState(() {
+                    productToSearch = value;
+                    print(value);
+                  });
+                },
+                style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                    icon: Icon(
+                      Icons.search,
+                      color: Colors.white,
+                    ),
+                    hintText: "Search product",
+                    hintStyle: TextStyle(color: Colors.white)),
+              ),
+        actions: <Widget>[
+          isSearching
+              ? IconButton(
+                  icon: Icon(Icons.cancel),
+                  onPressed: () {
+                    setState(() {
+                      isSearching = false;
+                      productToSearch = "";
+                    });
+                  },
+                )
+              : IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    setState(() {
+                      isSearching = true;
+                    });
+                  },
+                )
+        ],
       ),
       floatingActionButton: FloatingActionButton.extended(
         icon: Icon(Icons.add),
@@ -86,118 +285,24 @@ class IinventoryListState extends State<InventoryList> {
               context, MaterialPageRoute(builder: (context) => AddProduct()));
         },
       ),
-      // body: Center(
-      //   child: ListSearch()
-      // )
       body: Container(
         child: FutureBuilder(
           future: getProductsAndVariants(),
           builder: (context, snapshot) {
-            // print(snapshot.data.runtimeType);
-
             if (snapshot.data == null) {
               return Container(child: Center(child: Text("Loading...")));
             } else {
-              // print("data in snapshot");
-              // print(snapshot.data);
-
               if (snapshot.data.isEmpty) {
                 return Container(
                     child: Center(
                   child: Text("Your inventory is empty."),
                 ));
-              }
+              } 
+
               return ListView.builder(
                 itemCount: snapshot.data.length,
                 itemBuilder: (context, index) {
-                  var prices = [];
-                  var quantity = [];
-
-                  // ignore: lines_longer_than_80_chars
-                  for (var i = 0; i < snapshot.data[index]['variants'].length; i++) {
-                    quantity
-                        .add(snapshot.data[index]['variants'][i]['quantity']);
-                  }
-
-
-                  for (var i = 0;
-                      i < snapshot.data[index]['variants'].length;
-                      i++) {
-                    prices.add(snapshot.data[index]['variants'][i]['price']);
-                  }
-
-                  var min =
-                      prices.reduce((curr, next) => curr < next ? curr : next);
-
-                  var max =
-                      prices.reduce((curr, next) => curr > next ? curr : next);
-
-                  return Card(
-                    child: ListTile(
-                      isThreeLine: true,
-                      leading: CircleAvatar(
-                        radius: 40,
-                        backgroundImage: NetworkImage(
-                            snapshot.data[index]['product']['photolink']),
-                      ),
-                      title: Padding(
-                        padding: EdgeInsets.only(top: 8),
-                        child: Text(
-                          snapshot.data[index]['product']['productname'],
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25,
-                          ),
-                        ),
-                      ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(height: 10),
-                          Text(
-                            // ignore: lines_longer_than_80_chars
-                            "${snapshot.data[index]['product']['description']}...",
-                            maxLines: 2,
-                            style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              fontSize: 20,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Row(
-                            children: [
-                              Text(
-                                'Price: $min - $max',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                ),
-                              ),
-
-                              SizedBox(width: 25),
-
-                              Text(
-                                // ignore: lines_longer_than_80_chars
-                                'Quantity: ${quantity.reduce((value, element) => value + element)}',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ProductDetails(
-                                      productData: snapshot.data[index],
-                                    )));
-                      },
-                    ),
-                  );
+                  return buildListTile(index, snapshot);
                 },
               );
             }
@@ -206,6 +311,4 @@ class IinventoryListState extends State<InventoryList> {
       ),
     );
   }
-
 }
-

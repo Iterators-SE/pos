@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/themes/config.dart';
 
 import '../../../core/ui/styled_text_button.dart';
 import '../../../models/product.dart';
@@ -130,22 +131,19 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
                         children: [
                           CustomDataTable(
                             order: order,
-                            onPressed: () =>
-                                (productVariant) async =>
-                                    await showDialog(
-                                      context: context,
-                                      builder: (context) => CustomAlertDialog(
-                                        chosenProduct: allProducts.firstWhere(
-                                          (e) =>
-                                              e.id == productVariant.productID,
-                                        ),
-                                        quantity: productVariant.quantity,
-                                        chosenVariant:
-                                            productVariant.variantName,
-                                        allProducts: allProducts,
-                                        onPressed: () => addProduct,
-                                      ),
+                            onPressed: () => (productVariant) async =>
+                                await showDialog(
+                                  context: context,
+                                  builder: (context) => CustomAlertDialog(
+                                    chosenProduct: allProducts.firstWhere(
+                                      (e) => e.id == productVariant.productID,
                                     ),
+                                    quantity: productVariant.quantity,
+                                    chosenVariant: productVariant.variantName,
+                                    allProducts: allProducts,
+                                    onPressed: () => addProduct,
+                                  ),
+                                ),
                           ),
                           CustomDataTable(
                             columns: [
@@ -194,17 +192,35 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              StyledTextButton(
-                                text: "Cancel Order",
-                                onPressed: order.products.isEmpty
-                                    ? null
-                                    : cancelOrder(),
+                              Container(
+                                padding: EdgeInsets.only(
+                                    left: 10, top: 5, right: 10, bottom: 5),
+                                margin: EdgeInsets.only(right: 5),
+                                child: StyledTextButton(
+                                  text: "Cancel Order",
+                                  onPressed: order.products.isEmpty
+                                      ? null
+                                      : cancelOrder(),
+                                ),
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: xposGreen[50]),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(30))),
                               ),
-                              StyledTextButton(
-                                text: "Process Order",
-                                onPressed: order.products.isEmpty
-                                    ? null
-                                    : processOrder(),
+                              Container(
+                                padding: EdgeInsets.only(
+                                    left: 10, top: 5, right: 10, bottom: 5),
+                                margin: EdgeInsets.only(right: 5),
+                                child: StyledTextButton(
+                                  text: "Process Order",
+                                  onPressed: () => {}
+                                    
+                                    
+                                ),
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: xposGreen[50]),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(30))),
                               ),
                             ],
                           )

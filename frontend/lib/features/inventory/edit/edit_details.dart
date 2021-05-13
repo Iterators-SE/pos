@@ -196,8 +196,7 @@ class _EditDetailsState extends State<EditDetails> {
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
           )),
-      minLines: 1,
-      maxLines: 5,
+      maxLength: 80,
       validator: (value) {
         if (value.isEmpty) {
           return 'Description is Required';
@@ -247,7 +246,7 @@ class _EditDetailsState extends State<EditDetails> {
     if (updatedVariants.isEmpty) {
       widgets.add(
         Text(
-          'No variants.',
+          'No new variants.',
           style: TextStyle(
             fontWeight: FontWeight.normal,
             fontSize: 10,
