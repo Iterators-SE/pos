@@ -137,8 +137,7 @@ class _AddProductState extends State<AddProduct> {
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
           )),
-      minLines: 1,
-      maxLines: 3,
+      maxLength: 80,
       validator: (value) {
         if (value.isEmpty) {
           return 'Description is Required';
