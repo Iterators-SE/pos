@@ -213,12 +213,10 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
                                 margin: EdgeInsets.only(right: 5),
                                 child: StyledTextButton(
                                   text: "Process Order",
-                                  onPressed: () => 
-                                    Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: 
-                                    (context) => ProcessScreen()),
-                                )),
+                                  onPressed: () => {}
+                                    
+                                    
+                                ),
                                 decoration: BoxDecoration(
                                     border: Border.all(color: xposGreen[50]),
                                     borderRadius:
