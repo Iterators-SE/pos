@@ -189,11 +189,12 @@ class _ProductDetailsState extends State<ProductDetails> {
                 }),
           ],
         ),
-        body: SingleChildScrollView(
+        body: Center(
+          child: SingleChildScrollView(
           child: Column(
             children: [
               Image.network(widget.productData['product']['photolink']),
-              SizedBox(height: 25),
+              SizedBox(height: 20),
               Container(
                 width: 350,
                 child: TextFormField(
@@ -236,7 +237,8 @@ class _ProductDetailsState extends State<ProductDetails> {
               showVariant(),
             ],
           ),
-        )
+        ),
+        
 
         // Container(
         //     child: Column(
@@ -294,6 +296,6 @@ class _ProductDetailsState extends State<ProductDetails> {
         //     // )
         //   ],
         // )),
-        );
+        ));
   }
 }
