@@ -6,6 +6,8 @@ import {verify} from "jsonwebtoken";
 import { createSchema } from "./utils/createSchema";
 import { Token } from "./types/token";
 import { User } from "./models/User";
+import queryComplexity, {fieldExtensionsEstimator, simpleEstimator} from "graphql-query-complexity";
+import rateLimit from 'express-rate-limit';
 
 require('dotenv').config();
 
@@ -28,13 +30,45 @@ const startServer = async () => {
       req, 
       currentUser: req.user,
       res
-    })
+    }),
+    validationRules: [
+      queryComplexity({
+        maximumComplexity: 45,
+        variables: {},
+        onComplete: (complexity: number) => {
+          console.log(`Query Complexity: ${complexity}`)
+        },
+        estimators: [
+          fieldExtensionsEstimator(),
+          simpleEstimator({
+            defaultComplexity: 1
+          })
+        ]
+      }) as any
+    ],
+    formatError: (err) : Error => {
+      if (err.message.startsWith('Database Error: ')) {
+        return new Error('Internal server error');
+      }
+      if (err.message.startsWith('Argument Validation')) {
+        return new Error('Something went wrong with validation :( Would you like to try again?');
+      }
+
+      return err;
+    }
   });
 
   app.use(authMiddleware, (err: any, req: any, res: any, next: any)=> {
     if(err.code === "invalid_token") return next();
     return next(err);
   });
+
+  app.use(rateLimit({
+    windowMs: 1000,
+    max: 1, // limit each IP to 100 requests per windowMs
+    message: "Too many requests created from this IP, please try again after a minute."
+  }));
+
 
   app.use(express.json());
   app.use(express.urlencoded({extended: false}));
