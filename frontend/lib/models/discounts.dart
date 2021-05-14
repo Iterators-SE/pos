@@ -1,47 +1,69 @@
-class Discounts {
-  int discountId;
+import 'package:frontend/models/mock_discounts.dart';
+import 'package:frontend/models/user.dart';
+
+class Discount {
+  int id;
   String description;
-  String owner;
   int percentage;
-  List products;
-  String createdAt;
-  String updatedAt;
+  List<int> products;
 
-  Discounts(
-      {this.discountId,
+  Discount(
+      {this.id,
       this.description,
-      this.owner,
       this.percentage,
-      this.products,
-      this.createdAt,
-      this.updatedAt});
+      this.products,});
 
-  int get id => discountId;
+  int get discId => id;
   String get desc => description;
-  String get user => owner;
   int get percent => percentage;
   List get product => products;
-  String get dateCreated => createdAt;
-  String get dateUpdated => updatedAt;
 
-  factory Discounts.fromJson(Map<String, dynamic> json) => Discounts(
-        discountId: json["id"],
-        description: json["description"],
-        owner: json["owner"],
-        percentage: json["percentage"],
-        products: json["products"],
-        createdAt: json["createdAt"],
-        updatedAt: json["updatedAt"]
+  factory Discount.fromJson(Map<String, dynamic> json) => Discount(
+      id: json["id"],
+      description: json["description"],
+      percentage: json["percentage"],
+      products: json["products"],);
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "description": description,
+        "percentage": percentage,
+        "products": products
+      };
+}
+
+class CustomDiscount extends Discount{
+  String inclusiveDates;
+  String startTime;
+  String endTime;
+
+  CustomDiscount({
+    this.inclusiveDates, 
+    this.startTime, 
+    this.endTime,
+    int discountId,
+    String description,
+    int percentage,
+    List<int> products,
+    }) : super(
+      id: discountId,
+      description: description,
+      products: products
+      );
+
+  String get dateInclusive => inclusiveDates;
+  String get timeStarted => startTime;
+  String get timeEnded => endTime;
+
+  factory CustomDiscount.fromJson(Map<String, dynamic> json) => CustomDiscount(
+        inclusiveDates: json["inlcusiveDates"],
+        startTime: json["startTime"],
+        endTime: json["endTime"]
   );
 
   Map<String, dynamic> toJson() => {
-        "id": discountId,
-        "description": description,
-        "owner" : owner,
-        "percentage" : percentage,
-        "products" : products,
-        "createdAt" : createdAt,
-        "updatedAt" : updatedAt
+        "inclusiveDates": inclusiveDates,
+        "startTime": startTime,
+        "endTime": endTime
     };
-
 }
