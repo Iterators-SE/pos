@@ -7,21 +7,20 @@ Widget form() {
         decoration: InputDecoration(
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(30))),
-            hintText: "Enter product name")),
+            labelText: "Discount Name")),
   );
 }
 
 Widget form2() {
   return Container(
-    padding: EdgeInsets.only(right:200),
+    padding: EdgeInsets.only(right: 200),
     margin: EdgeInsets.only(left: 20, right: 20, top: 10),
     child: Container(
       child: TextFormField(
-        decoration: InputDecoration(
-          border: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(30))),
-          hintText: "Enter percent")
-      ),
+          decoration: InputDecoration(
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(30))),
+              labelText: "Percentage")),
     ),
   );
 }

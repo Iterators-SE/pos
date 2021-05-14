@@ -1,4 +1,5 @@
 import { Resolver, Query, Arg, Mutation, Authorized, Ctx } from "type-graphql";
+import { Any } from "typeorm";
 import { ChangeProductDetailsInput } from "../inputs/ChangeProductDetailsInput";
 import { Product } from "../models/Product";
 import { User } from "../models/User";
@@ -8,10 +9,13 @@ require('dotenv').config()
 @Resolver(of => Product)
 export class ProductResolver {
     @Authorized()
-    @Mutation(() => Boolean, { nullable: true })
+    @Mutation(() => Number, { nullable: true })
 
     async addProduct(@Ctx() ctx: Context, @Arg("productname") productname: string, @Arg("description") description: string, @Arg("taxable") taxable: boolean, @Arg("photolink") photolink: String) {
         const user = await User.findOne({id: ctx.currentUser.id});
+        let productId;
+
+        
 
         await Product.create({
             productname,
@@ -19,9 +23,9 @@ export class ProductResolver {
             user: user,
             taxable,
             photolink:`${photolink}`
-        }).save();
+        }).save().then(value => productId = value.id)
 
-        return true;
+      return productId;
     }
 
     @Authorized()

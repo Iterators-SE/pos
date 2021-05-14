@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/themes/xpos_theme.dart';
 import '../../../providers/user_provider.dart';
-import '../../discount/dicount_page/discountpage.dart';
+import '../../discount/discount_page/discountpage.dart';
 import '../../inventory/listview/inventory_list.dart';
 import '../../orders/screens/order_screen.dart';
 import '../models/menu_item.dart';
@@ -126,10 +126,9 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
         onTap: defaultItemMap['PRODUCTS'],
       ),
       MenuItem(
-        option: "DISCOUNTS", 
-        url: "assets/images/coffee-icon.png",
-        onTap: defaultItemMap['DISCOUNTS']
-        ),
+          option: "DISCOUNTS",
+          url: "assets/images/coffee-icon.png",
+          onTap: defaultItemMap['DISCOUNTS']),
       MenuItem(option: "USERS", url: "assets/images/coffee-icon.png"),
     ];
 
@@ -176,18 +175,19 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
           child: Container(
             margin: EdgeInsets.only(top: 20, bottom: 40),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                // Text("Coffee Shop",
-                //   style: TextStyle(
-                //     fontFamily: "Montserrat Bold", 
-                //     fontSize: 30
-                //   )
-                // ),
-                Image(
-                  height: 40,
-                  image: AssetImage("assets/images/coffee-icon.png"),
-                )
+                // Image(
+                //   height: 40,
+                //   image: AssetImage("assets/images/coffee-icon.png"),
+                // )
+                Padding(
+                  padding: const EdgeInsets.only(left: 40),
+                  child: Text(
+                    "Welcome Back!",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 36),
+                  ),
+                ),
               ],
             ),
           ),

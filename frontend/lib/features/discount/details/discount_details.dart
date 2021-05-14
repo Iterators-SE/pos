@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+
+import "../../../core/themes/config.dart";
 import '../edit/discount_edit.dart';
+import '../reusable_widgets/duration.dart';
+import '../reusable_widgets/duration_container.dart';
 import '../reusable_widgets/subtitle.dart';
 import '../reusable_widgets/title.dart';
-import '/core/themes/config.dart';
-
 
 class DiscountDetails extends StatefulWidget {
   @override
@@ -11,17 +13,14 @@ class DiscountDetails extends StatefulWidget {
 }
 
 class _DiscountDetailsState extends State<DiscountDetails> {
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "Discounts",
-          style: TextStyle(fontFamily: "Montserrat Bold"),
-        )
-      ),
+          title: Text(
+        "Discounts",
+        style: TextStyle(fontFamily: "Montserrat Bold"),
+      )),
       body: ListView(
         padding: EdgeInsets.only(left: 10, right: 20),
         children: <Widget>[
@@ -31,26 +30,23 @@ class _DiscountDetailsState extends State<DiscountDetails> {
           title("PWD DISCOUNT"),
           subtitle("Product:"),
           details("KEYK"),
-          subtitle("Time:"),
+          subtitle("Promo Duration:"),
           Container(
-            padding: EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(15)),
-              border: Border.all(
-                color: xposGreen[500]
-              )
-            ),
-            child: Text("diri ka edit ze")
-          ),
-          subtitle("Discount percent:"),
+              padding: EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                  border: Border.all(color: xposGreen[500])),
+              child: duration()),
+          subtitle("Discount Percent:"),
+          durationContainer("40%")
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        icon: Icon(Icons.check_box_outlined),
+        icon: Icon(Icons.edit),
         label: Text("EDIT", style: TextStyle(fontFamily: "Montserrat Bold")),
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => EditDiscount()));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => EditDiscount()));
         },
       ),
     );

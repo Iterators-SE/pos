@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:frontend/core/themes/config.dart';
+import '../../../../core/themes/config.dart';
 
 class LoginWidget extends StatefulWidget {
   final GlobalKey<FormState> formKey;

@@ -28,12 +28,12 @@ class MutationQuery {
     """;
   }
 
-    String editProductDetails(
-      int productId, 
-      String productName, 
-      String description, 
+  String editProductDetails(
+      int productId,
+      String productName,
+      String description,
       // ignore: avoid_positional_boolean_parameters
-      bool isTaxable, 
+      bool isTaxable,
       String photoLink) {
     return """
       mutation {
@@ -60,12 +60,22 @@ class MutationQuery {
   }
 
   //variantQueries
-  
+
+    String getVariants(int productId) {
+    return """
+      query {
+        getVariants(productId: $productId){
+          variantid,
+          variantname,
+          price,
+          quantity
+        }
+      }
+    """;
+  }
+
   String addVariant(
-    String variantName, 
-    int quantity, 
-    int price, 
-    int productId) {
+      String variantName, int quantity, int price, int productId) {
     return """
       mutation {
         addVariant(
@@ -78,4 +88,39 @@ class MutationQuery {
     """;
   }
 
+  String editVariant(
+    String variantName,
+    int quantity,
+    int price,
+    int variantId,
+  ) {
+    return """
+      mutation {
+        editVariant(
+          data:{
+            variantname: "$variantName",
+            quantity: $quantity,
+            price: $price,
+          }, 
+          variantid: $variantId
+        )
+      }
+    """;
+  }
+
+  String deleteVariant(int variantId) {
+    return """
+      mutation {
+        removeVariant(variantid: $variantId)
+      }
+    """;
+  }
+
+    String deleteAllVariants(int productId) {
+    return """
+      mutation {
+        deleteAllVariants(productId: $productId)
+      }
+    """;
+  }
 }
