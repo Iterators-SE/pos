@@ -26,7 +26,7 @@ export class DiscountResolver {
     @Authorized()
     @Mutation(() => Discount, { nullable: true })
     async createGenericDiscount(@Ctx() ctx: Context, @Arg("input") input: DiscountInput, args = {}) {
-        const productList = await Product.findByIds(input.products, { where: { owner: ctx.currentUser.id } });
+        const productList = await Product.findByIds(input.products, { where: { user: ctx.currentUser.id } });
 
         // revisit logic
         if (productList.length !== input.products.length) {
