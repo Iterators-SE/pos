@@ -6,9 +6,10 @@ import { SignupResolver } from "../resolvers/SignupResolver";
 import { ProductResolver } from "../resolvers/ProductResolver";
 import { VariantResolver } from "../resolvers/VariantResolver"
 import { DiscountResolver } from "../resolvers/DiscountResolver";
+import { TransactionResolver } from "../resolvers/TransactionResolver";
 
 export const createSchema = () => buildSchema({
-    resolvers: [DiscountResolver, UserResolver, LoginResolver, SignupResolver, ProductResolver, VariantResolver],
+    resolvers: [DiscountResolver, UserResolver, LoginResolver, SignupResolver, ProductResolver, VariantResolver, TransactionResolver],
     authChecker,
     authMode: "null",
 });
