@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:graphql/client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+// ignore: unused_import
 import '../../models/discounts.dart';
 import 'discounts_datasource.dart';
 
@@ -69,7 +70,7 @@ class DiscountRemoteDataSource implements DiscountDataSource {
   }
 
   @override
-  Future<List<Discounts>> getDiscount({int discountId}) async {
+  Future<List<Discount>> getDiscount({int discountId}) async {
     try {
       final query = "";
 

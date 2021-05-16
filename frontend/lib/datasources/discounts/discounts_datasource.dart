@@ -1,4 +1,4 @@
-import '../../../models/discounts.dart';
+import '../../models/discounts.dart';
 
 
 abstract class DiscountDataSource{
@@ -11,6 +11,6 @@ abstract class DiscountDataSource{
      String updatedAt,
      }
   );
-  Future <List<Discounts>> getDiscount({int discountId});
+  Future <List<Discount>> getDiscount({int discountId});
   Future <bool> deleteDiscount({int id});
 }
