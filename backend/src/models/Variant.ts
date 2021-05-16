@@ -15,13 +15,13 @@ export class Variant extends BaseEntity {
 
     @Column()
     @Field()
-    price: Number;
+    price: number;
 
     @ManyToOne(() => Product, product => product.variant, {eager : true})
     product : Product;
 
     @Column()
     @Field()
-    quantity: Number;
+    quantity: number;
 
 }
