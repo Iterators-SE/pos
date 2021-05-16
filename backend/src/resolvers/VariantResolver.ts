@@ -9,7 +9,7 @@ import { ChangeVariantInput} from '../inputs/ChangeVariantsInput'
 export class VariantResolver{
     @Authorized()
     @Mutation(() => Boolean, {nullable: true})
-    async addVariant(@Ctx() ctx: Context, @Arg("variantname") variantname: string, @Arg('productId') productId: number, @Arg('quantity') quantity: number, @Arg('price') price: Number){
+    async addVariant(@Ctx() ctx: Context, @Arg("variantname") variantname: string, @Arg('productId') productId: number, @Arg('quantity') quantity: number, @Arg('price') price: number){
         const product = await Product.findOne({id: productId});
 
         await Variant.create({
