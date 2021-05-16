@@ -2,6 +2,7 @@ import { Field, ID, ObjectType } from "type-graphql";
 import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Discount } from "./Discount";
 import { Product } from "./Product";
+import { Transaction } from "./Transaction";
 
 // TODO [2021-03-12]: Add count
 @Entity()
@@ -24,6 +25,9 @@ export class User extends BaseEntity {
 
     @OneToMany(() => Product, product => product.user, {nullable: true})
     product: Product[];
+
+    @OneToMany(() => Transaction, transaction => transaction.owner, {nullable: true})
+    transactions: Transaction[];
 
     @OneToMany(() => Discount, discount => discount.owner, {nullable: true})
     discounts: Discount[];
