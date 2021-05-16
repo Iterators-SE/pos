@@ -16,7 +16,6 @@ export class Discount extends BaseEntity {
     description: string;
 
     @Field(() => User)
-    @Index()
     @ManyToOne(() => User, user => user.discounts, {eager: true})
     owner: User;
     
@@ -25,7 +24,7 @@ export class Discount extends BaseEntity {
     percentage: number;
     
     @Field(() => [Int])
-    @ManyToMany(() => Product, product => product.discounts)
+    @ManyToMany(() => Product, product => product.discounts, {nullable: true})
     @JoinTable()
     products: Product[];
 
