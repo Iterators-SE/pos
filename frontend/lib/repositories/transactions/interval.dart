@@ -1,0 +1,1 @@
+enum Interval { day, week, month }
