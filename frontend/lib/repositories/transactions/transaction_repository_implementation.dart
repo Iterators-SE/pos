@@ -1,4 +1,4 @@
-import 'package:either_option/src/either.dart';
+import 'package:either_option/either_option.dart';
 
 import '../../core/error/failure.dart';
 import '../../models/product.dart';
