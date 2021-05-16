@@ -1,5 +1,7 @@
-import 'package:frontend/models/mock_discounts.dart';
-import 'package:frontend/models/user.dart';
+// ignore: unused_import
+import 'mock_discounts.dart';
+// ignore: unused_import
+import 'user.dart';
 
 class Discount {
   int id;
