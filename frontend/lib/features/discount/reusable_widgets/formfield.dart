@@ -6,7 +6,7 @@ Widget form() {
     child: TextFormField(
         decoration: InputDecoration(
             border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(30))),
+                borderRadius: BorderRadius.all(Radius.circular(10))),
             labelText: "Discount Name")),
   );
 }
@@ -19,7 +19,7 @@ Widget form2() {
       child: TextFormField(
           decoration: InputDecoration(
               border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(30))),
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
               labelText: "Percentage")),
     ),
   );
