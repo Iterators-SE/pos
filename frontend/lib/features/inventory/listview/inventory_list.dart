@@ -188,53 +188,19 @@ class IinventoryListState extends State<InventoryList> {
       child: Card(
       child: ListTile(
         isThreeLine: true,
-        leading: CircleAvatar(
-          radius: 38,
-          backgroundImage:
-              NetworkImage(snapshot.data[index]['product']['photolink']),
-        ),
-        title: Padding(
-          padding: EdgeInsets.only(top: 2),
-          child: Text(
-            snapshot.data[index]['product']['productname'],
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
-          ),
-        ),
+        leading: _productImage(),
+        title: _productName(),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 4),
-            Text(
-              // ignore: lines_longer_than_80_chars
-              "${snapshot.data[index]['product']['description']}",
-              maxLines: 2,
-              style: TextStyle(
-                fontWeight: FontWeight.normal,
-                fontSize: 16,
-              ),
-            ),
+            _productDescription(),
             SizedBox(height: 10),
             Row(
               children: [
-                Text(
-                  'Price: $min - $max',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                  ),
-                ),
+                _productPrice(),
                 SizedBox(width: 25),
-                Text(
-                  // ignore: lines_longer_than_80_chars
-                  'Quantity: ${quantity.reduce((value, element) => value + element)}',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                  ),
-                ),
+                _productQuantity(),
               ],
             )
           ],
