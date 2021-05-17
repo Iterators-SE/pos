@@ -34,7 +34,7 @@ class _DiscountDetailsState extends State<DiscountDetails> {
           Container(
               padding: EdgeInsets.all(20),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
                   border: Border.all(color: xposGreen[500])),
               child: duration()),
           subtitle("Discount Percent:"),
