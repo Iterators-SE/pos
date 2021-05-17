@@ -14,6 +14,6 @@ Widget durationContainer(String input) {
     ),
     decoration: BoxDecoration(
         border: Border.all(color: xposGreen[50]),
-        borderRadius: BorderRadius.all(Radius.circular(30))),
+        borderRadius: BorderRadius.all(Radius.circular(10))),
   );
 }
