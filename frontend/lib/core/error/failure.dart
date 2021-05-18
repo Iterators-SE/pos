@@ -21,6 +21,11 @@ class ServerFailure implements Failure {
   String get message => "Server failure. Please try again later.";
 }
 
+class CacheFailure implements Failure {
+  @override
+  String get message => "Could not retrieve data. Please try again later.";
+}
+
 class UnhandledFailure implements Failure {
   @override
   String get message => "Unhandled error. Please try again later.";
