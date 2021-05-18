@@ -35,7 +35,7 @@ class _EditDiscountState extends State<EditDiscount> {
               margin: EdgeInsets.only(left: 20, right: 20, top: 10),
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.black),
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(10),
               ),
               child: Center(
                 child: DropdownButton(
@@ -60,7 +60,7 @@ class _EditDiscountState extends State<EditDiscount> {
           Container(
             padding: EdgeInsets.all(20),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(15)),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
                 border: Border.all(color: xposGreen[500])),
             child: TimeAndDate(),
           ),

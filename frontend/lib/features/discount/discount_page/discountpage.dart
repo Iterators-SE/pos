@@ -52,7 +52,7 @@ class _DiscountPageState extends State<DiscountPage> {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
                   onPressed: () {

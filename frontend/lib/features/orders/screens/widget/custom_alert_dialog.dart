@@ -60,7 +60,7 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
               child: Text("Products"),
               decoration: BoxDecoration(
                   border: Border.all(color: xposGreen[50]),
-                  borderRadius: BorderRadius.all(Radius.circular(30))),
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
             ),
             DropdownButtonFormField(
               hint: Text("Please select a product"),
@@ -89,7 +89,7 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
               child: Text("Variants"),
               decoration: BoxDecoration(
                   border: Border.all(color: xposGreen[50]),
-                  borderRadius: BorderRadius.all(Radius.circular(30))),
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
             ),
             DropdownButtonFormField(
               value: chosenVariant,
@@ -116,7 +116,7 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
               child: Text("Quantity"),
               decoration: BoxDecoration(
                   border: Border.all(color: xposGreen[50]),
-                  borderRadius: BorderRadius.all(Radius.circular(30))),
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
             ),
             TextFormField(
               autovalidateMode: AutovalidateMode.onUserInteraction,
