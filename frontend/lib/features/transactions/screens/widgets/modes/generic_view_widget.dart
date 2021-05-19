@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/models/product.dart';
 import 'package:graphic/graphic.dart';
+
+import '../../../../../models/product.dart';
 
 class GenericViewWidget extends StatelessWidget {
   final List<Product> products;

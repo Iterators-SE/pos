@@ -1,17 +1,18 @@
 import 'package:either_option/either_option.dart';
-import 'package:frontend/core/error/exception.dart';
-import 'package:frontend/repositories/transactions/local_fetch_case.dart';
 import 'package:graphql/client.dart';
 import 'package:meta/meta.dart';
 
+import '../../core/error/exception.dart';
 import '../../core/error/failure.dart';
 import '../../core/network/network_info.dart';
 import '../../datasources/transactions/transaction_local_datasource.dart';
 import '../../datasources/transactions/transaction_remote_datasource.dart';
 import '../../models/product.dart';
 import 'interval.dart';
+import 'local_fetch_case.dart';
 import 'transaction_repository.dart';
 
+// TODO: add actual queries
 class TransactionRepository implements ITransactionRepository {
   final TransactionRemoteDataSource remote;
   final TransactionLocalDataSource local;
