@@ -1,10 +1,14 @@
 import 'package:either_option/either_option.dart';
 import 'package:meta/meta.dart';
+
 import '../../core/error/failure.dart';
 import '../../models/product.dart';
 import 'interval.dart';
+import 'local_fetch_case.dart';
 
 abstract class ITransactionRepository {
+  Function fetchFromLocal(LocalFetch fetchCase); 
+
   Future<Either<Failure, List<Product>>> getTopThree({
     Interval interval = Interval.day,
   }); 
