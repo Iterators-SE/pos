@@ -9,5 +9,5 @@ abstract class TransactionScreenView {
 
   void onError(BuildContext context);
 
-  void toggleView();
+  void toggleView(intervalI.Interval interval);
 }
