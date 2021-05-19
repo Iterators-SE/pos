@@ -40,7 +40,7 @@ class _ModeViewState extends State<ModeView> {
         ),
         isSelected.first
             ? GenericViewWidget(products: widget.products)
-            : DetailedViewWidget()
+            : DetailedViewWidget(products: widget.products)
       ],
     );
   }
