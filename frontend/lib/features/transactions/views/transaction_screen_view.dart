@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import '../../../repositories/transactions/interval.dart' as intervalI;
+import '../../../repositories/transactions/interval.dart' as interval_i;
 
 abstract class TransactionScreenView {
-  intervalI.Interval interval = intervalI.Interval.day;
+  interval_i.Interval interval = interval_i.Interval.day;
   Widget day;
   Widget week;
   Widget month;
 
   void onError(BuildContext context);
 
-  void toggleView(intervalI.Interval interval);
+  void toggleView(interval_i.Interval interval);
 }
