@@ -11,11 +11,12 @@ class DiscountPage extends StatefulWidget {
 
 class _DiscountPageState extends State<DiscountPage> {
   List<Discount> products = [
-    Discount(name: "VIP discount"),
-    Discount(name: "PWD discount"),
-    Discount(name: "PWD discount"),
-    Discount(name: "PWD discount"),
+    Discount(name: "VIP discount", percent: 50),
+    Discount(name: "PWD discount", percent: 25),
+    Discount(name: "PWD discount", percent: 25),
+    Discount(name: "PWD discount", percent: 25),
   ];
+  List<int> colorCodes = [700, 600, 400, 300, 50];
 
   @override
   Widget build(BuildContext context) {
@@ -35,37 +36,48 @@ class _DiscountPageState extends State<DiscountPage> {
         },
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 50, right: 50),
-        child: GridView.builder(
-            itemCount: products.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount:
-                  MediaQuery.of(context).orientation == Orientation.landscape
-                      ? 3
-                      : 2,
-              crossAxisSpacing: 8,
-              mainAxisSpacing: 8,
-            ),
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: EdgeInsets.all(20),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+          padding: const EdgeInsets.only(left: 50, right: 50, top: 50),
+          child: ListView.separated(
+              separatorBuilder: (context, index) => const Divider(),
+              itemCount: products.length,
+              itemBuilder: (context, index) {
+                return InkWell(
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(15, 35, 15, 25),
+                      height: 100,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 5,
+                            child: Text(
+                              products[index].name,
+                              style: TextStyle(
+                                  fontFamily: "Montserrat Bold", fontSize: 25),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Text(
+                              "${products[index].percent.toString()} %",
+                              style: TextStyle(
+                                  fontFamily: "Montserrat Bold", fontSize: 25),
+                            ),
+                          )
+                        ],
+                      ),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.blueGrey[colorCodes[index]]),
+                      // decoration:
+                      //     BoxDecoration(borderRadius: BorderRadius.circular(10)),
                     ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (contex) => DiscountDetails()));
-                  },
-                  child: discountTitles(products[index].name),
-                ),
-              );
-            }),
-      ),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (contex) => DiscountDetails()));
+                    });
+              })),
     );
   }
 }

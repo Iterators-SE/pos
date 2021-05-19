@@ -7,8 +7,7 @@ import { createSchema } from "./utils/createSchema";
 import { Token } from "./types/token";
 import { User } from "./models/User";
 import queryComplexity, {fieldExtensionsEstimator, simpleEstimator} from "graphql-query-complexity";
-import rateLimit from 'express-rate-limit';
-
+import rateLimit =  require('express-rate-limit');
 require('dotenv').config();
 
 const startServer = async () => {
