@@ -3,7 +3,7 @@ import 'package:graphql/client.dart';
 
 import '../core/error/exception.dart';
 import '../core/error/failure.dart';
-import '../datasources/inventory/inventory_datasource.dart';
+import '../datasources/inventory/product/inventory_datasource.dart';
 import '../models/product.dart';
 import 'inventory_repository.dart';
 
@@ -13,7 +13,7 @@ class InventoryRepository implements IInventoryRepository {
   InventoryRepository({this.remote});
 
   @override
-  Future<Either<Failure, bool>> addProduct(
+  Future<Either<Failure, int>> addProduct(
       {String productName,
       String description,
       bool isTaxable,
