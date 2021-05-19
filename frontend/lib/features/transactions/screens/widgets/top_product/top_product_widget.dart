@@ -13,7 +13,7 @@ class TopProductWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: onPressed,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
