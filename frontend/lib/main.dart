@@ -29,7 +29,7 @@ void main() {
   SharedPreferences _storage;
 
   final uri =
-      kReleaseMode ? 'WHEN_SERVER_IS_HOSTED' : 'http://localhost:5000/graphql';
+      kReleaseMode ? 'WHEN_SERVER_IS_HOSTED' : 'http://iterators-pos.herokuapp.com/graphql';
 
   _httpLink = HttpLink(uri);
 
