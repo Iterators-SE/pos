@@ -34,7 +34,7 @@ class _CustomDataTableState extends State<CustomDataTable> {
             (e) => DataRow(
               cells: [
                 DataCell(
-                  Text('${e.productID} [${e.variantName}]'),
+                  Text('${e.productId} [${e.variantName}]'),
                 ),
                 DataCell(
                   Text('${e.quantity}'),

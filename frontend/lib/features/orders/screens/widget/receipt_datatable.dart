@@ -34,7 +34,7 @@ class _ReceiptDataTableState extends State<ReceiptDataTable> {
             (e) => DataRow(
               cells: [
                 DataCell(
-                  Text('${e.productID} [${e.variantName}]'),
+                  Text('${e.productId} [${e.variantName}]'),
                 ),
                 DataCell(
                   Text('${e.quantity}'),
