@@ -9,26 +9,26 @@ class DayViewWidget extends StatelessWidget {
   final fakeProducts = [
     Product(id: 1, name: 'Olympian Cappucino', variants: [
       ProductVariant(
-          variantid: 1,
+          variantId: 1,
           variantName: 'Small',
           quantity: 10,
-          productID: 1,
+          productId: 1,
           price: 100)
     ]),
     Product(id: 2, name: 'Kapa-Kappucino', variants: [
       ProductVariant(
-          variantid: 2,
+          variantId: 2,
           variantName: 'Small',
           quantity: 50,
-          productID: 1,
+          productId: 1,
           price: 100)
     ]),
     Product(id: 3, name: 'Donut', variants: [
       ProductVariant(
-          variantid: 3,
+          variantId: 3,
           variantName: 'Regular',
           quantity: 100,
-          productID: 1,
+          productId: 1,
           price: 100)
     ])
   ];
