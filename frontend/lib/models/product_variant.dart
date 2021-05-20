@@ -1,15 +1,15 @@
 class ProductVariant{
-  int variantid;
+  int variantId;
   String variantName;
   int quantity;
-  int productID;
+  int productId;
   int price;
 
   ProductVariant({
-    this.variantid, 
+    this.variantId, 
     this.variantName, 
     this.quantity, 
-    this.productID, 
+    this.productId, 
     this.price});
     ProductVariant copyWith({
     int id,
@@ -19,8 +19,8 @@ class ProductVariant{
     String variant,
   }) {
     return ProductVariant(
-      variantid: id ?? variantid,
-      productID: parent ?? productID,
+      variantId: id ?? variantId,
+      productId: parent ?? productId,
       price: basePrice ?? price,
       quantity: quantity ?? quantity,
       variantName: variant ?? variantName,
