@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../models/mock_discounts.dart';
 import '../details/discount_details.dart';
 import '../edit/discount_edit.dart';
-import '../reusable_widgets/title.dart';
+// import '../reusable_widgets/title.dart';
 
 class DiscountPage extends StatefulWidget {
   @override
@@ -69,7 +69,7 @@ class _DiscountPageState extends State<DiscountPage> {
                           borderRadius: BorderRadius.circular(10),
                           color: Colors.blueGrey[colorCodes[index]]),
                       // decoration:
-                      //     BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                      // BoxDecoration(borderRadius: BorderRadius.circular(10)),
                     ),
                     onTap: () {
                       Navigator.push(
