@@ -3,7 +3,7 @@ import '../core/error/failure.dart';
 import '../models/product.dart';
 
 abstract class IInventoryRepository {
-  Future<Either<Failure, bool>> addProduct(
+  Future<Either<Failure, int>> addProduct(
       {String productName,
       String description,
       bool isTaxable,

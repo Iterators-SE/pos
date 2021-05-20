@@ -3,7 +3,7 @@ import "package:graphql_flutter/graphql_flutter.dart";
 
 class GraphQLConfiguration {
   static Link link;
-  static HttpLink httpLink = HttpLink("http://localhost:5000/graphql");
+  static HttpLink httpLink = HttpLink('http://iterators-pos.herokuapp.com/graphql');
 
   static void setToken(String token) {
     var alink = AuthLink(getToken: () async => 'Bearer $token');

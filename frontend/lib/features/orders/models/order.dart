@@ -10,7 +10,7 @@ class Order {
   void editProduct(ProductVariant product) {
     var index = _products.indexWhere(
       (element) =>
-          element.productID == product.productID &&
+          element.productId == product.productId &&
           element.variantName == product.variantName,
     );
 

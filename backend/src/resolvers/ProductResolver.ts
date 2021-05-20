@@ -57,7 +57,8 @@ export class ProductResolver {
     @Authorized()
     @Query(() => Product, { nullable: true })
     async getProductDetails(@Ctx() ctx: Context, @Arg("productId") productId: number) {
-        const productDetails = await Product.findOne({ where: { user: ctx.currentUser.id, id: productId } });
+        const user = await User.findOne({id: ctx.currentUser.id});
+        const productDetails = await Product.findOne({ where: { user: user, id: productId } });
         if (!productDetails) throw new Error("Product doesn't exist!");
 
         console.log(productDetails)

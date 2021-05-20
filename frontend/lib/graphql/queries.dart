@@ -28,6 +28,20 @@ class MutationQuery {
     """;
   }
 
+    String getProductDetails(int productId) {
+    return """
+      {
+        getProductDetails(productId: $productId){
+          id,
+          productname,
+          description,
+          photolink,
+          taxable
+        }
+      }
+    """;
+  }
+
   String editProductDetails(
       int productId,
       String productName,

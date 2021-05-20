@@ -1,7 +1,7 @@
-import '../../models/product.dart';
+import '../../../models/product.dart';
 
 abstract class IInventoryDataSource {
-  Future<bool> addProduct(
+  Future<int> addProduct(
     {String productName,
     String description, 
     bool isTaxable, 
