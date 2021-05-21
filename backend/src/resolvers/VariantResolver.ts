@@ -13,7 +13,7 @@ export class VariantResolver{
         const product = await Product.findOne({id: productId});
 
         await Variant.create({
-            variantname,
+            variantName: variantname,
             product: product,
             quantity,
             price,
@@ -24,7 +24,7 @@ export class VariantResolver{
     @Authorized()
     @Mutation(() => Boolean, {nullable: true})
     async removeVariant(@Arg('variantid') variantid : number){
-        const variant = await Variant.findOne({where: {variantid: variantid}})
+        const variant = await Variant.findOne({where: {variantId: variantid}})
         if (!variant) throw new Error("Variant does not exist!")
         await variant.remove();
         return true;
@@ -45,7 +45,7 @@ export class VariantResolver{
     @Authorized()
     @Mutation(() => Boolean ,{nullable: true})
     async editVariant(@Ctx() ctx: Context, @Arg('variantid') variantid: number, @Arg('data') data: ChangeVariantInput){
-        const variant = await Variant.findOne({where: {variantid: variantid}})
+        const variant = await Variant.findOne({where: {variantId: variantid}})
         if (!variant) throw new Error("Variant does not exist")
         console.log(data);
         console.log(variant);
