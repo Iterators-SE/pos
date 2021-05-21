@@ -1,7 +1,7 @@
-import 'package:frontend/models/transaction.dart';
 import 'package:meta/meta.dart';
 
 import '../../models/order.dart';
+import '../../models/transaction.dart';
 
 abstract class ITransactionDataSource {
   Future<List<Transaction>> getTransactions();
