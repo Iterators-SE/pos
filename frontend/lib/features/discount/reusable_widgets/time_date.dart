@@ -2,6 +2,17 @@ import 'package:flutter/material.dart';
 import 'time_date_container.dart';
 
 class TimeAndDate extends StatefulWidget {
+  final setStartTime;
+  final setEndtime;
+  final setStartDate;
+  final setEndDate;
+  TimeAndDate(
+      {Key key,
+      this.setEndDate,
+      this.setStartDate,
+      this.setStartTime,
+      this.setEndtime})
+      : super(key: key);
   @override
   _TimeAndDateState createState() => _TimeAndDateState();
 }
@@ -56,7 +67,10 @@ class _TimeAndDateState extends State<TimeAndDate> {
         children: <Widget>[
           Align(
             alignment: Alignment.centerLeft,
-            child: Text("From:", style: TextStyle(fontSize: 17),),
+            child: Text(
+              "From:",
+              style: TextStyle(fontSize: 17),
+            ),
           ),
           Container(
             padding: EdgeInsets.only(right: 10, left: 10),
@@ -65,23 +79,23 @@ class _TimeAndDateState extends State<TimeAndDate> {
                 Expanded(
                   flex: 3,
                   child: InkWell(
-                    onTap: pickdate,
-                    child: timeAndDateContainer(getDateFrom()) 
-                    ),
+                      onTap: pickdate,
+                      child: timeAndDateContainer(getDateFrom())),
                 ),
                 Expanded(
-                  flex: 2,
-                  child: InkWell(
-                    onTap: pickTime,
-                    child: timeAndDateContainer(getTimeFrom())
-                    )
-                )
+                    flex: 2,
+                    child: InkWell(
+                        onTap: pickTime,
+                        child: timeAndDateContainer(getTimeFrom())))
               ],
             ),
           ),
           Align(
             alignment: Alignment.centerLeft,
-            child: Text("Until:", style: TextStyle(fontSize: 17),),
+            child: Text(
+              "Until:",
+              style: TextStyle(fontSize: 17),
+            ),
           ),
           Container(
             padding: EdgeInsets.only(right: 10, left: 10),
@@ -90,17 +104,14 @@ class _TimeAndDateState extends State<TimeAndDate> {
                 Expanded(
                   flex: 3,
                   child: InkWell(
-                    onTap: pickdate2,
-                    child: timeAndDateContainer(getDateUntil()) 
-                    ),
+                      onTap: pickdate2,
+                      child: timeAndDateContainer(getDateUntil())),
                 ),
                 Expanded(
-                  flex: 2,
-                  child: InkWell(
-                    onTap: pickTime2,
-                    child: timeAndDateContainer(getTimeUntil())
-                    )
-                )
+                    flex: 2,
+                    child: InkWell(
+                        onTap: pickTime2,
+                        child: timeAndDateContainer(getTimeUntil())))
               ],
             ),
           )
@@ -120,6 +131,7 @@ class _TimeAndDateState extends State<TimeAndDate> {
     if (date != null) {
       setState(() {
         dateFrom = date;
+        widget.setStartDate(dateFrom);
       });
     }
   }
@@ -135,11 +147,12 @@ class _TimeAndDateState extends State<TimeAndDate> {
     if (date != null) {
       setState(() {
         dateUntil = date;
+        widget.setEndDate(dateUntil);
       });
     }
   }
 
-   Future pickTime() async {
+  Future pickTime() async {
     final initialTime = TimeOfDay(hour: 12, minute: 0);
     final newTime = await showTimePicker(
         context: context, initialTime: timeFrom ?? initialTime);
@@ -147,6 +160,7 @@ class _TimeAndDateState extends State<TimeAndDate> {
     if (newTime != null) {
       setState(() {
         timeFrom = newTime;
+        widget.setStartTime(timeFrom);
       });
     }
   }
@@ -159,6 +173,7 @@ class _TimeAndDateState extends State<TimeAndDate> {
     if (newTime != null) {
       setState(() {
         timeUntil = newTime;
+        widget.setEndtime(timeUntil);
       });
     }
   }
