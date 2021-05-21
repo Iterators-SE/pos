@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/features/discount/discount_page/discountpage.dart';
 import 'package:graphql/client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../graphql/graphql_config.dart';
 import '../../../graphql/queries.dart';
+import '../discount_page/discountpage.dart';
 import '../reusable_widgets/subtitle.dart';
 import '../reusable_widgets/time_date.dart';
 import '../reusable_widgets/title.dart';
