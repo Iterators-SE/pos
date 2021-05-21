@@ -2,19 +2,23 @@ import 'package:either_option/either_option.dart';
 import 'package:meta/meta.dart';
 
 import '../../core/error/failure.dart';
-import '../../models/product.dart';
-import 'interval.dart';
-import 'local_fetch_case.dart';
+import '../../core/network/network_info.dart';
+import '../../datasources/transactions/transaction_datasource.dart';
+import '../../models/order.dart';
+import '../../models/transaction.dart';
 
 abstract class ITransactionRepository {
-  Function fetchFromLocal(LocalFetch fetchCase); 
+  final ITransactionRemoteDataSource remote;
+  final ITransactionLocalDataSource local;
+  final NetworkInfo network;
 
-  Future<Either<Failure, List<Product>>> getTopThree({
-    Interval interval = Interval.day,
-  }); 
-  Future<Either<Failure, dynamic>> getGenericBreakdown();
-  Future<Either<Failure, dynamic>> getProductBreakdown({@required int id});
-  Future<Either<Failure, List<dynamic>>> getAllProductBreakdowns({
-    Interval interval = Interval.day,
+  const ITransactionRepository({
+    @required this.remote,
+    @required this.local,
+    @required this.network,
   });
+
+  Future<Either<Failure, List<Transaction>>> getTransactions();
+  Future<Either<Failure, Transaction>> getTransaction({@required int id});
+  Future<Either<Failure, Transaction>> createTransaction(List<Order> orders);
 }
