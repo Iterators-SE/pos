@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:meta/meta.dart';
+
 import '../../../../../models/product.dart';
 
 class TopProductWidget extends StatelessWidget {
@@ -7,8 +9,8 @@ class TopProductWidget extends StatelessWidget {
 
   const TopProductWidget({
     Key key,
-    this.product,
-    this.onPressed,
+    @required this.product,
+    @required this.onPressed,
   }) : super(key: key);
 
   @override
@@ -27,8 +29,10 @@ class TopProductWidget extends StatelessWidget {
               image: DecorationImage(
                 fit: BoxFit.cover,
                 image: NetworkImage(
-                    // TODO: Replace with product image && ask Alan about the model.
-                    'https://cf.shopee.ph/file/6907c52b5698df501bf2fd83e803d6d2'),
+                  // ignore: lines_longer_than_80_chars
+                  // TODO: Replace with product image && ask Alan about the model.
+                  'https://cf.shopee.ph/file/6907c52b5698df501bf2fd83e803d6d2',
+                ),
               ),
             ),
           ),

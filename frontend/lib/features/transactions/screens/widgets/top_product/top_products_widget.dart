@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meta/meta.dart';
 
 import '../../../../../models/product.dart';
 import 'top_product_widget.dart';
@@ -6,7 +7,7 @@ import 'top_product_widget.dart';
 class TopProductsWidget extends StatelessWidget {
   final List<Product> products;
 
-  const TopProductsWidget({Key key, this.products}) : super(key: key);
+  const TopProductsWidget({Key key, @required this.products}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,16 +28,20 @@ class TopProductsWidget extends StatelessWidget {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 24,
-                    ),
+                  ),
                 ),
               ),
+              // Center this
               Expanded(
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   semanticChildCount: products.length,
                   children: products
                       .map(
-                        (e) => TopProductWidget(product: e),
+                        (e) => TopProductWidget(
+                          product: e,
+                          onPressed: () => print(e.name),
+                        ),
                       )
                       .toList(),
                 ),
@@ -49,7 +54,12 @@ class TopProductsWidget extends StatelessWidget {
   void onTap(Product item, BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => TopProductWidget(product: item)),
+      MaterialPageRoute(
+        builder: (context) => TopProductWidget(
+          product: item,
+          onPressed: () => null,
+        ),
+      ),
     );
   }
 }
