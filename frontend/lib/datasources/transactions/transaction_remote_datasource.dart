@@ -1,90 +1,37 @@
 import 'dart:convert';
 
 import 'package:graphql/client.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../models/product.dart';
-import '../../repositories/transactions/interval.dart';
+import '../../models/order.dart';
+import '../../models/transaction.dart';
 import 'transaction_datasource.dart';
 
-class TransactionRemoteDataSource implements ITransactionDataSource {
-  TransactionRemoteDataSource({this.client, this.storage});
+class TransactionRemoteDataSource implements ITransactionRemoteDataSource {
+  TransactionRemoteDataSource({this.client});
 
   final GraphQLClient client;
-  final SharedPreferences storage; // TODO: Remove or swap
 
   @override
-  Future<List> getAllProductBreakdowns(
-      {Interval interval = Interval.day}) async {
+  Future<Transaction> createTransaction({List<Order> orders}) async {
     try {
       final query = r'''
-        query getAllProductBreakdowns($data: SignupInput!){
-          action: getAllProductBreakdowns(data: $data)
+        mutation createTransaction($orders: OrderInput){
+          action: createTransaction(orders: $orders)
         }''';
+
+      final productIds = orders.map((e) => e.product.id).toList();
+      final variantIds = orders.map((e) => e.variant.variantId).toList();
+      final quantity = orders.map((e) => e.quantity).toList();
 
       final response = await client.query(
         QueryOptions(
           document: gql(query),
           variables: {
-            'data': {
-              "interval": interval.toString().split('.')[1].toUpperCase()
-            }
-          },
-        ),
-      );
-
-      if (response.hasException) {
-        throw response.exception;
-      }
-
-      final data = jsonEncode(response.data["action"]);
-      return jsonDecode(data);
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-// HOW DOES THIS WORK?
-  @override
-  Future getGenericBreakdown() async {
-    try {
-      final query = r'''
-        query getGenericBreakdown($data: SignupInput!){
-          action: getGenericBreakdown(data: $data)
-        }''';
-
-      final response = await client.query(
-        QueryOptions(
-          document: gql(query),
-        ),
-      );
-
-      if (response.hasException) {
-        throw response.exception;
-      }
-
-      final data = jsonEncode(response.data["action"]);
-      return jsonDecode(data);
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  @override
-  Future getProductBreakdown({int id}) async {
-    try {
-      final query = r'''
-        query getProductBreakdown($data: SignupInput!){
-          action: getProductBreakdown(data: $data)
-        }''';
-
-      final response = await client.query(
-        QueryOptions(
-          document: gql(query),
-          variables: {
-            'data': {
-              "id": id
-            }
+            'orders': {
+              'productIds': productIds,
+              'variantIds': variantIds,
+              'quantity': quantity
+            },
           },
         ),
       );
@@ -101,22 +48,41 @@ class TransactionRemoteDataSource implements ITransactionDataSource {
   }
 
   @override
-  Future<List<Product>> getTopThree({Interval interval = Interval.day}) async {
+  Future<Transaction> getTransaction({int id}) async {
     try {
       final query = r'''
-        query getTopThree($data: SignupInput!){
-          action: getTopThree(data: $data)
+        query getTransaction($id: number){
+          action: getTransaction(id: $id)
         }''';
 
       final response = await client.query(
         QueryOptions(
           document: gql(query),
-          variables: {
-            'data': {
-              "interval": interval.toString().split('.')[1].toUpperCase()
-            }
-          },
+          variables: {'id': id},
         ),
+      );
+
+      if (response.hasException) {
+        throw response.exception;
+      }
+
+      final data = jsonEncode(response.data["action"]);
+      return jsonDecode(data);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<Transaction>> getTransactions() async {
+    try {
+      final query = r'''
+        query getTransactions(){
+          action: getTransactions()
+        }''';
+
+      final response = await client.query(
+        QueryOptions(document: gql(query)),
       );
 
       if (response.hasException) {

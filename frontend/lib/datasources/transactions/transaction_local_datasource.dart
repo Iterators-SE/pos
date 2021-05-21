@@ -1,38 +1,34 @@
-import 'package:graphql/client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../models/product.dart';
-import '../../repositories/transactions/interval.dart';
+import '../../models/transaction.dart';
 import 'transaction_datasource.dart';
 
-class TransactionLocalDataSource implements ITransactionDataSource {
-    TransactionLocalDataSource({this.client, this.storage});
+class TransactionLocalDataSource implements ITransactionLocalDataSource {
+  TransactionLocalDataSource({this.storage});
 
-  final GraphQLClient client;
-  final SharedPreferences storage; // TODO: Swap with Moor or
+  final SharedPreferences storage; // SWAP W/ MOOR
 
   @override
-  Future<List> getAllProductBreakdowns({Interval interval = Interval.day}) {
-    // TODO: implement getAllProductBreakdowns
+  Future<void> cacheTransactions(dynamic data) {
+    // TODO: implement cacheTransactions
     throw UnimplementedError();
   }
 
   @override
-  Future getGenericBreakdown() {
-    // TODO: implement getGenericBreakdown
+  Future<void> cacheTransaction(dynamic data) {
+    // TODO: implement cacheTransactions
     throw UnimplementedError();
   }
 
   @override
-  Future getProductBreakdown({int id}) {
-    // TODO: implement getProductBreakdown
+  Future<Transaction> getTransaction({int id}) {
+    // TODO: implement getTransaction
     throw UnimplementedError();
   }
 
   @override
-  Future<List<Product>> getTopThree({Interval interval = Interval.day}) {
-    // TODO: implement getTopThree
+  Future<List<Transaction>> getTransactions() {
+    // TODO: implement getTransactions
     throw UnimplementedError();
   }
-
 }
