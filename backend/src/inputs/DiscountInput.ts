@@ -19,7 +19,6 @@ export class DiscountInput {
 @InputType()
 export class CustomDiscountInput {
     @Field(() => [String])
-    @IsDate({each: true})
     inclusiveDates: string[];
 
     @Field()
