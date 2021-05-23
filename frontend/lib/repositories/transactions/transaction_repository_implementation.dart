@@ -24,7 +24,7 @@ class TransactionRepository implements ITransactionRepository {
 
   @override
   Future<Either<Failure, Transaction>> getTransaction({int id}) async {
-    if (await network.isConnected) {
+    if (await network.isConnected()) {
       try {
         final data = await remote.getTransaction(id: id);
         await local.cacheTransaction(data);
@@ -53,7 +53,7 @@ class TransactionRepository implements ITransactionRepository {
   @override
   Future<Either<Failure, Transaction>> createTransaction(
       List<Order> orders) async {
-    if (await network.isConnected) {
+    if (await network.isConnected()) {
       try {
         final data = await remote.createTransaction(orders: orders);
         return Right(data);
@@ -73,7 +73,7 @@ class TransactionRepository implements ITransactionRepository {
 
   @override
   Future<Either<Failure, List<Transaction>>> getTransactions() async {
-    if (await network.isConnected) {
+    if (await network.isConnected()) {
       try {
         final data = await remote.getTransactions();
         await local.cacheTransactions(data);
