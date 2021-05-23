@@ -2,12 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../../models/product.dart';
+import '../../../../../repositories/transactions/interval.dart' as interval_i;
 import 'top_product_widget.dart';
 
 class TopProductsWidget extends StatelessWidget {
   final List<Product> products;
+  final interval_i.Interval interval;
 
-  const TopProductsWidget({Key key, @required this.products}) : super(key: key);
+  const TopProductsWidget({
+    Key key,
+    @required this.products,
+    @required this.interval,
+  }) : super(key: key);
+
+  String toSentenceCase(interval_i.Interval interval) {
+    var word = interval.toString().split('.')[1];
+    var letter = word[0].toUpperCase();
+    return letter + word.substring(1);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +36,7 @@ class TopProductsWidget extends StatelessWidget {
                   bottom: 20,
                 ),
                 child: Text(
-                  'Top Products',
+                  'Top Products of the ${toSentenceCase(interval)}',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 24,
