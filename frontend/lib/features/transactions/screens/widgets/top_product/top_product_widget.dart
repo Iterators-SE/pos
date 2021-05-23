@@ -29,9 +29,8 @@ class TopProductWidget extends StatelessWidget {
               image: DecorationImage(
                 fit: BoxFit.cover,
                 image: NetworkImage(
-                  // ignore: lines_longer_than_80_chars
-                  // TODO: Replace with product image && ask Alan about the model.
-                  'https://cf.shopee.ph/file/6907c52b5698df501bf2fd83e803d6d2',
+                  product.photoLink ??
+                      'https://cf.shopee.ph/file/6907c52b5698df501bf2fd83e803d6d2',
                 ),
               ),
             ),
@@ -45,7 +44,7 @@ class TopProductWidget extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    product.name,
+                    product.name ?? '',
                     textAlign: TextAlign.center,
                     maxLines: 2,
                     style: TextStyle(
