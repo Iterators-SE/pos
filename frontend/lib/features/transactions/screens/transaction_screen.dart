@@ -1,4 +1,6 @@
+import 'package:either_option/either_option.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/models/order.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/error/failure.dart';
@@ -18,40 +20,39 @@ class TransactionScreen extends StatefulWidget {
   _TransactionScreenState createState() => _TransactionScreenState();
 }
 
-
 class _TransactionScreenState extends State<TransactionScreen>
     implements TransactionScreenView {
   TransactionScreenPresenter _presenter;
 
   @override
-  LoadingState state;
+  LoadingState state = LoadingState.loading;
 
   @override
   Failure failure;
 
   @override
-  List<Transaction> transactions;
+  List<Transaction> transactions = [];
 
   @override
-  interval_i.Interval interval;
+  interval_i.Interval interval = interval_i.Interval.day;
 
   @override
-  List<Product> dayProductList;
+  List<Product> dayProductList = [];
 
   @override
-  List<Product> dayTopThree;
+  List<Product> dayTopThree = [];
 
   @override
-  List<Product> monthProductList;
+  List<Product> monthProductList = [];
 
   @override
-  List<Product> monthTopThree;
+  List<Product> monthTopThree = [];
 
   @override
-  List<Product> weekProductList;
+  List<Product> weekProductList = [];
 
   @override
-  List<Product> weekTopThree;
+  List<Product> weekTopThree = [];
 
   @override
   Widget day;
@@ -67,53 +68,50 @@ class _TransactionScreenState extends State<TransactionScreen>
     _presenter = TransactionScreenPresenter();
     _presenter.attachView(this);
 
-    state = LoadingState.loading;
+    // getTransactions().then((value) => value);
 
-    interval = interval_i.Interval.day;
+    // MOCK LOADING && DATA FETCHING
+    Future.delayed(Duration(seconds: 10)).then((value) => {
+          getTransactionsMock().then((value) {
+            var data = value.fold((fail) => fail, (pass) => pass);
 
-    getTransactions().then((value) => null);
+            if (value.isRight) {
+              setState(() {
+                transactions = data;
 
-    final fakeProducts = [
-      Product(id: 1, name: 'Olympian Cappucino', variants: [
-        ProductVariant(
-            variantId: 1,
-            variantName: 'Small',
-            quantity: 10,
-            productId: 1,
-            price: 100)
-      ]),
-      Product(id: 2, name: 'Kapa-Kappucino', variants: [
-        ProductVariant(
-            variantId: 2,
-            variantName: 'Small',
-            quantity: 50,
-            productId: 1,
-            price: 100)
-      ]),
-      Product(id: 3, name: 'Donut', variants: [
-        ProductVariant(
-            variantId: 3,
-            variantName: 'Regular',
-            quantity: 100,
-            productId: 1,
-            price: 100)
-      ])
-    ];
+                dayProductList = productHelper(1);
+                weekProductList = productHelper(7);
+                monthProductList = productHelper(31);
 
-    day = DayViewWidget(
-      products: dayProductList ?? [],
-      topThree: dayTopThree ?? [],
-    );
+                dayTopThree = dayProductList.take(3).toList();
+                weekTopThree = weekProductList.take(3).toList();
+                monthTopThree = monthProductList.take(3).toList();
 
-    week = WeekViewWidget(
-      products: weekProductList ?? [],
-      topThree: weekTopThree ?? [],
-    );
+                day = DayViewWidget(
+                  products: dayProductList ?? [],
+                  topThree: dayTopThree ?? [],
+                );
 
-    month = MonthViewWidget(
-      products: monthProductList ?? [],
-      topThree: monthTopThree ?? [],
-    );
+                week = WeekViewWidget(
+                  products: weekProductList ?? [],
+                  topThree: weekTopThree ?? [],
+                );
+
+                month = MonthViewWidget(
+                  products: monthProductList ?? [],
+                  topThree: monthTopThree ?? [],
+                );
+                state = LoadingState.done;
+              });
+              getProductLists();
+            } else {
+              setState(() {
+                failure = data;
+                state = LoadingState.error;
+              });
+            }
+          })
+        });
 
     super.initState();
   }
@@ -159,6 +157,55 @@ class _TransactionScreenState extends State<TransactionScreen>
     }
   }
 
+  // FAKE
+  Future<Either<Failure, List<Transaction>>> getTransactionsMock() async {
+    var data = await <Transaction>[
+      Transaction(
+        id: 1,
+        orders: [
+          Order(
+            id: 1,
+            product: Product(id: 1, name: 'Rando'),
+            variant: ProductVariant(
+              productId: 1,
+              variantId: 1,
+              quantity: 7,
+              price: 100,
+              variantName: 'Small',
+            ),
+            quantity: 7,
+          ),
+          Order(
+            id: 2,
+            product: Product(id: 2, name: 'Rando2'),
+            variant: ProductVariant(
+              productId: 2,
+              variantId: 2,
+              quantity: 70,
+              variantName: 'Small',
+              price: 150,
+            ),
+            quantity: 10,
+          ),
+          Order(
+            id: 3,
+            product: Product(id: 1, name: 'Rando'),
+            variant: ProductVariant(
+                productId: 1,
+                variantId: 3,
+                quantity: 10,
+                price: 120,
+                variantName: 'Regular'),
+            quantity: 7,
+          ),
+        ],
+        createdAt: DateTime(2021, 5, 22),
+      )
+    ];
+
+    return data.isNotEmpty ? Right(data) : Left(NoResultsFoundFailure());
+  }
+
   List<Product> productHelper(int diff) {
     var result = <Product>[];
     var orders = transactions
@@ -180,27 +227,24 @@ class _TransactionScreenState extends State<TransactionScreen>
           var modifiedOrder = result[indexOfOrder];
 
           var modifiedVariant = modifiedOrder.variants.firstWhere(
-            (element) => element.variantId == order.variant.variantId,
-          )..quantity += order.quantity;
+              (element) => element.variantId == order.variant.variantId,
+              orElse: () => null);
 
-          var indexOfVariant = modifiedOrder.variants.indexWhere(
-            (element) => element.variantId == order.variant.variantId,
-          );
-
-          modifiedOrder.variants[indexOfVariant] = modifiedVariant;
-
-          result[indexOfOrder] = Product(
-            id: result[indexOfOrder].id,
-            isTaxable: order.product.isTaxable,
-            variants: modifiedOrder.variants,
-          );
+          if (modifiedVariant != null) {
+            result[indexOfOrder] = result[indexOfOrder]
+              ..quantity += order.quantity;
+          } else {
+            result[indexOfOrder] = result[indexOfOrder]
+              ..variants = [...result[indexOfOrder].variants, order.variant]
+              ..quantity += order.quantity;
+          }
         } else {
-          result.add(order.product);
+          result.add(order.product..quantity = order.quantity);
         }
       }
     }
 
-    result.sort(
+    result?.sort(
       (a, b) =>
           b.variants.fold(
             0,
@@ -212,6 +256,6 @@ class _TransactionScreenState extends State<TransactionScreen>
           ),
     );
 
-    return result;
+    return result ?? [];
   }
 }
