@@ -36,4 +36,9 @@ class ProductVariant {
       variantName: variant ?? variantName,
     );
   }
+
+    @override
+  String toString() {
+    return 'Variant - $variantId; name: $variantName;';
+  }
 }

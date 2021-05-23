@@ -29,4 +29,9 @@ class Order {
         "variant": variant.variantId,
         "quantity": quantity
       };
+
+  @override
+  String toString() {
+    return 'Order - $id; quantity: $quantity;';
+  }
 }

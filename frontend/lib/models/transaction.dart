@@ -24,4 +24,9 @@ class Transaction {
         "orders": orders,
         "createdAt": createdAt,
       };
+
+  @override
+  String toString() {
+    return 'Transaction $id';
+  }
 }
