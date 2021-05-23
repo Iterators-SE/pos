@@ -1,9 +1,9 @@
 import 'package:either_option/either_option.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/models/order.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/error/failure.dart';
+import '../../../models/order.dart';
 import '../../../models/product.dart';
 import '../../../models/product_variant.dart';
 import '../../../models/transaction.dart';
@@ -118,7 +118,25 @@ class _TransactionScreenState extends State<TransactionScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: _presenter.body());
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            icon: Icon(Icons.view_day),
+            onPressed: () => toggleView(interval_i.Interval.day),
+          ),
+          IconButton(
+            icon: Icon(Icons.view_week),
+            onPressed: () => toggleView(interval_i.Interval.week),
+          ),
+          IconButton(
+            icon: Icon(Icons.calendar_today),
+            onPressed: () => toggleView(interval_i.Interval.month),
+          ),
+        ],
+      ),
+      body: _presenter.body(),
+    );
   }
 
   @override
