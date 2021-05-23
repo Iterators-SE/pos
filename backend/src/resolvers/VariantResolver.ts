@@ -13,7 +13,7 @@ export class VariantResolver{
         const product = await Product.findOne({id: productId});
 
         await Variant.create({
-            variantName: variantname,
+            variantname,
             product: product,
             quantity,
             price,

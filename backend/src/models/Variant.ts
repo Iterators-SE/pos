@@ -11,7 +11,7 @@ export class Variant extends BaseEntity {
 
     @Column()
     @Field()
-    variantName: String;
+    variantname: string;
 
     @Column()
     @Field()
