@@ -17,7 +17,7 @@ export class Discount extends BaseEntity {
 
     @Field(() => User)
     @ManyToOne(() => User, user => user.discounts, {eager: true})
-    owner: User;
+    user: User;
     
     @Field()
     @Column({type: "integer"})

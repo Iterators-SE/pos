@@ -29,7 +29,7 @@ export class User extends BaseEntity {
     @OneToMany(() => Transaction, transaction => transaction.owner, {nullable: true})
     transactions: Transaction[];
 
-    @OneToMany(() => Discount, discount => discount.owner, {nullable: true})
+    @OneToMany(() => Discount, discount => discount.user, {nullable: true})
     discounts: Discount[];
 
     @Column("bool", {default: false})

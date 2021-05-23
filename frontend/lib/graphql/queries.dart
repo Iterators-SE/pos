@@ -137,4 +137,129 @@ class MutationQuery {
       }
     """;
   }
+
+  String createGenericDiscount(
+      String description, int percentage, List<int> products) {
+    return """
+      mutation{
+        createGenericDiscount(input: {
+          description : "$description",
+          percentage : $percentage,
+          products : $products
+        }){
+          description
+          percentage
+        }
+      }
+      """;
+  }
+
+  String updateGenericDiscount(
+    int id,
+      String description, int percentage, List<int> products) {
+    return """
+      mutation{
+        updateGenericDiscount(
+          id: $id,
+          input: {
+          description : "$description",
+          percentage : $percentage,
+          products : $products
+        }){
+          description
+          percentage
+        }
+      }
+      """;
+  }
+
+  String createCustomDiscount(
+      String description,
+      int percentage,
+      List<int> products,
+      String startTime,
+      String endTime,
+      DateTime startDate,
+      DateTime endDate) {
+    return """mutation{
+        createCustomDiscount(
+          input: {
+            description: "$description",
+            percentage: $percentage,
+            products: $products
+          }, 
+          custom: {
+            startTime: "$startTime",
+            endTime: "$endTime",
+            inclusiveDates: ["${startDate.toUtc().toString().split(' ')[0]}", 
+            "${endDate.toUtc().toString().split(' ')[0]}"]
+          }
+        ){
+          description
+          percentage
+        }
+    }
+    """;
+  }
+
+  String updateCustomDiscount(
+      int id,
+      String description,
+      int percentage,
+      List<int> products,
+      String startTime,
+      String endTime,
+      DateTime startDate,
+      DateTime endDate) {
+    return """mutation{
+        updateCustomDiscount(
+          id: id,
+          input: {
+            description: "$description",
+            percentage: $percentage,
+            products: $products
+          }, 
+          custom: {
+            startTime: "$startTime",
+            endTime: "$endTime",
+            inclusiveDates: ["${startDate.toUtc().toString().split(' ')[0]}", 
+            "${endDate.toUtc().toString().split(' ')[0]}"]
+          }
+        ){
+          description
+          percentage
+        }
+    }
+    """;
+  }
+
+  String getDiscounts() { 
+    return """
+    query{
+      getDiscounts{
+        id
+        description
+        percentage
+      }
+    }
+    """;
+  }
+
+  String getDiscount(int id) {
+    return """
+    query{
+      getDiscount(id: $id){
+        description
+        percentage
+      }
+    }
+    """;
+  }
+  String deleteDiscount(int id){
+    return """
+    mutation{
+      deleteDiscount(id : $id){}
+    }
+    """;
+  }
 }

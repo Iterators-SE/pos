@@ -19,7 +19,7 @@ export class DiscountResolver {
     @Query(() => [Discount], { nullable: true })
     async getDiscounts(@Ctx() ctx: Context) {
         const user = await User.findOne(ctx.currentUser.id);
-        const discount = await Discount.find({ where: { owner: user }, relations: ["products"] });
+        const discount = await Discount.find({ where: { user: user }});
         return discount;
     }
 
@@ -39,7 +39,7 @@ export class DiscountResolver {
         const result = await Discount.create({
             description: input.description,
             percentage: input.percentage,
-            owner: user,
+            user: user,
             products: productList,
             ...args
         }).save()
