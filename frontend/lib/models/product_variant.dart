@@ -18,7 +18,7 @@ class ProductVariant {
         productId: json["product"],
         price: json["price"],
         quantity: json["quantity"],
-        variantName: json["variantName"],
+        variantName: json["variantname"],
       );
 
   ProductVariant copyWith({
