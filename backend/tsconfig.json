@@ -9,7 +9,8 @@
     "strictPropertyInitialization": false,
     "sourceMap": true,
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "esModuleInterop": true
   },
   "exclude": ["node_modules"],
   "include": ["./src/**/*", "src/utils/createSchema.ts"]

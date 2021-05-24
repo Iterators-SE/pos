@@ -1,37 +1,98 @@
-import 'package:graphql/client.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
-import '../../models/product.dart';
-import '../../repositories/transactions/interval.dart';
+import 'package:graphql/client.dart';
+
+import '../../models/order.dart';
+import '../../models/transaction.dart';
 import 'transaction_datasource.dart';
 
-class TransactionRemoteDataSource implements ITransactionDataSource {
-  TransactionRemoteDataSource({this.client, this.storage});
+class TransactionRemoteDataSource implements ITransactionRemoteDataSource {
+  TransactionRemoteDataSource({this.client});
 
   final GraphQLClient client;
-  final SharedPreferences storage; // TODO: Remove or swap
 
   @override
-  Future<List> getAllProductBreakdowns({Interval interval = Interval.day}) {
-    // TODO: implement getAllProductBreakdowns
-    throw UnimplementedError();
+  Future<Transaction> createTransaction({List<Order> orders}) async {
+    try {
+      final query = r'''
+        mutation createTransaction($orders: OrderInput){
+          action: createTransaction(orders: $orders)
+        }''';
+
+      final productIds = orders.map((e) => e.product.id).toList();
+      final variantIds = orders.map((e) => e.variant.variantId).toList();
+      final quantity = orders.map((e) => e.quantity).toList();
+
+      final response = await client.query(
+        QueryOptions(
+          document: gql(query),
+          variables: {
+            'orders': {
+              'productIds': productIds,
+              'variantIds': variantIds,
+              'quantity': quantity
+            },
+          },
+        ),
+      );
+
+      if (response.hasException) {
+        throw response.exception;
+      }
+
+      final data = jsonEncode(response.data["action"]);
+      return jsonDecode(data);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
-  Future getGenericBreakdown() {
-    // TODO: implement getGenericBreakdown
-    throw UnimplementedError();
+  Future<Transaction> getTransaction({int id}) async {
+    try {
+      final query = r'''
+        query getTransaction($id: number){
+          action: getTransaction(id: $id)
+        }''';
+
+      final response = await client.query(
+        QueryOptions(
+          document: gql(query),
+          variables: {'id': id},
+        ),
+      );
+
+      if (response.hasException) {
+        throw response.exception;
+      }
+
+      final data = jsonEncode(response.data["action"]);
+      return jsonDecode(data);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
-  Future getProductBreakdown({int id}) {
-    // TODO: implement getProductBreakdown
-    throw UnimplementedError();
-  }
+  Future<List<Transaction>> getTransactions() async {
+    try {
+      final query = r'''
+        query getTransactions(){
+          action: getTransactions()
+        }''';
 
-  @override
-  Future<List<Product>> getTopThree({Interval interval = Interval.day}) {
-    // TODO: implement getTopThree
-    throw UnimplementedError();
+      final response = await client.query(
+        QueryOptions(document: gql(query)),
+      );
+
+      if (response.hasException) {
+        throw response.exception;
+      }
+
+      final data = jsonEncode(response.data["action"]);
+      return jsonDecode(data);
+    } catch (e) {
+      rethrow;
+    }
   }
 }

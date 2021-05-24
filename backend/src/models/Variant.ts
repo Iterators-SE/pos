@@ -7,11 +7,11 @@ import { Product } from "./Product"
 export class Variant extends BaseEntity {
     @PrimaryGeneratedColumn()
     @Field(() => ID)
-    variantid: number;
+    variantId: number;
 
     @Column()
     @Field()
-    variantname: String;
+    variantname: string;
 
     @Column()
     @Field()

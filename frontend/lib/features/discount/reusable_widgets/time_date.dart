@@ -2,17 +2,19 @@ import 'package:flutter/material.dart';
 import 'time_date_container.dart';
 
 class TimeAndDate extends StatefulWidget {
-  final setStartTime;
-  final setEndtime;
-  final setStartDate;
-  final setEndDate;
-  TimeAndDate(
-      {Key key,
-      this.setEndDate,
-      this.setStartDate,
-      this.setStartTime,
-      this.setEndtime})
-      : super(key: key);
+  final Function setStartTime;
+  final Function setEndtime;
+  final Function setStartDate;
+  final Function setEndDate;
+
+  TimeAndDate({
+    Key key,
+    this.setEndDate,
+    this.setStartDate,
+    this.setStartTime,
+    this.setEndtime,
+  }) : super(key: key);
+
   @override
   _TimeAndDateState createState() => _TimeAndDateState();
 }
@@ -23,34 +25,14 @@ class _TimeAndDateState extends State<TimeAndDate> {
   DateTime dateUntil;
   TimeOfDay timeUntil;
 
-  String getDateFrom() {
-    if (dateFrom == null) {
-      return "Select date";
-    } else {
-      return '${dateFrom.month}/${dateFrom.day}/${dateFrom.year}';
-    }
+  String getDate(DateTime date) {
+    return date == null
+        ? "Select date"
+        : '${dateUntil.month}/${dateUntil.day}/${dateUntil.year}';
   }
 
-  String getDateUntil() {
-    if (dateUntil == null) {
-      return "Select date";
-    } else {
-      return '${dateUntil.month}/${dateUntil.day}/${dateUntil.year}';
-    }
-  }
-
-  String getTimeFrom() {
-    if (timeFrom == null) {
-      return "Select time";
-    } else {
-      final hour = timeFrom.hour.toString().padLeft(2, '0');
-      final minutes = timeFrom.minute.toString().padLeft(2, '0');
-      return '$hour:$minutes';
-    }
-  }
-
-  String getTimeUntil() {
-    if (timeUntil == null) {
+  String getTime(TimeOfDay time) {
+    if (time == null) {
       return "Select time";
     } else {
       final hour = timeUntil.hour.toString().padLeft(2, '0');
@@ -79,14 +61,17 @@ class _TimeAndDateState extends State<TimeAndDate> {
                 Expanded(
                   flex: 3,
                   child: InkWell(
-                      onTap: pickdate,
-                      child: timeAndDateContainer(getDateFrom())),
+                    onTap: pickStartDate,
+                    child: timeAndDateContainer(getDate(dateFrom)),
+                  ),
                 ),
                 Expanded(
-                    flex: 2,
-                    child: InkWell(
-                        onTap: pickTime,
-                        child: timeAndDateContainer(getTimeFrom())))
+                  flex: 2,
+                  child: InkWell(
+                    onTap: pickStartTime,
+                    child: timeAndDateContainer(getTime(timeFrom)),
+                  ),
+                )
               ],
             ),
           ),
@@ -104,14 +89,17 @@ class _TimeAndDateState extends State<TimeAndDate> {
                 Expanded(
                   flex: 3,
                   child: InkWell(
-                      onTap: pickdate2,
-                      child: timeAndDateContainer(getDateUntil())),
+                    onTap: pickEndDate,
+                    child: timeAndDateContainer(getDate(dateUntil)),
+                  ),
                 ),
                 Expanded(
-                    flex: 2,
-                    child: InkWell(
-                        onTap: pickTime2,
-                        child: timeAndDateContainer(getTimeUntil())))
+                  flex: 2,
+                  child: InkWell(
+                    onTap: pickEndTime,
+                    child: timeAndDateContainer(getTime(timeUntil)),
+                  ),
+                )
               ],
             ),
           )
@@ -120,7 +108,7 @@ class _TimeAndDateState extends State<TimeAndDate> {
     );
   }
 
-  Future pickdate() async {
+  Future pickStartDate() async {
     final initialDate = DateTime.now();
     final date = await showDatePicker(
         context: context,
@@ -136,7 +124,7 @@ class _TimeAndDateState extends State<TimeAndDate> {
     }
   }
 
-  Future pickdate2() async {
+  Future pickEndDate() async {
     final initialDate = DateTime.now();
     final date = await showDatePicker(
         context: context,
@@ -152,7 +140,7 @@ class _TimeAndDateState extends State<TimeAndDate> {
     }
   }
 
-  Future pickTime() async {
+  Future pickStartTime() async {
     final initialTime = TimeOfDay(hour: 12, minute: 0);
     final newTime = await showTimePicker(
         context: context, initialTime: timeFrom ?? initialTime);
@@ -165,7 +153,7 @@ class _TimeAndDateState extends State<TimeAndDate> {
     }
   }
 
-  Future pickTime2() async {
+  Future pickEndTime() async {
     final initialTime = TimeOfDay(hour: 12, minute: 0);
     final newTime = await showTimePicker(
         context: context, initialTime: timeUntil ?? initialTime);

@@ -40,7 +40,7 @@ export class TransactionResolver {
             for (let index = 0; index < orders.productIds.length; index++) {
                 const product = await Product.findOne({ where: { id: orders.productIds[index], user: user } });
 
-                const variant = await Variant.findOne({ where: { variantid: orders.variantIds[index], product: product } });
+                const variant = await Variant.findOne({ where: { variantId: orders.variantIds[index], product: product } });
 
                 // console.log(product && variant && orders.quantity[index] > 0 )
                 // console.log(product && variant && orders.quantity[index] <= variant.quantity )
@@ -57,20 +57,16 @@ export class TransactionResolver {
                     }).save();
 
                     orderList.push(newOrder);
-
-                    // console.log(newOrder)
                 }
 
             }
 
             if (orderList) {
-                // console.log(orderList)
                 const transaction = await Transaction.create({
                     owner: user,
                     orders: orderList
                 }).save()
     
-                // console.log(transaction)
                 return transaction;
             }
 
@@ -79,12 +75,5 @@ export class TransactionResolver {
         } catch (error) {
             throw Error(error);
         }
-    }
-
-    @Authorized()
-    @Mutation(() => Transaction, {nullable: true})
-    async deleteTransaction(@Ctx() ctx: Context, @Arg("id") id: number) {
-        const transaction = await Transaction.findOne(id);
-        return await transaction?.remove();
     }
 }
