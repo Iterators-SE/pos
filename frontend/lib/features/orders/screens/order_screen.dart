@@ -6,6 +6,7 @@ import '../../../models/product_variant.dart';
 import '../models/order.dart';
 import '../presenters/order_screen_presenter.dart';
 import '../views/order_screen_view.dart';
+import 'invoice_screen.dart';
 import 'widget/custom_alert_dialog.dart';
 import 'widget/custom_data_table.dart';
 import 'widget/custom_floating_action_button.dart';
@@ -42,7 +43,10 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
     return () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => _buildInvoice(),
+            builder: (context) => InvoiceScreen(
+              order: order,
+              allProducts: allProducts,
+            ),
           ),
         );
   }
@@ -53,6 +57,11 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
       hasProducts = true;
       order.editProduct(product);
     });
+  }
+
+  @override
+  Function addDiscount() {
+    return () => null;
   }
 
   // Dummy data
@@ -114,134 +123,6 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
 
     order = Order();
     super.initState();
-  }
-
-  Widget _buildInvoice() {
-    return SafeArea(
-      child: Scaffold(
-          body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Center(
-              child: Text(
-                'INVOICE',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 23,
-                ),
-              ),
-            ),
-            CustomDataTable(
-              order: order,
-              onPressed: null,
-              showEdit: false,
-            ),
-            CustomDataTable(
-              order: order,
-              onPressed: () => (productVariant) async => await showDialog(
-                    context: context,
-                    builder: (context) => CustomAlertDialog(
-                      chosenProduct: allProducts.firstWhere(
-                        (e) => e.id == productVariant.productID,
-                      ),
-                      quantity: productVariant.quantity,
-                      chosenVariant: productVariant.variantName,
-                      allProducts: allProducts,
-                    ),
-                  ),
-              columns: [
-                DataColumn(label: Text('')),
-                DataColumn(label: Text(''), numeric: true),
-              ],
-              rows: [
-                DataRow(
-                  cells: [
-                    DataCell(Text("Price")),
-                    DataCell(
-                      Text(
-                        order.total.toString(),
-                      ),
-                    )
-                  ],
-                ),
-                DataRow(
-                  cells: [
-                    DataCell(Text("Discount")),
-                    DataCell(
-                      Text(
-                        "0",
-                      ),
-                    )
-                  ],
-                ),
-                DataRow(
-                  cells: [
-                    DataCell(Text("VAT")),
-                    DataCell(
-                      Text(
-                        "0",
-                      ),
-                    )
-                  ],
-                ),
-                DataRow(
-                  cells: [
-                    DataCell(Text("Total")),
-                    DataCell(
-                      Text(
-                        '${order.total + 0}', // discount
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                DataRow(
-                  cells: [
-                    DataCell(Text("Cash Tendered")),
-                    DataCell(
-                      TextFormField(
-                        decoration: InputDecoration(
-                            hintText: '130', border: OutlineInputBorder()),
-                      ),
-                    )
-                  ],
-                ),
-                DataRow(
-                  cells: [
-                    DataCell(Text("Change")),
-                    DataCell(
-                      Text(
-                        '10',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Container(
-                  child: Text("This serves as an official receipt"),
-                ),
-              ],
-            ),
-            SizedBox(height: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [OrderButton(onPressed: null, text: "Print")],
-            ),
-          ],
-        ),
-      )),
-    );
   }
 
   @override
