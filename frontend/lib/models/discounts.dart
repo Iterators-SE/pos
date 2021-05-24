@@ -1,7 +1,4 @@
-// ignore: unused_import
-import 'mock_discounts.dart';
-// ignore: unused_import
-import 'user.dart';
+
 
 class Discount {
   int id;
