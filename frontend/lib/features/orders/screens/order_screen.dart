@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/themes/config.dart';
 import '../../../core/ui/styled_text_button.dart';
 import '../../../models/product.dart';
 import '../../../models/product_variant.dart';
 import '../models/order.dart';
 import '../presenters/order_screen_presenter.dart';
-import '../screens/widget/receipt_datatable.dart';
 import '../views/order_screen_view.dart';
 import 'widget/custom_alert_dialog.dart';
 import 'widget/custom_data_table.dart';
 import 'widget/custom_floating_action_button.dart';
+import 'widget/order_button.dart';
 
 class OrderScreen extends StatefulWidget {
   @override
@@ -26,9 +25,10 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
 
   @override
   Function cancelOrder() {
-    // TODO: implement cancelOrder
-    // throw UnimplementedError();
-    return () => print("CANCELLING ORDER");
+    return () => setState(() {
+          hasProducts = false;
+          order = Order();
+        });
   }
 
   @override
@@ -39,10 +39,12 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
 
   @override
   Function processOrder() {
-    // TODO: implement processOrder
-    // Preview invoice and print
-    // throw UnimplementedError();
-    return () => print("HI ORDER");
+    return () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => _buildInvoice(),
+          ),
+        );
   }
 
   @override
@@ -114,148 +116,131 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
     super.initState();
   }
 
-  Widget _buildInvoice(){
+  Widget _buildInvoice() {
     return SafeArea(
       child: Scaffold(
-        body: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Center(
-                    child: Text('INVOICE',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 23,                
-                    )),
-                  ),              
-               ReceiptDataTable(                           
-                    order: order,
-                    onPressed: () => (productVariant) async =>
-                        await showDialog(
-                          context: context,
-                          builder: (context) => CustomAlertDialog(
-                            chosenProduct: allProducts.firstWhere(
-                              (e) => e.id == productVariant.productID,
-                            ),
-                            quantity: productVariant.quantity,
-                            chosenVariant: productVariant.variantName,
-                            allProducts: allProducts,
-                          ),
-                        ),
-                  ),
-                  ReceiptDataTable(
-                    columns: [
-                      DataColumn(label: Text('')),
-                      DataColumn(
-                        label: Text(''),
-                        numeric: true,
-                      ),
-                    ],
-                    rows: [
-                      DataRow(
-                        cells: [
-                          DataCell(Text("Price")),
-                          DataCell(
-                            Text(
-                              order.total.toString(),
-                            ),
-                          )
-                        ],
-                      ),
-                      DataRow(
-                        cells: [
-                          DataCell(Text("Discount")),
-                          DataCell(
-                            Text(
-                              "0",
-                            ),
-                          )
-                        ],
-                      ),
-                      DataRow(
-                        cells: [
-                          DataCell(Text("VAT")),
-                          DataCell(
-                            Text(
-                              "0",
-                            ),
-                          )
-                        ],
-                      ),
-                      DataRow(
-                        cells: [
-                          DataCell(Text("Total")),
-                          DataCell(
-                            Text(
-                              '${order.total + 0}', // discount
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                      DataRow(
-                        cells: [
-                          DataCell(Text("Cash Tendered")),
-                          DataCell(
-                            TextFormField(
-                              decoration: InputDecoration(
-                                hintText: '130',
-                                border: OutlineInputBorder(
-                                )
-                                ),
-                            ),
-                          )
-                        ],
-                      ),
-                      DataRow(
-                        cells: [
-                          DataCell(Text("Change")),
-                          DataCell(
-                            Text(
-                              '10', 
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Container(
-                        child: Text(
-                          "This serves as an official receipt",
-                        ),
-                      ),                     
-                    ]), 
-                    SizedBox(
-                      height: 30,
-                    ),      
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Container(
-                        child: StyledTextButton(
-                          text: "Print",
-                          onPressed: () => {},
-                        ),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: xposGreen[50]),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10))),
-                      ),                     
-                    ],                   
-                  ),                
-                ],               
+          body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Center(
+              child: Text(
+                'INVOICE',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 23,
+                ),
               ),
-            )         
-    ),      
+            ),
+            CustomDataTable(
+              order: order,
+              onPressed: null,
+              showEdit: false,
+            ),
+            CustomDataTable(
+              order: order,
+              onPressed: () => (productVariant) async => await showDialog(
+                    context: context,
+                    builder: (context) => CustomAlertDialog(
+                      chosenProduct: allProducts.firstWhere(
+                        (e) => e.id == productVariant.productID,
+                      ),
+                      quantity: productVariant.quantity,
+                      chosenVariant: productVariant.variantName,
+                      allProducts: allProducts,
+                    ),
+                  ),
+              columns: [
+                DataColumn(label: Text('')),
+                DataColumn(label: Text(''), numeric: true),
+              ],
+              rows: [
+                DataRow(
+                  cells: [
+                    DataCell(Text("Price")),
+                    DataCell(
+                      Text(
+                        order.total.toString(),
+                      ),
+                    )
+                  ],
+                ),
+                DataRow(
+                  cells: [
+                    DataCell(Text("Discount")),
+                    DataCell(
+                      Text(
+                        "0",
+                      ),
+                    )
+                  ],
+                ),
+                DataRow(
+                  cells: [
+                    DataCell(Text("VAT")),
+                    DataCell(
+                      Text(
+                        "0",
+                      ),
+                    )
+                  ],
+                ),
+                DataRow(
+                  cells: [
+                    DataCell(Text("Total")),
+                    DataCell(
+                      Text(
+                        '${order.total + 0}', // discount
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                DataRow(
+                  cells: [
+                    DataCell(Text("Cash Tendered")),
+                    DataCell(
+                      TextFormField(
+                        decoration: InputDecoration(
+                            hintText: '130', border: OutlineInputBorder()),
+                      ),
+                    )
+                  ],
+                ),
+                DataRow(
+                  cells: [
+                    DataCell(Text("Change")),
+                    DataCell(
+                      Text(
+                        '10',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  child: Text("This serves as an official receipt"),
+                ),
+              ],
+            ),
+            SizedBox(height: 30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [OrderButton(onPressed: null, text: "Print")],
+            ),
+          ],
+        ),
+      )),
     );
   }
 
@@ -338,40 +323,14 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Container(
-                                padding: EdgeInsets.only(
-                                    left: 10, top: 5, right: 10, bottom: 5),
-                                margin: EdgeInsets.only(right: 5),
-                                child: StyledTextButton(
-                                  text: "Cancel Order",
-                                  onPressed: order.products.isEmpty
-                                      ? null
-                                      : cancelOrder(),
-                                ),
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: xposGreen[50]),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10))),
+                              OrderButton(
+                                text: "Cancel Order",
+                                onPressed:
+                                    order.products.isEmpty ? null : cancelOrder,
                               ),
-                              Container(
-                                padding: EdgeInsets.only(
-                                    left: 10, top: 5, right: 10, bottom: 5),
-                                margin: EdgeInsets.only(right: 5),
-                                child: StyledTextButton(
-                                  text: "Process Order",
-                                  onPressed: () => {
-                                    Navigator.push(
-                                      context, 
-                                      MaterialPageRoute(
-                                        builder: (context) => _buildInvoice())),
-                                  }
-                                    
-                                    
-                                ),
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: xposGreen[50]),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10))),
+                              OrderButton(
+                                text: "Process Order",
+                                onPressed: processOrder,
                               ),
                             ],
                           )
