@@ -12,6 +12,9 @@ abstract class OrderScreenView {
   void onError();
 
   void addProduct(ProductVariant product);
+
+  Function addDiscount();
+  
   Function cancelOrder();
   Function processOrder();
 }
