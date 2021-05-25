@@ -13,13 +13,14 @@ export class Product extends BaseEntity {
 
     @Column()
     @Field()
-    productname: string;
+    name: string;
 
     @Field(() => User)
     @ManyToOne(() => User, user => user.product, {eager: true})
     user : User;
     
-    @OneToMany(() => Variant, variant => variant.product, {nullable: true})
+    @Field(() => [Variant])
+    @OneToMany(() => Variant, variant => variant.product, {eager: true})
     variant: Variant[];
 
     @Column()
@@ -28,12 +29,12 @@ export class Product extends BaseEntity {
 
     @Column()
     @Field()
-    photolink: string;
+    photoLink: string;
 
     @ManyToMany(() => Discount, discount => discount.products)
     discounts: Discount[]
 
     @Column()
     @Field()
-    taxable: boolean;
+    isTaxable: boolean;
 }

@@ -3,7 +3,7 @@ import { InputType, Field } from "type-graphql";
 @InputType()
 export class ChangeVariantInput {
   @Field({ nullable: true })
-  variantname?: string;
+  name?: string;
 
   @Field({ nullable: true })
   quantity?: number;

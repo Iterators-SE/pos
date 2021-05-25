@@ -7,17 +7,17 @@ import { Product } from "./Product"
 export class Variant extends BaseEntity {
     @PrimaryGeneratedColumn()
     @Field(() => ID)
-    variantId: number;
+    id: number;
 
     @Column()
     @Field()
-    variantname: string;
+    name: string;
 
     @Column()
     @Field()
     price: number;
 
-    @ManyToOne(() => Product, product => product.variant, {eager : true})
+    @ManyToOne(() => Product, product => product.variant)
     product : Product;
 
     @Column()
