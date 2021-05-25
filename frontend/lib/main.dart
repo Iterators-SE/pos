@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/graphql/queries.dart';
 import 'package:graphql/client.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
@@ -8,25 +9,26 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'core/network/network_info.dart';
 import 'core/themes/config.dart';
 import 'core/themes/xpos_theme.dart';
-
 import 'datasources/authentication/authentication_datasource.dart';
 import 'datasources/authentication/authentication_remote_datasource.dart';
+import 'datasources/inventory/inventory_datasource.dart';
+import 'datasources/inventory/inventory_local_datasource.dart';
+import 'datasources/inventory/inventory_remote_datasource.dart';
 import 'datasources/transactions/transaction_datasource.dart';
 import 'datasources/transactions/transaction_local_datasource.dart';
 import 'datasources/transactions/transaction_remote_datasource.dart';
-
 import 'features/authentication/screens/authentication_screen.dart';
 import 'features/home/screens/home_screen.dart';
-
 import 'providers/user_provider.dart';
 import 'repositories/authentication/authentication_repository.dart';
 import 'repositories/authentication/authentication_repository_implementation.dart';
+import 'repositories/inventory/inventory_repository.dart';
+import 'repositories/inventory/inventory_repository_implementation.dart';
 import 'repositories/transactions/transaction_repository.dart';
 import 'repositories/transactions/transaction_repository_implementation.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  //  await Firebase.initializeApp();
 
   HttpLink _httpLink;
   GraphQLClient _client;
@@ -38,6 +40,10 @@ void main() {
   ITransactionRemoteDataSource _transactionRemoteDataSource;
   ITransactionLocalDataSource _transactionLocalDataSource;
   ITransactionRepository _transactionRepository;
+
+  IInventoryRemoteDataSource _inventoryRemoteDataSource;
+  IInventoryLocalDataSource _inventoryLocalDataSource;
+  IInventoryRepository _inventoryRepository;
 
   SharedPreferences _storage;
 
@@ -73,6 +79,15 @@ void main() {
     network: _networkInfo,
   );
 
+  _inventoryLocalDataSource = InventoryLocalDataSource();
+  _inventoryRemoteDataSource =
+      InventoryRemoteDataSource(client: _client, queries: MutationQuery());
+
+  _inventoryRepository = InventoryRepository(
+      remote: _inventoryRemoteDataSource,
+      local: _inventoryLocalDataSource,
+      network: _networkInfo);
+
   runApp(
     MultiProvider(
       providers: [
@@ -84,6 +99,9 @@ void main() {
         ),
         Provider<TransactionRepository>(
           create: (context) => _transactionRepository,
+        ),
+        Provider<InventoryRepository>(
+          create: (context) => _inventoryRepository,
         )
       ],
       builder: (context, child) {
