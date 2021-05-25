@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/core/state/app_state.dart';
-import 'package:frontend/features/discount/add/discount_add_custom.dart';
-import 'package:frontend/features/discount/presenter/discount_screen_presenter.dart';
-import 'package:frontend/features/discount/view/add_discount_screen_view.dart';
-import 'package:frontend/features/discount/view/discount_screen_view.dart';
-import 'package:frontend/features/discount/view/edit_discount_screen_view.dart';
-import 'package:frontend/models/discounts.dart';
-import 'package:frontend/repositories/discount/discount_repository.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../graphql/graphql_config.dart';
-import '../../../graphql/queries.dart';
+import '../../../core/state/app_state.dart';
+import '../../../models/discounts.dart';
+import '../../../repositories/discount/discount_repository.dart';
 import '../add/discount_add_generic.dart';
 import '../details/discount_details.dart';
+import '../presenter/discount_screen_presenter.dart';
+import '../view/add_discount_screen_view.dart';
+import '../view/discount_screen_view.dart';
+import '../view/edit_discount_screen_view.dart';
 import 'widgets/title.dart';
 
 class DiscountScreen extends StatefulWidget {
@@ -70,6 +65,7 @@ class _DiscountScreenState extends State<DiscountScreen>
     return timeOfDay;
   }
 
+  // ignore: missing_return
   Future<List<Discount>> getDiscounts() async {
     var discounts =
         await Provider.of<DiscountRepository>(context, listen: false)
