@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../core/themes/config.dart';
+
+import '../../../../core/themes/config.dart';
 
 Widget durationContainer(String input) {
   return Container(
