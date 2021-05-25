@@ -1,0 +1,1 @@
+enum AppState {loading, error, noNetwork, loaded}
