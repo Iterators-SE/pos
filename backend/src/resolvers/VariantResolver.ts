@@ -9,11 +9,11 @@ import { ChangeVariantInput} from '../inputs/ChangeVariantsInput'
 export class VariantResolver{
     @Authorized()
     @Mutation(() => Boolean, {nullable: true})
-    async addVariant(@Ctx() ctx: Context, @Arg("variantname") variantname: string, @Arg('productId') productId: number, @Arg('quantity') quantity: number, @Arg('price') price: number){
+    async addVariant(@Ctx() ctx: Context, @Arg("name") name: string, @Arg('productId') productId: number, @Arg('quantity') quantity: number, @Arg('price') price: number){
         const product = await Product.findOne({id: productId});
 
         await Variant.create({
-            variantname,
+            name,
             product: product,
             quantity,
             price,
@@ -23,8 +23,8 @@ export class VariantResolver{
 
     @Authorized()
     @Mutation(() => Boolean, {nullable: true})
-    async removeVariant(@Arg('variantid') variantid : number){
-        const variant = await Variant.findOne({where: {variantId: variantid}})
+    async deleteVariant(@Arg('variantId') variantId : number){
+        const variant = await Variant.findOne({where: {id: variantId}})
         if (!variant) throw new Error("Variant does not exist!")
         await variant.remove();
         return true;
@@ -44,8 +44,8 @@ export class VariantResolver{
 
     @Authorized()
     @Mutation(() => Boolean ,{nullable: true})
-    async editVariant(@Ctx() ctx: Context, @Arg('variantid') variantid: number, @Arg('data') data: ChangeVariantInput){
-        const variant = await Variant.findOne({where: {variantId: variantid}})
+    async editVariant(@Ctx() ctx: Context, @Arg('variantId') variantId: number, @Arg('data') data: ChangeVariantInput){
+        const variant = await Variant.findOne({where: {id: variantId}})
         if (!variant) throw new Error("Variant does not exist")
         console.log(data);
         console.log(variant);
