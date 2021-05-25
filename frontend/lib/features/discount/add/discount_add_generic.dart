@@ -4,8 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../graphql/graphql_config.dart';
 import '../../../graphql/queries.dart';
-import '../reusable_widgets/subtitle.dart';
-import '../reusable_widgets/title.dart';
+import '../screen/widgets/subtitle.dart';
+import '../screen/widgets/title.dart';
 import 'discount_add_custom.dart';
 
 class AddGenericDiscount extends StatefulWidget {

@@ -5,12 +5,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import "../../../core/themes/config.dart";
 import '../../../graphql/graphql_config.dart';
 import '../../../graphql/queries.dart';
-import '../discount_page/discountpage.dart';
 import '../edit/discount_edit_generic.dart';
-import '../reusable_widgets/duration.dart';
-import '../reusable_widgets/duration_container.dart';
-import '../reusable_widgets/subtitle.dart';
-import '../reusable_widgets/title.dart';
+import '../screen/discount_screen.dart';
+import '../screen/widgets/duration.dart';
+import '../screen/widgets/duration_container.dart';
+import '../screen/widgets/subtitle.dart';
+import '../screen/widgets/title.dart';
 
 class DiscountDetails extends StatefulWidget {
   final int id;
@@ -42,13 +42,21 @@ class _DiscountDetailsState extends State<DiscountDetails> {
     var client = GraphQLConfiguration().clientToQuery();
 
     var result = await client.query(
-      QueryOptions(document: gql(query.deleteDiscount(widget.id))),
+      QueryOptions(
+        document: gql(
+          query.deleteDiscount(widget.id),
+        ),
+      ),
     );
     print(result);
     if (!result.hasException) {
       Navigator.pop(context);
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => DiscountPage()));
+        context,
+        MaterialPageRoute(
+          builder: (context) => DiscountScreen(),
+        ),
+      );
     }
   }
 
@@ -76,11 +84,15 @@ class _DiscountDetailsState extends State<DiscountDetails> {
                   details("KEYK"),
                   subtitle("Promo Duration:"),
                   Container(
-                      padding: EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          border: Border.all(color: xposGreen[500])),
-                      child: duration()),
+                    padding: EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                      border: Border.all(color: xposGreen[500]),
+                    ),
+                    child: duration(),
+                  ),
                   subtitle("Discount Percent:"),
                   durationContainer("${snapshot.data["percentage"]}%")
                 ],
@@ -91,19 +103,29 @@ class _DiscountDetailsState extends State<DiscountDetails> {
       persistentFooterButtons: [
         FloatingActionButton.extended(
           icon: Icon(Icons.edit),
-          label: Text("EDIT", style: TextStyle(fontFamily: "Montserrat Bold")),
+          label: Text(
+            "EDIT",
+            style: TextStyle(fontFamily: "Montserrat Bold"),
+          ),
           onPressed: () {
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => EditGenericDiscount(id: widget.id)));
+              context,
+              MaterialPageRoute(
+                builder: (context) => EditGenericDiscount(
+                  id: widget.id,
+                ),
+              ),
+            );
           },
         ),
         FloatingActionButton.extended(
-            icon: Icon(Icons.edit),
-            label:
-                Text("DELETE", style: TextStyle(fontFamily: "Montserrat Bold")),
-            onPressed: deleteDiscount),
+          icon: Icon(Icons.edit),
+          label: Text(
+            "DELETE",
+            style: TextStyle(fontFamily: "Montserrat Bold"),
+          ),
+          onPressed: deleteDiscount,
+        ),
       ],
     );
   }

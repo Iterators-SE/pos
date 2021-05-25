@@ -4,10 +4,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../graphql/graphql_config.dart';
 import '../../../graphql/queries.dart';
-import '../discount_page/discountpage.dart';
-import '../reusable_widgets/subtitle.dart';
-import '../reusable_widgets/time_date.dart';
-import '../reusable_widgets/title.dart';
+import '../screen/discount_screen.dart';
+import '../screen/widgets/subtitle.dart';
+import '../screen/widgets/time_date.dart';
+import '../screen/widgets/title.dart';
 import 'discount_edit_generic.dart';
 
 class EditCustomDiscount extends StatefulWidget {
@@ -64,7 +64,7 @@ class _EditCustomDiscountState extends State<EditCustomDiscount> {
 
       var result = await client.query(QueryOptions(
           document: gql(query.updateCustomDiscount(
-            widget.id,
+              widget.id,
               _description,
               _percentage,
               includedProducts,
@@ -74,7 +74,7 @@ class _EditCustomDiscountState extends State<EditCustomDiscount> {
               _endDate))));
       if (!result.hasException) {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => DiscountPage()));
+            context, MaterialPageRoute(builder: (context) => DiscountScreen()));
       }
     }
   }
@@ -139,18 +139,21 @@ class _EditCustomDiscountState extends State<EditCustomDiscount> {
                     margin: EdgeInsets.only(left: 20, right: 20, top: 10),
                     child: TextFormField(
                       initialValue: snapshot.data['description'],
-                        validator: (value) =>
-                            value.isEmpty ? "Please enter description" : null,
-                        onChanged: (value) {
-                          setState(() {
-                            _description = value;
-                          });
-                        },
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30))),
-                            labelText: "Discount Name")),
+                      validator: (value) =>
+                          value.isEmpty ? "Please enter description" : null,
+                      onChanged: (value) {
+                        setState(() {
+                          _description = value;
+                        });
+                      },
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(30),
+                            ),
+                          ),
+                          labelText: "Discount Name"),
+                    ),
                   ),
                   subtitle("Product:"),
                   FutureBuilder(
@@ -207,7 +210,7 @@ class _EditCustomDiscountState extends State<EditCustomDiscount> {
                     margin: EdgeInsets.only(left: 20, right: 20, top: 10),
                     child: Container(
                       child: TextFormField(
-                        initialValue: snapshot.data['percentage'].toString(),
+                          initialValue: snapshot.data['percentage'].toString(),
                           validator: (value) =>
                               value.isEmpty ? 'Please enter percentage' : null,
                           onChanged: (value) => _percentage = int.parse(value),
@@ -230,20 +233,26 @@ class _EditCustomDiscountState extends State<EditCustomDiscount> {
       ),
       persistentFooterButtons: [
         FloatingActionButton.extended(
-            icon: Icon(Icons.check_box_outlined),
-            label: Text("Create Generic Discount",
-                style: TextStyle(fontFamily: "Montserrat Bold")),
-            onPressed: () {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => EditGenericDiscount()));
-            }),
+          icon: Icon(Icons.check_box_outlined),
+          label: Text("Create Generic Discount",
+              style: TextStyle(fontFamily: "Montserrat Bold")),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => EditGenericDiscount(),
+              ),
+            );
+          },
+        ),
         FloatingActionButton.extended(
-            icon: Icon(Icons.check_box_outlined),
-            label:
-                Text("Save", style: TextStyle(fontFamily: "Montserrat Bold")),
-            onPressed: updateDiscount),
+          icon: Icon(Icons.check_box_outlined),
+          label: Text(
+            "Save",
+            style: TextStyle(fontFamily: "Montserrat Bold"),
+          ),
+          onPressed: updateDiscount,
+        ),
       ],
     );
   }

@@ -4,10 +4,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../graphql/graphql_config.dart';
 import '../../../graphql/queries.dart';
-import '../discount_page/discountpage.dart';
-import '../reusable_widgets/subtitle.dart';
-import '../reusable_widgets/time_date.dart';
-import '../reusable_widgets/title.dart';
+import '../screen/discount_screen.dart';
+import '../screen/widgets/subtitle.dart';
+import '../screen/widgets/time_date.dart';
+import '../screen/widgets/title.dart';
 import 'discount_add_generic.dart';
 
 class AddCustomDiscount extends StatefulWidget {
@@ -47,18 +47,28 @@ class _AddCustomDiscountState extends State<AddCustomDiscount> {
       var query = MutationQuery();
       var client = GraphQLConfiguration().clientToQuery();
 
-      var result = await client.query(QueryOptions(
-          document: gql(query.createCustomDiscount(
-              _description,
-              _percentage,
-              includedProducts,
-              formatTime(_startTime.format(context)),
-              formatTime(_endTime.format(context)),
-              _startDate,
-              _endDate))));
+      var result = await client.query(
+        QueryOptions(
+          document: gql(
+            query.createCustomDiscount(
+                _description,
+                _percentage,
+                includedProducts,
+                formatTime(_startTime.format(context)),
+                formatTime(_endTime.format(context)),
+                _startDate,
+                _endDate),
+          ),
+        ),
+      );
+
       if (!result.hasException) {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => DiscountPage()));
+          context,
+          MaterialPageRoute(
+            builder: (context) => DiscountScreen(),
+          ),
+        );
       }
     }
   }
@@ -72,7 +82,11 @@ class _AddCustomDiscountState extends State<AddCustomDiscount> {
     var client = GraphQLConfiguration().clientToQuery();
 
     var result = await client.query(
-      QueryOptions(document: gql(query.getProducts())),
+      QueryOptions(
+        document: gql(
+          query.getProducts(),
+        ),
+      ),
     );
 
     return result.data['getProducts'];
@@ -119,17 +133,22 @@ class _AddCustomDiscountState extends State<AddCustomDiscount> {
             Container(
               margin: EdgeInsets.only(left: 20, right: 20, top: 10),
               child: TextFormField(
-                  validator: (value) =>
-                      value.isEmpty ? "Please enter description" : null,
-                  onChanged: (value) {
-                    setState(() {
-                      _description = value;
-                    });
-                  },
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(30))),
-                      labelText: "Discount Name")),
+                validator: (value) =>
+                    value.isEmpty ? "Please enter description" : null,
+                onChanged: (value) {
+                  setState(() {
+                    _description = value;
+                  });
+                },
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(30),
+                    ),
+                  ),
+                  labelText: "Discount Name",
+                ),
+              ),
             ),
             subtitle("Product:"),
             FutureBuilder(
@@ -164,13 +183,16 @@ class _AddCustomDiscountState extends State<AddCustomDiscount> {
                                     checkBox[index] = value;
                                     if (checkBox[index] == false) {
                                       if (includedProducts.contains(
-                                          int.parse(products[index]['id']))) {
+                                        int.parse(products[index]['id']),
+                                      )) {
                                         includedProducts.remove(
-                                            int.parse(products[index]['id']));
+                                          int.parse(products[index]['id']),
+                                        );
                                       }
                                     } else {
                                       includedProducts.add(
-                                          int.parse(products[index]['id']));
+                                        int.parse(products[index]['id']),
+                                      );
                                     }
                                   });
                                 }),
@@ -185,14 +207,18 @@ class _AddCustomDiscountState extends State<AddCustomDiscount> {
               margin: EdgeInsets.only(left: 20, right: 20, top: 10),
               child: Container(
                 child: TextFormField(
-                    validator: (value) =>
-                        value.isEmpty ? 'Please enter percentage' : null,
-                    onChanged: (value) => _percentage = int.parse(value),
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30))),
-                        labelText: "Percentage")),
+                  validator: (value) =>
+                      value.isEmpty ? 'Please enter percentage' : null,
+                  onChanged: (value) => _percentage = int.parse(value),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(30),
+                      ),
+                    ),
+                    labelText: "Percentage",
+                  ),
+                ),
               ),
             ),
             TimeAndDate(
@@ -207,19 +233,28 @@ class _AddCustomDiscountState extends State<AddCustomDiscount> {
       persistentFooterButtons: [
         FloatingActionButton.extended(
             icon: Icon(Icons.check_box_outlined),
-            label: Text("Create Generic Discount",
-                style: TextStyle(fontFamily: "Montserrat Bold")),
+            label: Text(
+              "Create Generic Discount",
+              style: TextStyle(
+                fontFamily: "Montserrat Bold",
+              ),
+            ),
             onPressed: () {
               Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => AddGenericDiscount()));
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddGenericDiscount(),
+                ),
+              );
             }),
         FloatingActionButton.extended(
-            icon: Icon(Icons.check_box_outlined),
-            label:
-                Text("Save", style: TextStyle(fontFamily: "Montserrat Bold")),
-            onPressed: addDiscount),
+          icon: Icon(Icons.check_box_outlined),
+          label: Text(
+            "Save",
+            style: TextStyle(fontFamily: "Montserrat Bold"),
+          ),
+          onPressed: addDiscount,
+        ),
       ],
     );
   }

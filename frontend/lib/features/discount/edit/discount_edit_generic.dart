@@ -4,14 +4,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../graphql/graphql_config.dart';
 import '../../../graphql/queries.dart';
-import '../discount_page/discountpage.dart';
-import '../reusable_widgets/subtitle.dart';
-import '../reusable_widgets/title.dart';
+import '../screen/discount_screen.dart';
+import '../screen/widgets/subtitle.dart';
+import '../screen/widgets/title.dart';
 import 'discount_edit_custom.dart';
 
 class EditGenericDiscount extends StatefulWidget {
+
   final int id;
-  EditGenericDiscount({this.id});
+
+  EditGenericDiscount({Key key, this.id}): super(key: key);
+
   @override
   _EditGenericDiscountState createState() => _EditGenericDiscountState();
 }
@@ -58,7 +61,7 @@ class _EditGenericDiscountState extends State<EditGenericDiscount> {
       print(result);
       if (!result.hasException) {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => DiscountPage()));
+            context, MaterialPageRoute(builder: (context) => DiscountScreen()));
       }
     }
   }
