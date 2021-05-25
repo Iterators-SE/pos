@@ -38,7 +38,7 @@ void main() {
   ITransactionRemoteDataSource _transactionRemoteDataSource;
   ITransactionLocalDataSource _transactionLocalDataSource;
   ITransactionRepository _transactionRepository;
-  
+
   SharedPreferences _storage;
 
   final devUri = 'http://localhost:5000/graphql';
@@ -93,10 +93,22 @@ void main() {
           (value) {
             var data = value.fold((e) => null, (token) => token);
 
-            value.isRight && data != null
-                ? Provider.of<UserProvider>(context, listen: false).token =
-                    data.toString()
-                : null;
+            if (value.isRight && data != null) {
+              Provider.of<UserProvider>(context, listen: false).token =
+                  data.toString();
+
+              _client = GraphQLClient(
+                cache: GraphQLCache(),
+                link: AuthLink(getToken: () => 'Bearer ${data.toString()}')
+                    .concat(_httpLink),
+              );
+            } else {
+              Provider.of<UserProvider>(context, listen: false).token = null;
+              _client = GraphQLClient(
+                cache: GraphQLCache(),
+                link: _httpLink,
+              );
+            }
           },
         );
 
