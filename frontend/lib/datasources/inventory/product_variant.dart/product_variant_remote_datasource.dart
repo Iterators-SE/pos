@@ -12,6 +12,7 @@ class ProductVariantRemoteDataSource implements ProductVariantDataSource {
   final GraphQLClient client;
   final SharedPreferences storage;
 
+  // TODO: Should this be `.data['...'] or `.data['action']
   @override
   Future<bool> addVariant(
       {String variantName, int price, int quantity, int productID}) async {

@@ -1,0 +1,8 @@
+Hi, person working on this!
+
+I strongly suggest combining the product & product_variant folders! If that's the route you decide to take then
+it translates to fewer providers and you would only really have to add a method or to to the /inventory repository.
+
+Hope you take this into consideration!
+
+- Nix
