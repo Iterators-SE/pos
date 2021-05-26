@@ -24,7 +24,6 @@ class InventoryRepository implements IInventoryRepository {
   Future<Either<Failure, Product>> addProduct({NewProduct product}) async {
     if (await network.isConnected()) {
       try {
-        print("this thing ran");
         final data = await remote.addProduct(product: product);
         return Right(data);
       } on OperationException catch (e) {
@@ -66,8 +65,7 @@ class InventoryRepository implements IInventoryRepository {
     if (await network.isConnected()) {
       try {
         final data = await remote.getProducts();
-        print(await data);
-        await local.cacheProducts(data);
+        // await local.cacheProducts(data);
         return Right(data);
       } on OperationException catch (e) {
         return Left(OperationFailure(e.graphqlErrors.first.message));
@@ -95,7 +93,7 @@ class InventoryRepository implements IInventoryRepository {
     if (await network.isConnected()) {
       try {
         final data = await remote.getProductDetails(productId: productId);
-        await local.cacheProduct(data);
+        // await local.cacheProduct(data);
         return Right(data);
       } on OperationException catch (e) {
         return Left(OperationFailure(e.graphqlErrors.first.message));
@@ -118,7 +116,6 @@ class InventoryRepository implements IInventoryRepository {
     }
   }
 
-  @override
   @override
   Future<Either<Failure, bool>> changeProductDetails({Product product}) async {
     if(await network.isConnected()){
