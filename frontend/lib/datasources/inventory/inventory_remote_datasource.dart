@@ -1,9 +1,9 @@
 import 'dart:convert';
 
+import 'package:frontend/features/inventory/models/new_variant.dart';
 import 'package:graphql/client.dart';
 
 import '../../features/inventory/models/new_product.dart';
-import '../../features/inventory/models/new_variant.dart';
 import '../../graphql/queries.dart';
 import '../../models/product.dart';
 import '../../models/product_variant.dart';
@@ -16,22 +16,32 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
   final MutationQuery queries;
 
   @override
-  Future<Product> addProduct({NewProduct product}) async {
+  Future<bool> addProduct({NewProduct product}) async {
     try {
-      final response = await client.query(
+      final responseProduct = await client.query(
         QueryOptions(
           document: gql(
-            queries.addProducts(product.name, product.description,
+            queries.addProduct(product.name, product.description,
                 product.isTaxable, product.photoLink),
           ),
         ),
       );
-      if (response.hasException) {
-        throw response.exception;
+
+      var data = responseProduct.data['addProduct'];
+      var productId = await int.parse(data['id']);
+
+      var result;
+
+      for (final variant in product.variants) {
+        result = await client.query(
+          QueryOptions(
+            document: gql(queries.addVariant(
+                variant.name, variant.quantity, variant.price, productId)),
+          ),
+        );
       }
 
-      final data = jsonEncode(response.data['addProduct']);
-      return jsonDecode(data);
+      return await result.data['addVariant'];
     } catch (e) {
       rethrow;
     }
@@ -40,18 +50,33 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
   @override
   Future<bool> deleteProduct({int productId}) async {
     try {
-      final response = await client.query(
+      final responseVariants = await client.query(
+        QueryOptions(
+          document: gql(
+            queries.deleteAllVariants(productId),
+          ),
+        ),
+      );
+
+      // print(responseVariants.data['deleteAllVariants']);
+      if (responseVariants.hasException) {
+        throw responseVariants.exception;
+      }
+
+      final responseProduct = await client.query(
         QueryOptions(
           document: gql(queries.deleteProduct(productId)),
         ),
       );
 
-      if (response.hasException) {
-        throw response.exception;
+      if (responseProduct.hasException) {
+        throw responseProduct.exception;
       }
 
-      final data = jsonEncode(response.data['deleteProduct']);
-      return jsonDecode(data);
+      final data = responseProduct.data['deleteProduct'];
+      // print(await "deleteproduct");
+      // print(await data);
+      return data;
     } catch (e) {
       rethrow;
     }
@@ -68,8 +93,8 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
         throw response.exception;
       }
 
-      final data = jsonEncode(response.data['getProductDetails']);
-      return jsonDecode(data);
+      var data = jsonEncode(response.data['getProductDetails']);
+      return Product.fromJson(jsonDecode(data));
     } catch (e) {
       rethrow;
     }
@@ -87,19 +112,17 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
       if (response.hasException) {
         throw response.exception;
       }
-      
+
       final data = jsonEncode(response.data['getProducts']);
-      List<Product> decoded = await jsonDecode(data).map<Product>(
-        (product) => Product.fromJson(product)
-      ).toList();
+      List<Product> decoded = await jsonDecode(data)
+          .map<Product>((product) => Product.fromJson(product))
+          .toList();
 
       return decoded;
-      
     } catch (e) {
       print('error');
       print(e);
       rethrow;
-
     }
   }
 
@@ -109,13 +132,8 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
       final response = await client.query(
         QueryOptions(
           document: gql(
-            queries.editProductDetails(
-              product.id, 
-              product.name,
-              product.description, 
-              product.isTaxable, 
-              product.photoLink
-            ),
+            queries.changeProductDetails(product.id, product.name,
+                product.description, product.isTaxable, product.photoLink),
           ),
         ),
       );
@@ -124,25 +142,21 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
         throw response.exception;
       }
 
-      final data = jsonEncode(response.data['changeProductDetails']);
-      return jsonDecode(data);
+      final data = response.data['changeProductDetails'];
+      return data;
     } catch (e) {
       rethrow;
     }
   }
 
-    @override
+  @override
   Future<bool> addVariant({NewVariant variant, int productId}) async {
-      try {
+    try {
       final response = await client.query(
         QueryOptions(
           document: gql(
             queries.addVariant(
-              variant.name, 
-              variant.quantity, 
-              variant.price, 
-              productId
-            )
+                variant.name, variant.quantity, variant.price, productId),
           ),
         ),
       );
@@ -151,8 +165,8 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
         throw response.exception;
       }
 
-      final data = jsonEncode(response.data['addVariant']);
-      return jsonDecode(data);
+      final data = response.data['addVariant'];
+      return data;
     } catch (e) {
       rethrow;
     }
@@ -173,8 +187,9 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
         throw response.exception;
       }
 
-      final data = jsonEncode(response.data['deleteAllVariants']);
-      return jsonDecode(data);
+      final data = response.data['deleteAllVariants'];
+      print(await data);
+      return data;
     } catch (e) {
       rethrow;
     }
@@ -195,8 +210,8 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
         throw response.exception;
       }
 
-      final data = jsonEncode(response.data['deleteVariant']);
-      return jsonDecode(data);
+      final data = response.data['deleteVariant'];
+      return data;
     } catch (e) {
       rethrow;
     }
@@ -218,8 +233,8 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
         throw response.exception;
       }
 
-      final data = jsonEncode(response.data['editVariant']);
-      return jsonDecode(data);
+      final data = response.data['editVariant'];
+      return data;
     } catch (e) {
       rethrow;
     }
