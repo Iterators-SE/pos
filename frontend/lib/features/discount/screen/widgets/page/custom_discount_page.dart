@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/models/discounts.dart';
 import 'package:meta/meta.dart';
 
+import '../../../../../models/discounts.dart';
 import '../../../../../models/product.dart';
-import '../../add_discount_screen.dart';
 import '../custom_discount_fab.dart';
 import '../subtitle.dart';
 import '../title.dart';

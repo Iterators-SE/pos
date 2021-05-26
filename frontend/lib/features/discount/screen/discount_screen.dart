@@ -1,11 +1,11 @@
 import 'package:either_option/either_option.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/core/error/failure.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 
+import '../../../core/error/failure.dart';
 import '../../../core/state/app_state.dart';
 import '../../../models/discounts.dart';
-import '../../../repositories/discount/discount_repository_implementation.dart';
+// import '../../../repositories/discount/discount_repository_implementation.dart';
 import '../presenter/discount_screen_presenter.dart';
 import '../view/discount_screen_view.dart';
 import 'generic_discount_screen.dart';

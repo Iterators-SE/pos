@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/features/discount/screen/generic_discount_screen.dart';
 
 import '../../../core/state/app_state.dart';
 import '../../../models/discounts.dart';
 import '../../../models/product.dart';
 import '../presenter/custom_discount_presenter.dart';
 import '../view/custom_discount_screen_view.dart';
+import 'generic_discount_screen.dart';
 import 'helpers/time_formatter.dart';
 import 'widgets/page/custom_discount_page.dart';
 
