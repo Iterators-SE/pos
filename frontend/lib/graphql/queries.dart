@@ -19,10 +19,16 @@ class MutationQuery {
       {
         getProducts{
           id,
-          productname,
+          name,
           description,
-          photolink,
-          taxable
+          photoLink,
+          isTaxable,
+          variant {
+            id, 
+            name,
+            quantity,
+            price, 
+          }
         }
       }
     """;
