@@ -5,10 +5,10 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/themes/xpos_theme.dart';
-import '../../../models/product.dart';
-import '../../../models/product_variant.dart';
+// import '../../../models/product.dart';
+// import '../../../models/product_variant.dart';
 import '../../../providers/user_provider.dart';
-import '../../../repositories/inventory/inventory_repository_implementation.dart';
+// import '../../../repositories/inventory/inventory_repository_implementation.dart';
 import '../../discount/screen/discount_screen.dart';
 import '../../inventory/listview/inventory_list.dart';
 import '../../orders/screens/order_screen.dart';
@@ -145,71 +145,71 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
     super.initState();
   }
 
-  dynamic getData(BuildContext context) async {
-    var x = Provider.of<InventoryRepository>(context, listen: false);
+  // dynamic getData(BuildContext context) async {
+  //   var x = Provider.of<InventoryRepository>(context, listen: false);
 
-    // var newProd = NewProduct(
-    //   description: "Namiit",
-    //   isTaxable: true,
-    //   name: "Fake",
-    //   photoLink: "Fake Link",
-    // );
-    // newProd.variants.add(NewVariant(
-    //   name: "Small",
-    //   quantity: 100,
-    //   price: 100,
-    // ));
-    // newProd.variants.add(NewVariant(
-    //   name: "Medium",
-    //   quantity: 100,
-    //   price: 100,
-    // ));
-    // newProd.variants.add(NewVariant(
-    //   name: "Large",
-    //   quantity: 100,
-    //   price: 100,
-    // ));
-    var response = await x.changeProductDetails(
-      product: Product(
-        id: 80,
-        name: "KEKEKEEKEKEEK",
-        description: "Namiit",
-        photoLink: "Fake Linkkkkkkkkk",
-        isTaxable: false,
-        variants: [
-          ProductVariant(
-            variantId: 53,
-            variantName: "Large",
-            price: 100,
-            quantity: 100,
-          ),
-          ProductVariant(
-            variantId: 52,
-            variantName: "Medium",
-            price: 100,
-            quantity: 100,
-          ),
-          ProductVariant(
-            variantId: 51,
-            variantName: "Small",
-            price: 100,
-            quantity: 100
-          ),
-        ]
-      )
-    );
+  //   // var newProd = NewProduct(
+  //   //   description: "Namiit",
+  //   //   isTaxable: true,
+  //   //   name: "Fake",
+  //   //   photoLink: "Fake Link",
+  //   // );
+  //   // newProd.variants.add(NewVariant(
+  //   //   name: "Small",
+  //   //   quantity: 100,
+  //   //   price: 100,
+  //   // ));
+  //   // newProd.variants.add(NewVariant(
+  //   //   name: "Medium",
+  //   //   quantity: 100,
+  //   //   price: 100,
+  //   // ));
+  //   // newProd.variants.add(NewVariant(
+  //   //   name: "Large",
+  //   //   quantity: 100,
+  //   //   price: 100,
+  //   // ));
+  //   var response = await x.changeProductDetails(
+  //     product: Product(
+  //       id: 80,
+  //       name: "KEKEKEEKEKEEK",
+  //       description: "Namiit",
+  //       photoLink: "Fake Linkkkkkkkkk",
+  //       isTaxable: false,
+  //       variants: [
+  //         ProductVariant(
+  //           variantId: 53,
+  //           variantName: "Large",
+  //           price: 100,
+  //           quantity: 100,
+  //         ),
+  //         ProductVariant(
+  //           variantId: 52,
+  //           variantName: "Medium",
+  //           price: 100,
+  //           quantity: 100,
+  //         ),
+  //         ProductVariant(
+  //           variantId: 51,
+  //           variantName: "Small",
+  //           price: 100,
+  //           quantity: 100
+  //         ),
+  //       ]
+  //     )
+  //   );
 
-    var result = response.fold(
-      (failure) => false, 
-      (product) => product
-    );
-    print(await result);
-    // print(await response.runtimeType);
-  }
+  //   var result = response.fold(
+  //     (failure) => false, 
+  //     (product) => product
+  //   );
+  //   print(await result);
+  //   // print(await response.runtimeType);
+  // }
 
   @override
   Widget build(BuildContext context) {
-    getData(context);
+    // getData(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("XPOS", textAlign: TextAlign.center),
