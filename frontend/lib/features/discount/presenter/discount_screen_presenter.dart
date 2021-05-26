@@ -1,13 +1,21 @@
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 import '../../../core/presenters/base_presenter.dart';
+import '../../../core/state/app_state.dart';
 import '../view/discount_screen_view.dart';
 
-
 class DiscountScreenPresenter extends BasePresenter<DiscountScreenView> {
-  // Widget getMessage() {
-  //   checkViewAttached();
-  //   return isViewAttached  && getView().hasProducts ? 
-  // getView().body : getView().emptyOrder;
-  // }
+  Widget body() {
+    checkViewAttached();
+
+    if (isViewAttached && getView().state == AppState.loading) {
+      return Center(child: CircularProgressIndicator());
+    } else if (isViewAttached &&
+        getView().state == AppState.done &&
+        getView().discounts.isNotEmpty) {
+      return getView().body;
+    } else {
+      return Center(child: Text("No discount found"));
+    }
+  }
 }
