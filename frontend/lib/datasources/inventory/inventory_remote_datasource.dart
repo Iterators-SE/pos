@@ -87,11 +87,19 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
       if (response.hasException) {
         throw response.exception;
       }
-
+      
       final data = jsonEncode(response.data['getProducts']);
-      return jsonDecode(data);
+      List<Product> decoded = await jsonDecode(data).map<Product>(
+        (product) => Product.fromJson(product)
+      ).toList();
+
+      return decoded;
+      
     } catch (e) {
+      print('error');
+      print(e);
       rethrow;
+
     }
   }
 
