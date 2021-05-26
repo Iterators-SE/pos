@@ -1,45 +1,47 @@
 import 'package:either_option/either_option.dart';
+import 'package:meta/meta.dart';
+
 import '../../core/error/failure.dart';
 import '../../models/discounts.dart';
 
-abstract class DiscountRepository {
-  Future<Either<Failure, Discount>> getDiscount({int id});
+abstract class IDiscountRepository {
+  Future<Either<Failure, Discount>> getDiscount({@required int id});
 
-  Future<Either<Failure, List<Discount>>> getDiscounts({List<int> id});
+  Future<Either<Failure, List<Discount>>> getDiscounts();
 
   Future<Either<Failure, bool>> createGenericDiscount({
-    String description,
-    int percentage,
-    List<int> products,
+    @required String description,
+    @required int percentage,
+    @required List<int> products,
   });
 
   Future<Either<Failure, Discount>> createCustomDiscount({
-    String description,
-    int percentage,
-    List<int> products,
-    DateTime endDate,
-    DateTime startDate,
-    String endTime,
-    String startTime,
+    @required String description,
+    @required int percentage,
+    @required List<int> products,
+    @required DateTime endDate,
+    @required DateTime startDate,
+    @required String endTime,
+    @required String startTime,
   });
 
   Future<Either<Failure, Discount>> updateGenericDiscount({
-    int id,
-    String description,
-    int percentage,
-    List<int> products
+    @required int id,
+    @required String description,
+    @required int percentage,
+    @required List<int> products
   });
 
   Future<Either<Failure, Discount>> updateCustomDiscount({
-    int id,
-    String description,
-    int percentage,
-    List<int> products,
-    DateTime endDate,
-    DateTime startDate,
-    String endTime,
-    String startTime,
+    @required int id,
+    @required String description,
+    @required int percentage,
+    @required List<int> products,
+    @required DateTime endDate,
+    @required DateTime startDate,
+    @required String endTime,
+    @required String startTime,
   });
 
-  Future<Either<Failure, bool>> deleteDiscount({int id});
+  Future<Either<Failure, bool>> deleteDiscount({@required int id});
 }
