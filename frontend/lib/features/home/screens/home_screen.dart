@@ -5,7 +5,9 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/themes/xpos_theme.dart';
+import '../../../models/product.dart';
 import '../../../providers/user_provider.dart';
+import '../../../repositories/inventory/inventory_repository_implementation.dart';
 import '../../discount/screen/discount_screen.dart';
 import '../../inventory/listview/inventory_list.dart';
 import '../../orders/screens/order_screen.dart';
@@ -142,8 +144,17 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
     super.initState();
   }
 
+  dynamic getData(BuildContext context) async {
+    var x = Provider.of<InventoryRepository>(context, listen: false);
+    var response = await x.getProducts();
+    List<Product> result = response.fold((failure) => [],  (list) => list);
+    print(await result);
+    // print(await response.runtimeType);  
+  }
+
   @override
   Widget build(BuildContext context) {
+    getData(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
