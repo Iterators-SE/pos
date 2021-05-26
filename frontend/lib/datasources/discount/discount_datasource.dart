@@ -4,7 +4,7 @@ import '../../models/discounts.dart';
 abstract class DiscountDataSource {
   Future<Discount> getDiscount({@required int id});
 
-  Future<List<Discount>> getDiscounts({@required List<int> id});
+  Future<List<Discount>> getDiscounts();
 
   Future<bool> createGenericDiscount({
     @required String description,
