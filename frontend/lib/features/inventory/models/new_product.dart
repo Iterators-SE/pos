@@ -7,6 +7,8 @@ class NewProduct {
   bool isTaxable;
   List<NewVariant> variants = [];
 
+  NewProduct({this.name, this.description, this.photoLink, this.isTaxable});
+
   void addVariant(NewVariant variant) => variants.add(variant);
   void deleteVariant() => variants.removeLast();
 }
