@@ -82,7 +82,7 @@ class _AddProductState extends State<AddProduct> {
     print(link);
 
     addProductResult = await client.mutate(MutationOptions(
-        document: gql(query.addProducts(
+        document: gql(query.addProduct(
             _productName, _description, _isTaxable, _photoURL))));
 
     if (addProductResult.data['addProduct'] != null) {

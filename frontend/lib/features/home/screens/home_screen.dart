@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/themes/xpos_theme.dart';
 import '../../../models/product.dart';
+import '../../../models/product_variant.dart';
 import '../../../providers/user_provider.dart';
 import '../../../repositories/inventory/inventory_repository_implementation.dart';
 import '../../discount/screen/discount_screen.dart';
@@ -146,10 +147,64 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
 
   dynamic getData(BuildContext context) async {
     var x = Provider.of<InventoryRepository>(context, listen: false);
-    var response = await x.getProducts();
-    List<Product> result = response.fold((failure) => [],  (list) => list);
+
+    // var newProd = NewProduct(
+    //   description: "Namiit",
+    //   isTaxable: true,
+    //   name: "Fake",
+    //   photoLink: "Fake Link",
+    // );
+    // newProd.variants.add(NewVariant(
+    //   name: "Small",
+    //   quantity: 100,
+    //   price: 100,
+    // ));
+    // newProd.variants.add(NewVariant(
+    //   name: "Medium",
+    //   quantity: 100,
+    //   price: 100,
+    // ));
+    // newProd.variants.add(NewVariant(
+    //   name: "Large",
+    //   quantity: 100,
+    //   price: 100,
+    // ));
+    var response = await x.changeProductDetails(
+      product: Product(
+        id: 80,
+        name: "KEKEKEEKEKEEK",
+        description: "Namiit",
+        photoLink: "Fake Linkkkkkkkkk",
+        isTaxable: false,
+        variants: [
+          ProductVariant(
+            variantId: 53,
+            variantName: "Large",
+            price: 100,
+            quantity: 100,
+          ),
+          ProductVariant(
+            variantId: 52,
+            variantName: "Medium",
+            price: 100,
+            quantity: 100,
+          ),
+          ProductVariant(
+            variantId: 51,
+            variantName: "Small",
+            price: 100,
+            quantity: 100
+          ),
+        ]
+      )
+    );
+
+    var result = response.fold(
+      (failure) => false, 
+      (product) => product
+    );
     print(await result);
-    // print(await response.runtimeType);  
+    // print(await response.runtimeType);
   }
 
   @override
@@ -157,10 +212,7 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
     getData(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "XPOS",
-          textAlign: TextAlign.center
-        ),
+        title: Text("XPOS", textAlign: TextAlign.center),
         actions: [
           IconButton(
             icon: Icon(Icons.logout),

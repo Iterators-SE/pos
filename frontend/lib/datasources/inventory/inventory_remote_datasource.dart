@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:frontend/features/inventory/models/new_variant.dart';
 import 'package:graphql/client.dart';
 
 import '../../features/inventory/models/new_product.dart';
+import '../../features/inventory/models/new_variant.dart';
 import '../../graphql/queries.dart';
 import '../../models/product.dart';
 import '../../models/product_variant.dart';

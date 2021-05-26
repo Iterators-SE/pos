@@ -102,7 +102,7 @@ class _EditDetailsState extends State<EditDetails> {
     }
 
     productUpdateResult = await client.mutate(MutationOptions(
-        document: gql(query.editProductDetails(
+        document: gql(query.changeProductDetails(
             int.parse(widget.productData['product']['id']),
             _productName,
             _description,
