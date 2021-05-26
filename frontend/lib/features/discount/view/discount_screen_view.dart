@@ -1,16 +1,16 @@
+import 'package:either_option/either_option.dart';
+import 'package:flutter/material.dart';
+
+import '../../../core/error/failure.dart';
 import '../../../core/state/app_state.dart';
 import '../../../models/discounts.dart';
-import 'add_discount_screen_view.dart';
-import 'edit_discount_screen_view.dart';
 
 abstract class DiscountScreenView {
   AppState state;
   List<Discount> discounts = [];
 
-  AddDiscountScreenView addDiscountScreenView;
-  EditDiscountScreenView editDiscountScreenView;
+  Widget body;
 
   void onError();
-  Future<List<Discount>> getDiscounts();
-  String formatTime(String time);
+  Future<Either<Failure, List<Discount>>> getDiscounts();
 }
