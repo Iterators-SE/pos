@@ -14,12 +14,11 @@ class ProductVariant {
   });
 
   factory ProductVariant.fromJson(Map<String, dynamic> json) => ProductVariant(
-        variantId: json["variantId"],
-        productId: json["product"],
-        price: json["price"],
-        quantity: json["quantity"],
-        variantName: json["variantname"],
-      );
+    variantId: int.parse(json["id"]),
+    price: json["price"],
+    quantity: json["quantity"],
+    variantName: json["name"],
+  );
 
   ProductVariant copyWith({
     int id,
