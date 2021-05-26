@@ -1,6 +1,4 @@
 import 'package:either_option/either_option.dart';
-import 'package:frontend/features/inventory/models/new_variant.dart';
-import 'package:frontend/models/product_variant.dart';
 import 'package:graphql/client.dart';
 import 'package:meta/meta.dart';
 
@@ -10,7 +8,9 @@ import '../../core/network/network_info.dart';
 import '../../datasources/inventory/inventory_local_datasource.dart';
 import '../../datasources/inventory/inventory_remote_datasource.dart';
 import '../../features/inventory/models/new_product.dart';
+import '../../features/inventory/models/new_variant.dart';
 import '../../models/product.dart';
+import '../../models/product_variant.dart';
 import 'inventory_repository.dart';
 
 class InventoryRepository implements IInventoryRepository {
@@ -38,7 +38,7 @@ class InventoryRepository implements IInventoryRepository {
       }
     }
 
-    return Left(UnhandledFailure());
+    // return Left(UnhandledFailure());
   }
 
   @override
@@ -59,7 +59,7 @@ class InventoryRepository implements IInventoryRepository {
       }
     }
 
-    return Left(UnhandledFailure());
+    // return Left(UnhandledFailure());
   }
 
   @override
@@ -78,16 +78,17 @@ class InventoryRepository implements IInventoryRepository {
       } catch (e) {
         return Left(UnhandledFailure());
       }
-    } else {
-      try {
-        final data = await local.getProducts();
-        return Right(data);
-      } on CacheException {
-        return Left(CacheFailure());
-      } catch (e) {
-        return Left(UnhandledFailure());
-      }
-    }
+    } 
+    // else {
+    //   try {
+    //     final data = await local.getProducts();
+    //     return Right(data);
+    //   } on CacheException {
+    //     return Left(CacheFailure());
+    //   } catch (e) {
+    //     return Left(UnhandledFailure());
+    //   }
+    // }
   }
 
   @override
@@ -107,16 +108,17 @@ class InventoryRepository implements IInventoryRepository {
       } catch (e) {
         return Left(UnhandledFailure());
       }
-    } else {
-      try {
-        final data = await local.getProductDetails(productId: productId);
-        return Right(data);
-      } on CacheException {
-        return Left(CacheFailure());
-      } catch (e) {
-        return Left(UnhandledFailure());
-      }
-    }
+    } 
+    // else {
+    //   try {
+    //     final data = await local.getProductDetails(productId: productId);
+    //     return Right(data);
+    //   } on CacheException {
+    //     return Left(CacheFailure());
+    //   } catch (e) {
+    //     return Left(UnhandledFailure());
+    //   }
+    // }
   }
 
   @override
@@ -136,7 +138,7 @@ class InventoryRepository implements IInventoryRepository {
       }
     }
 
-    return Left(UnhandledFailure());
+    // return Left(UnhandledFailure());
   }
 
   @override
@@ -157,7 +159,7 @@ class InventoryRepository implements IInventoryRepository {
         return Left(UnhandledFailure());
       }
     }
-    return Left(UnhandledFailure());
+    // return Left(UnhandledFailure());
   }
 
   @override
@@ -176,7 +178,7 @@ class InventoryRepository implements IInventoryRepository {
         return Left(UnhandledFailure());
       }
     }
-    return Left(UnhandledFailure());
+    // return Left(UnhandledFailure());
   }
 
   @override
@@ -196,7 +198,7 @@ class InventoryRepository implements IInventoryRepository {
         return Left(UnhandledFailure());
       }
     }
-    return Left(UnhandledFailure());
+    // return Left(UnhandledFailure());
   }
 
   @override
@@ -215,6 +217,6 @@ class InventoryRepository implements IInventoryRepository {
         return Left(UnhandledFailure());
       }
     }
-    return Left(UnhandledFailure());
+    // return Left(UnhandledFailure());
   }
 }
