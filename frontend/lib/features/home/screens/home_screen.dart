@@ -200,7 +200,7 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
   //   );
 
   //   var result = response.fold(
-  //     (failure) => false, 
+  //     (failure) => false,
   //     (product) => product
   //   );
   //   print(await result);
@@ -209,7 +209,6 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
 
   @override
   Widget build(BuildContext context) {
-    // getData(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("XPOS", textAlign: TextAlign.center),
@@ -235,31 +234,11 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
       ),
       body: ReorderableListView(
         header: Center(
-          child: Container(
-            margin: EdgeInsets.only(top: 20, bottom: 40),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                // Image(
-                //   height: 40,
-                //   image: AssetImage("assets/images/coffee-icon.png"),
-                // )
-                Padding(
-                  padding: const EdgeInsets.only(left: 40),
-                  child: Text(
-                    "Welcome Back!",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 36),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          child: Image(image: AssetImage("assets/images/xpos_home_logo.png")),
         ),
         children: menuItems
-            .map((element) => MenuItemCard(
-                  key: Key(element.option),
-                  element: element,
-                ))
+            .map((element) =>
+                MenuItemCard(key: Key(element.option), element: element))
             .toList(),
         onReorder: onReorder,
       ),
