@@ -1,13 +1,13 @@
 import 'package:either_option/either_option.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/core/error/failure.dart';
-import 'package:frontend/core/state/app_state.dart';
-import 'package:frontend/repositories/inventory/inventory_repository_implementation.dart';
 import 'package:provider/provider.dart';
 
+import '../../../core/error/failure.dart';
+import '../../../core/state/app_state.dart';
 import '../../../core/ui/styled_text_button.dart';
 import '../../../models/product.dart';
 import '../../../models/product_variant.dart';
+import '../../../repositories/inventory/inventory_repository_implementation.dart';
 import '../models/order.dart';
 import '../presenters/order_screen_presenter.dart';
 import '../views/order_screen_view.dart';

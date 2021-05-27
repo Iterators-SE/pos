@@ -1,8 +1,8 @@
 import 'package:either_option/either_option.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/core/state/app_state.dart';
 
 import '../../../core/error/failure.dart';
+import '../../../core/state/app_state.dart';
 import '../../../models/product.dart';
 import '../../../models/product_variant.dart';
 import '../models/order.dart';

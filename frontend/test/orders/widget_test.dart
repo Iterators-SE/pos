@@ -123,7 +123,9 @@ void main() {
       FloatingActionButton,
       'Add Product',
     );
-    final customDataTable = find.byWidgetPredicate((widget) => widget is CustomDataTable);
+    final customDataTable = find.byWidgetPredicate(
+      (widget) => widget is CustomDataTable,
+    );
 
     expect(productField, findsOneWidget);
     expect(variantField, findsOneWidget);
