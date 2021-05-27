@@ -1,15 +1,17 @@
 class MutationQuery {
   // ignore: avoid_positional_boolean_parameters
-  String addProducts(String productName, String description, bool isTaxable,
+  String addProduct(String productName, String description, bool isTaxable,
       String photoLink) {
     return """
       mutation {
         addProduct(
-          productname: "$productName",
+          name: "$productName",
           description: "$description",
-          taxable: $isTaxable
-          photolink: "$photoLink",
-        )
+          isTaxable: $isTaxable
+          photoLink: "$photoLink",
+        ){
+          id
+        }
       }
     """;
   }
@@ -39,16 +41,22 @@ class MutationQuery {
       {
         getProductDetails(productId: $productId){
           id,
-          productname,
+          name,
           description,
-          photolink,
-          taxable
+          photoLink,
+          isTaxable,
+          variant{
+            id,
+            name,
+            quantity,
+            price
+          }
         }
       }
     """;
   }
 
-  String editProductDetails(
+  String changeProductDetails(
       int productId,
       String productName,
       String description,
@@ -60,10 +68,10 @@ class MutationQuery {
         changeProductDetails(
           productId: $productId, 
           data:{
-            productname: "$productName",
+            name: "$productName",
             description: "$description",
-            taxable: $isTaxable,
-            photolink: "$photoLink"
+            isTaxable: $isTaxable,
+            photoLink: "$photoLink"
           })
       }
     """;
@@ -99,7 +107,7 @@ class MutationQuery {
     return """
       mutation {
         addVariant(
-          variantname: "$variantName",
+          name: "$variantName",
           quantity: $quantity,
           price: $price,
           productId: $productId 
@@ -118,11 +126,11 @@ class MutationQuery {
       mutation {
         editVariant(
           data:{
-            variantname: "$variantName",
+            name: "$variantName",
             quantity: $quantity,
             price: $price,
           }, 
-          variantid: $variantId
+          variantId: $variantId
         )
       }
     """;
@@ -131,7 +139,7 @@ class MutationQuery {
   String deleteVariant(int variantId) {
     return """
       mutation {
-        removeVariant(variantid: $variantId)
+        deleteVariant(variantId: $variantId)
       }
     """;
   }

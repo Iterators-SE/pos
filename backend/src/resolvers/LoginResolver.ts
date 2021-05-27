@@ -28,7 +28,7 @@ export class LoginResolver {
             email: user.email,
             password: user.password,
             confirmed : user.confirmed
-        }, process.env.JWT_SECRET as string, { expiresIn: '15m' });
+        }, process.env.JWT_SECRET as string, { expiresIn: '10h' });
 
         ctx.currentUser = decode(refreshToken) as Token;
         

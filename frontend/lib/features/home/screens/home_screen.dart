@@ -5,11 +5,12 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/themes/xpos_theme.dart';
-import '../../../models/product.dart';
+// import '../../../models/product.dart';
+// import '../../../models/product_variant.dart';
 import '../../../providers/user_provider.dart';
-import '../../../repositories/inventory/inventory_repository_implementation.dart';
+// import '../../../repositories/inventory/inventory_repository_implementation.dart';
 import '../../discount/screen/discount_screen.dart';
-import '../../inventory/listview/inventory_list.dart';
+import '../../inventory/screens/inventory_screen.dart';
 import '../../orders/screens/order_screen.dart';
 import '../models/menu_item.dart';
 import '../presenters/home_screen_presenter.dart';
@@ -100,7 +101,6 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
               builder: (context) => OrderScreen(),
             ),
           ),
-      'SEE STOCK': () {},
       'DISCOUNTS': () => _presenter.navigate(
             context,
             MaterialPageRoute(
@@ -108,12 +108,12 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
             ),
           ),
       'USERS': () {},
-      'PRODUCTS': () => _presenter.navigate(
-            context,
-            MaterialPageRoute(
-              builder: (context) => InventoryList(),
-            ),
-          ),
+      'INVENTORY': () => _presenter.navigate(
+        context,
+        MaterialPageRoute(
+          builder: (context) => InventoryScreen(),
+        ),
+      ),
     };
 
     menuItems = [
@@ -123,14 +123,14 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
         onTap: defaultItemMap['PROCESS ORDERS'],
       ),
       MenuItem(
-        option: "PRODUCTS",
+        option: "INVENTORY",
         url: "assets/images/orders.png",
-        onTap: defaultItemMap['PRODUCTS'],
+        onTap: defaultItemMap['INVENTORY'],
       ),
       MenuItem(
           option: "DISCOUNTS",
           url: "assets/images/coffee-icon.png",
-          onTap: defaultItemMap['DISCOUNTS']),
+          onTap: defaultItemMap['INVENTORY']),
       MenuItem(option: "USERS", url: "assets/images/coffee-icon.png"),
     ];
 
@@ -144,23 +144,74 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
     super.initState();
   }
 
-  dynamic getData(BuildContext context) async {
-    var x = Provider.of<InventoryRepository>(context, listen: false);
-    var response = await x.getProducts();
-    List<Product> result = response.fold((failure) => [],  (list) => list);
-    print(await result);
-    // print(await response.runtimeType);  
-  }
+  // dynamic getData(BuildContext context) async {
+    // var x = Provider.of<InventoryRepository>(context, listen: false);
+
+  //   // var newProd = NewProduct(
+  //   //   description: "Namiit",
+  //   //   isTaxable: true,
+  //   //   name: "Fake",
+  //   //   photoLink: "Fake Link",
+  //   // );
+  //   // newProd.variants.add(NewVariant(
+  //   //   name: "Small",
+  //   //   quantity: 100,
+  //   //   price: 100,
+  //   // ));
+  //   // newProd.variants.add(NewVariant(
+  //   //   name: "Medium",
+  //   //   quantity: 100,
+  //   //   price: 100,
+  //   // ));
+  //   // newProd.variants.add(NewVariant(
+  //   //   name: "Large",
+  //   //   quantity: 100,
+  //   //   price: 100,
+  //   // ));
+  //   var response = await x.changeProductDetails(
+  //     product: Product(
+  //       id: 80,
+  //       name: "KEKEKEEKEKEEK",
+  //       description: "Namiit",
+  //       photoLink: "Fake Linkkkkkkkkk",
+  //       isTaxable: false,
+  //       variants: [
+  //         ProductVariant(
+  //           variantId: 53,
+  //           variantName: "Large",
+  //           price: 100,
+  //           quantity: 100,
+  //         ),
+  //         ProductVariant(
+  //           variantId: 52,
+  //           variantName: "Medium",
+  //           price: 100,
+  //           quantity: 100,
+  //         ),
+  //         ProductVariant(
+  //           variantId: 51,
+  //           variantName: "Small",
+  //           price: 100,
+  //           quantity: 100
+  //         ),
+  //       ]
+  //     )
+  //   );
+
+  //   var result = response.fold(
+  //     (failure) => false, 
+  //     (product) => product
+  //   );
+  //   print(await result);
+  //   // print(await response.runtimeType);
+  // }
 
   @override
   Widget build(BuildContext context) {
-    getData(context);
+    // getData(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "XPOS",
-          textAlign: TextAlign.center
-        ),
+        title: Text("XPOS", textAlign: TextAlign.center),
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
