@@ -1,4 +1,9 @@
+import 'package:either_option/either_option.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/core/error/failure.dart';
+import 'package:frontend/core/state/app_state.dart';
+import 'package:frontend/repositories/inventory/inventory_repository_implementation.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/ui/styled_text_button.dart';
 import '../../../models/product.dart';
@@ -21,8 +26,12 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
   OrderScreenPresenter _presenter;
 
   Order order;
+  AppState state = AppState.loading;
+  Failure failure;
   Widget body;
   bool hasProducts = false;
+
+  List<Product> allProducts = [];
 
   @override
   Function cancelOrder() {
@@ -30,12 +39,6 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
           hasProducts = false;
           order = Order();
         });
-  }
-
-  @override
-  void onError() {
-    // TODO: implement onError
-    // throw UnimplementedError();
   }
 
   @override
@@ -64,55 +67,11 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
     return () => null;
   }
 
-  // Dummy data
-  List<Product> allProducts = [
-    Product(id: 2, name: "Poseidon", variants: [
-      ProductVariant(
-        variantId: 1,
-        price: 100,
-        quantity: 300,
-        variantName: "Small",
-        productId: 2,
-      ),
-      ProductVariant(
-        variantId: 2,
-        price: 120,
-        quantity: 40,
-        variantName: "Regular",
-        productId: 2,
-      ),
-      ProductVariant(
-        variantId: 3,
-        price: 180,
-        quantity: 3,
-        variantName: "Large",
-        productId: 2,
-      ),
-    ]),
-    Product(id: 1, name: "Olympus Cappucino", variants: [
-      ProductVariant(
-        variantId: 4,
-        price: 100,
-        quantity: 300,
-        variantName: "Small",
-        productId: 1,
-      ),
-      ProductVariant(
-        variantId: 5,
-        price: 120,
-        quantity: 40,
-        variantName: "Regular",
-        productId: 1,
-      ),
-      ProductVariant(
-        variantId: 6,
-        price: 180,
-        quantity: 3,
-        variantName: "Large",
-        productId: 1,
-      ),
-    ]),
-  ];
+  @override
+  Future<Either<Failure, List<Product>>> getProducts() async {
+    return await Provider.of<InventoryRepository>(context, listen: false)
+        .getProducts();
+  }
 
   List list = [];
 
@@ -121,7 +80,24 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
     _presenter = OrderScreenPresenter();
     _presenter.attachView(this);
 
+    state = AppState.loading;
     order = Order();
+
+    getProducts().then((value) {
+      var data = value.fold((failure) => failure, (result) => result);
+      if (value.isRight) {
+        setState(() {
+          allProducts = data;
+          state = AppState.done;
+        });
+      } else {
+        setState(() {
+          state = AppState.error;
+          failure = data;
+        });
+      }
+    });
+
     super.initState();
   }
 
