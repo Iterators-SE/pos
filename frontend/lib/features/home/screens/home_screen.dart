@@ -10,7 +10,7 @@ import '../../../core/themes/xpos_theme.dart';
 import '../../../providers/user_provider.dart';
 // import '../../../repositories/inventory/inventory_repository_implementation.dart';
 import '../../discount/screen/discount_screen.dart';
-import '../../inventory/listview/inventory_list.dart';
+import '../../inventory/screens/inventory_screen.dart';
 import '../../orders/screens/order_screen.dart';
 import '../models/menu_item.dart';
 import '../presenters/home_screen_presenter.dart';
@@ -101,7 +101,6 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
               builder: (context) => OrderScreen(),
             ),
           ),
-      'SEE STOCK': () {},
       'DISCOUNTS': () => _presenter.navigate(
             context,
             MaterialPageRoute(
@@ -109,12 +108,12 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
             ),
           ),
       'USERS': () {},
-      'PRODUCTS': () => _presenter.navigate(
-            context,
-            MaterialPageRoute(
-              builder: (context) => InventoryList(),
-            ),
-          ),
+      'INVENTORY': () => _presenter.navigate(
+        context,
+        MaterialPageRoute(
+          builder: (context) => InventoryScreen(),
+        ),
+      ),
     };
 
     menuItems = [
@@ -124,14 +123,14 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
         onTap: defaultItemMap['PROCESS ORDERS'],
       ),
       MenuItem(
-        option: "PRODUCTS",
+        option: "INVENTORY",
         url: "assets/images/orders.png",
-        onTap: defaultItemMap['PRODUCTS'],
+        onTap: defaultItemMap['INVENTORY'],
       ),
       MenuItem(
           option: "DISCOUNTS",
           url: "assets/images/coffee-icon.png",
-          onTap: defaultItemMap['DISCOUNTS']),
+          onTap: defaultItemMap['INVENTORY']),
       MenuItem(option: "USERS", url: "assets/images/coffee-icon.png"),
     ];
 
@@ -146,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
   }
 
   // dynamic getData(BuildContext context) async {
-  //   var x = Provider.of<InventoryRepository>(context, listen: false);
+    // var x = Provider.of<InventoryRepository>(context, listen: false);
 
   //   // var newProd = NewProduct(
   //   //   description: "Namiit",
