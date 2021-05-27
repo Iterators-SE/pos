@@ -37,4 +37,10 @@ export class User extends BaseEntity {
 
     @CreateDateColumn({name: 'created_at'})
     createdAt: Date;
+
+    @Column({default: "Thank you!"})
+    receiptMessage: string;
+
+    @Column({default: "Earth"})
+    address: string;
 }
