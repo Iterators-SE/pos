@@ -19,7 +19,9 @@ class _InventoryListWidgetState extends State<InventoryListWidget> {
         title: Text("Inventory List"),
       ),
       body: Container(
-        child: ElevatedButton(onPressed: () {
+        child: ElevatedButton(
+          child: Text("Get Products"),
+          onPressed: () {
           widget.getProducts(context);
         }),
       ),

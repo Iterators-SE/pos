@@ -1,11 +1,11 @@
-import 'package:either_option/either_option.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/features/inventory/presenters/inventory_screen_presenter.dart';
-import 'package:frontend/features/inventory/screens/widgets/list_view.dart';
-import 'package:frontend/features/inventory/views/inventory_screen_view.dart';
-import 'package:frontend/models/product.dart';
-import 'package:frontend/repositories/inventory/inventory_repository_implementation.dart';
 import 'package:provider/provider.dart';
+
+import '../../../models/product.dart';
+import '../../../repositories/inventory/inventory_repository_implementation.dart';
+import '../presenters/inventory_screen_presenter.dart';
+import '../views/inventory_screen_view.dart';
+import 'widgets/list_view.dart';
 
 class InventoryScreen extends StatefulWidget {
   @override
