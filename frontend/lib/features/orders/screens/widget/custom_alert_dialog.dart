@@ -63,10 +63,12 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
                   borderRadius: BorderRadius.all(Radius.circular(10))),
             ),
             DropdownButtonFormField(
+              key: Key('product_field'),
               hint: Text("Please select a product"),
               value: chosenProduct?.name,
               items: widget.allProducts
                   .map((e) => DropdownMenuItem(
+                    key: Key(e.name),
                         child: Text(e.name),
                         value: e.name,
                       ))
@@ -92,10 +94,12 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
                   borderRadius: BorderRadius.all(Radius.circular(10))),
             ),
             DropdownButtonFormField(
+              key: Key('variant_field'),
               value: chosenVariant,
               items: chosenProduct?.variants
                       ?.map(
                         (e) => DropdownMenuItem(
+                          key: Key(e.variantName),
                           child: Text(e.variantName),
                           value: e.variantName,
                         ),
@@ -119,6 +123,7 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
                   borderRadius: BorderRadius.all(Radius.circular(10))),
             ),
             TextFormField(
+              key: Key('quantity_field'),
               autovalidateMode: AutovalidateMode.onUserInteraction,
               onSaved: (value) {
                 setState(() {
