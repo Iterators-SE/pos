@@ -6,7 +6,16 @@ import '../../../models/product_variant.dart';
 class Order {
   final List<ProductVariant> _products = [];
 
-  void addProduct(ProductVariant product) => _products.add(product);
+  void addProduct(ProductVariant product) {
+    var index = _products.indexWhere(
+      (element) =>
+          element.productId == product.productId &&
+          element.variantName == product.variantName,
+    );
+
+    index == -1 ? _products.add(product) : editProduct(product);
+  }
+
   void editProduct(ProductVariant product) {
     var index = _products.indexWhere(
       (element) =>
@@ -26,7 +35,6 @@ class Order {
   List<ProductVariant> get products => UnmodifiableListView(_products);
 
   double get total {
-    return _products.fold(
-        0, (prev, next) => prev + next.quantity * next.price);
+    return _products.fold(0, (prev, next) => prev + next.quantity * next.price);
   }
 }
