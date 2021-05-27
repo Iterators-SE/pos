@@ -123,7 +123,7 @@ void main() {
       FloatingActionButton,
       'Add Product',
     );
-    final CDT = find.byWidgetPredicate((widget) => widget is CustomDataTable);
+    final customDataTable = find.byWidgetPredicate((widget) => widget is CustomDataTable);
 
     expect(productField, findsOneWidget);
     expect(variantField, findsOneWidget);
@@ -149,7 +149,7 @@ void main() {
 
     await tester.pump();
 
-    expect(CDT, findsNothing); // Does not navigate onError
+    expect(customDataTable, findsNothing); // Does not navigate onError
 
     await tester.showKeyboard(quantityField);
     await tester.sendKeyEvent(LogicalKeyboardKey.backspace);
@@ -158,6 +158,6 @@ void main() {
 
     await tester.pump();
 
-    expect(CDT, findsNWidgets(2));
+    expect(customDataTable, findsNWidgets(2));
   });
 }
