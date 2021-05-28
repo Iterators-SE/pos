@@ -13,7 +13,7 @@ class GenericDiscountScreenPresenter
       return Center(child: CircularProgressIndicator());
     } else if (isViewAttached &&
         getView().state == AppState.done &&
-        getView().discounts.isNotEmpty) {
+        getView().discounts != null && getView().discounts.isNotEmpty) {
       return getView().body;
     } else {
       // return error
