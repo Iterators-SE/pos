@@ -9,23 +9,23 @@ require('dotenv').config()
 @Resolver(of => Product)
 export class ProductResolver {
     @Authorized()
-    @Mutation(() => Number, { nullable: true })
+    @Mutation(() => Product, { nullable: true })
 
-    async addProduct(@Ctx() ctx: Context, @Arg("productname") productname: string, @Arg("description") description: string, @Arg("taxable") taxable: boolean, @Arg("photolink") photolink: String) {
+    async addProduct(@Ctx() ctx: Context, @Arg("name") name: string, @Arg("description") description: string, @Arg("isTaxable") isTaxable: boolean, @Arg("photoLink") photoLink: String) {
         const user = await User.findOne({id: ctx.currentUser.id});
-        let productId;
-
+        let product;
         
-
         await Product.create({
-            productname,
-            description,
-            user: user,
-            taxable,
-            photolink:`${photolink}`
-        }).save().then(value => productId = value.id)
+          name: name,
+          user: user,
+          description: description,
+          isTaxable: isTaxable,
+          photoLink: `${photoLink}`,
+        }).save().then(value => product = value)
 
-      return productId;
+        console.log(product);
+
+      return product;
     }
 
     @Authorized()

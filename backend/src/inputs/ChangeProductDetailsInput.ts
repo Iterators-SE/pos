@@ -3,14 +3,14 @@ import { InputType, Field } from "type-graphql";
 @InputType()
 export class ChangeProductDetailsInput {
   @Field({ nullable: true })
-  productname?: string;
+  name?: string;
 
   @Field({ nullable: true })
   description?: string;
 
   @Field({ nullable: true })
-  taxable?: boolean;
+  isTaxable?: boolean;
 
   @Field({ nullable: true })
-  photolink?: string;
+  photoLink?: string;
 }

@@ -23,7 +23,7 @@ export class Discount extends BaseEntity {
     @Column({type: "integer"})
     percentage: number;
     
-    @Field(() => [Int])
+    @Field(() => [Product])
     @ManyToMany(() => Product, product => product.discounts, {nullable: true})
     @JoinTable()
     products: Product[];
@@ -42,15 +42,15 @@ export class Discount extends BaseEntity {
 @ObjectType()
 @ChildEntity()
 export class CustomDiscount extends Discount {
-    @Field()
+    @Field(() => String, {nullable: true})
     @Column({type: "daterange"})
     inclusiveDates: string;
 
-    @Field()
+    @Field(() => String, {nullable: true})
     @Column({type: "time"})
     startTime: string;
 
-    @Field()
+    @Field(() => String, {nullable: true})
     @Column({type: "time"})
     endTime: string;
 }

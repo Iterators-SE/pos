@@ -28,11 +28,13 @@ class Product {
 
   factory Product.fromJson(Map<String, dynamic> productJson){
     return Product(
-      id: productJson['id'],
-      name: productJson['productname'],
+      id: int.parse(productJson['id']),
+      name: productJson['name'],
       description: productJson['description'],
-      photoLink: productJson['photolink'],
-      isTaxable: productJson['taxable'],
+      photoLink: productJson['photoLink'],
+      isTaxable: productJson['isTaxable'],
+      variants: productJson['variant'].map<ProductVariant>(
+        (variant) => ProductVariant.fromJson(variant)).toList()  
     );
   }
 }
