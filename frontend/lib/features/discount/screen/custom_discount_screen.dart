@@ -88,8 +88,17 @@ class _CustomDiscountScreenState extends State<CustomDiscountScreen>
       context,
       MaterialPageRoute(
         builder: (context) => isAdd
-            ? GenericDiscountScreen()
-            : GenericDiscountScreen(isAdd: false),
+            ? GenericDiscountScreen(
+                allProducts: allProducts,
+                discount: null,
+                discounts: discounts,
+              )
+            : GenericDiscountScreen(
+                isAdd: false,
+                allProducts: allProducts,
+                discount: null,
+                discounts: discounts,
+              ),
       ),
     );
   }
