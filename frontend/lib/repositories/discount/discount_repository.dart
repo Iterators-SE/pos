@@ -9,7 +9,7 @@ abstract class IDiscountRepository {
 
   Future<Either<Failure, List<Discount>>> getDiscounts();
 
-  Future<Either<Failure, bool>> createGenericDiscount({
+  Future<Either<Failure, Discount>> createGenericDiscount({
     @required String description,
     @required int percentage,
     @required List<int> products,

@@ -1,17 +1,19 @@
 import 'package:either_option/either_option.dart';
-import 'package:meta/meta.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:meta/meta.dart';
 
 import '../../core/error/exception.dart';
 import '../../core/error/failure.dart';
+import '../../core/network/network_info.dart';
 import '../../datasources/discount/discount_datasource.dart';
 import '../../models/discounts.dart';
 import 'discount_repository.dart';
 
 class DiscountRepository implements IDiscountRepository {
   final DiscountDataSource remote;
+  final NetworkInfo network;
 
-  DiscountRepository({@required this.remote});
+  DiscountRepository({@required this.remote, @required this.network});
 
   @override
   Future<Either<Failure, Discount>> getDiscount({@required int id}) async {
@@ -46,7 +48,7 @@ class DiscountRepository implements IDiscountRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> createGenericDiscount({
+  Future<Either<Failure, Discount>> createGenericDiscount({
     @required String description,
     @required int percentage,
     @required List<int> products,
