@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../../core/themes/config.dart';
 import '../../../../../models/discounts.dart';
+import '../../../../../models/product.dart';
 import '../../../../../repositories/discount/discount_repository_implementation.dart';
 import '../../generic_discount_screen.dart';
 import '../custom_discount_fab.dart';
@@ -14,8 +15,14 @@ import '../title.dart';
 
 class DiscountDetails extends StatefulWidget {
   final Discount discount;
+  final List<Discount> discounts;
+  final List<Product> allProducts;
 
-  const DiscountDetails({@required this.discount});
+  const DiscountDetails({
+    @required this.discount,
+    @required this.discounts,
+    @required this.allProducts,
+  });
 
   @override
   _DiscountDetailsState createState() => _DiscountDetailsState();
@@ -60,7 +67,7 @@ class _DiscountDetailsState extends State<DiscountDetails> {
               ),
               border: Border.all(color: xposGreen[500]),
             ),
-            child: duration(), // TODO: EDIT TO REFLECT REAL DATA
+            child: duration(), // TODO: KRISTIAN, EDIT TO REFLECT REAL DATA
           ),
           subtitle("Discount Percent:"),
           durationContainer("${widget.discount.percentage}%")
@@ -71,7 +78,12 @@ class _DiscountDetailsState extends State<DiscountDetails> {
           onPressed: () => Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => GenericDiscountScreen(isAdd: false),
+              builder: (context) => GenericDiscountScreen(
+                isAdd: false,
+                discounts: widget.discounts,
+                discount: widget.discount,
+                allProducts: widget.allProducts,
+              ),
             ),
           ),
           label: "EDIT",

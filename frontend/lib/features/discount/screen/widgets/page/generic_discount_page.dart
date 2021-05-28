@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../../models/discounts.dart';
 import '../../../../../models/product.dart';
+import '../../../../../repositories/discount/discount_repository_implementation.dart';
 import '../custom_discount_fab.dart';
 import '../subtitle.dart';
 import '../title.dart';
 
-class GenericDiscountScreen extends StatefulWidget {
+class GenericDiscountPage extends StatefulWidget {
   // final GlobalKey<FormState> formKey;
   final Discount discount;
   final Function onSave;
@@ -17,7 +19,7 @@ class GenericDiscountScreen extends StatefulWidget {
   final List<Product> products;
   final List<Discount> discounts;
 
-  const GenericDiscountScreen({
+  const GenericDiscountPage({
     Key key,
     @required this.onSave,
     @required this.onPressed,
@@ -29,10 +31,10 @@ class GenericDiscountScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _GenericDiscountScreenState createState() => _GenericDiscountScreenState();
+  _GenericDiscountPageState createState() => _GenericDiscountPageState();
 }
 
-class _GenericDiscountScreenState extends State<GenericDiscountScreen> {
+class _GenericDiscountPageState extends State<GenericDiscountPage> {
   final _formKey = GlobalKey<FormState>();
 
   // ignore: unused_field
@@ -47,9 +49,17 @@ class _GenericDiscountScreenState extends State<GenericDiscountScreen> {
 
   @override
   void initState() {
+    products = widget.products ?? [];
+    includedProducts = widget.discount?.products ?? [];
+
     for (var i = 0; i < products.length; i++) {
-      checkbox.add(false);
+      if (widget.discount != null) {
+        checkbox.add(widget.discount.products.contains(i));
+      } else {
+        checkbox.add(false);
+      }
     }
+
 
     super.initState();
   }
@@ -149,8 +159,11 @@ class _GenericDiscountScreenState extends State<GenericDiscountScreen> {
           icon: widget.iconLabel,
         ),
         CustomDiscountFAB(
-          onPressed: () {
-            if (_formKey.currentState.validate()) {
+          onPressed: () async {
+            if (_formKey.currentState.validate() &&
+                await Provider.of<DiscountRepository>(context, listen: false)
+                    .network
+                    .isConnected()) {
               widget.onSave();
             }
           },

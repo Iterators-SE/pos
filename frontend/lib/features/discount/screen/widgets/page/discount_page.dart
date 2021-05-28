@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
+
 import '../../../../../models/discounts.dart';
+import '../../../../../models/product.dart';
 import '../title.dart';
 import 'discount_details.dart';
 
 class DiscountPage extends StatelessWidget {
   final List<Discount> discounts;
+  final List<Product> allProducts;
 
-  const DiscountPage({Key key, this.discounts}) : super(key: key);
+  const DiscountPage({
+    Key key,
+    this.discounts,
+    this.allProducts,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +42,11 @@ class DiscountPage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          DiscountDetails(discount: discounts[index]),
+                      builder: (context) => DiscountDetails(
+                        discount: discounts[index],
+                        discounts: discounts,
+                        allProducts: allProducts,
+                      ),
                     ),
                   );
                 },

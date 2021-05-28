@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../../models/discounts.dart';
 import '../../../../../models/product.dart';
+import '../../../../../repositories/discount/discount_repository_implementation.dart';
 import '../custom_discount_fab.dart';
 import '../subtitle.dart';
 import '../title.dart';
 
 class CustomDiscountPage extends StatefulWidget {
-  // final GlobalKey<FormState> formKey;
+  final CustomDiscount discount;
   final Function onSave;
   final Function onPressed;
   final String label;
@@ -16,15 +18,16 @@ class CustomDiscountPage extends StatefulWidget {
   final List<Product> products;
   final List<Discount> discounts;
 
-  const CustomDiscountPage({
-    Key key,
-    @required this.onSave,
-    @required this.onPressed,
-    @required this.label,
-    @required this.iconLabel,
-    @required this.products,
-    @required this.discounts,
-  }) : super(key: key);
+  const CustomDiscountPage(
+      {Key key,
+      @required this.onSave,
+      @required this.onPressed,
+      @required this.label,
+      @required this.iconLabel,
+      @required this.products,
+      @required this.discounts,
+      this.discount})
+      : super(key: key);
 
   @override
   _CustomDiscountPageState createState() => _CustomDiscountPageState();
@@ -45,8 +48,15 @@ class _CustomDiscountPageState extends State<CustomDiscountPage> {
 
   @override
   void initState() {
+    products = widget.products ?? [];
+    includedProducts = widget.discount?.products ?? [];
+
     for (var i = 0; i < products.length; i++) {
-      checkbox.add(false);
+      if (widget.discount != null) {
+        checkbox.add(widget.discount.products.contains(i));
+      } else {
+        checkbox.add(false);
+      }
     }
 
     super.initState();
@@ -69,6 +79,9 @@ class _CustomDiscountPageState extends State<CustomDiscountPage> {
             Container(
               margin: EdgeInsets.only(left: 20, right: 20, top: 10),
               child: TextFormField(
+                initialValue: widget.discount != null
+                    ? widget.discount.description
+                    : null,
                 validator: (value) =>
                     value.isEmpty ? "Please enter description" : null,
                 onChanged: (value) => setState(() => _description = value),
@@ -141,8 +154,11 @@ class _CustomDiscountPageState extends State<CustomDiscountPage> {
           icon: widget.iconLabel,
         ),
         CustomDiscountFAB(
-          onPressed: () {
-            if (_formKey.currentState.validate()) {
+          onPressed: () async {
+            if (_formKey.currentState.validate() &&
+                await Provider.of<DiscountRepository>(context, listen: false)
+                    .network
+                    .isConnected()) {
               widget.onSave();
             }
           },
