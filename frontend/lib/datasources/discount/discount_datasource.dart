@@ -6,7 +6,7 @@ abstract class DiscountDataSource {
 
   Future<List<Discount>> getDiscounts();
 
-  Future<bool> createGenericDiscount({
+  Future<Discount> createGenericDiscount({
     @required String description,
     @required int percentage,
     @required List<int> products,
