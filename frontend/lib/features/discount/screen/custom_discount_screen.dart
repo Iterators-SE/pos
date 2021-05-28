@@ -1,8 +1,12 @@
+import 'package:either_option/either_option.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../../core/error/failure.dart';
 import '../../../core/state/app_state.dart';
 import '../../../models/discounts.dart';
 import '../../../models/product.dart';
+import '../../../repositories/discount/discount_repository_implementation.dart';
 import '../presenter/custom_discount_presenter.dart';
 import '../view/custom_discount_screen_view.dart';
 import 'generic_discount_screen.dart';
@@ -11,15 +15,17 @@ import 'widgets/page/custom_discount_page.dart';
 
 class CustomDiscountScreen extends StatefulWidget {
   final List<Product> products;
+  final List<Product> allProducts;
   final CustomDiscount discount;
   final bool isAdd;
 
-  const CustomDiscountScreen({
-    Key key,
-    this.isAdd,
-    this.products,
-    this.discount,
-  }) : super(key: key);
+  const CustomDiscountScreen(
+      {Key key,
+      this.isAdd = true,
+      this.products,
+      this.discount,
+      this.allProducts})
+      : super(key: key);
 
   @override
   _CustomDiscountScreenState createState() => _CustomDiscountScreenState();
@@ -31,6 +37,9 @@ class _CustomDiscountScreenState extends State<CustomDiscountScreen>
 
   @override
   AppState state;
+
+  @override
+  CustomDiscount discount;
 
   @override
   Widget body;
@@ -52,6 +61,9 @@ class _CustomDiscountScreenState extends State<CustomDiscountScreen>
 
   @override
   List<int> includedProducts;
+
+  @override
+  List<Product> allProducts;
 
   @override
   int percentage;
@@ -83,9 +95,37 @@ class _CustomDiscountScreenState extends State<CustomDiscountScreen>
   }
 
   @override
-  void onSave() {
+  void onSave() async {
+    Either<Failure, Discount> result;
+
     if (isAdd) {
-    } else {}
+      result = await Provider.of<DiscountRepository>(context, listen: false)
+          .createCustomDiscount(
+        description: description,
+        percentage: percentage,
+        products: includedProducts,
+        endDate: endDate,
+        startDate: startDate,
+        endTime: endTime.toString(),
+        startTime: startTime.toString(),
+      );
+    } else {
+      result = await Provider.of<DiscountRepository>(context, listen: false)
+          .updateCustomDiscount(
+        id: discount.id,
+        description: description,
+        percentage: percentage,
+        products: includedProducts,
+        endDate: endDate,
+        startDate: startDate,
+        endTime: endTime.toString(),
+        startTime: startTime.toString(),
+      );
+    }
+
+    if (result.isRight) {
+      Navigator.pop(context);
+    }
   }
 
   @override
@@ -100,15 +140,6 @@ class _CustomDiscountScreenState extends State<CustomDiscountScreen>
   @override
   void setEndTime(TimeOfDay time) => setState(() => endTime = time);
 
-  // @override
-  // void toggle() {
-  //   isAdd = !isAdd;
-  //   startTime = null;
-  //   endTime = null;
-  //   startDate = null;
-  //   startDate = null;
-  // }
-
   @override
   void initState() {
     _presenter = CustomDiscountScreenPresenter();
@@ -119,16 +150,17 @@ class _CustomDiscountScreenState extends State<CustomDiscountScreen>
     isAdd = widget.isAdd;
 
     includedProducts = widget.discount.products;
+    allProducts = widget.allProducts;
     percentage = widget.discount.percentage;
 
     body = CustomDiscountPage(
-      onSave: onSave,
-      onPressed: onPressed,
-      label: isAdd ? "Create Generic Discount" : "Create Custom Discount",
-      iconLabel: isAdd ? Icons.add : Icons.edit,
-      products: widget.products,
-      discounts: discounts,
-    );
+        onSave: onSave,
+        onPressed: onPressed,
+        label: isAdd ? "Create Generic Discount" : "Create Custom Discount",
+        iconLabel: isAdd ? Icons.add : Icons.edit,
+        products: widget.allProducts,
+        discounts: discounts,
+        discount: discount);
 
     super.initState();
   }
