@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../../../core/state/app_state.dart';
 import '../../../models/discounts.dart';
+import '../../../models/product.dart';
 
 abstract class CustomDiscountScreenView {
   AppState state;
   List<Discount> discounts = [];
+  CustomDiscount discount;
 
   bool isAdd = true;
 
@@ -18,6 +20,7 @@ abstract class CustomDiscountScreenView {
   DateTime endDate;
 
   List<int> includedProducts = [];
+  List<Product> allProducts = [];
 
   String formatTime(String time);
 
