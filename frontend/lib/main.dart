@@ -8,19 +8,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'core/network/network_info.dart';
 import 'core/themes/config.dart';
 import 'core/themes/xpos_theme.dart';
-
 import 'datasources/authentication/authentication_datasource.dart';
 import 'datasources/authentication/authentication_remote_datasource.dart';
+import 'datasources/discount/discount_remote_datasource.dart';
 import 'datasources/transactions/transaction_datasource.dart';
 import 'datasources/transactions/transaction_local_datasource.dart';
 import 'datasources/transactions/transaction_remote_datasource.dart';
-
 import 'features/authentication/screens/authentication_screen.dart';
 import 'features/home/screens/home_screen.dart';
-
 import 'providers/user_provider.dart';
 import 'repositories/authentication/authentication_repository.dart';
 import 'repositories/authentication/authentication_repository_implementation.dart';
+import 'repositories/discount/discount_repository.dart';
+import 'repositories/discount/discount_repository_implementation.dart';
 import 'repositories/transactions/transaction_repository.dart';
 import 'repositories/transactions/transaction_repository_implementation.dart';
 
@@ -34,6 +34,8 @@ void main() {
 
   IAuthenticationDataSource _authenticationDataSource;
   IAuthenticationRepository _authenticationRepository;
+
+  IDiscountRepository _discountRepository;
 
   ITransactionRemoteDataSource _transactionRemoteDataSource;
   ITransactionLocalDataSource _transactionLocalDataSource;
@@ -51,8 +53,6 @@ void main() {
     link: _httpLink,
   );
 
-  // var dataConnectionChecker = DataConnectionChecker();
-  // _networkInfo = NetworkInfoImplementation(dataConnectionChecker);
   _networkInfo = NetworkInfoImplementation();
 
   _authenticationDataSource = AuthenticationRemoteDataSource(
@@ -73,6 +73,14 @@ void main() {
     network: _networkInfo,
   );
 
+  _discountRepository = DiscountRepository(
+    remote: DiscountRemoteDataSource(
+      client: _client,
+      storage: _storage,
+    ),
+    network: _networkInfo
+  );
+
   runApp(
     MultiProvider(
       providers: [
@@ -84,6 +92,9 @@ void main() {
         ),
         Provider<TransactionRepository>(
           create: (context) => _transactionRepository,
+        ),
+        Provider<DiscountRepository>(
+          create: (context) => _discountRepository,
         )
       ],
       builder: (context, child) {
@@ -133,7 +144,6 @@ class _MyAppState extends State<MyApp> {
       themeMode: currentTheme.currentTheme,
       home: Consumer<UserProvider>(
         builder: (context, user, child) {
-          // return TransactionScreen();
           return user.token != null ? HomeScreen() : AuthenticationScreen();
         },
       ),
