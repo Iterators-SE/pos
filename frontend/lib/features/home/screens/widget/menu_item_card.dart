@@ -20,9 +20,10 @@ class MenuItemCard extends StatelessWidget {
             border: Border.all(color: xposGreen),
             borderRadius: BorderRadius.circular(20),
             gradient: LinearGradient(
-                colors: [Colors.blueGrey[50], xposGreen[50]],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter)
+              colors: [Colors.blueGrey[50], xposGreen[50]],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            )
             // color: Colors.blueGrey[colorCodes.asMap()]
             ),
         child: Center(
@@ -33,7 +34,7 @@ class MenuItemCard extends StatelessWidget {
                 flex: 2,
                 child: CircleAvatar(
                   radius: 38,
-                  backgroundImage: NetworkImage(element.url),
+                  backgroundImage: AssetImage(element.url),
                 ),
               ),
               Expanded(

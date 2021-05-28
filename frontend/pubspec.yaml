@@ -49,6 +49,11 @@ flutter:
     - assets/images/stocks.png
     - assets/images/orders.png
     - assets/images/Xpos.png
+    - assets/images/xpos_home_logo.png
+    - assets/images/stocks.png
+    - assets/images/sample.png
+    - assets/images/cappuccino.jpg
+
   fonts:
     - family: Montserrat Bold
       fonts:
