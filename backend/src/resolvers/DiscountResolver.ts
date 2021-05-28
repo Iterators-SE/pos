@@ -19,7 +19,7 @@ export class DiscountResolver {
     @Query(() => [Discount], { nullable: true })
     async getDiscounts(@Ctx() ctx: Context) {
         const user = await User.findOne(ctx.currentUser.id);
-        const discount = await Discount.find({ where: { user: user }});
+        const discount = await Discount.find({ where: { user: user }, relations: ["products"]});
         return discount;
     }
 
