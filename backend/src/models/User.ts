@@ -1,7 +1,8 @@
 import { Field, ID, ObjectType } from "type-graphql";
-import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Discount } from "./Discount";
 import { Product } from "./Product";
+import { Tax } from "./Tax";
 import { Transaction } from "./Transaction";
 
 // TODO [2021-03-12]: Add count
@@ -23,6 +24,9 @@ export class User extends BaseEntity {
     @Column()
     password: string;
 
+    @OneToMany(() => Tax, tax => tax.user, {nullable: true})
+    tax: Tax[];
+
     @OneToMany(() => Product, product => product.user, {nullable: true})
     product: Product[];
 
@@ -38,9 +42,11 @@ export class User extends BaseEntity {
     @CreateDateColumn({name: 'created_at'})
     createdAt: Date;
 
+    @Field()
     @Column({default: "Thank you!"})
     receiptMessage: string;
 
+    @Field()
     @Column({default: "Earth"})
     address: string;
 }
