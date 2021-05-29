@@ -1,5 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/datasources/profile/profile_datasource.dart';
+import 'package:frontend/datasources/profile/profile_local_datasource.dart';
+import 'package:frontend/datasources/profile/profile_remote_datasource.dart';
+import 'package:frontend/repositories/profile/profile_repository.dart';
+import 'package:frontend/repositories/profile/profile_repository_implementation.dart';
 import 'package:graphql/client.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
@@ -54,6 +59,10 @@ void main() {
   IInventoryLocalDataSource _inventoryLocalDataSource;
   IInventoryRepository _inventoryRepository;
 
+  IProfileRemoteDataSource _profileRemoteDataSource;
+  ProfileLocalDataSource _profileLocalDataSource;
+  IProfileRepository _profileRepository;
+
   SharedPreferences _storage;
 
   final devUri = 'http://localhost:5000/graphql';
@@ -61,10 +70,19 @@ void main() {
   final uri = kReleaseMode ? prodUri : devUri;
 
   _httpLink = HttpLink(uri);
+
   _client = GraphQLClient(
     cache: GraphQLCache(),
     link: _httpLink,
   );
+
+  // _client = GraphQLClient(
+  //   cache: GraphQLCache(),
+  //   link: AuthLink(
+  //           getToken: () =>
+  //               'Bearer ')
+  //       .concat(_httpLink),
+  // );
 
   _networkInfo = NetworkInfoImplementation();
 
@@ -105,11 +123,24 @@ void main() {
     network: _networkInfo,
   );
 
+  _profileLocalDataSource = ProfileLocalDataSource();
+  _profileRemoteDataSource = ProfileRemoteDatasource(
+    client: _client,
+  );
+
+  _profileRepository = ProfileRepository(
+      remote: _profileRemoteDataSource,
+      local: _profileLocalDataSource,
+      network: _networkInfo);
+
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider<UserProvider>(
           create: (_) => UserProvider(),
+        ),
+        Provider<ProfileRepository>(
+          create: (context) => _profileRepository,
         ),
         Provider<AuthenticationRepository>(
           create: (context) => _authenticationRepository,
