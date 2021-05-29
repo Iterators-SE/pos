@@ -146,8 +146,8 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
     super.initState();
   }
 
-  dynamic getData(BuildContext context) async {
-    var x = Provider.of<ProfileRepository>(context, listen: false);
+  // dynamic getData(BuildContext context) async {
+  //   var x = Provider.of<ProfileRepository>(context, listen: false);
 
     //   // var newProd = NewProduct(
     //   //   description: "Namiit",
@@ -200,30 +200,30 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
     //     )
     //   );
 
-    var input = UserProfile(
-      email: "ealanray@gmail.com",
-      name: "Alan's Amazing New Stoooooreeeeee",
-      receiptMessage: "Thank you for your patronage!",
-      address: "Sto Nino Sur, Arevalo, Iloilo City",
-    );
+  //   var input = UserProfile(
+  //     email: "ealanray@gmail.com",
+  //     name: "Alan's Amazing New Stoooooreeeeee",
+  //     receiptMessage: "Thank you for your patronage!",
+  //     address: "Sto Nino Sur, Arevalo, Iloilo City",
+  //   );
 
-    var response = await x
-      .updateProfileInfo(input);
+  //   var response = await x
+  //     .updateProfileInfo(input);
 
-    var result =
-        response.fold((failure) => UserProfile(), (userInfo) => userInfo);
+  //   var result =
+  //       response.fold((failure) => UserProfile(), (userInfo) => userInfo);
 
-    print(await result.id);
-    print(await result.address);
-    print(await result.email);
-    print(await result.name);
-    print(await result.receiptMessage);
-    //   //   // print(await response.runtimeType);
-  }
+  //   print(await result.id);
+  //   print(await result.address);
+  //   print(await result.email);
+  //   print(await result.name);
+  //   print(await result.receiptMessage);
+  //   //   //   // print(await response.runtimeType);
+  // }
 
   @override
   Widget build(BuildContext context) {
-    getData(context);
+    // getData(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("XPOS", textAlign: TextAlign.center),
