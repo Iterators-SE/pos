@@ -1,6 +1,6 @@
+// ignore: implementation_imports
 import 'package:either_option/src/either.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:frontend/core/error/failure.dart';
 import 'package:graphql/client.dart';
 
 import '../../core/error/exception.dart';
@@ -24,7 +24,7 @@ class ProfileRepository implements IProfileRepository {
 
   @override
   Future<Either<Failure, UserProfile>> getProfileInfo() async {
-    if (true) {
+    if (await network.isConnected()) {
       try {
         final data = await remote.getProfileInfo();
         // await print("Repo");
@@ -55,7 +55,7 @@ class ProfileRepository implements IProfileRepository {
   @override
   Future<Either<Failure, UserProfile>> updateProfileInfo(
       UserProfile userProfile) async {
-    if (true) {
+    if (await network.isConnected()) {
       try {
         final data = await remote.updateProfileInfo(userProfile);
         // await print("Repo");

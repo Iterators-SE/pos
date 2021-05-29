@@ -1,10 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/datasources/profile/profile_datasource.dart';
-import 'package:frontend/datasources/profile/profile_local_datasource.dart';
-import 'package:frontend/datasources/profile/profile_remote_datasource.dart';
-import 'package:frontend/repositories/profile/profile_repository.dart';
-import 'package:frontend/repositories/profile/profile_repository_implementation.dart';
 import 'package:graphql/client.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
@@ -13,29 +8,30 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'core/network/network_info.dart';
 import 'core/themes/config.dart';
 import 'core/themes/xpos_theme.dart';
-
 import 'datasources/authentication/authentication_datasource.dart';
 import 'datasources/authentication/authentication_remote_datasource.dart';
 import 'datasources/discount/discount_remote_datasource.dart';
 import 'datasources/inventory/inventory_datasource.dart';
 import 'datasources/inventory/inventory_local_datasource.dart';
 import 'datasources/inventory/inventory_remote_datasource.dart';
+import 'datasources/profile/profile_datasource.dart';
+import 'datasources/profile/profile_local_datasource.dart';
+import 'datasources/profile/profile_remote_datasource.dart';
 import 'datasources/transactions/transaction_datasource.dart';
 import 'datasources/transactions/transaction_local_datasource.dart';
 import 'datasources/transactions/transaction_remote_datasource.dart';
-
 import 'features/authentication/screens/authentication_screen.dart';
 import 'features/home/screens/home_screen.dart';
 import 'graphql/queries.dart';
-
 import 'providers/user_provider.dart';
-
 import 'repositories/authentication/authentication_repository.dart';
 import 'repositories/authentication/authentication_repository_implementation.dart';
 import 'repositories/discount/discount_repository.dart';
 import 'repositories/discount/discount_repository_implementation.dart';
 import 'repositories/inventory/inventory_repository.dart';
 import 'repositories/inventory/inventory_repository_implementation.dart';
+import 'repositories/profile/profile_repository.dart';
+import 'repositories/profile/profile_repository_implementation.dart';
 import 'repositories/transactions/transaction_repository.dart';
 import 'repositories/transactions/transaction_repository_implementation.dart';
 
