@@ -5,11 +5,11 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/themes/xpos_theme.dart';
-import '../../../models/user_profile.dart';
+// import '../../../models/user_profile.dart';
 // import '../../../models/product.dart';
 // import '../../../models/product_variant.dart';
 import '../../../providers/user_provider.dart';
-import '../../../repositories/profile/profile_repository_implementation.dart';
+// import '../../../repositories/profile/profile_repository_implementation.dart';
 // import '../../../repositories/inventory/inventory_repository_implementation.dart';
 import '../../discount/screen/discount_screen.dart';
 import '../../inventory/screens/inventory_screen.dart';
