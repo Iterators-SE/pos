@@ -19,7 +19,8 @@ dependencies:
   # Local
   shared_preferences: ^2.0.5
   flutter_secure_storage:
-  sqflite: ^1.3.0
+  sqflite: 
+  moor_flutter:
   # fp
   either_option: ^1.0.6
   #auth
@@ -39,6 +40,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   effective_dart: ^1.3.0
+  moor_generator:
+  build_runner:
   lint:
   mockito:
 
