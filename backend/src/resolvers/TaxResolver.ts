@@ -16,7 +16,7 @@ export class TaxResolver {
 
     await Tax.create({
       name: name,
-      perentage: percentage,
+      percentage: percentage,
       user: user,
     }).save().then(tax => {
       isSuccessful = this.selectTax(ctx, tax.id);
