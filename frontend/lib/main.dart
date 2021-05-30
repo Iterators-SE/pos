@@ -1,3 +1,4 @@
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql/client.dart';
@@ -17,6 +18,9 @@ import 'datasources/inventory/inventory_remote_datasource.dart';
 import 'datasources/profile/profile_datasource.dart';
 import 'datasources/profile/profile_local_datasource.dart';
 import 'datasources/profile/profile_remote_datasource.dart';
+import 'datasources/tax/tax_datasource.dart';
+import 'datasources/tax/tax_local_datasource.dart';
+import 'datasources/tax/tax_remote_datasource.dart';
 import 'datasources/transactions/transaction_datasource.dart';
 import 'datasources/transactions/transaction_local_datasource.dart';
 import 'datasources/transactions/transaction_remote_datasource.dart';
@@ -32,6 +36,8 @@ import 'repositories/inventory/inventory_repository.dart';
 import 'repositories/inventory/inventory_repository_implementation.dart';
 import 'repositories/profile/profile_repository.dart';
 import 'repositories/profile/profile_repository_implementation.dart';
+import 'repositories/tax/tax_repository.dart';
+import 'repositories/tax/tax_repository_implementation.dart';
 import 'repositories/transactions/transaction_repository.dart';
 import 'repositories/transactions/transaction_repository_implementation.dart';
 
@@ -58,6 +64,10 @@ void main() {
   IProfileRemoteDataSource _profileRemoteDataSource;
   ProfileLocalDataSource _profileLocalDataSource;
   IProfileRepository _profileRepository;
+
+  ITaxRemoteDataSource _taxRemoteDataSource;
+  ITaxLocalDataSource _taxLocalDataSource;
+  ITaxRepository _taxRepository;
 
   SharedPreferences _storage;
 
@@ -129,6 +139,14 @@ void main() {
       local: _profileLocalDataSource,
       network: _networkInfo);
 
+  _taxLocalDataSource = TaxLocalDataSource();
+  _taxRemoteDataSource = TaxRemoteDataSource(client: _client);
+
+  _taxRepository = TaxRepository(
+      remote: _taxRemoteDataSource,
+      local: _taxLocalDataSource,
+      network: _networkInfo);
+
   runApp(
     MultiProvider(
       providers: [
@@ -149,6 +167,9 @@ void main() {
         ),
         Provider<InventoryRepository>(
           create: (context) => _inventoryRepository,
+        ),
+        Provider<TaxRepository>(
+          create: (context) => _taxRepository,
         )
       ],
       builder: (context, child) {
