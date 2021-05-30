@@ -24,5 +24,5 @@ export class Tax extends BaseEntity {
 
   @Column("decimal", {precision: 3, scale: 2})
   @Field()
-  perentage: number;
+  percentage: number;
 }
