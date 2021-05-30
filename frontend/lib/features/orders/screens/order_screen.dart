@@ -73,14 +73,77 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
 
   @override
   Future<Either<Failure, List<Product>>> getProducts() async {
-    return await Provider.of<InventoryRepository>(context, listen: false)
-        .getProducts();
+    // return await Provider.of<InventoryRepository>(context, listen: false)
+    //     .getProducts();
+    return Right([
+      Product(id: 2, name: "Poseidon", variants: [
+        ProductVariant(
+          variantId: 1,
+          price: 100,
+          quantity: 300,
+          variantName: "Small",
+          productId: 2,
+        ),
+        ProductVariant(
+          variantId: 2,
+          price: 120,
+          quantity: 40,
+          variantName: "Regular",
+          productId: 2,
+        ),
+        ProductVariant(
+          variantId: 3,
+          price: 180,
+          quantity: 3,
+          variantName: "Large",
+          productId: 2,
+        ),
+      ]),
+      Product(id: 1, name: "Olympus Cappucino", variants: [
+        ProductVariant(
+          variantId: 4,
+          price: 100,
+          quantity: 300,
+          variantName: "Small",
+          productId: 1,
+        ),
+        ProductVariant(
+          variantId: 5,
+          price: 120,
+          quantity: 40,
+          variantName: "Regular",
+          productId: 1,
+        ),
+        ProductVariant(
+          variantId: 6,
+          price: 180,
+          quantity: 3,
+          variantName: "Large",
+          productId: 1,
+        ),
+      ]),
+    ]);
   }
 
   @override
   Future<Either<Failure, List<Discount>>> getDiscounts() async {
-    return await Provider.of<DiscountRepository>(context, listen: false)
-        .getDiscounts();
+    // return await Provider.of<DiscountRepository>(context, listen: false)
+    //     .getDiscounts();
+
+    return Right([
+      Discount(
+        id: 1,
+        percentage: 20,
+        products: [1, 2],
+        description: "Senior Citizen",
+      ),
+      Discount(
+        id: 2,
+        percentage: 15,
+        products: [1, 2],
+        description: "PWD",
+      )
+    ]);
   }
 
   @override
@@ -156,9 +219,20 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
                           ),
                           CustomDataTable(
                             columns: [
-                              DataColumn(label: Text('Description')),
                               DataColumn(
-                                label: Text('Breakdown'),
+                                  label: Text(
+                                'Description',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )),
+                              DataColumn(
+                                label: Text(
+                                  'Breakdown',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                                 numeric: true,
                               ),
                             ],
@@ -203,12 +277,11 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
                             children: [
                               OrderButton(
                                 text: "Cancel Order",
-                                onPressed:
-                                    order.products.isEmpty ? null : cancelOrder,
+                                onPressed: !hasProducts ? null : cancelOrder(),
                               ),
                               OrderButton(
                                 text: "Process Order",
-                                onPressed: processOrder,
+                                onPressed: hasProducts ? processOrder() : null,
                               ),
                             ],
                           )
@@ -247,7 +320,7 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
             context: context,
             builder: (context) => DiscountDialog(
               discounts: allDiscounts,
-              selectedDiscounts: order.discounts,
+              selectedDiscounts: order.discounts.toList(),
               onPressed: () => addDiscount,
             ),
           ),
