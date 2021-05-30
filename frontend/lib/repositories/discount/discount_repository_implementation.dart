@@ -10,30 +10,44 @@ import '../../models/discounts.dart';
 import 'discount_repository.dart';
 
 class DiscountRepository implements IDiscountRepository {
-  final DiscountDataSource remote;
+  final IDiscountRemoteDataSource remote;
+  final IDiscountLocalDataSource local;
   final NetworkInfo network;
 
-  DiscountRepository({@required this.remote, @required this.network});
+  DiscountRepository(
+      {@required this.remote, @required this.network, this.local});
 
   @override
   Future<Either<Failure, Discount>> getDiscount({@required int id}) async {
-    try {
-      final data = await remote.getDiscount(id: id);
+    if (await network.isConnected()) {
+      try {
+        final data = await remote.getDiscount(id: id);
+        return Right(data);
+      } on OperationException catch (e) {
+        return Left(OperationFailure(e.graphqlErrors.first.message));
+      } on NoResultsFoundException {
+        return Left(NoResultsFoundFailure());
+      } on Exception {
+        return Left(ServerFailure());
+      } catch (e) {
+        return Left(UnhandledFailure());
+      }
+    }
+    else {
+      try{final data = await local.getDiscount(id: id);
       return Right(data);
-    } on OperationException catch (e) {
-      return Left(OperationFailure(e.graphqlErrors.first.message));
-    } on NoResultsFoundException {
-      return Left(NoResultsFoundFailure());
-    } on Exception {
-      return Left(ServerFailure());
-    } catch (e) {
-      return Left(UnhandledFailure());
+      }
+      on CacheException{
+        return Left(CacheFailure());
+      }catch (e){
+        return Left(UnhandledFailure());
+      }
     }
   }
 
   @override
   Future<Either<Failure, List<Discount>>> getDiscounts() async {
-    try {
+    if(await network.isConnected()){try {
       final data = await remote.getDiscounts();
       return Right(data);
     } on OperationException catch (e) {
@@ -44,6 +58,17 @@ class DiscountRepository implements IDiscountRepository {
       return Left(ServerFailure());
     } catch (e) {
       return Left(UnhandledFailure());
+    }}
+    else {
+      try{final data = await local.getDiscounts();
+      return Right(data);
+      }
+      on CacheException{
+        return Left(CacheFailure());
+      }catch (e){
+        return Left(UnhandledFailure());
+      }
+
     }
   }
 

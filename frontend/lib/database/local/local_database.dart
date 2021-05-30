@@ -75,6 +75,13 @@ class AppDatabase extends _$AppDatabase {
     return (select(discounts)..where((discount) => discount.id.equals(id)))
         .getSingle();
   }
+
   Future<List<Order>> getOrders() => select(orders).get();
+  Future<Transaction> getTransaction(int id) {
+    return (select(transactions)
+          ..where((transaction) => transaction.id.equals(id)))
+        .getSingle();
+  }
+
   Future<List<Transaction>> getTransactions() => select(transactions).get();
 }

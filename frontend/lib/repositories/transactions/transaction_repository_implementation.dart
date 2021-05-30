@@ -23,7 +23,7 @@ class TransactionRepository implements ITransactionRepository {
   });
 
   @override
-  Future<Either<Failure, Transaction>> getTransaction({int id}) async {
+  Future<Either<Failure, dynamic>> getTransaction({int id}) async {
     if (await network.isConnected()) {
       try {
         final data = await remote.getTransaction(id: id);
@@ -72,7 +72,7 @@ class TransactionRepository implements ITransactionRepository {
   }
 
   @override
-  Future<Either<Failure, List<Transaction>>> getTransactions() async {
+  Future<Either<Failure, List<dynamic>>> getTransactions() async {
     if (await network.isConnected()) {
       try {
         final data = await remote.getTransactions();
