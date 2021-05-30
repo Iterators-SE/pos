@@ -7,15 +7,29 @@ import 'widget/custom_alert_dialog.dart';
 import 'widget/custom_data_table.dart';
 import 'widget/order_button.dart';
 
-class InvoiceScreen extends StatelessWidget {
+class InvoiceScreen extends StatefulWidget {
   final Order order;
   final List<Product> allProducts;
 
   const InvoiceScreen({
     Key key,
     @required this.order,
-    this.allProducts,
+    @required this.allProducts,
   }) : super(key: key);
+
+  @override
+  _InvoiceScreenState createState() => _InvoiceScreenState();
+}
+
+class _InvoiceScreenState extends State<InvoiceScreen> {
+  final _formKey = GlobalKey<FormState>();
+  double amount;
+
+  @override
+  void initState() {
+    amount = widget.order.total;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,21 +50,21 @@ class InvoiceScreen extends StatelessWidget {
                 ),
               ),
               CustomDataTable(
-                order: order,
+                order: widget.order,
                 onPressed: null,
                 showEdit: false,
               ),
               CustomDataTable(
-                order: order,
+                order: widget.order,
                 onPressed: () => (productVariant) async => await showDialog(
                       context: context,
                       builder: (context) => CustomAlertDialog(
-                        chosenProduct: allProducts.firstWhere(
+                        chosenProduct: widget.allProducts.firstWhere(
                           (e) => e.id == productVariant.productID,
                         ),
                         quantity: productVariant.quantity,
                         chosenVariant: productVariant.variantName,
-                        allProducts: allProducts,
+                        allProducts: widget.allProducts,
                       ),
                     ),
                 columns: [
@@ -63,7 +77,7 @@ class InvoiceScreen extends StatelessWidget {
                       DataCell(Text("Price")),
                       DataCell(
                         Text(
-                          order.total.toString(),
+                          widget.order.total.toString(),
                         ),
                       )
                     ],
@@ -73,7 +87,7 @@ class InvoiceScreen extends StatelessWidget {
                       DataCell(Text("Discount")),
                       DataCell(
                         Text(
-                          "0",
+                          widget.order.discountTotal.toString(),
                         ),
                       )
                     ],
@@ -93,7 +107,7 @@ class InvoiceScreen extends StatelessWidget {
                       DataCell(Text("Total")),
                       DataCell(
                         Text(
-                          '${order.total + 0}', // discount
+                          '${widget.order.total - widget.order.discountTotal}',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
@@ -106,10 +120,27 @@ class InvoiceScreen extends StatelessWidget {
                       DataCell(Text("Cash Tendered")),
                       DataCell(
                         TextFormField(
+                          key: _formKey,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           decoration: InputDecoration(
                             hintText: '130',
                             border: OutlineInputBorder(),
                           ),
+                          onChanged: (value) {
+                            if ( double.tryParse(value) >= widget.order.total) {
+                              setState(() => amount =
+                                double.tryParse(value) ?? widget.order.total);
+                            }
+                            
+                          },
+                          validator: (value) {
+                            if (double.tryParse(value) != null &&
+                                double.parse(value) >= widget.order.total) {
+                              return null;
+                            }
+
+                            return "Insufficient amount";
+                          },
                         ),
                       )
                     ],
@@ -119,7 +150,7 @@ class InvoiceScreen extends StatelessWidget {
                       DataCell(Text("Change")),
                       DataCell(
                         Text(
-                          '10',
+                          '${amount - widget.order.total}',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
@@ -140,7 +171,12 @@ class InvoiceScreen extends StatelessWidget {
               SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [OrderButton(onPressed: null, text: "Print")],
+                children: [
+                  OrderButton(
+                    onPressed: amount >= widget.order.total ? null : null,
+                    text: "Print",
+                  )
+                ],
               ),
             ],
           ),
