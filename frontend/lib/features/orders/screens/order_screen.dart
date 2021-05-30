@@ -5,8 +5,10 @@ import 'package:provider/provider.dart';
 import '../../../core/error/failure.dart';
 import '../../../core/state/app_state.dart';
 import '../../../core/ui/styled_text_button.dart';
+import '../../../models/discounts.dart';
 import '../../../models/product.dart';
 import '../../../models/product_variant.dart';
+import '../../../repositories/discount/discount_repository_implementation.dart';
 import '../../../repositories/inventory/inventory_repository_implementation.dart';
 import '../models/order.dart';
 import '../presenters/order_screen_presenter.dart';
@@ -15,6 +17,7 @@ import 'invoice_screen.dart';
 import 'widget/custom_alert_dialog.dart';
 import 'widget/custom_data_table.dart';
 import 'widget/custom_floating_action_button.dart';
+import 'widget/discount_dialog.dart';
 import 'widget/order_button.dart';
 
 class OrderScreen extends StatefulWidget {
@@ -32,6 +35,7 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
   bool hasProducts = false;
 
   List<Product> allProducts = [];
+  List<Discount> allDiscounts = [];
 
   @override
   Function cancelOrder() {
@@ -63,8 +67,8 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
   }
 
   @override
-  Function addDiscount() {
-    return () => null;
+  void addDiscount(List<Discount> discounts) {
+    setState(() => order.addDiscount(discounts));
   }
 
   @override
@@ -73,7 +77,11 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
         .getProducts();
   }
 
-  List list = [];
+  @override
+  Future<Either<Failure, List<Discount>>> getDiscounts() async {
+    return await Provider.of<DiscountRepository>(context, listen: false)
+        .getDiscounts();
+  }
 
   @override
   void initState() {
@@ -83,12 +91,25 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
     state = AppState.loading;
     order = Order();
 
-    getProducts().then((value) {
+    getDiscounts().then((value) {
       var data = value.fold((failure) => failure, (result) => result);
+
       if (value.isRight) {
-        setState(() {
-          allProducts = data;
-          state = AppState.done;
+        setState(() => allDiscounts = data);
+
+        getProducts().then((product) {
+          var data = product.fold((failure) => failure, (result) => result);
+          if (product.isRight) {
+            setState(() {
+              allProducts = data;
+              state = AppState.done;
+            });
+          } else {
+            setState(() {
+              state = AppState.error;
+              failure = data;
+            });
+          }
         });
       } else {
         setState(() {
@@ -157,7 +178,7 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
                                   DataCell(Text("Discount")),
                                   DataCell(
                                     Text(
-                                      "0",
+                                      order.discountTotal.toString(),
                                     ),
                                   )
                                 ],
@@ -167,7 +188,7 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
                                   DataCell(Text("Total")),
                                   DataCell(
                                     Text(
-                                      '${order.total + 0}', // discount
+                                      '${order.total - order.discountTotal}',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -222,7 +243,14 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
               onPressed: () => addProduct,
             ),
           ),
-          onAddDiscount: null,
+          onAddDiscount: () async => await showDialog(
+            context: context,
+            builder: (context) => DiscountDialog(
+              discounts: allDiscounts,
+              selectedDiscounts: order.discounts,
+              onPressed: () => addDiscount,
+            ),
+          ),
         ),
       ),
     );
