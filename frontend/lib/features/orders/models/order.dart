@@ -1,10 +1,8 @@
 import 'dart:collection';
 
-import 'package:frontend/models/discounts.dart';
-
+import '../../../models/discounts.dart';
 import '../../../models/product_variant.dart';
 
-// TODO: Transform to ChangeNotifier
 class Order {
   final List<ProductVariant> _products = [];
   final List<Discount> _discounts = [];
