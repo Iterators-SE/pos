@@ -44,20 +44,20 @@ class Order {
   double get discountTotal {
     var sum = 0.0;
 
-    var applicableProducts = _products
-        .where((element) => _discounts
-            .map((e) => e.products)
-            .toList()
-            .contains(element.productId))
-        .toList();
+    var applicableProducts = Set.of(_products.where((element) => _discounts
+        .map((e) => e.products)
+        .expand((e) => e)
+        .toList()
+        .contains(element.productId))).toList();
 
     for (var i = 0; i < _discounts.length; i++) {
-      var intersection = Set.of(_discounts[i].products).intersection(
-        Set.of(applicableProducts),
+      sum += applicableProducts.fold(
+        0,
+        (prev, next) => _discounts[i].products.contains(next.productId)
+            ? next.price * next.quantity * (_discounts[i].percentage / 100) +
+                prev
+            : prev,
       );
-
-      sum += intersection.fold(
-          0, (prev, next) => prev + next * _discounts[i].percent);
     }
 
     return sum;
