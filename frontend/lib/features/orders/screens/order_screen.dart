@@ -50,9 +50,12 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
     return () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => InvoiceScreen(
-              order: order,
-              allProducts: allProducts,
+            builder: (context) => Scaffold(
+              appBar: AppBar(),
+              body: InvoiceScreen(
+                order: order,
+                allProducts: allProducts,
+              ),
             ),
           ),
         );
