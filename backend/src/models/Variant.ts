@@ -23,5 +23,4 @@ export class Variant extends BaseEntity {
     @Column()
     @Field()
     quantity: number;
-
 }

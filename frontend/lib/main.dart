@@ -1,3 +1,4 @@
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/datasources/discount/discount_local_datasource.dart';
@@ -17,6 +18,12 @@ import 'datasources/discount/discount_remote_datasource.dart';
 import 'datasources/inventory/inventory_datasource.dart';
 import 'datasources/inventory/inventory_local_datasource.dart';
 import 'datasources/inventory/inventory_remote_datasource.dart';
+import 'datasources/profile/profile_datasource.dart';
+import 'datasources/profile/profile_local_datasource.dart';
+import 'datasources/profile/profile_remote_datasource.dart';
+import 'datasources/tax/tax_datasource.dart';
+import 'datasources/tax/tax_local_datasource.dart';
+import 'datasources/tax/tax_remote_datasource.dart';
 import 'datasources/transactions/transaction_datasource.dart';
 import 'datasources/transactions/transaction_local_datasource.dart';
 import 'datasources/transactions/transaction_remote_datasource.dart';
@@ -30,6 +37,10 @@ import 'repositories/discount/discount_repository.dart';
 import 'repositories/discount/discount_repository_implementation.dart';
 import 'repositories/inventory/inventory_repository.dart';
 import 'repositories/inventory/inventory_repository_implementation.dart';
+import 'repositories/profile/profile_repository.dart';
+import 'repositories/profile/profile_repository_implementation.dart';
+import 'repositories/tax/tax_repository.dart';
+import 'repositories/tax/tax_repository_implementation.dart';
 import 'repositories/transactions/transaction_repository.dart';
 import 'repositories/transactions/transaction_repository_implementation.dart';
 
@@ -55,6 +66,14 @@ void main() {
   IInventoryLocalDataSource _inventoryLocalDataSource;
   IInventoryRepository _inventoryRepository;
 
+  IProfileRemoteDataSource _profileRemoteDataSource;
+  ProfileLocalDataSource _profileLocalDataSource;
+  IProfileRepository _profileRepository;
+
+  ITaxRemoteDataSource _taxRemoteDataSource;
+  ITaxLocalDataSource _taxLocalDataSource;
+  ITaxRepository _taxRepository;
+
   SharedPreferences _storage;
   AppDatabase local;
 
@@ -63,10 +82,19 @@ void main() {
   final uri = kReleaseMode ? prodUri : devUri;
 
   _httpLink = HttpLink(uri);
+
   _client = GraphQLClient(
     cache: GraphQLCache(),
     link: _httpLink,
   );
+
+  // _client = GraphQLClient(
+  //   cache: GraphQLCache(),
+  //   link: AuthLink(
+  //           getToken: () =>
+  //               'Bearer ')
+  //       .concat(_httpLink),
+  // );
 
   _networkInfo = NetworkInfoImplementation();
 
@@ -107,11 +135,32 @@ void main() {
     network: _networkInfo,
   );
 
+  _profileLocalDataSource = ProfileLocalDataSource();
+  _profileRemoteDataSource = ProfileRemoteDatasource(
+    client: _client,
+  );
+
+  _profileRepository = ProfileRepository(
+      remote: _profileRemoteDataSource,
+      local: _profileLocalDataSource,
+      network: _networkInfo);
+
+  _taxLocalDataSource = TaxLocalDataSource();
+  _taxRemoteDataSource = TaxRemoteDataSource(client: _client);
+
+  _taxRepository = TaxRepository(
+      remote: _taxRemoteDataSource,
+      local: _taxLocalDataSource,
+      network: _networkInfo);
+
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider<UserProvider>(
           create: (_) => UserProvider(),
+        ),
+        Provider<ProfileRepository>(
+          create: (context) => _profileRepository,
         ),
         Provider<AuthenticationRepository>(
           create: (context) => _authenticationRepository,
@@ -124,6 +173,9 @@ void main() {
         ),
         Provider<InventoryRepository>(
           create: (context) => _inventoryRepository,
+        ),
+        Provider<TaxRepository>(
+          create: (context) => _taxRepository,
         )
       ],
       builder: (context, child) {

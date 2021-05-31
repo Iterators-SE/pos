@@ -23,8 +23,8 @@ class TransactionRemoteDataSource implements ITransactionRemoteDataSource {
       final variantIds = orders.map((e) => e.variant.variantId).toList();
       final quantity = orders.map((e) => e.quantity).toList();
 
-      final response = await client.query(
-        QueryOptions(
+      final response = await client.mutate(
+        MutationOptions(
           document: gql(query),
           variables: {
             'orders': {
@@ -40,8 +40,8 @@ class TransactionRemoteDataSource implements ITransactionRemoteDataSource {
         throw response.exception;
       }
 
-      final data = jsonEncode(response.data["action"]);
-      return jsonDecode(data);
+      final data = jsonDecode(jsonEncode(response.data["action"])) as Map;
+      return Transaction.fromJson(data);
     } catch (e) {
       rethrow;
     }
@@ -66,8 +66,8 @@ class TransactionRemoteDataSource implements ITransactionRemoteDataSource {
         throw response.exception;
       }
 
-      final data = jsonEncode(response.data["action"]);
-      return jsonDecode(data);
+      final data = jsonDecode(jsonEncode(response.data["action"])) as Map;
+      return Transaction.fromJson(data);
     } catch (e) {
       rethrow;
     }
@@ -89,8 +89,8 @@ class TransactionRemoteDataSource implements ITransactionRemoteDataSource {
         throw response.exception;
       }
 
-      final data = jsonEncode(response.data["action"]);
-      return jsonDecode(data);
+      final data = jsonDecode(jsonEncode(response.data["action"])) as List<Map>;
+      return data.map((e) => Transaction.fromJson(e)).toList();
     } catch (e) {
       rethrow;
     }
