@@ -22,5 +22,4 @@ abstract class IInventoryRemoteDataSource implements IInventoryDataSource {
 
 abstract class IInventoryLocalDataSource implements IInventoryDataSource {
   Future<void> cacheProducts(dynamic data);
-  Future<void> cacheProduct(dynamic data);
 }

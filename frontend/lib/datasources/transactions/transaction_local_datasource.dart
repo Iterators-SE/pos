@@ -1,9 +1,10 @@
+import 'package:frontend/datasources/transactions/transaction_remote_datasource.dart';
+
 import '../../database/local/local_database.dart';
 import 'transaction_datasource.dart';
 
 class TransactionLocalDataSource implements ITransactionLocalDataSource {
   TransactionLocalDataSource({this.local});
-
   final AppDatabase local;
 
   @override

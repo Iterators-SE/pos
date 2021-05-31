@@ -619,11 +619,8 @@ class $ProductVariantsTable extends ProductVariants
   @override
   GeneratedIntColumn get productid => _productid ??= _constructProductid();
   GeneratedIntColumn _constructProductid() {
-    return GeneratedIntColumn(
-      'productid',
-      $tableName,
-      false,
-    );
+    return GeneratedIntColumn('productid', $tableName, false,
+        $customConstraints: 'REFERENCES products(id)');
   }
 
   final VerificationMeta _quantityMeta = const VerificationMeta('quantity');
@@ -703,21 +700,30 @@ class Discount extends DataClass implements Insertable<Discount> {
   final int id;
   final String description;
   final int percentage;
+  final DateTime startTime;
+  final DateTime endTime;
   Discount(
       {@required this.id,
       @required this.description,
-      @required this.percentage});
+      @required this.percentage,
+      @required this.startTime,
+      @required this.endTime});
   factory Discount.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
     final stringType = db.typeSystem.forDartType<String>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     return Discount(
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       description: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}description']),
       percentage:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}percentage']),
+      startTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}start_time']),
+      endTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}end_time']),
     );
   }
   @override
@@ -732,6 +738,12 @@ class Discount extends DataClass implements Insertable<Discount> {
     if (!nullToAbsent || percentage != null) {
       map['percentage'] = Variable<int>(percentage);
     }
+    if (!nullToAbsent || startTime != null) {
+      map['start_time'] = Variable<DateTime>(startTime);
+    }
+    if (!nullToAbsent || endTime != null) {
+      map['end_time'] = Variable<DateTime>(endTime);
+    }
     return map;
   }
 
@@ -744,6 +756,12 @@ class Discount extends DataClass implements Insertable<Discount> {
       percentage: percentage == null && nullToAbsent
           ? const Value.absent()
           : Value(percentage),
+      startTime: startTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(startTime),
+      endTime: endTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(endTime),
     );
   }
 
@@ -754,6 +772,8 @@ class Discount extends DataClass implements Insertable<Discount> {
       id: serializer.fromJson<int>(json['id']),
       description: serializer.fromJson<String>(json['description']),
       percentage: serializer.fromJson<int>(json['percentage']),
+      startTime: serializer.fromJson<DateTime>(json['startTime']),
+      endTime: serializer.fromJson<DateTime>(json['endTime']),
     );
   }
   @override
@@ -763,69 +783,105 @@ class Discount extends DataClass implements Insertable<Discount> {
       'id': serializer.toJson<int>(id),
       'description': serializer.toJson<String>(description),
       'percentage': serializer.toJson<int>(percentage),
+      'startTime': serializer.toJson<DateTime>(startTime),
+      'endTime': serializer.toJson<DateTime>(endTime),
     };
   }
 
-  Discount copyWith({int id, String description, int percentage}) => Discount(
+  Discount copyWith(
+          {int id,
+          String description,
+          int percentage,
+          DateTime startTime,
+          DateTime endTime}) =>
+      Discount(
         id: id ?? this.id,
         description: description ?? this.description,
         percentage: percentage ?? this.percentage,
+        startTime: startTime ?? this.startTime,
+        endTime: endTime ?? this.endTime,
       );
   @override
   String toString() {
     return (StringBuffer('Discount(')
           ..write('id: $id, ')
           ..write('description: $description, ')
-          ..write('percentage: $percentage')
+          ..write('percentage: $percentage, ')
+          ..write('startTime: $startTime, ')
+          ..write('endTime: $endTime')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => $mrjf(
-      $mrjc(id.hashCode, $mrjc(description.hashCode, percentage.hashCode)));
+  int get hashCode => $mrjf($mrjc(
+      id.hashCode,
+      $mrjc(
+          description.hashCode,
+          $mrjc(percentage.hashCode,
+              $mrjc(startTime.hashCode, endTime.hashCode)))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is Discount &&
           other.id == this.id &&
           other.description == this.description &&
-          other.percentage == this.percentage);
+          other.percentage == this.percentage &&
+          other.startTime == this.startTime &&
+          other.endTime == this.endTime);
 }
 
 class DiscountsCompanion extends UpdateCompanion<Discount> {
   final Value<int> id;
   final Value<String> description;
   final Value<int> percentage;
+  final Value<DateTime> startTime;
+  final Value<DateTime> endTime;
   const DiscountsCompanion({
     this.id = const Value.absent(),
     this.description = const Value.absent(),
     this.percentage = const Value.absent(),
+    this.startTime = const Value.absent(),
+    this.endTime = const Value.absent(),
   });
   DiscountsCompanion.insert({
     this.id = const Value.absent(),
     @required String description,
     @required int percentage,
+    @required DateTime startTime,
+    @required DateTime endTime,
   })  : description = Value(description),
-        percentage = Value(percentage);
+        percentage = Value(percentage),
+        startTime = Value(startTime),
+        endTime = Value(endTime);
   static Insertable<Discount> custom({
     Expression<int> id,
     Expression<String> description,
     Expression<int> percentage,
+    Expression<DateTime> startTime,
+    Expression<DateTime> endTime,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (description != null) 'description': description,
       if (percentage != null) 'percentage': percentage,
+      if (startTime != null) 'start_time': startTime,
+      if (endTime != null) 'end_time': endTime,
     });
   }
 
   DiscountsCompanion copyWith(
-      {Value<int> id, Value<String> description, Value<int> percentage}) {
+      {Value<int> id,
+      Value<String> description,
+      Value<int> percentage,
+      Value<DateTime> startTime,
+      Value<DateTime> endTime}) {
     return DiscountsCompanion(
       id: id ?? this.id,
       description: description ?? this.description,
       percentage: percentage ?? this.percentage,
+      startTime: startTime ?? this.startTime,
+      endTime: endTime ?? this.endTime,
     );
   }
 
@@ -841,6 +897,12 @@ class DiscountsCompanion extends UpdateCompanion<Discount> {
     if (percentage.present) {
       map['percentage'] = Variable<int>(percentage.value);
     }
+    if (startTime.present) {
+      map['start_time'] = Variable<DateTime>(startTime.value);
+    }
+    if (endTime.present) {
+      map['end_time'] = Variable<DateTime>(endTime.value);
+    }
     return map;
   }
 
@@ -849,7 +911,9 @@ class DiscountsCompanion extends UpdateCompanion<Discount> {
     return (StringBuffer('DiscountsCompanion(')
           ..write('id: $id, ')
           ..write('description: $description, ')
-          ..write('percentage: $percentage')
+          ..write('percentage: $percentage, ')
+          ..write('startTime: $startTime, ')
+          ..write('endTime: $endTime')
           ..write(')'))
         .toString();
   }
@@ -895,8 +959,33 @@ class $DiscountsTable extends Discounts
     );
   }
 
+  final VerificationMeta _startTimeMeta = const VerificationMeta('startTime');
+  GeneratedDateTimeColumn _startTime;
   @override
-  List<GeneratedColumn> get $columns => [id, description, percentage];
+  GeneratedDateTimeColumn get startTime => _startTime ??= _constructStartTime();
+  GeneratedDateTimeColumn _constructStartTime() {
+    return GeneratedDateTimeColumn(
+      'start_time',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _endTimeMeta = const VerificationMeta('endTime');
+  GeneratedDateTimeColumn _endTime;
+  @override
+  GeneratedDateTimeColumn get endTime => _endTime ??= _constructEndTime();
+  GeneratedDateTimeColumn _constructEndTime() {
+    return GeneratedDateTimeColumn(
+      'end_time',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, description, percentage, startTime, endTime];
   @override
   $DiscountsTable get asDslTable => this;
   @override
@@ -927,6 +1016,18 @@ class $DiscountsTable extends Discounts
     } else if (isInserting) {
       context.missing(_percentageMeta);
     }
+    if (data.containsKey('start_time')) {
+      context.handle(_startTimeMeta,
+          startTime.isAcceptableOrUnknown(data['start_time'], _startTimeMeta));
+    } else if (isInserting) {
+      context.missing(_startTimeMeta);
+    }
+    if (data.containsKey('end_time')) {
+      context.handle(_endTimeMeta,
+          endTime.isAcceptableOrUnknown(data['end_time'], _endTimeMeta));
+    } else if (isInserting) {
+      context.missing(_endTimeMeta);
+    }
     return context;
   }
 
@@ -949,11 +1050,13 @@ class Order extends DataClass implements Insertable<Order> {
   final int product;
   final int variant;
   final int quantity;
+  final int transactionid;
   Order(
       {@required this.id,
       @required this.product,
       @required this.variant,
-      @required this.quantity});
+      @required this.quantity,
+      @required this.transactionid});
   factory Order.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -966,6 +1069,8 @@ class Order extends DataClass implements Insertable<Order> {
           intType.mapFromDatabaseResponse(data['${effectivePrefix}variant']),
       quantity:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}quantity']),
+      transactionid: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}transactionid']),
     );
   }
   @override
@@ -983,6 +1088,9 @@ class Order extends DataClass implements Insertable<Order> {
     if (!nullToAbsent || quantity != null) {
       map['quantity'] = Variable<int>(quantity);
     }
+    if (!nullToAbsent || transactionid != null) {
+      map['transactionid'] = Variable<int>(transactionid);
+    }
     return map;
   }
 
@@ -998,6 +1106,9 @@ class Order extends DataClass implements Insertable<Order> {
       quantity: quantity == null && nullToAbsent
           ? const Value.absent()
           : Value(quantity),
+      transactionid: transactionid == null && nullToAbsent
+          ? const Value.absent()
+          : Value(transactionid),
     );
   }
 
@@ -1009,6 +1120,7 @@ class Order extends DataClass implements Insertable<Order> {
       product: serializer.fromJson<int>(json['product']),
       variant: serializer.fromJson<int>(json['variant']),
       quantity: serializer.fromJson<int>(json['quantity']),
+      transactionid: serializer.fromJson<int>(json['transactionid']),
     );
   }
   @override
@@ -1019,14 +1131,22 @@ class Order extends DataClass implements Insertable<Order> {
       'product': serializer.toJson<int>(product),
       'variant': serializer.toJson<int>(variant),
       'quantity': serializer.toJson<int>(quantity),
+      'transactionid': serializer.toJson<int>(transactionid),
     };
   }
 
-  Order copyWith({int id, int product, int variant, int quantity}) => Order(
+  Order copyWith(
+          {int id,
+          int product,
+          int variant,
+          int quantity,
+          int transactionid}) =>
+      Order(
         id: id ?? this.id,
         product: product ?? this.product,
         variant: variant ?? this.variant,
         quantity: quantity ?? this.quantity,
+        transactionid: transactionid ?? this.transactionid,
       );
   @override
   String toString() {
@@ -1034,14 +1154,19 @@ class Order extends DataClass implements Insertable<Order> {
           ..write('id: $id, ')
           ..write('product: $product, ')
           ..write('variant: $variant, ')
-          ..write('quantity: $quantity')
+          ..write('quantity: $quantity, ')
+          ..write('transactionid: $transactionid')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(id.hashCode,
-      $mrjc(product.hashCode, $mrjc(variant.hashCode, quantity.hashCode))));
+  int get hashCode => $mrjf($mrjc(
+      id.hashCode,
+      $mrjc(
+          product.hashCode,
+          $mrjc(variant.hashCode,
+              $mrjc(quantity.hashCode, transactionid.hashCode)))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -1049,7 +1174,8 @@ class Order extends DataClass implements Insertable<Order> {
           other.id == this.id &&
           other.product == this.product &&
           other.variant == this.variant &&
-          other.quantity == this.quantity);
+          other.quantity == this.quantity &&
+          other.transactionid == this.transactionid);
 }
 
 class OrdersCompanion extends UpdateCompanion<Order> {
@@ -1057,31 +1183,37 @@ class OrdersCompanion extends UpdateCompanion<Order> {
   final Value<int> product;
   final Value<int> variant;
   final Value<int> quantity;
+  final Value<int> transactionid;
   const OrdersCompanion({
     this.id = const Value.absent(),
     this.product = const Value.absent(),
     this.variant = const Value.absent(),
     this.quantity = const Value.absent(),
+    this.transactionid = const Value.absent(),
   });
   OrdersCompanion.insert({
     this.id = const Value.absent(),
     @required int product,
     @required int variant,
     @required int quantity,
+    @required int transactionid,
   })  : product = Value(product),
         variant = Value(variant),
-        quantity = Value(quantity);
+        quantity = Value(quantity),
+        transactionid = Value(transactionid);
   static Insertable<Order> custom({
     Expression<int> id,
     Expression<int> product,
     Expression<int> variant,
     Expression<int> quantity,
+    Expression<int> transactionid,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (product != null) 'product': product,
       if (variant != null) 'variant': variant,
       if (quantity != null) 'quantity': quantity,
+      if (transactionid != null) 'transactionid': transactionid,
     });
   }
 
@@ -1089,12 +1221,14 @@ class OrdersCompanion extends UpdateCompanion<Order> {
       {Value<int> id,
       Value<int> product,
       Value<int> variant,
-      Value<int> quantity}) {
+      Value<int> quantity,
+      Value<int> transactionid}) {
     return OrdersCompanion(
       id: id ?? this.id,
       product: product ?? this.product,
       variant: variant ?? this.variant,
       quantity: quantity ?? this.quantity,
+      transactionid: transactionid ?? this.transactionid,
     );
   }
 
@@ -1113,6 +1247,9 @@ class OrdersCompanion extends UpdateCompanion<Order> {
     if (quantity.present) {
       map['quantity'] = Variable<int>(quantity.value);
     }
+    if (transactionid.present) {
+      map['transactionid'] = Variable<int>(transactionid.value);
+    }
     return map;
   }
 
@@ -1122,7 +1259,8 @@ class OrdersCompanion extends UpdateCompanion<Order> {
           ..write('id: $id, ')
           ..write('product: $product, ')
           ..write('variant: $variant, ')
-          ..write('quantity: $quantity')
+          ..write('quantity: $quantity, ')
+          ..write('transactionid: $transactionid')
           ..write(')'))
         .toString();
   }
@@ -1146,11 +1284,8 @@ class $OrdersTable extends Orders with TableInfo<$OrdersTable, Order> {
   @override
   GeneratedIntColumn get product => _product ??= _constructProduct();
   GeneratedIntColumn _constructProduct() {
-    return GeneratedIntColumn(
-      'product',
-      $tableName,
-      false,
-    );
+    return GeneratedIntColumn('product', $tableName, false,
+        $customConstraints: 'REFERENCES products(id)');
   }
 
   final VerificationMeta _variantMeta = const VerificationMeta('variant');
@@ -1158,11 +1293,8 @@ class $OrdersTable extends Orders with TableInfo<$OrdersTable, Order> {
   @override
   GeneratedIntColumn get variant => _variant ??= _constructVariant();
   GeneratedIntColumn _constructVariant() {
-    return GeneratedIntColumn(
-      'variant',
-      $tableName,
-      false,
-    );
+    return GeneratedIntColumn('variant', $tableName, false,
+        $customConstraints: 'REFERENCES productVariant(variantid)');
   }
 
   final VerificationMeta _quantityMeta = const VerificationMeta('quantity');
@@ -1177,8 +1309,20 @@ class $OrdersTable extends Orders with TableInfo<$OrdersTable, Order> {
     );
   }
 
+  final VerificationMeta _transactionidMeta =
+      const VerificationMeta('transactionid');
+  GeneratedIntColumn _transactionid;
   @override
-  List<GeneratedColumn> get $columns => [id, product, variant, quantity];
+  GeneratedIntColumn get transactionid =>
+      _transactionid ??= _constructTransactionid();
+  GeneratedIntColumn _constructTransactionid() {
+    return GeneratedIntColumn('transactionid', $tableName, false,
+        $customConstraints: 'REFERENCES transaction(id)');
+  }
+
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, product, variant, quantity, transactionid];
   @override
   $OrdersTable get asDslTable => this;
   @override
@@ -1210,6 +1354,14 @@ class $OrdersTable extends Orders with TableInfo<$OrdersTable, Order> {
           quantity.isAcceptableOrUnknown(data['quantity'], _quantityMeta));
     } else if (isInserting) {
       context.missing(_quantityMeta);
+    }
+    if (data.containsKey('transactionid')) {
+      context.handle(
+          _transactionidMeta,
+          transactionid.isAcceptableOrUnknown(
+              data['transactionid'], _transactionidMeta));
+    } else if (isInserting) {
+      context.missing(_transactionidMeta);
     }
     return context;
   }
@@ -1372,211 +1524,6 @@ class $TransactionsTable extends Transactions
   }
 }
 
-class TransactionOrder extends DataClass
-    implements Insertable<TransactionOrder> {
-  final int transaction;
-  final int order;
-  TransactionOrder({@required this.transaction, @required this.order});
-  factory TransactionOrder.fromData(
-      Map<String, dynamic> data, GeneratedDatabase db,
-      {String prefix}) {
-    final effectivePrefix = prefix ?? '';
-    final intType = db.typeSystem.forDartType<int>();
-    return TransactionOrder(
-      transaction: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}transaction']),
-      order: intType.mapFromDatabaseResponse(data['${effectivePrefix}order']),
-    );
-  }
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (!nullToAbsent || transaction != null) {
-      map['transaction'] = Variable<int>(transaction);
-    }
-    if (!nullToAbsent || order != null) {
-      map['order'] = Variable<int>(order);
-    }
-    return map;
-  }
-
-  TransactionOrdersCompanion toCompanion(bool nullToAbsent) {
-    return TransactionOrdersCompanion(
-      transaction: transaction == null && nullToAbsent
-          ? const Value.absent()
-          : Value(transaction),
-      order:
-          order == null && nullToAbsent ? const Value.absent() : Value(order),
-    );
-  }
-
-  factory TransactionOrder.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
-    return TransactionOrder(
-      transaction: serializer.fromJson<int>(json['transaction']),
-      order: serializer.fromJson<int>(json['order']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'transaction': serializer.toJson<int>(transaction),
-      'order': serializer.toJson<int>(order),
-    };
-  }
-
-  TransactionOrder copyWith({int transaction, int order}) => TransactionOrder(
-        transaction: transaction ?? this.transaction,
-        order: order ?? this.order,
-      );
-  @override
-  String toString() {
-    return (StringBuffer('TransactionOrder(')
-          ..write('transaction: $transaction, ')
-          ..write('order: $order')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => $mrjf($mrjc(transaction.hashCode, order.hashCode));
-  @override
-  bool operator ==(dynamic other) =>
-      identical(this, other) ||
-      (other is TransactionOrder &&
-          other.transaction == this.transaction &&
-          other.order == this.order);
-}
-
-class TransactionOrdersCompanion extends UpdateCompanion<TransactionOrder> {
-  final Value<int> transaction;
-  final Value<int> order;
-  const TransactionOrdersCompanion({
-    this.transaction = const Value.absent(),
-    this.order = const Value.absent(),
-  });
-  TransactionOrdersCompanion.insert({
-    @required int transaction,
-    @required int order,
-  })  : transaction = Value(transaction),
-        order = Value(order);
-  static Insertable<TransactionOrder> custom({
-    Expression<int> transaction,
-    Expression<int> order,
-  }) {
-    return RawValuesInsertable({
-      if (transaction != null) 'transaction': transaction,
-      if (order != null) 'order': order,
-    });
-  }
-
-  TransactionOrdersCompanion copyWith(
-      {Value<int> transaction, Value<int> order}) {
-    return TransactionOrdersCompanion(
-      transaction: transaction ?? this.transaction,
-      order: order ?? this.order,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (transaction.present) {
-      map['transaction'] = Variable<int>(transaction.value);
-    }
-    if (order.present) {
-      map['order'] = Variable<int>(order.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('TransactionOrdersCompanion(')
-          ..write('transaction: $transaction, ')
-          ..write('order: $order')
-          ..write(')'))
-        .toString();
-  }
-}
-
-class $TransactionOrdersTable extends TransactionOrders
-    with TableInfo<$TransactionOrdersTable, TransactionOrder> {
-  final GeneratedDatabase _db;
-  final String _alias;
-  $TransactionOrdersTable(this._db, [this._alias]);
-  final VerificationMeta _transactionMeta =
-      const VerificationMeta('transaction');
-  GeneratedIntColumn _transaction;
-  @override
-  GeneratedIntColumn get transaction =>
-      _transaction ??= _constructTransaction();
-  GeneratedIntColumn _constructTransaction() {
-    return GeneratedIntColumn(
-      'transaction',
-      $tableName,
-      false,
-    );
-  }
-
-  final VerificationMeta _orderMeta = const VerificationMeta('order');
-  GeneratedIntColumn _order;
-  @override
-  GeneratedIntColumn get order => _order ??= _constructOrder();
-  GeneratedIntColumn _constructOrder() {
-    return GeneratedIntColumn(
-      'order',
-      $tableName,
-      false,
-    );
-  }
-
-  @override
-  List<GeneratedColumn> get $columns => [transaction, order];
-  @override
-  $TransactionOrdersTable get asDslTable => this;
-  @override
-  String get $tableName => _alias ?? 'transaction_orders';
-  @override
-  final String actualTableName = 'transaction_orders';
-  @override
-  VerificationContext validateIntegrity(Insertable<TransactionOrder> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('transaction')) {
-      context.handle(
-          _transactionMeta,
-          transaction.isAcceptableOrUnknown(
-              data['transaction'], _transactionMeta));
-    } else if (isInserting) {
-      context.missing(_transactionMeta);
-    }
-    if (data.containsKey('order')) {
-      context.handle(
-          _orderMeta, order.isAcceptableOrUnknown(data['order'], _orderMeta));
-    } else if (isInserting) {
-      context.missing(_orderMeta);
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
-  @override
-  TransactionOrder map(Map<String, dynamic> data, {String tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
-    return TransactionOrder.fromData(data, _db, prefix: effectivePrefix);
-  }
-
-  @override
-  $TransactionOrdersTable createAlias(String alias) {
-    return $TransactionOrdersTable(_db, alias);
-  }
-}
-
 class DiscountProduct extends DataClass implements Insertable<DiscountProduct> {
   final int productid;
   final int discountid;
@@ -1718,11 +1665,8 @@ class $DiscountProductsTable extends DiscountProducts
   @override
   GeneratedIntColumn get productid => _productid ??= _constructProductid();
   GeneratedIntColumn _constructProductid() {
-    return GeneratedIntColumn(
-      'productid',
-      $tableName,
-      false,
-    );
+    return GeneratedIntColumn('productid', $tableName, false,
+        $customConstraints: 'REFERENCES products(id)');
   }
 
   final VerificationMeta _discountidMeta = const VerificationMeta('discountid');
@@ -1730,11 +1674,8 @@ class $DiscountProductsTable extends DiscountProducts
   @override
   GeneratedIntColumn get discountid => _discountid ??= _constructDiscountid();
   GeneratedIntColumn _constructDiscountid() {
-    return GeneratedIntColumn(
-      'discountid',
-      $tableName,
-      false,
-    );
+    return GeneratedIntColumn('discountid', $tableName, false,
+        $customConstraints: 'REFERENCES discounts(id)');
   }
 
   @override
@@ -1795,9 +1736,6 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   $TransactionsTable _transactions;
   $TransactionsTable get transactions =>
       _transactions ??= $TransactionsTable(this);
-  $TransactionOrdersTable _transactionOrders;
-  $TransactionOrdersTable get transactionOrders =>
-      _transactionOrders ??= $TransactionOrdersTable(this);
   $DiscountProductsTable _discountProducts;
   $DiscountProductsTable get discountProducts =>
       _discountProducts ??= $DiscountProductsTable(this);
@@ -1810,7 +1748,6 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         discounts,
         orders,
         transactions,
-        transactionOrders,
         discountProducts
       ];
 }

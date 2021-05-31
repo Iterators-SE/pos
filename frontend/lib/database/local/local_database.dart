@@ -14,7 +14,8 @@ class ProductVariants extends Table {
   IntColumn get variantid => integer().autoIncrement()();
   TextColumn get variantname => text()();
   IntColumn get price => integer()();
-  IntColumn get productid => integer()();
+  IntColumn get productid =>
+      integer().customConstraint('REFERENCES products(id)')();
   IntColumn get quantity => integer()();
 }
 
@@ -22,27 +23,30 @@ class Discounts extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get description => text()();
   IntColumn get percentage => integer()();
+  DateTimeColumn get startTime => dateTime()();
+  DateTimeColumn get endTime => dateTime()();
 }
 
 class Orders extends Table {
   IntColumn get id => integer().autoIncrement()();
-  IntColumn get product => integer()();
-  IntColumn get variant => integer()();
+  IntColumn get product =>
+      integer().customConstraint('REFERENCES products(id)')();
+  IntColumn get variant =>
+      integer().customConstraint('REFERENCES productVariant(variantid)')();
   IntColumn get quantity => integer()();
+  IntColumn get transactionid =>
+      integer().customConstraint('REFERENCES transaction(id)')();
 }
 
 class Transactions extends Table {
   IntColumn get id => integer().autoIncrement()();
 }
 
-class TransactionOrders extends Table {
-  IntColumn get transaction => integer()();
-  IntColumn get order => integer()();
-}
-
 class DiscountProducts extends Table {
-  IntColumn get productid => integer()();
-  IntColumn get discountid => integer()();
+  IntColumn get productid =>
+      integer().customConstraint('REFERENCES products(id)')();
+  IntColumn get discountid =>
+      integer().customConstraint('REFERENCES discounts(id)')();
 }
 
 @UseMoor(tables: [
@@ -51,7 +55,6 @@ class DiscountProducts extends Table {
   Discounts,
   Orders,
   Transactions,
-  TransactionOrders,
   DiscountProducts
 ])
 class AppDatabase extends _$AppDatabase {

@@ -46,5 +46,4 @@ abstract class IDiscountRemoteDataSource implements IDiscountDataSource {
 
 abstract class IDiscountLocalDataSource implements IDiscountDataSource{
   Future<void> cacheDiscounts(dynamic data);
-  Future<void> cacheDiscount(dynamic data);
 }
