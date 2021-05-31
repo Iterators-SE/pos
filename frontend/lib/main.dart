@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/datasources/discount/discount_local_datasource.dart';
 import 'package:graphql/client.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
@@ -9,8 +10,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'core/network/network_info.dart';
 import 'core/themes/config.dart';
 import 'core/themes/xpos_theme.dart';
+import 'database/local/local_database.dart';
 import 'datasources/authentication/authentication_datasource.dart';
 import 'datasources/authentication/authentication_remote_datasource.dart';
+import 'datasources/discount/discount_datasource.dart';
 import 'datasources/discount/discount_remote_datasource.dart';
 import 'datasources/inventory/inventory_datasource.dart';
 import 'datasources/inventory/inventory_local_datasource.dart';
@@ -53,6 +56,8 @@ void main() async {
   IAuthenticationRepository _authenticationRepository;
 
   IDiscountRepository _discountRepository;
+  IDiscountRemoteDataSource _discountRemoteDataSource;
+  IDiscountLocalDataSource _discountLocalDataSource;
 
   ITransactionRemoteDataSource _transactionRemoteDataSource;
   ITransactionLocalDataSource _transactionLocalDataSource;
@@ -71,6 +76,7 @@ void main() async {
   ITaxRepository _taxRepository;
 
   SharedPreferences _storage;
+  AppDatabase local;
 
   final devUri = 'http://localhost:5000/graphql';
   final prodUri = 'http://iterators-pos.herokuapp.com/graphql';
@@ -102,7 +108,7 @@ void main() async {
     remote: _authenticationDataSource,
   );
 
-  _transactionLocalDataSource = TransactionLocalDataSource();
+  _transactionLocalDataSource = TransactionLocalDataSource(local: local);
   _transactionRemoteDataSource = TransactionRemoteDataSource(client: _client);
 
   _transactionRepository = TransactionRepository(
@@ -110,15 +116,15 @@ void main() async {
     local: _transactionLocalDataSource,
     network: _networkInfo,
   );
-
+  _discountRemoteDataSource =
+      DiscountRemoteDataSource(client: _client, storage: _storage);
+  _discountLocalDataSource = DiscountLocalDataSource(local: local);
   _discountRepository = DiscountRepository(
-      remote: DiscountRemoteDataSource(
-        client: _client,
-        storage: _storage,
-      ),
+      remote: _discountRemoteDataSource,
+      local: _discountLocalDataSource,
       network: _networkInfo);
 
-  _inventoryLocalDataSource = InventoryLocalDataSource();
+  _inventoryLocalDataSource = InventoryLocalDataSource(local: local);
   _inventoryRemoteDataSource = InventoryRemoteDataSource(
     client: _client,
     queries: MutationQuery(),

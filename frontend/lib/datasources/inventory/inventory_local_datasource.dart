@@ -1,28 +1,22 @@
-import '../../models/product.dart';
+import '../../database/local/local_database.dart';
 import 'inventory_datasource.dart';
 
 class InventoryLocalDataSource implements IInventoryLocalDataSource {
+  final AppDatabase local;
+  InventoryLocalDataSource({this.local});
+
   @override
-  Future<void> cacheProduct(dynamic data) {
-      // TODO: implement cacheProduct
-      throw UnimplementedError();
-    }
-  
-    @override
-    Future<void> cacheProducts(dynamic data) {
-      // TODO: implement cacheProducts
-      throw UnimplementedError();
-    }
-  
-    @override
-    Future<Product> getProductDetails({int productId}) {
-    // TODO: implement getProductDetails
+  Future<void> cacheProducts(dynamic data) {
     throw UnimplementedError();
   }
 
   @override
+  Future<Product> getProductDetails({int productId}) {
+    return local.getProduct(productId);
+  }
+
+  @override
   Future<List<Product>> getProducts() {
-    // TODO: implement getProducts
-    throw UnimplementedError();
+    return local.getProducts();
   }
 }

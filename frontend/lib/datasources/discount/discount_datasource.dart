@@ -1,11 +1,13 @@
 import 'package:meta/meta.dart';
 import '../../models/discounts.dart';
 
-abstract class DiscountDataSource {
-  Future<Discount> getDiscount({@required int id});
+abstract class IDiscountDataSource {
+  dynamic getDiscount({@required int id});
 
-  Future<List<Discount>> getDiscounts();
+  dynamic getDiscounts();
+}
 
+abstract class IDiscountRemoteDataSource implements IDiscountDataSource {
   Future<Discount> createGenericDiscount({
     @required String description,
     @required int percentage,
@@ -22,13 +24,12 @@ abstract class DiscountDataSource {
     @required String startTime,
   });
 
-  Future<Discount> updateGenericDiscount({
-    @required int id,
-    @required String description,
-    @required int percentage,
-    @required List<int> products
-    });
-  
+  Future<Discount> updateGenericDiscount(
+      {@required int id,
+      @required String description,
+      @required int percentage,
+      @required List<int> products});
+
   Future<Discount> updateCustomDiscount({
     @required int id,
     @required String description,
@@ -41,4 +42,8 @@ abstract class DiscountDataSource {
   });
 
   Future<bool> deleteDiscount({@required int id});
+}
+
+abstract class IDiscountLocalDataSource implements IDiscountDataSource{
+  Future<void> cacheDiscounts(dynamic data);
 }

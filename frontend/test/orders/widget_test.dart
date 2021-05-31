@@ -6,8 +6,10 @@ import 'package:frontend/core/error/failure.dart';
 import 'package:frontend/core/ui/styled_text_button.dart';
 import 'package:frontend/features/orders/screens/order_screen.dart';
 import 'package:frontend/features/orders/screens/widget/custom_data_table.dart';
+import 'package:frontend/models/discounts.dart';
 import 'package:frontend/models/product.dart';
 import 'package:frontend/models/product_variant.dart';
+import 'package:frontend/repositories/discount/discount_repository_implementation.dart';
 import 'package:frontend/repositories/inventory/inventory_repository_implementation.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
@@ -15,54 +17,79 @@ import 'package:provider/provider.dart';
 class MockInventoryRepository extends Mock implements InventoryRepository {
   Future<Either<Failure, List<Product>>> getProducts() async {
     try {
-      var data = await Future.delayed(Duration(seconds: 5)).then((value) => [
-            Product(id: 2, name: "Poseidon", variants: [
-              ProductVariant(
-                variantId: 1,
-                price: 100,
-                quantity: 300,
-                variantName: "Small",
-                productId: 2,
-              ),
-              ProductVariant(
-                variantId: 2,
-                price: 120,
-                quantity: 40,
-                variantName: "Regular",
-                productId: 2,
-              ),
-              ProductVariant(
-                variantId: 3,
-                price: 180,
-                quantity: 3,
-                variantName: "Large",
-                productId: 2,
-              ),
-            ]),
-            Product(id: 1, name: "Olympus Cappucino", variants: [
-              ProductVariant(
-                variantId: 4,
-                price: 100,
-                quantity: 300,
-                variantName: "Small",
-                productId: 1,
-              ),
-              ProductVariant(
-                variantId: 5,
-                price: 120,
-                quantity: 40,
-                variantName: "Regular",
-                productId: 1,
-              ),
-              ProductVariant(
-                variantId: 6,
-                price: 180,
-                quantity: 3,
-                variantName: "Large",
-                productId: 1,
-              ),
-            ]),
-          ]);
+      var data = [
+        Product(id: 2, name: "Poseidon", variants: [
+          ProductVariant(
+            variantId: 1,
+            price: 100,
+            quantity: 300,
+            variantName: "Small",
+            productId: 2,
+          ),
+          ProductVariant(
+            variantId: 2,
+            price: 120,
+            quantity: 40,
+            variantName: "Regular",
+            productId: 2,
+          ),
+          ProductVariant(
+            variantId: 3,
+            price: 180,
+            quantity: 3,
+            variantName: "Large",
+            productId: 2,
+          ),
+        ]),
+        Product(id: 1, name: "Olympus Cappucino", variants: [
+          ProductVariant(
+            variantId: 4,
+            price: 100,
+            quantity: 300,
+            variantName: "Small",
+            productId: 1,
+          ),
+          ProductVariant(
+            variantId: 5,
+            price: 120,
+            quantity: 40,
+            variantName: "Regular",
+            productId: 1,
+          ),
+          ProductVariant(
+            variantId: 6,
+            price: 180,
+            quantity: 3,
+            variantName: "Large",
+            productId: 1,
+          ),
+        ]),
+      ];
+
+      return Right(data);
+    } catch (e) {
+      return Left(e);
+    }
+  }
+}
+
+class MockDiscountRepository extends Mock implements DiscountRepository {
+  Future<Either<Failure, List<Discount>>> getDiscounts() async {
+    try {
+      var data = [
+        Discount(
+          id: 1,
+          percentage: 20,
+          products: [1, 2],
+          description: "Senior Citizen",
+        ),
+        Discount(
+          id: 2,
+          percentage: 15,
+          products: [1, 2],
+          description: "PWD",
+        )
+      ];
       return Right(data);
     } catch (e) {
       return Left(e);
@@ -74,12 +101,21 @@ void main() {
   testWidgets('Orders: Shows correct message when first opened',
       (tester) async {
     final _inventoryRepository = MockInventoryRepository();
+    final _discountRepository = MockDiscountRepository();
+
     await tester.pumpWidget(
-      Provider<InventoryRepository>(
-        create: (context) => _inventoryRepository,
-        child: MaterialApp(
-          home: OrderScreen(),
-        ),
+      MultiProvider(
+        providers: [
+          Provider<InventoryRepository>(
+            create: (context) => _inventoryRepository,
+          ),
+          Provider<DiscountRepository>(
+            create: (context) => _discountRepository,
+          ),
+        ],
+        builder: (context, child) {
+          return MaterialApp(home: OrderScreen());
+        },
       ),
     );
 
@@ -94,16 +130,25 @@ void main() {
 
   testWidgets('Orders: Updates UI when order is added', (tester) async {
     final _inventoryRepository = MockInventoryRepository();
+    final _discountRepository = MockDiscountRepository();
+
     await tester.pumpWidget(
-      Provider<InventoryRepository>(
-        create: (context) => _inventoryRepository,
-        child: MaterialApp(
-          home: OrderScreen(),
-        ),
+      MultiProvider(
+        providers: [
+          Provider<InventoryRepository>(
+            create: (context) => _inventoryRepository,
+          ),
+          Provider<DiscountRepository>(
+            create: (context) => _discountRepository,
+          ),
+        ],
+        builder: (context, child) {
+          return MaterialApp(home: OrderScreen());
+        },
       ),
     );
 
-    await tester.pump(Duration(seconds: 5));
+    await tester.pumpAndSettle();
 
     final button = find.widgetWithText(StyledTextButton, 'Add an Order');
 

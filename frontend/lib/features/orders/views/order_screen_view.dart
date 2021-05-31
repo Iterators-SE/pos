@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/error/failure.dart';
 import '../../../core/state/app_state.dart';
+import '../../../models/discounts.dart';
 import '../../../models/product.dart';
 import '../../../models/product_variant.dart';
 import '../models/order.dart';
@@ -12,6 +13,7 @@ abstract class OrderScreenView {
   AppState state;
 
   List<Product> allProducts;
+  List<Discount> allDiscounts;
 
   bool hasProducts;
 
@@ -21,9 +23,11 @@ abstract class OrderScreenView {
 
   void addProduct(ProductVariant product);
 
-  Function addDiscount();
+  void addDiscount(List<Discount> discounts);
 
   Future<Either<Failure, List<Product>>> getProducts();
+
+  Future<Either<Failure, List<Discount>>> getDiscounts();
 
   Function cancelOrder();
 

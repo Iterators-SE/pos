@@ -1,34 +1,29 @@
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:frontend/datasources/transactions/transaction_remote_datasource.dart';
 
-import '../../models/transaction.dart';
+import '../../database/local/local_database.dart';
 import 'transaction_datasource.dart';
 
 class TransactionLocalDataSource implements ITransactionLocalDataSource {
-  TransactionLocalDataSource({this.storage});
-
-  final SharedPreferences storage; // SWAP W/ MOOR
+  TransactionLocalDataSource({this.local});
+  final AppDatabase local;
 
   @override
   Future<void> cacheTransactions(dynamic data) {
-    // TODO: implement cacheTransactions
     throw UnimplementedError();
   }
 
   @override
   Future<void> cacheTransaction(dynamic data) {
-    // TODO: implement cacheTransactions
     throw UnimplementedError();
   }
 
   @override
   Future<Transaction> getTransaction({int id}) {
-    // TODO: implement getTransaction
-    throw UnimplementedError();
+    return local.getTransaction(id);
   }
 
   @override
   Future<List<Transaction>> getTransactions() {
-    // TODO: implement getTransactions
-    throw UnimplementedError();
+    return local.getTransactions();
   }
 }

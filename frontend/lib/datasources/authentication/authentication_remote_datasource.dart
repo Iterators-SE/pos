@@ -20,8 +20,8 @@ class AuthenticationRemoteDataSource implements IAuthenticationDataSource {
           action: signup(data: $data)
         }''';
 
-      final response = await client.query(
-        QueryOptions(
+      final response = await client.mutate(
+        MutationOptions(
           document: gql(query),
           variables: {
             'data': {"name": name, "email": email, "password": password}
@@ -50,8 +50,8 @@ class AuthenticationRemoteDataSource implements IAuthenticationDataSource {
           action: login(email: $email, password: $password)
         }''';
 
-      final response = await client.query(
-        QueryOptions(
+      final response = await client.mutate(
+        MutationOptions(
           document: gql(query),
           variables: {'email': email, 'password': password},
         ),

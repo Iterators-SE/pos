@@ -18,7 +18,7 @@ abstract class ITransactionRepository {
     @required this.network,
   });
 
-  Future<Either<Failure, List<Transaction>>> getTransactions();
-  Future<Either<Failure, Transaction>> getTransaction({@required int id});
+  Future<Either<Failure, List<dynamic>>> getTransactions();
+  Future<Either<Failure, dynamic>> getTransaction({@required int id});
   Future<Either<Failure, Transaction>> createTransaction(List<Order> orders);
 }

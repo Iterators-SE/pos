@@ -5,8 +5,8 @@ import '../../models/product.dart';
 import '../../models/product_variant.dart';
 
 abstract class IInventoryDataSource {
-  Future<List<Product>> getProducts();
-  Future<Product> getProductDetails({int productId});
+  Future<List<dynamic>> getProducts();
+  Future<dynamic> getProductDetails({int productId});
 }
 
 abstract class IInventoryRemoteDataSource implements IInventoryDataSource {
@@ -22,5 +22,4 @@ abstract class IInventoryRemoteDataSource implements IInventoryDataSource {
 
 abstract class IInventoryLocalDataSource implements IInventoryDataSource {
   Future<void> cacheProducts(dynamic data);
-  Future<void> cacheProduct(dynamic data);
 }

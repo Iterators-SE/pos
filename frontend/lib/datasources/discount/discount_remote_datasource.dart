@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/discounts.dart';
 import 'discount_datasource.dart';
 
-class DiscountRemoteDataSource implements DiscountDataSource {
+class DiscountRemoteDataSource implements IDiscountRemoteDataSource {
   DiscountRemoteDataSource({@required this.client, @required this.storage});
 
   final GraphQLClient client;
