@@ -1,6 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+// import 'package:frontend/features/tax/models/new_tax.dart';
+// import 'package:frontend/models/tax.dart';
+// import 'package:frontend/repositories/tax/tax_repository_implementation.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,7 +15,7 @@ import '../../../providers/user_provider.dart';
 // import '../../../repositories/profile/profile_repository_implementation.dart';
 // import '../../../repositories/inventory/inventory_repository_implementation.dart';
 import '../../discount/screen/discount_screen.dart';
-import '../../inventory/screens/inventory_screen.dart';
+import '../../inventory/screens/inventory_list_screen.dart';
 import '../../orders/screens/order_screen.dart';
 import '../models/menu_item.dart';
 import '../presenters/home_screen_presenter.dart';
@@ -113,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
       'INVENTORY': () => _presenter.navigate(
             context,
             MaterialPageRoute(
-              builder: (context) => InventoryScreen(),
+              builder: (context) => InventoryListScreen(),
             ),
           ),
     };
@@ -147,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
   }
 
   // dynamic getData(BuildContext context) async {
-  //   var x = Provider.of<ProfileRepository>(context, listen: false);
+  //   var x = Provider.of<InventoryRepository>(context, listen: false);
 
     //   // var newProd = NewProduct(
     //   //   description: "Namiit",
@@ -200,25 +203,25 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
     //     )
     //   );
 
-  //   var input = UserProfile(
-  //     email: "ealanray@gmail.com",
-  //     name: "Alan's Amazing New Stoooooreeeeee",
-  //     receiptMessage: "Thank you for your patronage!",
-  //     address: "Sto Nino Sur, Arevalo, Iloilo City",
-  //   );
+    //   var input = UserProfile(
+    //     email: "ealanray@gmail.com",
+    //     name: "Alan's Amazing New Stoooooreeeeee",
+    //     receiptMessage: "Thank you for your patronage!",
+    //     address: "Sto Nino Sur, Arevalo, Iloilo City",
+    //   );
+    //   var newTax = Tax(id: 22, name: "new", percentage: 0.15);
+    // var response = await x.getProducts();
 
-  //   var response = await x
-  //     .updateProfileInfo(input);
+    //   var result = await response.fold((failure) => [], (taxes) => taxes);
 
-  //   var result =
-  //       response.fold((failure) => UserProfile(), (userInfo) => userInfo);
+    //   await print(result);
 
-  //   print(await result.id);
-  //   print(await result.address);
-  //   print(await result.email);
-  //   print(await result.name);
-  //   print(await result.receiptMessage);
-  //   //   //   // print(await response.runtimeType);
+    //   //   print(await result.id);
+    //   //   print(await result.address);
+    //   //   print(await result.email);
+    //   //   print(await result.name);
+    //   //   print(await result.receiptMessage);
+    //   //   //   //   // print(await response.runtimeType);
   // }
 
   @override
