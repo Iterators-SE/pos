@@ -1,5 +1,8 @@
 import 'package:either_option/either_option.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/features/inventory/screens/add_product_screen.dart';
+import 'package:frontend/features/inventory/screens/product_details_screen.dart';
+import 'package:frontend/features/inventory/screens/widgets/add_button.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/error/failure.dart';
@@ -8,10 +11,7 @@ import '../../../models/product.dart';
 import '../../../repositories/inventory/inventory_repository_implementation.dart';
 import '../presenters/inventory_list_presenter.dart';
 import '../views/inventory_list_screen_view.dart';
-import 'add_product_screen.dart';
 import 'page/list_view.dart';
-import 'product_details_screen.dart';
-import 'widgets/add_button.dart';
 
 class InventoryListScreen extends StatefulWidget {
   @override
@@ -67,6 +67,8 @@ class _InventoryListScreenState extends State<InventoryListScreen>
 
   @override
   Widget build(BuildContext context) {
+    print("products!!!");
+    print(products);
     return Scaffold(
         floatingActionButton: InventoryFAB(
             label: "Add",
