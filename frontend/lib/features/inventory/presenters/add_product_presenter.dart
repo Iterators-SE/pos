@@ -20,11 +20,13 @@ class AddProductScreenPresenter extends BasePresenter<AddProductScreenView> {
     } else if (isViewAttached && getView().state == AppState.successful) {
       return Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text("Product Successfully added to your inventory"),
+            Text("Product added to inventory!"),
             ElevatedButton(
                 onPressed: () async {
-              
+                  Navigator.pop(context);
                 },
                 child: Text("Okay"))
           ],

@@ -1,5 +1,6 @@
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
+import 'package:frontend/providers/inventory_provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -55,20 +56,20 @@ class _AddProductScreenState extends State<AddProductScreen>
       state = AppState.loading;
     });
 
+    var inventoryProvider = await Provider.of<InventoryRepository>(
+      context, 
+      listen: false
+    );
+
     if (product.variants.isEmpty) {
-      product.addVariant(
-        NewVariant(
-          name: "Regular",
-          price: 0,
-          quantity: 0,
-       )
-      );
+      product.addVariant(NewVariant(
+        name: "Regular",
+        price: 0,
+        quantity: 0,
+      ));
     }
 
     var url;
-
-    var productProvider =
-        Provider.of<InventoryRepository>(context, listen: false);
 
     if (imageFile != null) {
       var dateNow = DateTime.now().millisecondsSinceEpoch.toString();
@@ -90,9 +91,10 @@ class _AddProductScreenState extends State<AddProductScreen>
 
     print(url);
     product.photoLink = await url;
-    var result = await productProvider.addProduct(product: product);
 
-    if (await result.isRight) {
+    var result = await inventoryProvider.addProduct(product: product);
+
+    if (result.isRight) {
       setState(() {
         state = AppState.successful;
       });
@@ -102,10 +104,7 @@ class _AddProductScreenState extends State<AddProductScreen>
       });
     }
 
-    var addResult =
-        result.fold((failure) => failure, (isSuccessful) => isSuccessful);
-
-    return addResult;
+    return result.fold((fail) => false, (success) => success);
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'package:either_option/either_option.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/features/inventory/screens/add_product_screen.dart';
+import 'package:frontend/features/inventory/screens/product_details_screen.dart';
 import 'package:frontend/features/inventory/screens/widgets/add_button.dart';
 import 'package:provider/provider.dart';
 
@@ -13,10 +14,6 @@ import '../views/inventory_list_screen_view.dart';
 import 'page/list_view.dart';
 
 class InventoryListScreen extends StatefulWidget {
-  final List<Product> products;
-
-  const InventoryListScreen({Key key, this.products}) : super(key: key);
-
   @override
   _InventoryListScreenState createState() => _InventoryListScreenState();
 }
@@ -25,6 +22,8 @@ class _InventoryListScreenState extends State<InventoryListScreen>
     implements InventoryListScreenView {
   InventoryListScreenPresenter _presenter;
 
+  bool isUpdated = false;
+
   @override
   Widget body;
 
@@ -32,7 +31,7 @@ class _InventoryListScreenState extends State<InventoryListScreen>
   String productToSearch = "";
 
   @override
-  List<Product> products;
+  List<Product> products = [];
 
   @override
   AppState state = AppState.loading;
@@ -51,6 +50,7 @@ class _InventoryListScreenState extends State<InventoryListScreen>
         setState(() {
           products = productResult;
           body = ProductListPage(
+            functionOnTap: onProductTilePressed,
             products: products,
             isSearching: isSearching,
             productToSearch: productToSearch,
@@ -67,19 +67,15 @@ class _InventoryListScreenState extends State<InventoryListScreen>
 
   @override
   Widget build(BuildContext context) {
-    print(products);
     return Scaffold(
-      floatingActionButton: InventoryFAB(
-        label: "Add",
-        onPressed: (){
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AddProductScreen()
-            )
-          );
-        },
-      ),
+        floatingActionButton: InventoryFAB(
+            label: "Add",
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AddProductScreen()),
+              );
+            }),
         appBar: AppBar(
           title: !isSearching
               ? Text('Inventory')
@@ -87,7 +83,7 @@ class _InventoryListScreenState extends State<InventoryListScreen>
                   onChanged: (value) {
                     setState(() {
                       productToSearch = value;
-                        body = ProductListPage(
+                      body = ProductListPage(
                         products: products,
                         isSearching: isSearching,
                         productToSearch: productToSearch,
@@ -112,11 +108,12 @@ class _InventoryListScreenState extends State<InventoryListScreen>
                       setState(() {
                         isSearching = false;
                         productToSearch = "";
-                          body = ProductListPage(
-                            products: products,
-                            isSearching: isSearching,
-                            productToSearch: productToSearch,
-                          );
+                        body = ProductListPage(
+                          functionOnTap: onProductTilePressed,
+                          products: products,
+                          isSearching: isSearching,
+                          productToSearch: productToSearch,
+                        );
                       });
                     },
                   )
@@ -153,14 +150,12 @@ class _InventoryListScreenState extends State<InventoryListScreen>
     // TODO: implement onError
   }
 
-  @override 
-  void onProductAdd() {
-    // TODO: implement onProductAdd
-  }
-
   @override
-  void onProductTilePressed(Product product) {
-    // TODO: implement onProductTilePressed
+  void onProductTilePressed({Product product, BuildContext context}) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ProductDetailScreen(product: product)));
   }
 
   @override

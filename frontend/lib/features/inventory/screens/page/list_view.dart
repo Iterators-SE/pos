@@ -4,12 +4,17 @@ import '../../../../models/product.dart';
 import '../widgets/product_tile.dart';
 
 class ProductListPage extends StatefulWidget {
+  final Function functionOnTap;
   final List<Product> products;
   final bool isSearching;
   final String productToSearch;
 
   const ProductListPage(
-      {Key key, this.products, this.isSearching, this.productToSearch})
+      {Key key,
+      this.products,
+      this.isSearching,
+      this.productToSearch,
+      this.functionOnTap})
       : super(key: key);
 
   @override
@@ -29,7 +34,9 @@ class _ProductListPageState extends State<ProductListPage> {
         child: ListView.builder(
             itemCount: filteredProducts.length,
             itemBuilder: (contex, index) {
-              return ProductListTile(product: filteredProducts[index]);
+              return ProductListTile(
+                  product: filteredProducts[index],
+                  functionOnTap: widget.functionOnTap);
             }),
       );
     }
@@ -37,7 +44,9 @@ class _ProductListPageState extends State<ProductListPage> {
       child: ListView.builder(
           itemCount: widget.products.length,
           itemBuilder: (contex, index) {
-            return ProductListTile(product: widget.products[index]);
+            return ProductListTile(
+                product: widget.products[index],
+                functionOnTap: widget.functionOnTap);
           }),
     );
   }
