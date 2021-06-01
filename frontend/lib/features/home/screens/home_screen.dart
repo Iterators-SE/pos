@@ -116,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
       'INVENTORY': () => _presenter.navigate(
             context,
             MaterialPageRoute(
-              builder: (context) => InventoryListScreen(),
+              builder: (context) => InventoryListScreen()
             ),
           ),
     };
@@ -152,76 +152,76 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
   // dynamic getData(BuildContext context) async {
   //   var x = Provider.of<InventoryRepository>(context, listen: false);
 
-    //   // var newProd = NewProduct(
-    //   //   description: "Namiit",
-    //   //   isTaxable: true,
-    //   //   name: "Fake",
-    //   //   photoLink: "Fake Link",
-    //   // );
-    //   // newProd.variants.add(NewVariant(
-    //   //   name: "Small",
-    //   //   quantity: 100,
-    //   //   price: 100,
-    //   // ));
-    //   // newProd.variants.add(NewVariant(
-    //   //   name: "Medium",
-    //   //   quantity: 100,
-    //   //   price: 100,
-    //   // ));
-    //   // newProd.variants.add(NewVariant(
-    //   //   name: "Large",
-    //   //   quantity: 100,
-    //   //   price: 100,
-    //   // ));
-    //   var response = await x.changeProductDetails(
-    //     product: Product(
-    //       id: 80,
-    //       name: "KEKEKEEKEKEEK",
-    //       description: "Namiit",
-    //       photoLink: "Fake Linkkkkkkkkk",
-    //       isTaxable: false,
-    //       variants: [
-    //         ProductVariant(
-    //           variantId: 53,
-    //           variantName: "Large",
-    //           price: 100,
-    //           quantity: 100,
-    //         ),
-    //         ProductVariant(
-    //           variantId: 52,
-    //           variantName: "Medium",
-    //           price: 100,
-    //           quantity: 100,
-    //         ),
-    //         ProductVariant(
-    //           variantId: 51,
-    //           variantName: "Small",
-    //           price: 100,
-    //           quantity: 100
-    //         ),
-    //       ]
-    //     )
-    //   );
+  //   // var newProd = NewProduct(
+  //   //   description: "Namiit",
+  //   //   isTaxable: true,
+  //   //   name: "Fake",
+  //   //   photoLink: "Fake Link",
+  //   // );
+  //   // newProd.variants.add(NewVariant(
+  //   //   name: "Small",
+  //   //   quantity: 100,
+  //   //   price: 100,
+  //   // ));
+  //   // newProd.variants.add(NewVariant(
+  //   //   name: "Medium",
+  //   //   quantity: 100,
+  //   //   price: 100,
+  //   // ));
+  //   // newProd.variants.add(NewVariant(
+  //   //   name: "Large",
+  //   //   quantity: 100,
+  //   //   price: 100,
+  //   // ));
+  //   var response = await x.changeProductDetails(
+  //     product: Product(
+  //       id: 80,
+  //       name: "KEKEKEEKEKEEK",
+  //       description: "Namiit",
+  //       photoLink: "Fake Linkkkkkkkkk",
+  //       isTaxable: false,
+  //       variants: [
+  //         ProductVariant(
+  //           variantId: 53,
+  //           variantName: "Large",
+  //           price: 100,
+  //           quantity: 100,
+  //         ),
+  //         ProductVariant(
+  //           variantId: 52,
+  //           variantName: "Medium",
+  //           price: 100,
+  //           quantity: 100,
+  //         ),
+  //         ProductVariant(
+  //           variantId: 51,
+  //           variantName: "Small",
+  //           price: 100,
+  //           quantity: 100
+  //         ),
+  //       ]
+  //     )
+  //   );
 
-    //   var input = UserProfile(
-    //     email: "ealanray@gmail.com",
-    //     name: "Alan's Amazing New Stoooooreeeeee",
-    //     receiptMessage: "Thank you for your patronage!",
-    //     address: "Sto Nino Sur, Arevalo, Iloilo City",
-    //   );
-    //   var newTax = Tax(id: 22, name: "new", percentage: 0.15);
-    // var response = await x.getProducts();
+  //   var input = UserProfile(
+  //     email: "ealanray@gmail.com",
+  //     name: "Alan's Amazing New Stoooooreeeeee",
+  //     receiptMessage: "Thank you for your patronage!",
+  //     address: "Sto Nino Sur, Arevalo, Iloilo City",
+  //   );
+  //   var newTax = Tax(id: 22, name: "new", percentage: 0.15);
+  // var response = await x.getProducts();
 
-    //   var result = await response.fold((failure) => [], (taxes) => taxes);
+  //   var result = await response.fold((failure) => [], (taxes) => taxes);
 
-    //   await print(result);
+  //   await print(result);
 
-    //   //   print(await result.id);
-    //   //   print(await result.address);
-    //   //   print(await result.email);
-    //   //   print(await result.name);
-    //   //   print(await result.receiptMessage);
-    //   //   //   //   // print(await response.runtimeType);
+  //   //   print(await result.id);
+  //   //   print(await result.address);
+  //   //   print(await result.email);
+  //   //   print(await result.name);
+  //   //   print(await result.receiptMessage);
+  //   //   //   //   // print(await response.runtimeType);
   // }
 
   @override
