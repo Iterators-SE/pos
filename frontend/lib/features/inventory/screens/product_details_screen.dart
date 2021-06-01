@@ -1,14 +1,12 @@
-import 'package:either_option/src/either.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/core/state/app_state.dart';
-import 'package:frontend/core/error/failure.dart';
-import 'package:frontend/features/inventory/presenters/product_details_presenter.dart';
-import 'package:frontend/features/inventory/screens/page/product_details_view.dart';
-import 'package:frontend/features/inventory/views/product_details_screen_view.dart';
-import 'package:frontend/features/inventory_old/details/product_details.dart';
-import 'package:frontend/models/product.dart';
-import 'package:frontend/repositories/inventory/inventory_repository_implementation.dart';
 import 'package:provider/provider.dart';
+
+import '../../../core/state/app_state.dart';
+import '../../../models/product.dart';
+import '../../../repositories/inventory/inventory_repository_implementation.dart';
+import '../presenters/product_details_presenter.dart';
+import '../views/product_details_screen_view.dart';
+import 'page/product_details_view.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final Product product;

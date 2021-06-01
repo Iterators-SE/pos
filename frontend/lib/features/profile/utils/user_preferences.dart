@@ -1,4 +1,4 @@
-import 'package:frontend/features/profile/models/user.dart';
+import '../models/user.dart';
 
 class UserPreferences {
   static const myUser = User(

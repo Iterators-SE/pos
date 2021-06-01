@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/features/inventory/screens/widgets/variant_box.dart';
-import 'package:frontend/models/product.dart';
-import 'package:frontend/models/product_variant.dart';
+import '../../../../models/product.dart';
+
+import '../widgets/variant_box.dart';
 
 class ProductDetailPage extends StatefulWidget {
   final Product product;

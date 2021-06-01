@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/features/profile/models/user.dart';
-import 'package:frontend/features/profile/screens/widgets/appbar_widget.dart';
-import 'package:frontend/features/profile/screens/widgets/profile_widget.dart';
-import 'package:frontend/features/profile/screens/widgets/textfield_widget.dart';
-import 'package:frontend/features/profile/utils/user_preferences.dart';
+import '../models/user.dart';
+import '../screens/widgets/appbar_widget.dart';
+import '../screens/widgets/profile_widget.dart';
+import '../screens/widgets/textfield_widget.dart';
+import '../utils/user_preferences.dart';
 
 class EditProfilePage extends StatefulWidget {
   @override

@@ -1,5 +1,3 @@
-import 'package:frontend/datasources/transactions/transaction_remote_datasource.dart';
-
 import '../../database/local/local_database.dart';
 import 'transaction_datasource.dart';
 
