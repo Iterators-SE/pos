@@ -14,4 +14,5 @@ abstract class ITransactionRemoteDataSource implements ITransactionDataSource {
 
 abstract class ITransactionLocalDataSource implements ITransactionDataSource {
   Future<void> cacheTransactions(dynamic data);
+  Future<void> cacheTransaction(dynamic data);
 }

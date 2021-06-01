@@ -8,10 +8,12 @@ import '../../graphql/queries.dart';
 import '../../models/product.dart';
 import '../../models/product_variant.dart';
 import 'inventory_datasource.dart';
+import 'inventory_local_datasource.dart';
 
 class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
-  InventoryRemoteDataSource({this.client, this.queries});
+  InventoryRemoteDataSource({this.client, this.queries, this.local});
 
+  final InventoryLocalDataSource local;
   final GraphQLClient client;
   final MutationQuery queries;
 
@@ -40,7 +42,6 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
           ),
         );
       }
-
       return await result.data['addVariant'];
     } catch (e) {
       rethrow;
@@ -114,10 +115,10 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
       }
 
       final data = jsonEncode(response.data['getProducts']);
+      print("Data: $data");
       List<Product> decoded = await jsonDecode(data)
           .map<Product>((product) => Product.fromJson(product))
           .toList();
-
       return decoded;
     } catch (e) {
       print('error');

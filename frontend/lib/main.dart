@@ -1,7 +1,5 @@
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/datasources/discount/discount_local_datasource.dart';
 import 'package:graphql/client.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +12,7 @@ import 'database/local/local_database.dart';
 import 'datasources/authentication/authentication_datasource.dart';
 import 'datasources/authentication/authentication_remote_datasource.dart';
 import 'datasources/discount/discount_datasource.dart';
+import 'datasources/discount/discount_local_datasource.dart';
 import 'datasources/discount/discount_remote_datasource.dart';
 import 'datasources/inventory/inventory_datasource.dart';
 import 'datasources/inventory/inventory_local_datasource.dart';
@@ -115,8 +114,8 @@ void main() {
     local: _transactionLocalDataSource,
     network: _networkInfo,
   );
-  _discountRemoteDataSource =
-      DiscountRemoteDataSource(client: _client, storage: _storage);
+  _discountRemoteDataSource = DiscountRemoteDataSource(
+      client: _client, storage: _storage, local: _discountLocalDataSource);
   _discountLocalDataSource = DiscountLocalDataSource(local: local);
   _discountRepository = DiscountRepository(
       remote: _discountRemoteDataSource,

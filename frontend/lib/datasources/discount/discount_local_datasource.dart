@@ -6,7 +6,7 @@ import 'discount_datasource.dart';
 
 class DiscountLocalDataSource implements IDiscountLocalDataSource {
   final AppDatabase local;
-  DiscountLocalDataSource({@required this.local});
+  DiscountLocalDataSource({@required this.local,});
 
   @override
   Future<List<Discount>> getDiscounts() {
@@ -20,6 +20,6 @@ class DiscountLocalDataSource implements IDiscountLocalDataSource {
 
   @override
   Future<void> cacheDiscounts(dynamic data) {
-    return null;
+    print(data);
   }
 }

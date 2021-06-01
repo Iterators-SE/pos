@@ -6,17 +6,27 @@ class InventoryLocalDataSource implements IInventoryLocalDataSource {
   InventoryLocalDataSource({this.local});
 
   @override
-  Future<void> cacheProducts(dynamic data) {
-    throw UnimplementedError();
+  Future<void> cacheProducts(dynamic data)async {
+    print(data);
+    final List<Product> products = await data.map((product) {
+      return Product(
+        photoLink: data['photoLink'],
+        name: data['name'],
+        description: data['description'],
+        id: data['productid'],
+        taxable: data['taxable']
+      );
+    });
+    await products.map(local.addProduct);
   }
 
   @override
-  Future<Product> getProductDetails({int productId}) {
+  Future<Product> getProductDetails({int productId})async {
     return local.getProduct(productId);
   }
 
   @override
-  Future<List<Product>> getProducts() {
-    return local.getProducts();
+  Future<List<Product>> getProducts() async{
+    return await local.getProducts();
   }
 }
