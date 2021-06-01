@@ -113,14 +113,14 @@ class AppDatabase extends _$AppDatabase {
         .getSingle();
   }
 
-  Future<void> addTax(Taxe tax) => into(taxes).insert(tax);
-  Future<List<Taxe>> getTaxes() => select(taxes).get();
-  Future<Taxe> getSelectedTax() {
+  Future<void> addTax(Tax tax) => into(taxes).insert(tax);
+  Future<List<Tax>> getTaxes() => select(taxes).get();
+  Future<Tax> getSelectedTax() {
     return (select(taxes)..where((tax) => tax.isSelected.equals(true)))
         .getSingle();
   }
 
-  Future<Taxe> getTaxDetails(int taxId) {
+  Future<Tax> getTaxDetails(int taxId) {
     return (select(taxes)..where((tax) => tax.id.equals(taxId))).getSingle();
   }
 

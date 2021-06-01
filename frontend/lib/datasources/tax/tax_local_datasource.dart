@@ -6,8 +6,8 @@ class TaxLocalDataSource implements ITaxLocalDataSource {
   TaxLocalDataSource({this.local});
   @override
   Future<void> cacheTaxes(dynamic data) async{
-      final List<Taxe> taxes = await data.map((tax) {
-        return Taxe(
+      final List<Tax> taxes = await data.map((tax) {
+        return Tax(
           id: tax['id'],
           name: tax['name'],
           isSelected: tax['isSelected'],
@@ -18,17 +18,17 @@ class TaxLocalDataSource implements ITaxLocalDataSource {
     }
   
     @override
-    Future<Taxe> getSelectedTax() async{
+    Future<Tax> getSelectedTax() async{
       return await local.getSelectedTax();
     }
   
     @override
-    Future<Taxe> getTaxDetails(int taxId)async {
+    Future<Tax> getTaxDetails(int taxId)async {
       return await local.getTaxDetails(taxId);
   }
 
   @override
-  Future<List<Taxe>> getTaxes() async{
+  Future<List<Tax>> getTaxes() async{
     return await local.getTaxes();
   }
   

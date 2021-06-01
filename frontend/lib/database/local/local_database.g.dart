@@ -1803,23 +1803,23 @@ class $DiscountProductsTable extends DiscountProducts
   }
 }
 
-class Taxe extends DataClass implements Insertable<Taxe> {
+class Tax extends DataClass implements Insertable<Tax> {
   final int id;
   final String name;
   final bool isSelected;
   final int perccentage;
-  Taxe(
+  Tax(
       {@required this.id,
       @required this.name,
       @required this.isSelected,
       @required this.perccentage});
-  factory Taxe.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+  factory Tax.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
     final stringType = db.typeSystem.forDartType<String>();
     final boolType = db.typeSystem.forDartType<bool>();
-    return Taxe(
+    return Tax(
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
       isSelected: boolType
@@ -1859,10 +1859,10 @@ class Taxe extends DataClass implements Insertable<Taxe> {
     );
   }
 
-  factory Taxe.fromJson(Map<String, dynamic> json,
+  factory Tax.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
-    return Taxe(
+    return Tax(
       id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
       isSelected: serializer.fromJson<bool>(json['isSelected']),
@@ -1880,8 +1880,8 @@ class Taxe extends DataClass implements Insertable<Taxe> {
     };
   }
 
-  Taxe copyWith({int id, String name, bool isSelected, int perccentage}) =>
-      Taxe(
+  Tax copyWith({int id, String name, bool isSelected, int perccentage}) =>
+      Tax(
         id: id ?? this.id,
         name: name ?? this.name,
         isSelected: isSelected ?? this.isSelected,
@@ -1904,14 +1904,14 @@ class Taxe extends DataClass implements Insertable<Taxe> {
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
-      (other is Taxe &&
+      (other is Tax &&
           other.id == this.id &&
           other.name == this.name &&
           other.isSelected == this.isSelected &&
           other.perccentage == this.perccentage);
 }
 
-class TaxesCompanion extends UpdateCompanion<Taxe> {
+class TaxesCompanion extends UpdateCompanion<Tax> {
   final Value<int> id;
   final Value<String> name;
   final Value<bool> isSelected;
@@ -1931,7 +1931,7 @@ class TaxesCompanion extends UpdateCompanion<Taxe> {
         name = Value(name),
         isSelected = Value(isSelected),
         perccentage = Value(perccentage);
-  static Insertable<Taxe> custom({
+  static Insertable<Tax> custom({
     Expression<int> id,
     Expression<String> name,
     Expression<bool> isSelected,
@@ -1988,7 +1988,7 @@ class TaxesCompanion extends UpdateCompanion<Taxe> {
   }
 }
 
-class $TaxesTable extends Taxes with TableInfo<$TaxesTable, Taxe> {
+class $TaxesTable extends Taxes with TableInfo<$TaxesTable, Tax> {
   final GeneratedDatabase _db;
   final String _alias;
   $TaxesTable(this._db, [this._alias]);
@@ -2051,7 +2051,7 @@ class $TaxesTable extends Taxes with TableInfo<$TaxesTable, Taxe> {
   @override
   final String actualTableName = 'taxes';
   @override
-  VerificationContext validateIntegrity(Insertable<Taxe> instance,
+  VerificationContext validateIntegrity(Insertable<Tax> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -2088,9 +2088,9 @@ class $TaxesTable extends Taxes with TableInfo<$TaxesTable, Taxe> {
   @override
   Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
   @override
-  Taxe map(Map<String, dynamic> data, {String tablePrefix}) {
+  Tax map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
-    return Taxe.fromData(data, _db, prefix: effectivePrefix);
+    return Tax.fromData(data, _db, prefix: effectivePrefix);
   }
 
   @override
