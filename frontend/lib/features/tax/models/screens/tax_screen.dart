@@ -53,7 +53,7 @@ class _TaxScreenState extends State<TaxScreen>{
             subtitle:
                 const Text('20%'),
             value: _value,
-            onChanged: (bool value) {
+            onChanged: (value) {
               setState(() {
                 _value = value;
               });
@@ -67,7 +67,7 @@ class _TaxScreenState extends State<TaxScreen>{
                 '15%'),
             selected: _valu,
             value: _valu,
-            onChanged: (bool value) {
+            onChanged: (value) {
               setState(() {
                 _valu = value;
               });
@@ -81,7 +81,7 @@ class _TaxScreenState extends State<TaxScreen>{
                 '10%'),
             selected: _valu,
             value: _valu,
-            onChanged: (bool value) {
+            onChanged: (value) {
               setState(() {
                 _valu = value;
               });
