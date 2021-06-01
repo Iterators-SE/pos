@@ -9,17 +9,26 @@ class DiscountLocalDataSource implements IDiscountLocalDataSource {
   DiscountLocalDataSource({@required this.local,});
 
   @override
-  Future<List<Discount>> getDiscounts() {
-    return local.getDiscounts();
+  Future<List<Discount>> getDiscounts() async {
+    return await local.getDiscounts();
   }
 
   @override
-  Future<Discount> getDiscount({int id}) {
-    return local.getDiscount(id);
+  Future<Discount> getDiscount({int id})async  {
+    return await local.getDiscount(id);
   }
 
   @override
-  Future<void> cacheDiscounts(dynamic data) {
-    print(data);
+  Future<void> cacheDiscounts(dynamic data) async {
+    final List<Discount> discounts = data.map((discount){
+      return Discount(
+        description:discount['description'],
+        id: discount['id'],
+        percentage: discount['percentage'],
+        inclusiveDates: discount['inclusiveDates'],
+        startTime: discount['startTime'],
+        endTime: discount['endTime'] );
+    });
+    await discounts.map(local.addDiscount);
   }
 }

@@ -15,7 +15,7 @@ abstract class IProfileRepository {
   IProfileRepository(
       {@required this.remote, @required this.local, @required this.network});
 
-  Future<Either<Failure, UserProfile>> getProfileInfo();
+  Future<Either<Failure, dynamic>> getProfileInfo();
   Future<Either<Failure, UserProfile>> updateProfileInfo(
       UserProfile userProfile);
 }

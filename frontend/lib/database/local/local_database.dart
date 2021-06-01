@@ -1,3 +1,4 @@
+import 'package:frontend/models/user_profile.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 
 part "local_database.g.dart";
@@ -57,6 +58,14 @@ class Taxes extends Table {
   IntColumn get perccentage => integer()();
 }
 
+class UserProfiles extends Table {
+  IntColumn get id => integer()();
+  TextColumn get name => text()();
+  TextColumn get email => text()();
+  TextColumn get receiptMessage => text()();
+  TextColumn get address => text()();
+}
+
 @UseMoor(tables: [
   Products,
   ProductVariants,
@@ -64,7 +73,8 @@ class Taxes extends Table {
   Orders,
   Transactions,
   DiscountProducts,
-  Taxes
+  Taxes,
+  UserProfiles
 ])
 class AppDatabase extends _$AppDatabase {
   AppDatabase()
@@ -109,9 +119,19 @@ class AppDatabase extends _$AppDatabase {
     return (select(taxes)..where((tax) => tax.isSelected.equals(true)))
         .getSingle();
   }
-  Future<Taxe> getTaxDetails(int taxId){
+
+  Future<Taxe> getTaxDetails(int taxId) {
     return (select(taxes)..where((tax) => tax.id.equals(taxId))).getSingle();
   }
 
   Future<List<Transaction>> getTransactions() => select(transactions).get();
+  Future<void> addProfileInfo(UserProfile userProfile) =>
+      into(userProfiles).insert(userProfile);
+  Future<UserProfile> getProfileInfo() => select(userProfiles).getSingle();
+  Future<void> clearCache() async {
+    await customStatement('PRAGMA foreign_keys = OFF');
+    for (final table in allTables){
+      await delete(table).go();
+    }
+  }
 }

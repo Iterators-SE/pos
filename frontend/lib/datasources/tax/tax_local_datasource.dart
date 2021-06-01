@@ -6,7 +6,15 @@ class TaxLocalDataSource implements ITaxLocalDataSource {
   TaxLocalDataSource({this.local});
   @override
   Future<void> cacheTaxes(dynamic data) async{
-      throw UnimplementedError();
+      final List<Taxe> taxes = await data.map((tax) {
+        return Taxe(
+          id: tax['id'],
+          name: tax['name'],
+          isSelected: tax['isSelected'],
+          perccentage: tax['percentage']
+        );
+      });
+      await taxes.map(local.addTax);
     }
   
     @override

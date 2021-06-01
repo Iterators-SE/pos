@@ -2099,6 +2099,354 @@ class $TaxesTable extends Taxes with TableInfo<$TaxesTable, Taxe> {
   }
 }
 
+class UserProfile extends DataClass implements Insertable<UserProfile> {
+  final int id;
+  final String name;
+  final String email;
+  final String receiptMessage;
+  final String address;
+  UserProfile(
+      {@required this.id,
+      @required this.name,
+      @required this.email,
+      @required this.receiptMessage,
+      @required this.address});
+  factory UserProfile.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final stringType = db.typeSystem.forDartType<String>();
+    return UserProfile(
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
+      email:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}email']),
+      receiptMessage: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}receipt_message']),
+      address:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}address']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || name != null) {
+      map['name'] = Variable<String>(name);
+    }
+    if (!nullToAbsent || email != null) {
+      map['email'] = Variable<String>(email);
+    }
+    if (!nullToAbsent || receiptMessage != null) {
+      map['receipt_message'] = Variable<String>(receiptMessage);
+    }
+    if (!nullToAbsent || address != null) {
+      map['address'] = Variable<String>(address);
+    }
+    return map;
+  }
+
+  UserProfilesCompanion toCompanion(bool nullToAbsent) {
+    return UserProfilesCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      name: name == null && nullToAbsent ? const Value.absent() : Value(name),
+      email:
+          email == null && nullToAbsent ? const Value.absent() : Value(email),
+      receiptMessage: receiptMessage == null && nullToAbsent
+          ? const Value.absent()
+          : Value(receiptMessage),
+      address: address == null && nullToAbsent
+          ? const Value.absent()
+          : Value(address),
+    );
+  }
+
+  factory UserProfile.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return UserProfile(
+      id: serializer.fromJson<int>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      email: serializer.fromJson<String>(json['email']),
+      receiptMessage: serializer.fromJson<String>(json['receiptMessage']),
+      address: serializer.fromJson<String>(json['address']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'name': serializer.toJson<String>(name),
+      'email': serializer.toJson<String>(email),
+      'receiptMessage': serializer.toJson<String>(receiptMessage),
+      'address': serializer.toJson<String>(address),
+    };
+  }
+
+  UserProfile copyWith(
+          {int id,
+          String name,
+          String email,
+          String receiptMessage,
+          String address}) =>
+      UserProfile(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        email: email ?? this.email,
+        receiptMessage: receiptMessage ?? this.receiptMessage,
+        address: address ?? this.address,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('UserProfile(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('email: $email, ')
+          ..write('receiptMessage: $receiptMessage, ')
+          ..write('address: $address')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      id.hashCode,
+      $mrjc(
+          name.hashCode,
+          $mrjc(email.hashCode,
+              $mrjc(receiptMessage.hashCode, address.hashCode)))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is UserProfile &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.email == this.email &&
+          other.receiptMessage == this.receiptMessage &&
+          other.address == this.address);
+}
+
+class UserProfilesCompanion extends UpdateCompanion<UserProfile> {
+  final Value<int> id;
+  final Value<String> name;
+  final Value<String> email;
+  final Value<String> receiptMessage;
+  final Value<String> address;
+  const UserProfilesCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.email = const Value.absent(),
+    this.receiptMessage = const Value.absent(),
+    this.address = const Value.absent(),
+  });
+  UserProfilesCompanion.insert({
+    @required int id,
+    @required String name,
+    @required String email,
+    @required String receiptMessage,
+    @required String address,
+  })  : id = Value(id),
+        name = Value(name),
+        email = Value(email),
+        receiptMessage = Value(receiptMessage),
+        address = Value(address);
+  static Insertable<UserProfile> custom({
+    Expression<int> id,
+    Expression<String> name,
+    Expression<String> email,
+    Expression<String> receiptMessage,
+    Expression<String> address,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (email != null) 'email': email,
+      if (receiptMessage != null) 'receipt_message': receiptMessage,
+      if (address != null) 'address': address,
+    });
+  }
+
+  UserProfilesCompanion copyWith(
+      {Value<int> id,
+      Value<String> name,
+      Value<String> email,
+      Value<String> receiptMessage,
+      Value<String> address}) {
+    return UserProfilesCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      receiptMessage: receiptMessage ?? this.receiptMessage,
+      address: address ?? this.address,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (email.present) {
+      map['email'] = Variable<String>(email.value);
+    }
+    if (receiptMessage.present) {
+      map['receipt_message'] = Variable<String>(receiptMessage.value);
+    }
+    if (address.present) {
+      map['address'] = Variable<String>(address.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserProfilesCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('email: $email, ')
+          ..write('receiptMessage: $receiptMessage, ')
+          ..write('address: $address')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $UserProfilesTable extends UserProfiles
+    with TableInfo<$UserProfilesTable, UserProfile> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $UserProfilesTable(this._db, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _nameMeta = const VerificationMeta('name');
+  GeneratedTextColumn _name;
+  @override
+  GeneratedTextColumn get name => _name ??= _constructName();
+  GeneratedTextColumn _constructName() {
+    return GeneratedTextColumn(
+      'name',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _emailMeta = const VerificationMeta('email');
+  GeneratedTextColumn _email;
+  @override
+  GeneratedTextColumn get email => _email ??= _constructEmail();
+  GeneratedTextColumn _constructEmail() {
+    return GeneratedTextColumn(
+      'email',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _receiptMessageMeta =
+      const VerificationMeta('receiptMessage');
+  GeneratedTextColumn _receiptMessage;
+  @override
+  GeneratedTextColumn get receiptMessage =>
+      _receiptMessage ??= _constructReceiptMessage();
+  GeneratedTextColumn _constructReceiptMessage() {
+    return GeneratedTextColumn(
+      'receipt_message',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _addressMeta = const VerificationMeta('address');
+  GeneratedTextColumn _address;
+  @override
+  GeneratedTextColumn get address => _address ??= _constructAddress();
+  GeneratedTextColumn _constructAddress() {
+    return GeneratedTextColumn(
+      'address',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, name, email, receiptMessage, address];
+  @override
+  $UserProfilesTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'user_profiles';
+  @override
+  final String actualTableName = 'user_profiles';
+  @override
+  VerificationContext validateIntegrity(Insertable<UserProfile> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name'], _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('email')) {
+      context.handle(
+          _emailMeta, email.isAcceptableOrUnknown(data['email'], _emailMeta));
+    } else if (isInserting) {
+      context.missing(_emailMeta);
+    }
+    if (data.containsKey('receipt_message')) {
+      context.handle(
+          _receiptMessageMeta,
+          receiptMessage.isAcceptableOrUnknown(
+              data['receipt_message'], _receiptMessageMeta));
+    } else if (isInserting) {
+      context.missing(_receiptMessageMeta);
+    }
+    if (data.containsKey('address')) {
+      context.handle(_addressMeta,
+          address.isAcceptableOrUnknown(data['address'], _addressMeta));
+    } else if (isInserting) {
+      context.missing(_addressMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
+  @override
+  UserProfile map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return UserProfile.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  $UserProfilesTable createAlias(String alias) {
+    return $UserProfilesTable(_db, alias);
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   $ProductsTable _products;
@@ -2118,6 +2466,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       _discountProducts ??= $DiscountProductsTable(this);
   $TaxesTable _taxes;
   $TaxesTable get taxes => _taxes ??= $TaxesTable(this);
+  $UserProfilesTable _userProfiles;
+  $UserProfilesTable get userProfiles =>
+      _userProfiles ??= $UserProfilesTable(this);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
@@ -2128,6 +2479,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         orders,
         transactions,
         discountProducts,
-        taxes
+        taxes,
+        userProfiles
       ];
 }

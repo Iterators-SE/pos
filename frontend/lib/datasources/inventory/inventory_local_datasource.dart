@@ -7,14 +7,13 @@ class InventoryLocalDataSource implements IInventoryLocalDataSource {
 
   @override
   Future<void> cacheProducts(dynamic data)async {
-    print(data);
     final List<Product> products = await data.map((product) {
       return Product(
-        photoLink: data['photoLink'],
-        name: data['name'],
-        description: data['description'],
-        id: data['productid'],
-        taxable: data['taxable']
+        photoLink: product['photoLink'],
+        name: product['name'],
+        description: product['description'],
+        id: product['productid'],
+        taxable: product['taxable']
       );
     });
     await products.map(local.addProduct);
