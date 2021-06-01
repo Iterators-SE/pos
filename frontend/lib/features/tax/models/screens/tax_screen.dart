@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'add_tax.dart';
 
 class TaxScreen extends StatefulWidget {
   @override
@@ -20,8 +21,10 @@ class _TaxScreenState extends State<TaxScreen>{
         icon: Icon(Icons.add),
         label: Text("Add"),
         onPressed: () {
-          
-        },   
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => AddTaxScreen()));
+           
+        },     
       ),
     body: Center(
     child: Container(
