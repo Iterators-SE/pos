@@ -9,8 +9,10 @@ import 'package:frontend/features/orders/screens/widget/custom_data_table.dart';
 import 'package:frontend/models/discounts.dart';
 import 'package:frontend/models/product.dart';
 import 'package:frontend/models/product_variant.dart';
+import 'package:frontend/models/tax.dart';
 import 'package:frontend/repositories/discount/discount_repository_implementation.dart';
 import 'package:frontend/repositories/inventory/inventory_repository_implementation.dart';
+import 'package:frontend/repositories/tax/tax_repository_implementation.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 
@@ -97,11 +99,23 @@ class MockDiscountRepository extends Mock implements DiscountRepository {
   }
 }
 
+class MockTaxRepository extends Mock implements TaxRepository {
+  Future<Either<Failure, Tax>> getSelectedTax() async {
+    try {
+      final data = Tax(id: 5, isSelected: true, name: "VAT", percentage: 0.12);
+      return Right(data);
+    } catch (e) {
+      return Left(e);
+    }
+  }
+}
+
 void main() {
   testWidgets('Orders: Shows correct message when first opened',
       (tester) async {
     final _inventoryRepository = MockInventoryRepository();
     final _discountRepository = MockDiscountRepository();
+    final _taxRepository = MockTaxRepository();
 
     await tester.pumpWidget(
       MultiProvider(
@@ -112,6 +126,9 @@ void main() {
           Provider<DiscountRepository>(
             create: (context) => _discountRepository,
           ),
+          Provider<TaxRepository>(
+            create: (context) => _taxRepository,
+          )
         ],
         builder: (context, child) {
           return MaterialApp(home: OrderScreen());
@@ -131,6 +148,7 @@ void main() {
   testWidgets('Orders: Updates UI when order is added', (tester) async {
     final _inventoryRepository = MockInventoryRepository();
     final _discountRepository = MockDiscountRepository();
+    final _taxRepository = MockTaxRepository();
 
     await tester.pumpWidget(
       MultiProvider(
@@ -141,6 +159,9 @@ void main() {
           Provider<DiscountRepository>(
             create: (context) => _discountRepository,
           ),
+          Provider<TaxRepository>(
+            create: (context) => _taxRepository,
+          )
         ],
         builder: (context, child) {
           return MaterialApp(home: OrderScreen());
