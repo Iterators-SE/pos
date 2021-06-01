@@ -2,13 +2,21 @@ import 'dart:collection';
 
 import '../../../models/discounts.dart';
 import '../../../models/product_variant.dart';
+import '../../../models/tax.dart';
 
 class Order {
   final List<ProductVariant> _products = [];
   final List<Discount> _discounts = [];
+  Tax currentTax;
 
   List<ProductVariant> get products => UnmodifiableListView(_products);
   List<Discount> get discounts => UnmodifiableListView(_discounts);
+  Tax get tax => currentTax;
+
+  // ignore: use_setters_to_change_properties
+  void setTax(Tax tax){
+    currentTax = tax;
+  }
 
   void addProduct(ProductVariant product) {
     var index = _products.indexWhere(
@@ -61,6 +69,13 @@ class Order {
     }
 
     return sum;
+  }
+
+  double get totalAmountTax {
+    return _products
+    .fold(
+      0, 
+      (prev, next) => prev + next.quantity * (next.price * tax.percentage));
   }
 
   double get total {
