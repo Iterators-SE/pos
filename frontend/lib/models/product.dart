@@ -40,11 +40,14 @@ class Product {
         photoLink: productJson['photoLink'],
         isTaxable: productJson['isTaxable'],
         variants: productJson['variant']
-            .map<ProductVariant>((variant) => ProductVariant.fromJson(variant))
+            .map<ProductVariant>((variant) => ProductVariant.fromJson(
+              variant, 
+              int.parse(productJson['id']
+            )))
             .toList());
   }
 
   String toString() {
-    return 'Name - $name';
+    return 'Name: $name, variants: $variants';
   }
 }
