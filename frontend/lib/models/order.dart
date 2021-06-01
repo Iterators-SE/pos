@@ -19,7 +19,8 @@ class Order {
   factory Order.fromJson(Map<String, dynamic> json) => Order(
         id: json["id"],
         product: Product.fromJson(json["product"]),
-        variant: ProductVariant.fromJson(json["variant"]),
+        variant: ProductVariant.fromJson(json["variant"], 
+        int.parse(json["product"]['id'])),
         quantity: json["quantity"],
       );
 
