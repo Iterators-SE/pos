@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../../core/themes/config.dart';
-import '../models/user.dart';
-import '../screens/widgets/appbar_widget.dart';
+import 'package:frontend/core/themes/config.dart';
+import 'package:frontend/features/profile/models/user.dart';
+import 'package:frontend/features/profile/screens/widgets/appbar_widget.dart';
 
-import '../screens/widgets/profile_widget.dart';
-import '../utils/user_preferences.dart';
+import 'package:frontend/features/profile/screens/widgets/profile_widget.dart';
+import 'package:frontend/features/profile/utils/user_preferences.dart';
 
-//import 'edit_profile_page.dart';
+import 'edit_profile_page.dart';
 
 class ProfilePage extends StatefulWidget {
   @override

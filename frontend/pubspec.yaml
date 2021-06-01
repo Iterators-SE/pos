@@ -37,6 +37,7 @@ dependencies:
 
 
 dev_dependencies:
+  image_test_utils: ^1.0.0
   flutter_test:
     sdk: flutter
   effective_dart: ^1.3.0
