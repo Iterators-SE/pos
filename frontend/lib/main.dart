@@ -82,20 +82,20 @@ void main() async {
   final prodUri = 'http://iterators-pos.herokuapp.com/graphql';
   final uri = kReleaseMode ? prodUri : devUri;
 
-  _httpLink = HttpLink(prodUri);
-
-  // _client = GraphQLClient(
-  //   cache: GraphQLCache(),
-  //   link: _httpLink,
-  // );
+  _httpLink = HttpLink(uri);
 
   _client = GraphQLClient(
     cache: GraphQLCache(),
-    link: AuthLink(
-            getToken: () =>
-                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IkFsYW4ncyBTdG9yZSIsImVtYWlsIjoiZWFsYW5yYXlAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkU0VhLmRUVGZXRklJOTVqOFdsNWxPZUFQcldSMlZ6V2pDejRrZWtuVjVqeUdJR2VVY2wyRW0iLCJjb25maXJtZWQiOnRydWUsImlhdCI6MTYyMjUyMjcyMSwiZXhwIjoxNjIyNTU4NzIxfQ.8oHlUA9xjWaQbUdmVVrT1me-e8O6_3He7Z616ezGysA')
-        .concat(_httpLink),
+    link: _httpLink,
   );
+
+  // _client = GraphQLClient(
+  //   cache: GraphQLCache(),
+  //   link: AuthLink(
+  //           getToken: () =>
+  //               'Bearer ')
+  //       .concat(_httpLink),
+  // );
 
   _networkInfo = NetworkInfoImplementation();
 
