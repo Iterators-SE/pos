@@ -1,15 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/features/inventory/screens/add_product_screen.dart';
-import 'package:frontend/features/inventory/screens/inventory_list_screen.dart';
-import 'package:frontend/repositories/inventory/inventory_repository_implementation.dart';
-import 'package:provider/provider.dart';
 import '../../../core/presenters/base_presenter.dart';
-
 import '../../../core/state/app_state.dart';
-import '../views/add_product_screen_view.dart';
+import '../views/edit_details_screen_view.dart';
 
-class AddProductScreenPresenter extends BasePresenter<AddProductScreenView> {
+class EditDetailScreenPresenter extends BasePresenter<EditDetailScreenView> {
   Widget body(BuildContext context) {
     checkViewAttached();
 
@@ -17,23 +12,38 @@ class AddProductScreenPresenter extends BasePresenter<AddProductScreenView> {
       return Center(child: CircularProgressIndicator());
     } else if (isViewAttached && getView().state == AppState.done) {
       return getView().body;
-    } else if (isViewAttached && getView().state == AppState.successful) {
+    } else if(getView().state == AppState.successful && isViewAttached){
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text("Product added to inventory!"),
+            Text("Product has been updated."),
             ElevatedButton(
-                onPressed: () async {
+                onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text("Okay"))
+                child: Text("Okay")
+            ),
           ],
         ),
       );
     } else {
-      return Center(child: Text("Oh no, there's a problem!"));
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text("An error has occured during update."),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("Okay")
+            ),
+          ],
+        ),
+      );
     }
   }
 }

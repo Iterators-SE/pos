@@ -37,6 +37,7 @@ dependencies:
 
 
 dev_dependencies:
+  image_test_utils: ^1.0.0
   flutter_test:
     sdk: flutter
   effective_dart: ^1.3.0
@@ -48,7 +49,14 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/
+    - assets/images/coffee-icon.png
+    - assets/images/stocks.png
+    - assets/images/orders.png
+    - assets/images/Xpos.png
+    - assets/images/xpos_home_logo.png
+    - assets/images/stocks.png
+    - assets/images/sample.png
+    - assets/images/cappuccino.jpg
 
   fonts:
     - family: Montserrat Bold

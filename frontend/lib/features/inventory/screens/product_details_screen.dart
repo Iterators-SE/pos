@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/features/inventory/screens/edit_details_screen.dart';
+import 'package:frontend/features/inventory/screens/page/edit_details_view.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/state/app_state.dart';
@@ -40,7 +42,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
                 color: Colors.white,
               ),
               onPressed: () {
-                onEdit(widget.product);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => EditDetailScreen(
+                    product: widget.product),
+                  ),
+                );
               }),
         ],
       ),
