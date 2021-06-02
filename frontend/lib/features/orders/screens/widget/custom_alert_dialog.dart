@@ -48,6 +48,9 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
       title: Center(
         child: Text("Add a Product"),
       ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
       content: Form(
         key: _formKey,
         child: Column(
