@@ -38,7 +38,13 @@ class _DiscountDialogState extends State<DiscountDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Center(
-        child: Text("Select Applicable Discounts"),
+        child: SizedBox(
+          width: 278,
+          child: Text("Select Applicable Discounts",
+        textAlign: TextAlign.center,)
+      )),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
       ),
       content: Form(
         key: _formKey,
