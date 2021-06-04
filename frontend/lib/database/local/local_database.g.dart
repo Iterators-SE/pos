@@ -153,12 +153,13 @@ class ProductsCompanion extends UpdateCompanion<Product> {
     this.taxable = const Value.absent(),
   });
   ProductsCompanion.insert({
-    this.id = const Value.absent(),
+    @required int id,
     @required String name,
     @required String description,
     @required String photoLink,
     @required bool taxable,
-  })  : name = Value(name),
+  })  : id = Value(id),
+        name = Value(name),
         description = Value(description),
         photoLink = Value(photoLink),
         taxable = Value(taxable);
@@ -236,8 +237,11 @@ class $ProductsTable extends Products with TableInfo<$ProductsTable, Product> {
   @override
   GeneratedIntColumn get id => _id ??= _constructId();
   GeneratedIntColumn _constructId() {
-    return GeneratedIntColumn('id', $tableName, false,
-        hasAutoIncrement: true, declaredAsPrimaryKey: true);
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
   }
 
   final VerificationMeta _nameMeta = const VerificationMeta('name');
@@ -306,6 +310,8 @@ class $ProductsTable extends Products with TableInfo<$ProductsTable, Product> {
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
     }
     if (data.containsKey('name')) {
       context.handle(
@@ -337,7 +343,7 @@ class $ProductsTable extends Products with TableInfo<$ProductsTable, Product> {
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
   @override
   Product map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -500,12 +506,13 @@ class ProductVariantsCompanion extends UpdateCompanion<ProductVariant> {
     this.quantity = const Value.absent(),
   });
   ProductVariantsCompanion.insert({
-    this.variantid = const Value.absent(),
+    @required int variantid,
     @required String variantname,
     @required int price,
     @required int productid,
     @required int quantity,
-  })  : variantname = Value(variantname),
+  })  : variantid = Value(variantid),
+        variantname = Value(variantname),
         price = Value(price),
         productid = Value(productid),
         quantity = Value(quantity);
@@ -584,8 +591,11 @@ class $ProductVariantsTable extends ProductVariants
   @override
   GeneratedIntColumn get variantid => _variantid ??= _constructVariantid();
   GeneratedIntColumn _constructVariantid() {
-    return GeneratedIntColumn('variantid', $tableName, false,
-        hasAutoIncrement: true, declaredAsPrimaryKey: true);
+    return GeneratedIntColumn(
+      'variantid',
+      $tableName,
+      false,
+    );
   }
 
   final VerificationMeta _variantnameMeta =
@@ -652,6 +662,8 @@ class $ProductVariantsTable extends ProductVariants
     if (data.containsKey('variantid')) {
       context.handle(_variantidMeta,
           variantid.isAcceptableOrUnknown(data['variantid'], _variantidMeta));
+    } else if (isInserting) {
+      context.missing(_variantidMeta);
     }
     if (data.containsKey('variantname')) {
       context.handle(
@@ -683,7 +695,7 @@ class $ProductVariantsTable extends ProductVariants
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {variantid};
+  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
   @override
   ProductVariant map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -700,12 +712,14 @@ class Discount extends DataClass implements Insertable<Discount> {
   final int id;
   final String description;
   final int percentage;
+  final String inclusiveDates;
   final DateTime startTime;
   final DateTime endTime;
   Discount(
       {@required this.id,
       @required this.description,
       @required this.percentage,
+      @required this.inclusiveDates,
       @required this.startTime,
       @required this.endTime});
   factory Discount.fromData(Map<String, dynamic> data, GeneratedDatabase db,
@@ -720,6 +734,8 @@ class Discount extends DataClass implements Insertable<Discount> {
           .mapFromDatabaseResponse(data['${effectivePrefix}description']),
       percentage:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}percentage']),
+      inclusiveDates: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}inclusive_dates']),
       startTime: dateTimeType
           .mapFromDatabaseResponse(data['${effectivePrefix}start_time']),
       endTime: dateTimeType
@@ -737,6 +753,9 @@ class Discount extends DataClass implements Insertable<Discount> {
     }
     if (!nullToAbsent || percentage != null) {
       map['percentage'] = Variable<int>(percentage);
+    }
+    if (!nullToAbsent || inclusiveDates != null) {
+      map['inclusive_dates'] = Variable<String>(inclusiveDates);
     }
     if (!nullToAbsent || startTime != null) {
       map['start_time'] = Variable<DateTime>(startTime);
@@ -756,6 +775,9 @@ class Discount extends DataClass implements Insertable<Discount> {
       percentage: percentage == null && nullToAbsent
           ? const Value.absent()
           : Value(percentage),
+      inclusiveDates: inclusiveDates == null && nullToAbsent
+          ? const Value.absent()
+          : Value(inclusiveDates),
       startTime: startTime == null && nullToAbsent
           ? const Value.absent()
           : Value(startTime),
@@ -772,6 +794,7 @@ class Discount extends DataClass implements Insertable<Discount> {
       id: serializer.fromJson<int>(json['id']),
       description: serializer.fromJson<String>(json['description']),
       percentage: serializer.fromJson<int>(json['percentage']),
+      inclusiveDates: serializer.fromJson<String>(json['inclusiveDates']),
       startTime: serializer.fromJson<DateTime>(json['startTime']),
       endTime: serializer.fromJson<DateTime>(json['endTime']),
     );
@@ -783,6 +806,7 @@ class Discount extends DataClass implements Insertable<Discount> {
       'id': serializer.toJson<int>(id),
       'description': serializer.toJson<String>(description),
       'percentage': serializer.toJson<int>(percentage),
+      'inclusiveDates': serializer.toJson<String>(inclusiveDates),
       'startTime': serializer.toJson<DateTime>(startTime),
       'endTime': serializer.toJson<DateTime>(endTime),
     };
@@ -792,12 +816,14 @@ class Discount extends DataClass implements Insertable<Discount> {
           {int id,
           String description,
           int percentage,
+          String inclusiveDates,
           DateTime startTime,
           DateTime endTime}) =>
       Discount(
         id: id ?? this.id,
         description: description ?? this.description,
         percentage: percentage ?? this.percentage,
+        inclusiveDates: inclusiveDates ?? this.inclusiveDates,
         startTime: startTime ?? this.startTime,
         endTime: endTime ?? this.endTime,
       );
@@ -807,6 +833,7 @@ class Discount extends DataClass implements Insertable<Discount> {
           ..write('id: $id, ')
           ..write('description: $description, ')
           ..write('percentage: $percentage, ')
+          ..write('inclusiveDates: $inclusiveDates, ')
           ..write('startTime: $startTime, ')
           ..write('endTime: $endTime')
           ..write(')'))
@@ -818,8 +845,10 @@ class Discount extends DataClass implements Insertable<Discount> {
       id.hashCode,
       $mrjc(
           description.hashCode,
-          $mrjc(percentage.hashCode,
-              $mrjc(startTime.hashCode, endTime.hashCode)))));
+          $mrjc(
+              percentage.hashCode,
+              $mrjc(inclusiveDates.hashCode,
+                  $mrjc(startTime.hashCode, endTime.hashCode))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -827,6 +856,7 @@ class Discount extends DataClass implements Insertable<Discount> {
           other.id == this.id &&
           other.description == this.description &&
           other.percentage == this.percentage &&
+          other.inclusiveDates == this.inclusiveDates &&
           other.startTime == this.startTime &&
           other.endTime == this.endTime);
 }
@@ -835,29 +865,35 @@ class DiscountsCompanion extends UpdateCompanion<Discount> {
   final Value<int> id;
   final Value<String> description;
   final Value<int> percentage;
+  final Value<String> inclusiveDates;
   final Value<DateTime> startTime;
   final Value<DateTime> endTime;
   const DiscountsCompanion({
     this.id = const Value.absent(),
     this.description = const Value.absent(),
     this.percentage = const Value.absent(),
+    this.inclusiveDates = const Value.absent(),
     this.startTime = const Value.absent(),
     this.endTime = const Value.absent(),
   });
   DiscountsCompanion.insert({
-    this.id = const Value.absent(),
+    @required int id,
     @required String description,
     @required int percentage,
+    @required String inclusiveDates,
     @required DateTime startTime,
     @required DateTime endTime,
-  })  : description = Value(description),
+  })  : id = Value(id),
+        description = Value(description),
         percentage = Value(percentage),
+        inclusiveDates = Value(inclusiveDates),
         startTime = Value(startTime),
         endTime = Value(endTime);
   static Insertable<Discount> custom({
     Expression<int> id,
     Expression<String> description,
     Expression<int> percentage,
+    Expression<String> inclusiveDates,
     Expression<DateTime> startTime,
     Expression<DateTime> endTime,
   }) {
@@ -865,6 +901,7 @@ class DiscountsCompanion extends UpdateCompanion<Discount> {
       if (id != null) 'id': id,
       if (description != null) 'description': description,
       if (percentage != null) 'percentage': percentage,
+      if (inclusiveDates != null) 'inclusive_dates': inclusiveDates,
       if (startTime != null) 'start_time': startTime,
       if (endTime != null) 'end_time': endTime,
     });
@@ -874,12 +911,14 @@ class DiscountsCompanion extends UpdateCompanion<Discount> {
       {Value<int> id,
       Value<String> description,
       Value<int> percentage,
+      Value<String> inclusiveDates,
       Value<DateTime> startTime,
       Value<DateTime> endTime}) {
     return DiscountsCompanion(
       id: id ?? this.id,
       description: description ?? this.description,
       percentage: percentage ?? this.percentage,
+      inclusiveDates: inclusiveDates ?? this.inclusiveDates,
       startTime: startTime ?? this.startTime,
       endTime: endTime ?? this.endTime,
     );
@@ -897,6 +936,9 @@ class DiscountsCompanion extends UpdateCompanion<Discount> {
     if (percentage.present) {
       map['percentage'] = Variable<int>(percentage.value);
     }
+    if (inclusiveDates.present) {
+      map['inclusive_dates'] = Variable<String>(inclusiveDates.value);
+    }
     if (startTime.present) {
       map['start_time'] = Variable<DateTime>(startTime.value);
     }
@@ -912,6 +954,7 @@ class DiscountsCompanion extends UpdateCompanion<Discount> {
           ..write('id: $id, ')
           ..write('description: $description, ')
           ..write('percentage: $percentage, ')
+          ..write('inclusiveDates: $inclusiveDates, ')
           ..write('startTime: $startTime, ')
           ..write('endTime: $endTime')
           ..write(')'))
@@ -929,8 +972,11 @@ class $DiscountsTable extends Discounts
   @override
   GeneratedIntColumn get id => _id ??= _constructId();
   GeneratedIntColumn _constructId() {
-    return GeneratedIntColumn('id', $tableName, false,
-        hasAutoIncrement: true, declaredAsPrimaryKey: true);
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
   }
 
   final VerificationMeta _descriptionMeta =
@@ -954,6 +1000,20 @@ class $DiscountsTable extends Discounts
   GeneratedIntColumn _constructPercentage() {
     return GeneratedIntColumn(
       'percentage',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _inclusiveDatesMeta =
+      const VerificationMeta('inclusiveDates');
+  GeneratedTextColumn _inclusiveDates;
+  @override
+  GeneratedTextColumn get inclusiveDates =>
+      _inclusiveDates ??= _constructInclusiveDates();
+  GeneratedTextColumn _constructInclusiveDates() {
+    return GeneratedTextColumn(
+      'inclusive_dates',
       $tableName,
       false,
     );
@@ -985,7 +1045,7 @@ class $DiscountsTable extends Discounts
 
   @override
   List<GeneratedColumn> get $columns =>
-      [id, description, percentage, startTime, endTime];
+      [id, description, percentage, inclusiveDates, startTime, endTime];
   @override
   $DiscountsTable get asDslTable => this;
   @override
@@ -999,6 +1059,8 @@ class $DiscountsTable extends Discounts
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
     }
     if (data.containsKey('description')) {
       context.handle(
@@ -1016,6 +1078,14 @@ class $DiscountsTable extends Discounts
     } else if (isInserting) {
       context.missing(_percentageMeta);
     }
+    if (data.containsKey('inclusive_dates')) {
+      context.handle(
+          _inclusiveDatesMeta,
+          inclusiveDates.isAcceptableOrUnknown(
+              data['inclusive_dates'], _inclusiveDatesMeta));
+    } else if (isInserting) {
+      context.missing(_inclusiveDatesMeta);
+    }
     if (data.containsKey('start_time')) {
       context.handle(_startTimeMeta,
           startTime.isAcceptableOrUnknown(data['start_time'], _startTimeMeta));
@@ -1032,7 +1102,7 @@ class $DiscountsTable extends Discounts
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
   @override
   Discount map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -1192,12 +1262,13 @@ class OrdersCompanion extends UpdateCompanion<Order> {
     this.transactionid = const Value.absent(),
   });
   OrdersCompanion.insert({
-    this.id = const Value.absent(),
+    @required int id,
     @required int product,
     @required int variant,
     @required int quantity,
     @required int transactionid,
-  })  : product = Value(product),
+  })  : id = Value(id),
+        product = Value(product),
         variant = Value(variant),
         quantity = Value(quantity),
         transactionid = Value(transactionid);
@@ -1275,8 +1346,11 @@ class $OrdersTable extends Orders with TableInfo<$OrdersTable, Order> {
   @override
   GeneratedIntColumn get id => _id ??= _constructId();
   GeneratedIntColumn _constructId() {
-    return GeneratedIntColumn('id', $tableName, false,
-        hasAutoIncrement: true, declaredAsPrimaryKey: true);
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
   }
 
   final VerificationMeta _productMeta = const VerificationMeta('product');
@@ -1336,6 +1410,8 @@ class $OrdersTable extends Orders with TableInfo<$OrdersTable, Order> {
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
     }
     if (data.containsKey('product')) {
       context.handle(_productMeta,
@@ -1367,7 +1443,7 @@ class $OrdersTable extends Orders with TableInfo<$OrdersTable, Order> {
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
   @override
   Order map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -1443,8 +1519,8 @@ class TransactionsCompanion extends UpdateCompanion<Transaction> {
     this.id = const Value.absent(),
   });
   TransactionsCompanion.insert({
-    this.id = const Value.absent(),
-  });
+    @required int id,
+  }) : id = Value(id);
   static Insertable<Transaction> custom({
     Expression<int> id,
   }) {
@@ -1487,8 +1563,11 @@ class $TransactionsTable extends Transactions
   @override
   GeneratedIntColumn get id => _id ??= _constructId();
   GeneratedIntColumn _constructId() {
-    return GeneratedIntColumn('id', $tableName, false,
-        hasAutoIncrement: true, declaredAsPrimaryKey: true);
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
   }
 
   @override
@@ -1506,12 +1585,14 @@ class $TransactionsTable extends Transactions
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
     }
     return context;
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
   @override
   Transaction map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -1722,6 +1803,650 @@ class $DiscountProductsTable extends DiscountProducts
   }
 }
 
+class Tax extends DataClass implements Insertable<Tax> {
+  final int id;
+  final String name;
+  final bool isSelected;
+  final int perccentage;
+  Tax(
+      {@required this.id,
+      @required this.name,
+      @required this.isSelected,
+      @required this.perccentage});
+  factory Tax.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final stringType = db.typeSystem.forDartType<String>();
+    final boolType = db.typeSystem.forDartType<bool>();
+    return Tax(
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
+      isSelected: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_selected']),
+      perccentage: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}perccentage']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || name != null) {
+      map['name'] = Variable<String>(name);
+    }
+    if (!nullToAbsent || isSelected != null) {
+      map['is_selected'] = Variable<bool>(isSelected);
+    }
+    if (!nullToAbsent || perccentage != null) {
+      map['perccentage'] = Variable<int>(perccentage);
+    }
+    return map;
+  }
+
+  TaxesCompanion toCompanion(bool nullToAbsent) {
+    return TaxesCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      name: name == null && nullToAbsent ? const Value.absent() : Value(name),
+      isSelected: isSelected == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isSelected),
+      perccentage: perccentage == null && nullToAbsent
+          ? const Value.absent()
+          : Value(perccentage),
+    );
+  }
+
+  factory Tax.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return Tax(
+      id: serializer.fromJson<int>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      isSelected: serializer.fromJson<bool>(json['isSelected']),
+      perccentage: serializer.fromJson<int>(json['perccentage']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'name': serializer.toJson<String>(name),
+      'isSelected': serializer.toJson<bool>(isSelected),
+      'perccentage': serializer.toJson<int>(perccentage),
+    };
+  }
+
+  Tax copyWith({int id, String name, bool isSelected, int perccentage}) =>
+      Tax(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        isSelected: isSelected ?? this.isSelected,
+        perccentage: perccentage ?? this.perccentage,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('Taxe(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('isSelected: $isSelected, ')
+          ..write('perccentage: $perccentage')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(id.hashCode,
+      $mrjc(name.hashCode, $mrjc(isSelected.hashCode, perccentage.hashCode))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is Tax &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.isSelected == this.isSelected &&
+          other.perccentage == this.perccentage);
+}
+
+class TaxesCompanion extends UpdateCompanion<Tax> {
+  final Value<int> id;
+  final Value<String> name;
+  final Value<bool> isSelected;
+  final Value<int> perccentage;
+  const TaxesCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.isSelected = const Value.absent(),
+    this.perccentage = const Value.absent(),
+  });
+  TaxesCompanion.insert({
+    @required int id,
+    @required String name,
+    @required bool isSelected,
+    @required int perccentage,
+  })  : id = Value(id),
+        name = Value(name),
+        isSelected = Value(isSelected),
+        perccentage = Value(perccentage);
+  static Insertable<Tax> custom({
+    Expression<int> id,
+    Expression<String> name,
+    Expression<bool> isSelected,
+    Expression<int> perccentage,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (isSelected != null) 'is_selected': isSelected,
+      if (perccentage != null) 'perccentage': perccentage,
+    });
+  }
+
+  TaxesCompanion copyWith(
+      {Value<int> id,
+      Value<String> name,
+      Value<bool> isSelected,
+      Value<int> perccentage}) {
+    return TaxesCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      isSelected: isSelected ?? this.isSelected,
+      perccentage: perccentage ?? this.perccentage,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (isSelected.present) {
+      map['is_selected'] = Variable<bool>(isSelected.value);
+    }
+    if (perccentage.present) {
+      map['perccentage'] = Variable<int>(perccentage.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TaxesCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('isSelected: $isSelected, ')
+          ..write('perccentage: $perccentage')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $TaxesTable extends Taxes with TableInfo<$TaxesTable, Tax> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $TaxesTable(this._db, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _nameMeta = const VerificationMeta('name');
+  GeneratedTextColumn _name;
+  @override
+  GeneratedTextColumn get name => _name ??= _constructName();
+  GeneratedTextColumn _constructName() {
+    return GeneratedTextColumn(
+      'name',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _isSelectedMeta = const VerificationMeta('isSelected');
+  GeneratedBoolColumn _isSelected;
+  @override
+  GeneratedBoolColumn get isSelected => _isSelected ??= _constructIsSelected();
+  GeneratedBoolColumn _constructIsSelected() {
+    return GeneratedBoolColumn(
+      'is_selected',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _perccentageMeta =
+      const VerificationMeta('perccentage');
+  GeneratedIntColumn _perccentage;
+  @override
+  GeneratedIntColumn get perccentage =>
+      _perccentage ??= _constructPerccentage();
+  GeneratedIntColumn _constructPerccentage() {
+    return GeneratedIntColumn(
+      'perccentage',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [id, name, isSelected, perccentage];
+  @override
+  $TaxesTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'taxes';
+  @override
+  final String actualTableName = 'taxes';
+  @override
+  VerificationContext validateIntegrity(Insertable<Tax> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name'], _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('is_selected')) {
+      context.handle(
+          _isSelectedMeta,
+          isSelected.isAcceptableOrUnknown(
+              data['is_selected'], _isSelectedMeta));
+    } else if (isInserting) {
+      context.missing(_isSelectedMeta);
+    }
+    if (data.containsKey('perccentage')) {
+      context.handle(
+          _perccentageMeta,
+          perccentage.isAcceptableOrUnknown(
+              data['perccentage'], _perccentageMeta));
+    } else if (isInserting) {
+      context.missing(_perccentageMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
+  @override
+  Tax map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return Tax.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  $TaxesTable createAlias(String alias) {
+    return $TaxesTable(_db, alias);
+  }
+}
+
+class UserProfile extends DataClass implements Insertable<UserProfile> {
+  final int id;
+  final String name;
+  final String email;
+  final String receiptMessage;
+  final String address;
+  UserProfile(
+      {@required this.id,
+      @required this.name,
+      @required this.email,
+      @required this.receiptMessage,
+      @required this.address});
+  factory UserProfile.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final stringType = db.typeSystem.forDartType<String>();
+    return UserProfile(
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
+      email:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}email']),
+      receiptMessage: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}receipt_message']),
+      address:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}address']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || name != null) {
+      map['name'] = Variable<String>(name);
+    }
+    if (!nullToAbsent || email != null) {
+      map['email'] = Variable<String>(email);
+    }
+    if (!nullToAbsent || receiptMessage != null) {
+      map['receipt_message'] = Variable<String>(receiptMessage);
+    }
+    if (!nullToAbsent || address != null) {
+      map['address'] = Variable<String>(address);
+    }
+    return map;
+  }
+
+  UserProfilesCompanion toCompanion(bool nullToAbsent) {
+    return UserProfilesCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      name: name == null && nullToAbsent ? const Value.absent() : Value(name),
+      email:
+          email == null && nullToAbsent ? const Value.absent() : Value(email),
+      receiptMessage: receiptMessage == null && nullToAbsent
+          ? const Value.absent()
+          : Value(receiptMessage),
+      address: address == null && nullToAbsent
+          ? const Value.absent()
+          : Value(address),
+    );
+  }
+
+  factory UserProfile.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return UserProfile(
+      id: serializer.fromJson<int>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      email: serializer.fromJson<String>(json['email']),
+      receiptMessage: serializer.fromJson<String>(json['receiptMessage']),
+      address: serializer.fromJson<String>(json['address']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'name': serializer.toJson<String>(name),
+      'email': serializer.toJson<String>(email),
+      'receiptMessage': serializer.toJson<String>(receiptMessage),
+      'address': serializer.toJson<String>(address),
+    };
+  }
+
+  UserProfile copyWith(
+          {int id,
+          String name,
+          String email,
+          String receiptMessage,
+          String address}) =>
+      UserProfile(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        email: email ?? this.email,
+        receiptMessage: receiptMessage ?? this.receiptMessage,
+        address: address ?? this.address,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('UserProfile(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('email: $email, ')
+          ..write('receiptMessage: $receiptMessage, ')
+          ..write('address: $address')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      id.hashCode,
+      $mrjc(
+          name.hashCode,
+          $mrjc(email.hashCode,
+              $mrjc(receiptMessage.hashCode, address.hashCode)))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is UserProfile &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.email == this.email &&
+          other.receiptMessage == this.receiptMessage &&
+          other.address == this.address);
+}
+
+class UserProfilesCompanion extends UpdateCompanion<UserProfile> {
+  final Value<int> id;
+  final Value<String> name;
+  final Value<String> email;
+  final Value<String> receiptMessage;
+  final Value<String> address;
+  const UserProfilesCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.email = const Value.absent(),
+    this.receiptMessage = const Value.absent(),
+    this.address = const Value.absent(),
+  });
+  UserProfilesCompanion.insert({
+    @required int id,
+    @required String name,
+    @required String email,
+    @required String receiptMessage,
+    @required String address,
+  })  : id = Value(id),
+        name = Value(name),
+        email = Value(email),
+        receiptMessage = Value(receiptMessage),
+        address = Value(address);
+  static Insertable<UserProfile> custom({
+    Expression<int> id,
+    Expression<String> name,
+    Expression<String> email,
+    Expression<String> receiptMessage,
+    Expression<String> address,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (email != null) 'email': email,
+      if (receiptMessage != null) 'receipt_message': receiptMessage,
+      if (address != null) 'address': address,
+    });
+  }
+
+  UserProfilesCompanion copyWith(
+      {Value<int> id,
+      Value<String> name,
+      Value<String> email,
+      Value<String> receiptMessage,
+      Value<String> address}) {
+    return UserProfilesCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      receiptMessage: receiptMessage ?? this.receiptMessage,
+      address: address ?? this.address,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (email.present) {
+      map['email'] = Variable<String>(email.value);
+    }
+    if (receiptMessage.present) {
+      map['receipt_message'] = Variable<String>(receiptMessage.value);
+    }
+    if (address.present) {
+      map['address'] = Variable<String>(address.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserProfilesCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('email: $email, ')
+          ..write('receiptMessage: $receiptMessage, ')
+          ..write('address: $address')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $UserProfilesTable extends UserProfiles
+    with TableInfo<$UserProfilesTable, UserProfile> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $UserProfilesTable(this._db, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _nameMeta = const VerificationMeta('name');
+  GeneratedTextColumn _name;
+  @override
+  GeneratedTextColumn get name => _name ??= _constructName();
+  GeneratedTextColumn _constructName() {
+    return GeneratedTextColumn(
+      'name',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _emailMeta = const VerificationMeta('email');
+  GeneratedTextColumn _email;
+  @override
+  GeneratedTextColumn get email => _email ??= _constructEmail();
+  GeneratedTextColumn _constructEmail() {
+    return GeneratedTextColumn(
+      'email',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _receiptMessageMeta =
+      const VerificationMeta('receiptMessage');
+  GeneratedTextColumn _receiptMessage;
+  @override
+  GeneratedTextColumn get receiptMessage =>
+      _receiptMessage ??= _constructReceiptMessage();
+  GeneratedTextColumn _constructReceiptMessage() {
+    return GeneratedTextColumn(
+      'receipt_message',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _addressMeta = const VerificationMeta('address');
+  GeneratedTextColumn _address;
+  @override
+  GeneratedTextColumn get address => _address ??= _constructAddress();
+  GeneratedTextColumn _constructAddress() {
+    return GeneratedTextColumn(
+      'address',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, name, email, receiptMessage, address];
+  @override
+  $UserProfilesTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'user_profiles';
+  @override
+  final String actualTableName = 'user_profiles';
+  @override
+  VerificationContext validateIntegrity(Insertable<UserProfile> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name'], _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('email')) {
+      context.handle(
+          _emailMeta, email.isAcceptableOrUnknown(data['email'], _emailMeta));
+    } else if (isInserting) {
+      context.missing(_emailMeta);
+    }
+    if (data.containsKey('receipt_message')) {
+      context.handle(
+          _receiptMessageMeta,
+          receiptMessage.isAcceptableOrUnknown(
+              data['receipt_message'], _receiptMessageMeta));
+    } else if (isInserting) {
+      context.missing(_receiptMessageMeta);
+    }
+    if (data.containsKey('address')) {
+      context.handle(_addressMeta,
+          address.isAcceptableOrUnknown(data['address'], _addressMeta));
+    } else if (isInserting) {
+      context.missing(_addressMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
+  @override
+  UserProfile map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return UserProfile.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  $UserProfilesTable createAlias(String alias) {
+    return $UserProfilesTable(_db, alias);
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   $ProductsTable _products;
@@ -1739,6 +2464,11 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   $DiscountProductsTable _discountProducts;
   $DiscountProductsTable get discountProducts =>
       _discountProducts ??= $DiscountProductsTable(this);
+  $TaxesTable _taxes;
+  $TaxesTable get taxes => _taxes ??= $TaxesTable(this);
+  $UserProfilesTable _userProfiles;
+  $UserProfilesTable get userProfiles =>
+      _userProfiles ??= $UserProfilesTable(this);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
@@ -1748,6 +2478,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         discounts,
         orders,
         transactions,
-        discountProducts
+        discountProducts,
+        taxes,
+        userProfiles
       ];
 }

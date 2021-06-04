@@ -118,8 +118,8 @@ void main() async {
     local: _transactionLocalDataSource,
     network: _networkInfo,
   );
-  _discountRemoteDataSource =
-      DiscountRemoteDataSource(client: _client, storage: _storage);
+  _discountRemoteDataSource = DiscountRemoteDataSource(
+      client: _client, storage: _storage, local: _discountLocalDataSource);
   _discountLocalDataSource = DiscountLocalDataSource(local: local);
   _discountRepository = DiscountRepository(
       remote: _discountRemoteDataSource,

@@ -23,7 +23,7 @@ class ProfileRepository implements IProfileRepository {
   });
 
   @override
-  Future<Either<Failure, UserProfile>> getProfileInfo() async {
+  Future<Either<Failure, dynamic>> getProfileInfo() async {
     if (await network.isConnected()) {
       try {
         final data = await remote.getProfileInfo();

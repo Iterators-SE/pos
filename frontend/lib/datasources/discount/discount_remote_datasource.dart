@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:frontend/datasources/discount/discount_local_datasource.dart';
 import 'package:graphql/client.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -8,10 +9,12 @@ import '../../models/discounts.dart';
 import 'discount_datasource.dart';
 
 class DiscountRemoteDataSource implements IDiscountRemoteDataSource {
-  DiscountRemoteDataSource({@required this.client, @required this.storage});
+  DiscountRemoteDataSource(
+      {@required this.client, @required this.local, @required this.storage});
 
-  final GraphQLClient client;
+  final DiscountLocalDataSource local;
   final SharedPreferences storage;
+  final GraphQLClient client;
 
   @override
   Future<Discount> getDiscount({@required int id}) async {
@@ -35,6 +38,7 @@ class DiscountRemoteDataSource implements IDiscountRemoteDataSource {
       }
 
       final data = jsonEncode(response.data['action']);
+      await local.cacheDiscounts(data);
       return jsonDecode(data);
     } catch (e) {
       rethrow;

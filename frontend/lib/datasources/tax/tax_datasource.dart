@@ -3,9 +3,9 @@ import '../../features/tax/models/new_tax.dart';
 import '../../models/tax.dart';
 
 abstract class ITaxDataSource {
-  Future<List<Tax>> getTaxes();
-  Future<Tax> getTaxDetails(int taxId);
-  Future<Tax> getSelectedTax();
+  Future<List<dynamic>> getTaxes();
+  Future<dynamic> getTaxDetails(int taxId);
+  Future<dynamic> getSelectedTax();
 }
 
 abstract class ITaxRemoteDataSource implements ITaxDataSource {
@@ -16,6 +16,5 @@ abstract class ITaxRemoteDataSource implements ITaxDataSource {
 }
 
 abstract class ITaxLocalDataSource implements ITaxDataSource {
-  Future<void> cacheSelectedTax(dynamic data);
   Future<void> cacheTaxes(dynamic data);
 }

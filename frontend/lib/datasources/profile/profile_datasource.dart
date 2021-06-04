@@ -1,6 +1,6 @@
 import '../../models/user_profile.dart';
 
 abstract class IProfileRemoteDataSource {
-  Future<UserProfile> getProfileInfo();
+  Future<dynamic> getProfileInfo();
   Future<UserProfile> updateProfileInfo(UserProfile userProfile);
 }

@@ -1,36 +1,35 @@
-import '../../models/tax.dart';
-
+import '../../database/local/local_database.dart';
 import 'tax_datasource.dart';
 
 class TaxLocalDataSource implements ITaxLocalDataSource {
+  final AppDatabase local;
+  TaxLocalDataSource({this.local});
   @override
-  Future<void> cacheTaxes(dynamic data) {
-      // TODO: implement cacheProduct
-      throw UnimplementedError();
+  Future<void> cacheTaxes(dynamic data) async{
+      final List<Tax> taxes = await data.map((tax) {
+        return Tax(
+          id: tax['id'],
+          name: tax['name'],
+          isSelected: tax['isSelected'],
+          perccentage: tax['percentage']
+        );
+      });
+      await taxes.map(local.addTax);
     }
   
     @override
-    Future<void> cacheSelectedTax(dynamic data) {
-      // TODO: implement cacheSelectedTax
-      throw UnimplementedError();
+    Future<Tax> getSelectedTax() async{
+      return await local.getSelectedTax();
     }
   
     @override
-    Future<Tax> getSelectedTax() {
-      // TODO: implement getSelectedTax
-      throw UnimplementedError();
-    }
-  
-    @override
-    Future<Tax> getTaxDetails(int taxId) {
-    // TODO: implement getTaxDetails
-    throw UnimplementedError();
+    Future<Tax> getTaxDetails(int taxId)async {
+      return await local.getTaxDetails(taxId);
   }
 
   @override
-  Future<List<Tax>> getTaxes() {
-    // TODO: implement getTaxes
-    throw UnimplementedError();
+  Future<List<Tax>> getTaxes() async{
+    return await local.getTaxes();
   }
   
 }
