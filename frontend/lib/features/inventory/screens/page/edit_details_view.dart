@@ -2,13 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/features/inventory/models/edit_new_variant.dart';
-import 'package:frontend/features/inventory/models/edit_product_variant.dart';
-import 'package:frontend/features/inventory/models/new_variant.dart';
-import 'package:frontend/features/inventory/screens/widgets/variant_box.dart';
-import 'package:frontend/models/product_variant.dart';
 import 'package:image_picker/image_picker.dart';
+
 import '../../../../models/product.dart';
+import '../../../../models/product_variant.dart';
+import '../../models/edit_product_variant.dart';
+import '../../models/new_variant.dart';
+import '../widgets/variant_box.dart';
 
 class EditDetailPage extends StatefulWidget {
   final Product product;

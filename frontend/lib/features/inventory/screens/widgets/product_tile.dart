@@ -47,7 +47,9 @@ class ProductListTile extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        'Price: ${product.min} - ${product.max}',
+                        product.variants.length == 1
+                            ? 'Price: Php ${product.max}'
+                            : 'Price: Php ${product.min} - ${product.max}',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12,
@@ -65,15 +67,17 @@ class ProductListTile extends StatelessWidget {
                   )
                 ],
               ),
-              onTap: () {
-                print("Stateless Widget");
-                print(product.name);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ProductDetailScreen(
-                              product: product,
-                            )));
+              onTap: () async {
+                // print("Stateless Widget");
+                // print(product.name);
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) => ProductDetailScreen(
+                //               product: product,
+                //             )));
+                print(product);
+                await functionOnTap(product: product, context: context);
               }),
           elevation: 5,
           margin: EdgeInsets.fromLTRB(10, 11, 10, 0)),

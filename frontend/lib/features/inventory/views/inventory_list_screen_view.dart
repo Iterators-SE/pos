@@ -13,7 +13,7 @@ abstract class InventoryListScreenView {
   String productToSearch;
   bool isSearching;
 
-  Future<Either<Failure, List<Product>>> getProducts(BuildContext context);
+  Future<List<Product>> getProducts(BuildContext context);
   void onProductTilePressed({Product product, BuildContext context});
   void setProductToSearch(String name);
   void onError();

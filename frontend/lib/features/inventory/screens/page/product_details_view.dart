@@ -48,23 +48,32 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           child: Column(
             
             children: [
-              Image.network(
-                widget.product.photoLink,
-                fit: BoxFit.fitWidth,
+
+              FadeInImage.assetNetwork(
                 height: 250,
                 width: 800,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) return child;
-                  return Center(
-                    child: CircularProgressIndicator(
-                      value: loadingProgress.expectedTotalBytes != null
-                          ? loadingProgress.cumulativeBytesLoaded /
-                              loadingProgress.expectedTotalBytes
-                          : null,
-                    ),
-                  );
-                },
+                fit: BoxFit.fitWidth,
+                placeholder:'assets/images/loading.gif', 
+                image: widget.product.photoLink,
               ),
+              
+              // Image.network(
+              //   widget.product.photoLink,
+              //   fit: BoxFit.fitWidth,
+              //   height: 250,
+              //   width: 800,
+              //   loadingBuilder: (context, child, loadingProgress) {
+              //     if (loadingProgress == null) return child;
+              //     return Center(
+              //       child: CircularProgressIndicator(
+              //         value: loadingProgress.expectedTotalBytes != null
+              //             ? loadingProgress.cumulativeBytesLoaded /
+              //                 loadingProgress.expectedTotalBytes
+              //             : null,
+              //       ),
+              //     );
+              //   },
+              // ),
               SizedBox(height: 20),
               Container(
                 width: 350,

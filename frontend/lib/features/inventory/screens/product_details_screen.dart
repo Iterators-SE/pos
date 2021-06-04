@@ -34,7 +34,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
                 color: Colors.red,
               ),
               onPressed: () {
-                onDelete(product, context);
+                onDelete(productData, context);
               }),
           IconButton(
               icon: Icon(
@@ -44,10 +44,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => EditDetailScreen(
-                    product: widget.product),
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        EditDetailScreen(product: widget.product),
                   ),
-                );
+                ).then((value) async {
+                  await updateProductData(productData, context);
+                });
               }),
         ],
       ),
@@ -56,7 +59,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
   }
 
   @override
-  Product product;
+  Product productData;
 
   @override
   Widget body;
@@ -69,7 +72,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
     _presenter = ProductDetailScreenPresenter();
     _presenter.attachView(this);
 
-    body = ProductDetailPage(product: widget.product);
+    productData = widget.product;
+
+    body = ProductDetailPage(product: productData);
     state = AppState.done;
     super.initState();
   }
@@ -102,8 +107,27 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
   }
 
   @override
-  void onEdit(Product product) {
-    // TODO: implement onEdit
+  void updateProductData(Product product, BuildContext context) async {
+    setState(() {
+      state = AppState.loading;
+    });
+
+    var productProvider =
+        Provider.of<InventoryRepository>(context, listen: false);
+    var result =
+        await productProvider.getProductDetails(productId: widget.product.id);
+    if (await result.isRight) {
+      setState(() {
+        productData =
+            result.fold((failure) => Product(), (isSuccessful) => isSuccessful);
+        body = ProductDetailPage(product: productData);
+        state = AppState.done;
+      });
+    } else {
+      setState(() {
+        state = AppState.error;
+      });
+    }
   }
 
   @override

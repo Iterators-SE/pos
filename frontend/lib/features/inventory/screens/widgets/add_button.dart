@@ -9,9 +9,14 @@ class InventoryFAB extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton.extended(
-      icon: Icon(Icons.add),
-      label: Text(label),
+    // return FloatingActionButton.extended(
+    //   icon: Icon(Icons.add),
+    //   label: Text(label),
+    //   onPressed:  onPressed
+    // );
+
+    return FloatingActionButton(
+      child: Icon(Icons.add),
       onPressed:  onPressed
     );
   }

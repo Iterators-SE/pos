@@ -21,7 +21,7 @@ class EditDetailScreenPresenter extends BasePresenter<EditDetailScreenView> {
             Text("Product has been updated."),
             ElevatedButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                 Navigator.pop(context);
                 },
                 child: Text("Okay")
             ),
