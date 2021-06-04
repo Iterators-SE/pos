@@ -12,7 +12,7 @@ import 'inventory_datasource.dart';
 class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
   InventoryRemoteDataSource({this.client, this.queries});
 
-  final GraphQLClient client;
+  GraphQLClient client;
   final MutationQuery queries;
 
   @override

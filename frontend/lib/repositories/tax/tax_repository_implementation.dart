@@ -38,127 +38,128 @@ class TaxRepository implements ITaxRepository {
 
     // return Left(UnhandledFailure());
   }
-  
-    @override
-    Future<Either<Failure, bool>> deleteTax(Tax tax) async {
-      if (true) {
-        try {
-          final data = await remote.deleteTax(tax);
-          return Right(data);
-        } on OperationException catch (e) {
-          return Left(OperationFailure(e.graphqlErrors.first.message));
-        } on NoResultsFoundException {
-          return Left(NoResultsFoundFailure());
-        } on Exception {
-          return Left(ServerFailure());
-        } catch (e) {
-          return Left(UnhandledFailure());
-        }
-      }
 
-      // return Left(UnhandledFailure());
+  @override
+  Future<Either<Failure, bool>> deleteTax(Tax tax) async {
+    if (true) {
+      try {
+        final data = await remote.deleteTax(tax);
+        return Right(data);
+      } on OperationException catch (e) {
+        return Left(OperationFailure(e.graphqlErrors.first.message));
+      } on NoResultsFoundException {
+        return Left(NoResultsFoundFailure());
+      } on Exception {
+        return Left(ServerFailure());
+      } catch (e) {
+        return Left(UnhandledFailure());
+      }
     }
-  
-    @override
-    Future<Either<Failure, bool>> editTax(Tax tax) async {
-      if (true) {
-        try {
-          final data = await remote.editTax(tax);
-          return Right(data);
-        } on OperationException catch (e) {
-          return Left(OperationFailure(e.graphqlErrors.first.message));
-        } on NoResultsFoundException {
-          return Left(NoResultsFoundFailure());
-        } on Exception {
-          return Left(ServerFailure());
-        } catch (e) {
-          return Left(UnhandledFailure());
-        }
-      }
 
-      // return Left(UnhandledFailure());
+    // return Left(UnhandledFailure());
+  }
+
+  @override
+  Future<Either<Failure, bool>> editTax(Tax tax) async {
+    if (true) {
+      try {
+        final data = await remote.editTax(tax);
+        return Right(data);
+      } on OperationException catch (e) {
+        return Left(OperationFailure(e.graphqlErrors.first.message));
+      } on NoResultsFoundException {
+        return Left(NoResultsFoundFailure());
+      } on Exception {
+        return Left(ServerFailure());
+      } catch (e) {
+        return Left(UnhandledFailure());
+      }
     }
-  
-    @override
-    Future<Either<Failure, Tax>> getSelectedTax() async {
-      if (true) {
-        try {
-          final data = await remote.getSelectedTax();
-          // await local.cacheSelectedTax(data);
-          return Right(data);
-        } on OperationException catch (e) {
-          return Left(OperationFailure(e.graphqlErrors.first.message));
-        } on NoResultsFoundException {
-          return Left(NoResultsFoundFailure());
-        } on Exception {
-          return Left(ServerFailure());
-        } catch (e) {
-          return Left(UnhandledFailure());
-        }
-      }
 
-      // return Left(UnhandledFailure());
+    // return Left(UnhandledFailure());
+  }
+
+  @override
+  Future<Either<Failure, Tax>> getSelectedTax() async {
+    if (true) {
+      try {
+        final data = await remote.getSelectedTax();
+        // await local.cacheSelectedTax(data);
+        return Right(data);
+      } on OperationException catch (e) {
+        return Left(OperationFailure(e.graphqlErrors.first.message));
+      } on NoResultsFoundException {
+        return Left(NoResultsFoundFailure());
+      } on Exception {
+        return Left(ServerFailure());
+      } catch (e) {
+        return Left(UnhandledFailure());
+      }
     }
-  
-    @override
-    Future<Either<Failure, Tax>> getTaxDetails(int taxId) async {
-      if (true) {
-        try {
-          final data = await remote.getTaxDetails(taxId);
-          return Right(data);
-        } on OperationException catch (e) {
-          return Left(OperationFailure(e.graphqlErrors.first.message));
-        } on NoResultsFoundException {
-          return Left(NoResultsFoundFailure());
-        } on Exception {
-          return Left(ServerFailure());
-        } catch (e) {
-          return Left(UnhandledFailure());
-        }
-      }
 
-      // return Left(UnhandledFailure());
+    // return Left(UnhandledFailure());
+  }
+
+  @override
+  Future<Either<Failure, Tax>> getTaxDetails(int taxId) async {
+    if (true) {
+      try {
+        final data = await remote.getTaxDetails(taxId);
+        return Right(data);
+      } on OperationException catch (e) {
+        return Left(OperationFailure(e.graphqlErrors.first.message));
+      } on NoResultsFoundException {
+        return Left(NoResultsFoundFailure());
+      } on Exception {
+        return Left(ServerFailure());
+      } catch (e) {
+        return Left(UnhandledFailure());
+      }
     }
-  
-    @override
-    Future<Either<Failure, List<Tax>>> getTaxes() async {
-      if (true) {
-        try {
-          final data = await remote.getTaxes();
-          // await local.cacheTaxes(data);
-          return Right(data);
-        } on OperationException catch (e) {
-          return Left(OperationFailure(e.graphqlErrors.first.message));
-        } on NoResultsFoundException {
-          return Left(NoResultsFoundFailure());
-        } on Exception {
-          return Left(ServerFailure());
-        } catch (e) {
-          return Left(UnhandledFailure());
-        }
-      }
 
-      // return Left(UnhandledFailure());
+    // return Left(UnhandledFailure());
+  }
+
+  @override
+  Future<Either<Failure, List<Tax>>> getTaxes() async {
+    if (true) {
+      try {
+        final data = await remote.getTaxes();
+        // await local.cacheTaxes(data);
+        return Right(data);
+      } on OperationException catch (e) {
+        return Left(OperationFailure(e.graphqlErrors.first.message));
+      } on NoResultsFoundException {
+        return Left(NoResultsFoundFailure());
+      } on Exception {
+        return Left(ServerFailure());
+      } catch (e) {
+        return Left(UnhandledFailure());
+      }
     }
-  
-    @override
-    Future<Either<Failure, bool>> selectTax(Tax tax) async {
-      if (true) {
-        try {
-          final data = await remote.selectTax(tax);
-          // await local.cacheTaxes(data);
-          return Right(data);
-        } on OperationException catch (e) {
-          return Left(OperationFailure(e.graphqlErrors.first.message));
-        } on NoResultsFoundException {
-          return Left(NoResultsFoundFailure());
-        } on Exception {
-          return Left(ServerFailure());
-        } catch (e) {
-          return Left(UnhandledFailure());
-        }
-      }
 
-      // return Left(UnhandledFailure());
+    // return Left(UnhandledFailure());
+  }
+
+  @override
+  Future<Either<Failure, bool>> selectTax(Tax tax) async {
+    if (true) {
+      try {
+        final data = await remote.selectTax(tax);
+        // await local.cacheTaxes(data);
+        return Right(data);
+      } on OperationException catch (e) {
+        print(e);
+        return Left(OperationFailure(e.graphqlErrors.first.message));
+      } on NoResultsFoundException {
+        return Left(NoResultsFoundFailure());
+      } on Exception {
+        return Left(ServerFailure());
+      } catch (e) {
+        return Left(UnhandledFailure());
+      }
+    }
+
+    // return Left(UnhandledFailure());
   }
 }

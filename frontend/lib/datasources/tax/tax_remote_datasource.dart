@@ -9,7 +9,7 @@ import 'tax_datasource.dart';
 class TaxRemoteDataSource implements ITaxRemoteDataSource {
   TaxRemoteDataSource({this.client});
 
-  final GraphQLClient client;
+  GraphQLClient client;
 
   @override
   Future<bool> addTax(NewTax newTax) async {
