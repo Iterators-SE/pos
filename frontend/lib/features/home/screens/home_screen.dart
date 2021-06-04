@@ -1,6 +1,10 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/features/tax/screens/tax_list_screen.dart';
+import 'package:frontend/repositories/tax/tax_repository_implementation.dart';
+import 'package:graphql/client.dart';
 // import 'package:frontend/features/tax/models/new_tax.dart';
 // import 'package:frontend/models/tax.dart';
 // import 'package:frontend/repositories/tax/tax_repository_implementation.dart';
@@ -92,6 +96,20 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
     _presenter = HomeScreenPresenter();
     _presenter.attachView(this);
 
+    var userToken = Provider.of<UserProvider>(context, listen: false).token;
+
+    var client = GraphQLClient(
+      cache: GraphQLCache(),
+      link: AuthLink(getToken: () => 'Bearer $userToken').concat(
+          // kReleaseMode ?
+          HttpLink('http://iterators-pos.herokuapp.com/graphql')
+          // : HttpLink('http://localhost:5000/graphql')
+          ),
+    );
+
+    var taxProvider = Provider.of<TaxRepository>(context, listen: false);
+    taxProvider.remote.client = client;
+
     drawerList = [
       "Add User",
       "Edit Business Detail",
@@ -112,13 +130,14 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
               builder: (context) => DiscountScreen(),
             ),
           ),
-      'USERS': () {},
       'INVENTORY': () => _presenter.navigate(
             context,
-            MaterialPageRoute(
-              builder: (context) => InventoryListScreen()
-            ),
+            MaterialPageRoute(builder: (context) => InventoryListScreen()),
           ),
+      'TAXES': () => _presenter.navigate(
+        context, 
+        MaterialPageRoute(builder: (context) => TaxListScreen())
+      ),
     };
 
     menuItems = [
@@ -136,7 +155,11 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
           option: "DISCOUNTS",
           url: "assets/images/coffee-icon.png",
           onTap: defaultItemMap['DISCOUNTS']),
-      MenuItem(option: "USERS", url: "assets/images/coffee-icon.png"),
+      MenuItem(
+        option: "TAXES", 
+        url: "assets/images/coffee-icon.png",
+        onTap: defaultItemMap['TAXES'],
+      ),
     ];
 
     getMenuItems().then(
@@ -148,7 +171,6 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
 
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {

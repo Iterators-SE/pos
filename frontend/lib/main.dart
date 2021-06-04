@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/providers/inventory_provider.dart';
+import 'package:frontend/providers/tax_provider.dart';
 import 'package:graphql/client.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
@@ -159,6 +161,12 @@ void main() async {
       providers: [
         ChangeNotifierProvider<UserProvider>(
           create: (_) => UserProvider(),
+        ),
+        ChangeNotifierProvider<InventoryProvider>(
+          create: (_) => InventoryProvider(),
+        ),
+        ChangeNotifierProvider<TaxProvider>(
+          create: (_) => TaxProvider(),
         ),
         Provider<ProfileRepository>(
           create: (context) => _profileRepository,
