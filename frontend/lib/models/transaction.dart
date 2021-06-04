@@ -1,3 +1,4 @@
+import 'package:frontend/models/tax.dart';
 import 'package:meta/meta.dart';
 
 import 'order.dart';
@@ -5,12 +6,14 @@ import 'order.dart';
 class Transaction {
   final int id;
   final List<Order> orders;
+  Tax tax = Tax(percentage: 0);
   final DateTime createdAt;
 
   Transaction({
     @required this.id,
     @required this.orders,
     @required this.createdAt,
+    this.tax,
   });
 
   factory Transaction.fromJson(Map<String, dynamic> json) => Transaction(
