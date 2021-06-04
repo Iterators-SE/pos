@@ -1,6 +1,7 @@
 import 'package:either_option/either_option.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/models/tax.dart';
+import 'package:frontend/providers/inventory_provider.dart';
 import 'package:frontend/repositories/tax/tax_repository_implementation.dart';
 // ignore: unused_import
 import 'package:provider/provider.dart';
@@ -55,17 +56,17 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
   Function processOrder() {
     print(allProducts);
     return () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Scaffold(
-              appBar: AppBar(),
-              body: InvoiceScreen(
-                order: order,
-                allProducts: allProducts,
-              ),
-            ),
+      context,
+      MaterialPageRoute(
+        builder: (context) => Scaffold(
+          appBar: AppBar(),
+          body: InvoiceScreen(
+            order: order,
+            allProducts: allProducts,
           ),
-        );
+        ),
+      ),
+    );
   }
 
   @override
@@ -77,15 +78,17 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
   }
 
   Future<Either<Failure, Tax>> selectedTax() async {
-    return await Provider.of<TaxRepository>(context, listen: false)
+    var taxResult = await Provider.of<TaxRepository>(context, listen: false)
         .getSelectedTax();
 
-    // if (taxResult.isLeft) {
-    //   return Right(Tax(id: 0, isSelected: true, name: "None", percentage: 0));
-    // }
+    print(taxResult);
 
-    // print(taxResult);
-    // return taxResult;
+    if (taxResult.isLeft) {
+      return Right(Tax(id: 0, isSelected: true, name: "None", percentage: 0));
+    }
+
+    print(taxResult);
+    return taxResult;
   }
 
   @override
@@ -95,8 +98,8 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
 
   @override
   Future<Either<Failure, List<Product>>> getProducts() async {
-    return await Provider.of<InventoryRepository>(context, listen: false)
-        .getProducts();
+    return await Provider.of<InventoryProvider>(context, listen: false)
+        .getProducts(context);
     // return Right([
     //   Product(id: 2, name: "Poseidon", variants: [
     //     ProductVariant(
@@ -222,144 +225,144 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              title: Text("Orders"),
-            ),
-            SliverFillRemaining(
-              child: body = hasProducts
-                  ? SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomDataTable(
-                            order: order,
-                            products: allProducts,
-                            onPressed: () => (productVariant) async =>
-                                await showDialog(
-                                  context: context,
-                                  builder: (context) => CustomAlertDialog(
-                                    chosenProduct: allProducts.firstWhere(
-                                      (e) => e.id == productVariant.productId,
-                                    ),
-                                    quantity: productVariant.quantity,
-                                    chosenVariant: productVariant.variantName,
-                                    allProducts: allProducts,
-                                    onPressed: () => addProduct,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Orders"),
+      ),
+      body: state == AppState.loading ? 
+      Center(child: CircularProgressIndicator())
+      : CustomScrollView(
+        slivers: [
+          SliverFillRemaining(
+            child: body = hasProducts
+                ? SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomDataTable(
+                          order: order,
+                          products: allProducts,
+                          onPressed: () => (productVariant) async =>
+                              await showDialog(
+                                context: context,
+                                builder: (context) => CustomAlertDialog(
+                                  chosenProduct: allProducts.firstWhere(
+                                    (e) => e.id == productVariant.productId,
                                   ),
+                                  quantity: productVariant.quantity,
+                                  chosenVariant: productVariant.variantName,
+                                  allProducts: allProducts,
+                                  onPressed: () => addProduct,
                                 ),
-                          ),
-                          CustomDataTable(
-                            products: allProducts,
-                            columns: [
-                              DataColumn(
-                                  label: Text(
-                                'Description',
+                              ),
+                        ),
+                        CustomDataTable(
+                          products: allProducts,
+                          columns: [
+                            DataColumn(
+                                label: Text(
+                              'Description',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )),
+                            DataColumn(
+                              label: Text(
+                                'Breakdown',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
-                              )),
-                              DataColumn(
-                                label: Text(
-                                  'Breakdown',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                numeric: true,
                               ),
-                            ],
-                            rows: [
-                              DataRow(
-                                cells: [
-                                  DataCell(Text("Base Price")),
-                                  DataCell(
-                                    Text(
-                                      order.total.toString(),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              DataRow(
-                                cells: [
-                                  DataCell(Text("Discount")),
-                                  DataCell(
-                                    Text(
-                                      order.discountTotal.toString(),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              DataRow(
-                                cells: [
-                                  DataCell(Text("Total")),
-                                  DataCell(
-                                    Text(
-                                      '${order.total - order.discountTotal}',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              OrderButton(
-                                text: "Cancel Order",
-                                onPressed: !hasProducts ? null : cancelOrder(),
-                              ),
-                              OrderButton(
-                                text: "Process Order",
-                                onPressed: hasProducts ? processOrder() : null,
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    )
-                  : Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Center(child: Text("Looks a little empty...")),
-                        StyledTextButton(
-                          text: "Add an Order",
-                          onPressed: () async => await showDialog(
-                            context: context,
-                            builder: (context) => CustomAlertDialog(
-                              allProducts: allProducts,
-                              onPressed: () => addProduct,
+                              numeric: true,
                             ),
-                          ),
+                          ],
+                          rows: [
+                            DataRow(
+                              cells: [
+                                DataCell(Text("Base Price")),
+                                DataCell(
+                                  Text(
+                                    order.total.toString(),
+                                  ),
+                                )
+                              ],
+                            ),
+                            DataRow(
+                              cells: [
+                                DataCell(Text("Discount")),
+                                DataCell(
+                                  Text(
+                                    order.discountTotal.toString(),
+                                  ),
+                                )
+                              ],
+                            ),
+                            DataRow(
+                              cells: [
+                                DataCell(Text("Total")),
+                                DataCell(
+                                  Text(
+                                    '${order.total - order.discountTotal}',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            OrderButton(
+                              text: "Cancel Order",
+                              onPressed: !hasProducts ? null : cancelOrder(),
+                            ),
+                            OrderButton(
+                              text: "Process Order",
+                              onPressed: hasProducts ? processOrder() : null,
+                            ),
+                          ],
                         )
                       ],
                     ),
-            ),
-          ],
-        ),
-        floatingActionButton: CustomFAB(
-          onAddProduct: () async => await showDialog(
-            context: context,
-            builder: (context) => CustomAlertDialog(
-              allProducts: allProducts,
-              onPressed: () => addProduct,
-            ),
+                  )
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(child: Text("Looks a little empty...")),
+                      StyledTextButton(
+                        text: "Add an Order",
+                        onPressed: () async => await showDialog(
+                          context: context,
+                          builder: (context) => CustomAlertDialog(
+                            allProducts: allProducts,
+                            onPressed: () => addProduct,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
           ),
-          onAddDiscount: () async => await showDialog(
-            context: context,
-            builder: (context) => DiscountDialog(
-              discounts: allDiscounts,
-              selectedDiscounts: order.discounts.toList(),
-              onPressed: () => addDiscount,
-            ),
+        ],
+      ),
+      floatingActionButton: CustomFAB(
+        onAddProduct: () async => await showDialog(
+          context: context,
+          builder: (context) => CustomAlertDialog(
+            allProducts: allProducts,
+            onPressed: () => addProduct,
+          ),
+        ),
+        onAddDiscount: () async => await showDialog(
+          context: context,
+          builder: (context) => DiscountDialog(
+            discounts: allDiscounts,
+            selectedDiscounts: order.discounts.toList(),
+            onPressed: () => addDiscount,
           ),
         ),
       ),
