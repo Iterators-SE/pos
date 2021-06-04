@@ -8,8 +8,10 @@ class Product {
   bool isTaxable;
   int quantity;
   double discount;
-  List<ProductVariant> variants = [];
+  int min;
+  int max;
 
+  List<ProductVariant> variants = [];
 
   Product({
     this.isTaxable,
@@ -24,17 +26,28 @@ class Product {
       0,
       (previousValue, item) => previousValue + item.quantity ?? 0,
     );
+
+    variants.sort((a, b) => a.price.compareTo(b.price));
+    max = variants.last.price;
+    min = variants.first.price;
   }
 
-  factory Product.fromJson(Map<String, dynamic> productJson){
+  factory Product.fromJson(Map<String, dynamic> productJson) {
     return Product(
-      id: int.parse(productJson['id']),
-      name: productJson['name'],
-      description: productJson['description'],
-      photoLink: productJson['photoLink'],
-      isTaxable: productJson['isTaxable'],
-      variants: productJson['variant'].map<ProductVariant>(
-        (variant) => ProductVariant.fromJson(variant)).toList()  
-    );
+        id: int.parse(productJson['id']),
+        name: productJson['name'],
+        description: productJson['description'],
+        photoLink: productJson['photoLink'],
+        isTaxable: productJson['isTaxable'],
+        variants: productJson['variant']
+            .map<ProductVariant>((variant) => ProductVariant.fromJson(
+              variant, 
+              int.parse(productJson['id']
+            )))
+            .toList());
+  }
+
+  String toString() {
+    return 'Name: $name, variants: $variants';
   }
 }

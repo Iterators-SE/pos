@@ -1,6 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+// import 'package:frontend/features/tax/models/new_tax.dart';
+// import 'package:frontend/models/tax.dart';
+// import 'package:frontend/repositories/tax/tax_repository_implementation.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,7 +15,7 @@ import '../../../providers/user_provider.dart';
 // import '../../../repositories/profile/profile_repository_implementation.dart';
 // import '../../../repositories/inventory/inventory_repository_implementation.dart';
 import '../../discount/screen/discount_screen.dart';
-import '../../inventory/screens/inventory_screen.dart';
+import '../../inventory/screens/inventory_list_screen.dart';
 import '../../orders/screens/order_screen.dart';
 import '../models/menu_item.dart';
 import '../presenters/home_screen_presenter.dart';
@@ -113,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
       'INVENTORY': () => _presenter.navigate(
             context,
             MaterialPageRoute(
-              builder: (context) => InventoryScreen(),
+              builder: (context) => InventoryListScreen()
             ),
           ),
     };
@@ -132,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
       MenuItem(
           option: "DISCOUNTS",
           url: "assets/images/coffee-icon.png",
-          onTap: defaultItemMap['INVENTORY']),
+          onTap: defaultItemMap['DISCOUNTS']),
       MenuItem(option: "USERS", url: "assets/images/coffee-icon.png"),
     ];
 
@@ -146,80 +149,6 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
     super.initState();
   }
 
-  // dynamic getData(BuildContext context) async {
-  //   var x = Provider.of<ProfileRepository>(context, listen: false);
-
-    //   // var newProd = NewProduct(
-    //   //   description: "Namiit",
-    //   //   isTaxable: true,
-    //   //   name: "Fake",
-    //   //   photoLink: "Fake Link",
-    //   // );
-    //   // newProd.variants.add(NewVariant(
-    //   //   name: "Small",
-    //   //   quantity: 100,
-    //   //   price: 100,
-    //   // ));
-    //   // newProd.variants.add(NewVariant(
-    //   //   name: "Medium",
-    //   //   quantity: 100,
-    //   //   price: 100,
-    //   // ));
-    //   // newProd.variants.add(NewVariant(
-    //   //   name: "Large",
-    //   //   quantity: 100,
-    //   //   price: 100,
-    //   // ));
-    //   var response = await x.changeProductDetails(
-    //     product: Product(
-    //       id: 80,
-    //       name: "KEKEKEEKEKEEK",
-    //       description: "Namiit",
-    //       photoLink: "Fake Linkkkkkkkkk",
-    //       isTaxable: false,
-    //       variants: [
-    //         ProductVariant(
-    //           variantId: 53,
-    //           variantName: "Large",
-    //           price: 100,
-    //           quantity: 100,
-    //         ),
-    //         ProductVariant(
-    //           variantId: 52,
-    //           variantName: "Medium",
-    //           price: 100,
-    //           quantity: 100,
-    //         ),
-    //         ProductVariant(
-    //           variantId: 51,
-    //           variantName: "Small",
-    //           price: 100,
-    //           quantity: 100
-    //         ),
-    //       ]
-    //     )
-    //   );
-
-  //   var input = UserProfile(
-  //     email: "ealanray@gmail.com",
-  //     name: "Alan's Amazing New Stoooooreeeeee",
-  //     receiptMessage: "Thank you for your patronage!",
-  //     address: "Sto Nino Sur, Arevalo, Iloilo City",
-  //   );
-
-  //   var response = await x
-  //     .updateProfileInfo(input);
-
-  //   var result =
-  //       response.fold((failure) => UserProfile(), (userInfo) => userInfo);
-
-  //   print(await result.id);
-  //   print(await result.address);
-  //   print(await result.email);
-  //   print(await result.name);
-  //   print(await result.receiptMessage);
-  //   //   //   // print(await response.runtimeType);
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -235,18 +164,19 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
           )
         ],
       ),
-      drawer: Drawer(
-        child: Container(
-          color: Color(XPosTheme.primaryColor),
-          child: Container(
-            margin: EdgeInsets.only(top: 250),
-            child: ListView(
-              children:
-                  drawerList.map((item) => DrawerListItem(item: item)).toList(),
-            ),
-          ),
-        ),
-      ),
+      // drawer: Drawer(
+      //   child: Container(
+      //     color: Color(XPosTheme.primaryColor),
+      //     child: Container(
+      //       margin: EdgeInsets.only(top: 250),
+      //       child: ListView(
+      //         children:
+      //             drawerList.map((item) => DrawerListItem(item: item))
+      //             .toList(),
+      //       ),
+      //     ),
+      //   ),
+      // ),
       body: ReorderableListView(
         header: Center(
           child: Image(image: AssetImage("assets/images/xpos_home_logo.png")),

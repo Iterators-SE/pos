@@ -13,11 +13,13 @@ class ProductVariant {
     this.price,
   });
 
-  factory ProductVariant.fromJson(Map<String, dynamic> json) => ProductVariant(
+  factory ProductVariant.fromJson(Map<String, dynamic> json, int productId) => 
+  ProductVariant(
     variantId: int.parse(json["id"]),
     price: json["price"],
     quantity: json["quantity"],
     variantName: json["name"],
+    productId: productId,
   );
 
   ProductVariant copyWith({
@@ -38,6 +40,6 @@ class ProductVariant {
 
     @override
   String toString() {
-    return 'Variant - $variantId; name: $variantName;';
+    return 'id: $variantId, name: $variantName, productId: $productId';
   }
 }

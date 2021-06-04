@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import '../../../../models/product.dart';
 
 import '../../models/order.dart';
 
 class CustomDataTable extends StatefulWidget {
   final Order order;
+  final List<Product> products;
   final Function onPressed;
   final List<DataColumn> columns;
   final List<DataRow> rows;
@@ -13,6 +15,7 @@ class CustomDataTable extends StatefulWidget {
       {Key key,
       this.order,
       this.onPressed,
+      this.products,
       this.columns = const [
         DataColumn(label: Text("Product")),
         DataColumn(label: Text("Quantity"), numeric: true),
@@ -29,6 +32,8 @@ class CustomDataTable extends StatefulWidget {
 class _CustomDataTableState extends State<CustomDataTable> {
   @override
   Widget build(BuildContext context) {
+    print("Products in custom data table");
+    print(widget.products);
     return DataTable(
       columns: widget.columns,
       rows: widget.rows ??
@@ -36,7 +41,7 @@ class _CustomDataTableState extends State<CustomDataTable> {
               .map(
                 (e) => DataRow(
                   cells: [
-                    DataCell(Text('${e.productId} [${e.variantName}]')),
+                    DataCell(Text('${widget.products.where((element) => element.id == e.productId).toList()[0].name} [${e.variantName}]')),
                     DataCell(
                       Text('${e.quantity}'),
                       showEditIcon: widget.showEdit,

@@ -1,5 +1,7 @@
 import 'package:either_option/either_option.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/models/tax.dart';
+import 'package:frontend/repositories/tax/tax_repository_implementation.dart';
 // ignore: unused_import
 import 'package:provider/provider.dart';
 
@@ -37,6 +39,7 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
   Widget body;
   bool hasProducts = false;
 
+  Tax tax;
   List<Product> allProducts = [];
   List<Discount> allDiscounts = [];
 
@@ -50,6 +53,7 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
 
   @override
   Function processOrder() {
+    print(allProducts);
     return () => Navigator.push(
           context,
           MaterialPageRoute(
@@ -72,6 +76,18 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
     });
   }
 
+  Future<Either<Failure, Tax>> selectedTax() async {
+    return await Provider.of<TaxRepository>(context, listen: false)
+        .getSelectedTax();
+
+    // if (taxResult.isLeft) {
+    //   return Right(Tax(id: 0, isSelected: true, name: "None", percentage: 0));
+    // }
+
+    // print(taxResult);
+    // return taxResult;
+  }
+
   @override
   void addDiscount(List<Discount> discounts) {
     setState(() => order.addDiscount(discounts));
@@ -79,56 +95,56 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
 
   @override
   Future<Either<Failure, List<Product>>> getProducts() async {
-    // return await Provider.of<InventoryRepository>(context, listen: false)
-    //     .getProducts();
-    return Right([
-      Product(id: 2, name: "Poseidon", variants: [
-        ProductVariant(
-          variantId: 1,
-          price: 100,
-          quantity: 300,
-          variantName: "Small",
-          productId: 2,
-        ),
-        ProductVariant(
-          variantId: 2,
-          price: 120,
-          quantity: 40,
-          variantName: "Regular",
-          productId: 2,
-        ),
-        ProductVariant(
-          variantId: 3,
-          price: 180,
-          quantity: 3,
-          variantName: "Large",
-          productId: 2,
-        ),
-      ]),
-      Product(id: 1, name: "Olympus Cappucino", variants: [
-        ProductVariant(
-          variantId: 4,
-          price: 100,
-          quantity: 300,
-          variantName: "Small",
-          productId: 1,
-        ),
-        ProductVariant(
-          variantId: 5,
-          price: 120,
-          quantity: 40,
-          variantName: "Regular",
-          productId: 1,
-        ),
-        ProductVariant(
-          variantId: 6,
-          price: 180,
-          quantity: 3,
-          variantName: "Large",
-          productId: 1,
-        ),
-      ]),
-    ]);
+    return await Provider.of<InventoryRepository>(context, listen: false)
+        .getProducts();
+    // return Right([
+    //   Product(id: 2, name: "Poseidon", variants: [
+    //     ProductVariant(
+    //       variantId: 1,
+    //       price: 100,
+    //       quantity: 300,
+    //       variantName: "Small",
+    //       productId: 2,
+    //     ),
+    //     ProductVariant(
+    //       variantId: 2,
+    //       price: 120,
+    //       quantity: 40,
+    //       variantName: "Regular",
+    //       productId: 2,
+    //     ),
+    //     ProductVariant(
+    //       variantId: 3,
+    //       price: 180,
+    //       quantity: 3,
+    //       variantName: "Large",
+    //       productId: 2,
+    //     ),
+    //   ]),
+    //   Product(id: 1, name: "Olympus Cappucino", variants: [
+    //     ProductVariant(
+    //       variantId: 4,
+    //       price: 100,
+    //       quantity: 300,
+    //       variantName: "Small",
+    //       productId: 1,
+    //     ),
+    //     ProductVariant(
+    //       variantId: 5,
+    //       price: 120,
+    //       quantity: 40,
+    //       variantName: "Regular",
+    //       productId: 1,
+    //     ),
+    //     ProductVariant(
+    //       variantId: 6,
+    //       price: 180,
+    //       quantity: 3,
+    //       variantName: "Large",
+    //       productId: 1,
+    //     ),
+    //   ]),
+    // ]);
   }
 
   @override
@@ -166,12 +182,25 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
       if (value.isRight) {
         setState(() => allDiscounts = data);
 
-        getProducts().then((product) {
+        getProducts().then((product) async {
           var data = product.fold((failure) => failure, (result) => result);
           if (product.isRight) {
+            var taxResult = await selectedTax();
+            var taxData = taxResult.fold((fail) => fail, (tax) => tax);
+
+            if (taxResult.isRight) {
+              setState(() {
+                tax = taxData;
+                order.setTax(tax);
+                print(taxData);
+                state = AppState.done;
+              });
+            }
+
             setState(() {
               allProducts = data;
-              state = AppState.done;
+              print(allProducts);
+              print(allProducts);
             });
           } else {
             setState(() {
@@ -209,12 +238,13 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
                         children: [
                           CustomDataTable(
                             order: order,
+                            products: allProducts,
                             onPressed: () => (productVariant) async =>
                                 await showDialog(
                                   context: context,
                                   builder: (context) => CustomAlertDialog(
                                     chosenProduct: allProducts.firstWhere(
-                                      (e) => e.id == productVariant.productID,
+                                      (e) => e.id == productVariant.productId,
                                     ),
                                     quantity: productVariant.quantity,
                                     chosenVariant: productVariant.variantName,
@@ -224,6 +254,7 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
                                 ),
                           ),
                           CustomDataTable(
+                            products: allProducts,
                             columns: [
                               DataColumn(
                                   label: Text(
