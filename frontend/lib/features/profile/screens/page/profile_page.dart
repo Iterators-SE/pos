@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../core/themes/config.dart';
-import '../models/user.dart';
-import '../screens/widgets/appbar_widget.dart';
-
-import '../screens/widgets/profile_widget.dart';
-import '../utils/user_preferences.dart';
-
+import '../../models/user.dart';
+import '../widgets/appbar_widget.dart';
+import '../widgets/profile_widget.dart';
+import '../../utils/user_preferences.dart';
+import 'edit_profile_page.dart';
 //import 'edit_profile_page.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -26,12 +24,13 @@ class _ProfilePageState extends State<ProfilePage> {
             height: 30,
           ),
           ProfileWidget(
-              imagePath: user.imagePath,
-              onClicked: () {
-                print("clicked");
-                // Navigator.of(context).push(
-                //   MaterialPageRoute(builder: (context) => EditProfilePage()),
-              }),
+            imagePath: user.imagePath,
+            onClicked: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => EditProfilePage()),
+              );
+            },
+          ),
           SizedBox(
             height: 30,
           ),

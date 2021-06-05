@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/features/profile/screens/page/profile_page.dart';
 import 'package:frontend/features/tax/screens/tax_list_screen.dart';
 import 'package:frontend/repositories/tax/tax_repository_implementation.dart';
 import 'package:graphql/client.dart';
@@ -135,30 +136,37 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
             MaterialPageRoute(builder: (context) => InventoryListScreen()),
           ),
       'TAXES': () => _presenter.navigate(
-        context, 
-        MaterialPageRoute(builder: (context) => TaxListScreen())
-      ),
+          context, MaterialPageRoute(builder: (context) => TaxListScreen())),
+      'USER': () => _presenter.navigate(
+            context,
+            MaterialPageRoute(builder: (context) => ProfilePage()),
+          ),
     };
 
     menuItems = [
       MenuItem(
         option: "PROCESS ORDERS",
-        url: "assets/images/orders.png",
+        url: "assets/images/processorders.png",
         onTap: defaultItemMap['PROCESS ORDERS'],
       ),
       MenuItem(
         option: "INVENTORY",
-        url: "assets/images/orders.png",
+        url: "assets/images/inventory.png",
         onTap: defaultItemMap['INVENTORY'],
       ),
       MenuItem(
           option: "DISCOUNTS",
-          url: "assets/images/coffee-icon.png",
+          url: "assets/images/discount.png",
           onTap: defaultItemMap['DISCOUNTS']),
       MenuItem(
-        option: "TAXES", 
-        url: "assets/images/coffee-icon.png",
+        option: "TAXES",
+        url: "assets/images/taxes.png",
         onTap: defaultItemMap['TAXES'],
+      ),
+      MenuItem(
+        option: "USER",
+        url: "assets/images/user.png",
+        onTap: defaultItemMap['USER'],
       ),
     ];
 
@@ -204,8 +212,11 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
           child: Image(image: AssetImage("assets/images/xpos_home_logo.png")),
         ),
         children: menuItems
-            .map((element) =>
-                MenuItemCard(key: Key(element.option), element: element))
+            .map((element) => MenuItemCard(
+                  key: Key(element.option),
+                  element: element,
+                  imagePath: element.url,
+                ))
             .toList(),
         onReorder: onReorder,
       ),

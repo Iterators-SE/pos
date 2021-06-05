@@ -5,9 +5,12 @@ import '../../../../core/themes/config.dart';
 import '../../models/menu_item.dart';
 
 class MenuItemCard extends StatelessWidget {
+  final String imagePath;
   final MenuItem element;
 
-  const MenuItemCard({Key key, @required this.element}) : super(key: key);
+  const MenuItemCard(
+      {Key key, @required this.element, @required this.imagePath})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +35,10 @@ class MenuItemCard extends StatelessWidget {
               SizedBox(width: 20),
               Expanded(
                 flex: 2,
-                child: CircleAvatar(
-                  radius: 38,
-                  backgroundImage: AssetImage(element.url),
-                ),
+                child: buildImage(),
+              ),
+              SizedBox(
+                width: 20,
               ),
               Expanded(
                 flex: 5,
@@ -50,6 +53,23 @@ class MenuItemCard extends StatelessWidget {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildImage() {
+    final image = NetworkImage(imagePath);
+
+    return Material(
+      borderRadius: BorderRadius.all(Radius.circular(20)),
+      color: Colors.white,
+      child: ClipOval(
+        child: Ink.image(
+          image: image,
+          fit: BoxFit.fitHeight,
+          width: 40,
+          height: 80,
         ),
       ),
     );

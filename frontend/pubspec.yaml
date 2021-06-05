@@ -66,6 +66,11 @@ flutter:
     - assets/images/cappuccino.jpg
     - assets/images/loading.jpg
     - assets/images/loading.gif
+    - assets/images/processorders.png
+    - assets/images/inventory.png
+    - assets/images/discount.png
+    - assets/images/taxes.png
+    - assets/images/user.png
 
   fonts:
     - family: Montserrat Bold
