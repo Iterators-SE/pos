@@ -34,6 +34,10 @@ export class DiscountResolver {
             throw Error('Unauthorized operation, please recheck applicable products.')
         }
 
+        if (input.percentage <= 0 || input.percentage >= 100) {
+            throw Error('Invalid percentage');
+        }
+
         // Replace base user location logic in case of subuser implementation
         const user = await User.findOne(ctx.currentUser.id);
 
