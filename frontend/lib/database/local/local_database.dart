@@ -1,4 +1,3 @@
-import 'package:frontend/models/user_profile.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 
 part "local_database.g.dart";
@@ -113,14 +112,14 @@ class AppDatabase extends _$AppDatabase {
         .getSingle();
   }
 
-  Future<void> addTax(Tax tax) => into(taxes).insert(tax);
-  Future<List<Tax>> getTaxes() => select(taxes).get();
-  Future<Tax> getSelectedTax() {
+  Future<void> addTax(Taxe tax) => into(taxes).insert(tax);
+  Future<List<Taxe>> getTaxes() => select(taxes).get();
+  Future<Taxe> getSelectedTax() {
     return (select(taxes)..where((tax) => tax.isSelected.equals(true)))
         .getSingle();
   }
 
-  Future<Tax> getTaxDetails(int taxId) {
+  Future<Taxe> getTaxDetails(int taxId) {
     return (select(taxes)..where((tax) => tax.id.equals(taxId))).getSingle();
   }
 
