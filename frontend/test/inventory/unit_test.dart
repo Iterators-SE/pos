@@ -1,8 +1,5 @@
 import 'package:frontend/features/inventory/models/new_product.dart';
 import 'package:frontend/features/inventory/models/new_variant.dart';
-import 'package:frontend/features/orders/models/order.dart';
-import 'package:frontend/models/product.dart';
-import 'package:frontend/models/product_variant.dart';
 import 'package:test/test.dart';
 
 void main() {
