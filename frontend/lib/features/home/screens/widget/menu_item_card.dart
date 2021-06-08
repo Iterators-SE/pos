@@ -59,7 +59,7 @@ class MenuItemCard extends StatelessWidget {
   }
 
   Widget buildImage() {
-    final image = NetworkImage(imagePath);
+    final image = AssetImage(imagePath);
 
     return Material(
       borderRadius: BorderRadius.all(Radius.circular(20)),
