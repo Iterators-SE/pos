@@ -1,4 +1,5 @@
 import { ID, Field, ObjectType, Int } from "type-graphql";
+import { TypeormLoader } from "type-graphql-dataloader";
 import { BaseEntity, Index, ManyToOne, ManyToMany, JoinTable, CreateDateColumn, UpdateDateColumn, Column, Entity, PrimaryGeneratedColumn, TableInheritance, ChildEntity } from "typeorm";
 import { Product } from './Product';
 import { User } from './User';
@@ -17,6 +18,7 @@ export class Discount extends BaseEntity {
 
     @Field(() => User)
     @ManyToOne(() => User, user => user.discounts, {eager: true})
+    @TypeormLoader()
     user: User;
     
     @Field()
@@ -26,6 +28,7 @@ export class Discount extends BaseEntity {
     @Field(() => [Product])
     @ManyToMany(() => Product, product => product.discounts, {nullable: true})
     @JoinTable()
+    @TypeormLoader()
     products: Product[];
 
     @CreateDateColumn()

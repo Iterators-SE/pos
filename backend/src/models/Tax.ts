@@ -1,5 +1,6 @@
 
 import { Field, ID, ObjectType } from "type-graphql";
+import { TypeormLoader } from "type-graphql-dataloader";
 import { BaseEntity, Column, Entity, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./User";
 
@@ -19,6 +20,7 @@ export class Tax extends BaseEntity {
   isSelected: boolean;
 
   @ManyToOne(() => User, user => user.tax, {eager:true})
+  @TypeormLoader()
   user: User;
 
 

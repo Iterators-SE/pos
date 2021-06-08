@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType } from "type-graphql";
-import { BaseEntity, Column, CreateDateColumn, Entity, Index, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { TypeormLoader } from "type-graphql-dataloader";
+import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Product } from "./Product";
 import { Transaction } from "./Transaction";
 import { Variant } from "./Variant";
@@ -11,22 +12,22 @@ export class Order extends BaseEntity {
     @Field(() => ID!)
     id: number;
 
-    @OneToOne(type => Product, {primary: false})
-    @JoinColumn()
-    @Field()
-    product: Product;
-
-    @OneToOne(type => Variant, {primary: false})
-    @JoinColumn()
-    @Field()
+    @Field(type => Product, {nullable: true})
+    @ManyToOne(() => Product, product => product.order, {cascade: true})
+    @TypeormLoader()
+    product : Product;
+    
+    @Field(type => Variant, {nullable: true})
+    @ManyToOne(() => Variant, variant => variant.order, {cascade: true})
+    @TypeormLoader()
     variant: Variant;
 
     @Field()
     @Column()
     quantity: number;
 
-    @Index()
     @ManyToOne(type => Transaction, transaction => transaction.orders, {eager: true})
+    @TypeormLoader()
     transaction: Transaction;
 
     @CreateDateColumn()
