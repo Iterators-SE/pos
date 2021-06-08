@@ -41,6 +41,9 @@ export class TaxResolver {
   @Authorized()
   @Mutation(() => Boolean, { nullable: true })
   async editTax(@Ctx() ctx: Context, @Arg("taxId") taxId: number, @Arg("data") data: ChangeTaxDetailsInput) {
+    if (data?.percentage != undefined && (data.percentage <= 0 || data.percentage >= 1)) {
+      throw Error('Invalid percentage');
+    }
     const tax = await Tax.findOne({ where: { user: ctx.currentUser.id, id: taxId }, relations: ["user"]});
     if (!tax) throw new Error("Can't update. Tax doesn't exist!")
     Object.assign(tax, data);
