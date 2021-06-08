@@ -60,6 +60,7 @@ class DiscountRemoteDataSource implements IDiscountRemoteDataSource {
       }
 
       final data = jsonEncode(response.data['action']);
+      await local.cacheDiscounts(data);
       return jsonDecode(data);
     } catch (e) {
       rethrow;
