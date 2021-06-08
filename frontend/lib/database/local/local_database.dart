@@ -44,9 +44,9 @@ class Transactions extends Table {
 }
 
 class DiscountProducts extends Table {
-  IntColumn get productid =>
+  IntColumn get productId =>
       integer().customConstraint('REFERENCES products(id)')();
-  IntColumn get discountid =>
+  IntColumn get discountId =>
       integer().customConstraint('REFERENCES discounts(id)')();
 }
 
@@ -54,7 +54,7 @@ class Taxes extends Table {
   IntColumn get id => integer()();
   TextColumn get name => text()();
   BoolColumn get isSelected => boolean()();
-  IntColumn get perccentage => integer()();
+  RealColumn get percentage => real()();
 }
 
 class UserProfiles extends Table {
@@ -129,7 +129,7 @@ class AppDatabase extends _$AppDatabase {
   Future<UserProfile> getProfileInfo() => select(userProfiles).getSingle();
   Future<void> clearCache() async {
     await customStatement('PRAGMA foreign_keys = OFF');
-    for (final table in allTables){
+    for (final table in allTables) {
       await delete(table).go();
     }
   }
