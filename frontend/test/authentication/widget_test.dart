@@ -1,20 +1,21 @@
 import 'package:either_option/either_option.dart';
+import 'package:provider/provider.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+
 import 'package:frontend/core/error/failure.dart';
 import 'package:frontend/features/home/screens/home_screen.dart';
 import 'package:frontend/main.dart';
-
 import 'package:frontend/models/user.dart';
 import 'package:frontend/providers/user_provider.dart';
 import 'package:frontend/repositories/authentication/authentication_repository_implementation.dart';
-import 'package:provider/provider.dart';
+import 'package:frontend/repositories/inventory/inventory_repository_implementation.dart';
 
 import 'package:mockito/mockito.dart';
 
 class MockAuthenticationRepository extends Mock
     implements AuthenticationRepository {
-
   var _token;
 
   Future<Either<Failure, User>> login({String email, String password}) async {
@@ -36,9 +37,12 @@ class MockAuthenticationRepository extends Mock
   }
 }
 
+class MockInventoryRepository extends Mock implements InventoryRepository {}
+
 void main() {
   testWidgets('Authentication: Login smoke test', (tester) async {
-    final _authenticationRepository = MockAuthenticationRepository( );
+    final _authenticationRepository = MockAuthenticationRepository();
+    final _inventoryRepository = MockInventoryRepository();
 
     await tester.pumpWidget(
       MultiProvider(
@@ -48,6 +52,9 @@ void main() {
           ),
           Provider<AuthenticationRepository>(
             create: (context) => _authenticationRepository,
+          ),
+          Provider<InventoryRepository>(
+            create: (context) => _inventoryRepository,
           ),
         ],
         builder: (context, child) {
