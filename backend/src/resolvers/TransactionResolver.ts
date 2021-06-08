@@ -14,7 +14,7 @@ export class TransactionResolver {
     @Query(() => Transaction, { nullable: true })
     async getTransaction(@Ctx() ctx: Context, @Arg("id") id: number) {
         const user = await User.findOne(ctx.currentUser.id);
-        const transaction = await Transaction.findOne({ where: { id: id, owner: user} });
+        const transaction = await Transaction.findOne({ where: { id: id, owner: user } });
         return transaction;
     }
 
@@ -35,18 +35,14 @@ export class TransactionResolver {
 
             if (!user) throw Error("Unauthorized interaction.");
 
-            let orderList =  []
+            let orderList = []
 
             for (let index = 0; index < orders.productIds.length; index++) {
                 const product = await Product.findOne({ where: { id: orders.productIds[index], user: user } });
 
-                const variant = await Variant.findOne({ where: { variantId: orders.variantIds[index], product: product } });
+                const variant = await Variant.findOne({ where: { id: orders.variantIds[index], product: product } });
 
-                // console.log(product && variant && orders.quantity[index] > 0 )
-                // console.log(product && variant && orders.quantity[index] <= variant.quantity )
-                // console.log(variant!.quantity,'V', orders.quantity[index], 'O')
-                // console.log(product && variant && orders.quantity[index] > 0  && orders.quantity[index] <= variant.quantity)
-                if (product && variant && orders.quantity[index] > 0 && orders.quantity[index]<= variant.quantity) {
+                if (product && variant && orders.quantity[index] > 0 && orders.quantity[index] <= variant.quantity) {
                     variant.quantity -= orders.quantity[index];
                     await variant.save();
 
@@ -57,6 +53,10 @@ export class TransactionResolver {
                     }).save();
 
                     orderList.push(newOrder);
+                } else if (product && variant) {
+                    throw Error(`Insufficient quantity for ${product.name} - ${variant.name}`)
+                } else {
+                    throw Error('No product or variant found')
                 }
 
             }
@@ -66,12 +66,18 @@ export class TransactionResolver {
                     owner: user,
                     orders: orderList
                 }).save()
-    
+
+                orderList.forEach(async (o) => {
+                    let order = o;
+                    order.transaction = transaction;
+                    await order.save();
+                });
+
                 return transaction;
             }
 
             return null;
-     
+
         } catch (error) {
             throw Error(error);
         }
