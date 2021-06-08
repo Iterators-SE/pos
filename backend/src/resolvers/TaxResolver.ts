@@ -14,6 +14,10 @@ export class TaxResolver {
     let tax: Tax;
     let isSuccessful
 
+    if (percentage <= 0 || percentage >= 1) {
+      throw Error('Invalid percentage');
+    }
+
     await Tax.create({
       name: name,
       percentage: percentage,
@@ -78,7 +82,6 @@ export class TaxResolver {
       const taxDetails = await Tax.findOne({ where: { user: user, id: taxId } });
       if (!taxDetails) throw new Error("Tax doesn't exist!");
 
-      console.log(taxDetails)
       return taxDetails;
   }
 
