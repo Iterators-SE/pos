@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/features/inventory/screens/page/product_details_view.dart';
-import 'package:frontend/features/inventory/screens/product_details_screen.dart';
+
 import '../../../../models/product.dart';
 
 class ProductListTile extends StatelessWidget {

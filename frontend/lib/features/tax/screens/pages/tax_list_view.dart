@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/models/tax.dart';
+import '../../../../models/tax.dart';
 
 class TaxListPage extends StatefulWidget {
   final List<Tax> taxes;

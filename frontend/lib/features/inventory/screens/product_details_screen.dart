@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/features/inventory/screens/edit_details_screen.dart';
-import 'package:frontend/features/inventory/screens/page/edit_details_view.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/state/app_state.dart';
@@ -8,6 +6,7 @@ import '../../../models/product.dart';
 import '../../../repositories/inventory/inventory_repository_implementation.dart';
 import '../presenters/product_details_presenter.dart';
 import '../views/product_details_screen_view.dart';
+import 'edit_details_screen.dart';
 import 'page/product_details_view.dart';
 
 class ProductDetailScreen extends StatefulWidget {

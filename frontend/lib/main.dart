@@ -1,8 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/providers/inventory_provider.dart';
-import 'package:frontend/providers/tax_provider.dart';
 import 'package:graphql/client.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
@@ -32,6 +30,8 @@ import 'datasources/transactions/transaction_remote_datasource.dart';
 import 'features/authentication/screens/authentication_screen.dart';
 import 'features/home/screens/home_screen.dart';
 import 'graphql/queries.dart';
+import 'providers/inventory_provider.dart';
+import 'providers/tax_provider.dart';
 import 'providers/user_provider.dart';
 import 'repositories/authentication/authentication_repository.dart';
 import 'repositories/authentication/authentication_repository_implementation.dart';
@@ -82,6 +82,7 @@ void main() async {
 
   final devUri = 'http://localhost:5000/graphql';
   final prodUri = 'http://iterators-pos.herokuapp.com/graphql';
+  // ignore: unused_local_variable
   final uri = kReleaseMode ? prodUri : devUri;
 
   _httpLink = HttpLink(prodUri);

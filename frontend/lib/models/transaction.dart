@@ -1,7 +1,7 @@
-import 'package:frontend/models/tax.dart';
 import 'package:meta/meta.dart';
 
 import 'order.dart';
+import 'tax.dart';
 
 class Transaction {
   final int id;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/features/tax/models/new_tax.dart';
+import '../../models/new_tax.dart';
 
 class AddTaxPage extends StatefulWidget {
   final Function onSubmit;

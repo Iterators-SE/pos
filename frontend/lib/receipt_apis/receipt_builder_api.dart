@@ -13,6 +13,7 @@
 
 
 // class ReceiptGenerator {
+// ignore: lines_longer_than_80_chars
 //   static Future<File> generateReceipt(Transaction transaction, UserProfile storeData) async {
 //     var orders = transaction.orders;
 //     var tax = transaction.tax;
@@ -32,6 +33,7 @@
 //     ));
 //   }
 
+// ignore: lines_longer_than_80_chars
 //     static Widget buildHeader(UserProfile storeData, Transaction transaction) 
 //     => Column(
 //         crossAxisAlignment: CrossAxisAlignment.start,

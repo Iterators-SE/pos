@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/features/inventory/models/edit_product_variant.dart';
-import 'package:frontend/features/inventory/models/new_variant.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../core/state/app_state.dart';
 import '../../../models/product.dart';
+import '../models/edit_product_variant.dart';
+import '../models/new_variant.dart';
 
 abstract class EditDetailScreenView {
   AppState state;

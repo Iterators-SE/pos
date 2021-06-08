@@ -1,14 +1,14 @@
 import 'package:either_option/either_option.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
-import 'package:frontend/features/inventory/models/edit_product_variant.dart';
-import 'package:frontend/features/inventory/models/new_variant.dart';
-import 'package:frontend/repositories/inventory/inventory_repository_implementation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 import '../../../core/state/app_state.dart';
 import '../../../models/product.dart';
+import '../../../repositories/inventory/inventory_repository_implementation.dart';
+import '../models/edit_product_variant.dart';
+import '../models/new_variant.dart';
 import '../presenters/edit_details_presenter.dart';
 import '../views/edit_details_screen_view.dart';
 import 'page/edit_details_view.dart';
@@ -110,6 +110,7 @@ class _EditDetailScreenState extends State<EditDetailScreen>
   
 
     var variantsDeleteResult;
+    // ignore: unused_local_variable
     var variantsToUpdateResult;
     var variantsAddResult;
 

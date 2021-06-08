@@ -1,6 +1,4 @@
-import 'package:frontend/features/inventory/models/new_variant.dart';
-
-import '../../../models/product_variant.dart';
+import 'new_variant.dart';
 
 class EditableNewVariant {
   NewVariant newVariant;

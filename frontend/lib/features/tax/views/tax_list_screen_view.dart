@@ -1,9 +1,6 @@
-import 'package:either_option/either_option.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/core/error/failure.dart';
-import 'package:frontend/core/state/app_state.dart';
-import 'package:frontend/models/product.dart';
-import 'package:frontend/models/tax.dart';
+import '../../../core/state/app_state.dart';
+import '../../../models/tax.dart';
 
 abstract class TaxListScreenView {
   AppState state;

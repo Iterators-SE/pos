@@ -1,18 +1,15 @@
-import 'package:either_option/either_option.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/features/inventory/screens/add_product_screen.dart';
-import 'package:frontend/features/inventory/screens/product_details_screen.dart';
-import 'package:frontend/features/inventory/screens/widgets/add_button.dart';
-import 'package:frontend/providers/inventory_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../../../core/error/failure.dart';
 import '../../../core/state/app_state.dart';
 import '../../../models/product.dart';
-import '../../../repositories/inventory/inventory_repository_implementation.dart';
+import '../../../providers/inventory_provider.dart';
 import '../presenters/inventory_list_presenter.dart';
 import '../views/inventory_list_screen_view.dart';
+import 'add_product_screen.dart';
 import 'page/list_view.dart';
+import 'product_details_screen.dart';
+import 'widgets/add_button.dart';
 
 // use this command when running app in browser
 // flutter run -d chrome --web-renderer html

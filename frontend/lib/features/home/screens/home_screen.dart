@@ -2,30 +2,18 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/features/profile/screens/page/profile_page.dart';
-import 'package:frontend/features/tax/screens/tax_list_screen.dart';
-import 'package:frontend/repositories/tax/tax_repository_implementation.dart';
-import 'package:graphql/client.dart';
-// import 'package:frontend/features/tax/models/new_tax.dart';
-// import 'package:frontend/models/tax.dart';
-// import 'package:frontend/repositories/tax/tax_repository_implementation.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../core/themes/xpos_theme.dart';
-// import '../../../models/user_profile.dart';
-// import '../../../models/product.dart';
-// import '../../../models/product_variant.dart';
 import '../../../providers/user_provider.dart';
-// import '../../../repositories/profile/profile_repository_implementation.dart';
-// import '../../../repositories/inventory/inventory_repository_implementation.dart';
 import '../../discount/screen/discount_screen.dart';
 import '../../inventory/screens/inventory_list_screen.dart';
 import '../../orders/screens/order_screen.dart';
+import '../../profile/screens/page/profile_page.dart';
+import '../../tax/screens/tax_list_screen.dart';
 import '../models/menu_item.dart';
 import '../presenters/home_screen_presenter.dart';
 import '../views/home_screen_view.dart';
-import 'widget/drawer_list_tile.dart';
 import 'widget/menu_item_card.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -96,20 +84,6 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
   void initState() {
     _presenter = HomeScreenPresenter();
     _presenter.attachView(this);
-
-    var userToken = Provider.of<UserProvider>(context, listen: false).token;
-
-    var client = GraphQLClient(
-      cache: GraphQLCache(),
-      link: AuthLink(getToken: () => 'Bearer $userToken').concat(
-          // kReleaseMode ?
-          HttpLink('http://iterators-pos.herokuapp.com/graphql')
-          // : HttpLink('http://localhost:5000/graphql')
-          ),
-    );
-
-    var taxProvider = Provider.of<TaxRepository>(context, listen: false);
-    taxProvider.remote.client = client;
 
     drawerList = [
       "Add User",

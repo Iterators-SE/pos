@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/features/home/screens/home_screen.dart';
-import 'package:frontend/features/profile/screens/page/edit_profile_page.dart';
+import '../../../home/screens/home_screen.dart';
+import '../page/edit_profile_page.dart';
 
 AppBar buildAppbar(BuildContext context) {
   return AppBar(

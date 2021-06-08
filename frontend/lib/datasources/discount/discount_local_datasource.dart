@@ -1,4 +1,3 @@
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:meta/meta.dart';
 
 import '../../database/local/local_database.dart';

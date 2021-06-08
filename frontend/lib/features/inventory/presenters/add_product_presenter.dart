@@ -1,11 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/features/inventory/screens/add_product_screen.dart';
-import 'package:frontend/features/inventory/screens/inventory_list_screen.dart';
-import 'package:frontend/repositories/inventory/inventory_repository_implementation.dart';
-import 'package:provider/provider.dart';
-import '../../../core/presenters/base_presenter.dart';
 
+import '../../../core/presenters/base_presenter.dart';
 import '../../../core/state/app_state.dart';
 import '../views/add_product_screen_view.dart';
 

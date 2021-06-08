@@ -9,5 +9,6 @@ class UserPreferences {
       address: 'Brgy. Tiring, Cabatuan, Iloilo, Philippines',
       message: 'hi, welcome');
 
+  // ignore: type_annotate_public_apis
   static getInstance() {}
 }

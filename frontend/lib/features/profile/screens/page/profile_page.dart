@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+
 import '../../models/user.dart';
+import '../../utils/user_preferences.dart';
 import '../widgets/appbar_widget.dart';
 import '../widgets/profile_widget.dart';
-import '../../utils/user_preferences.dart';
 import 'edit_profile_page.dart';
 //import 'edit_profile_page.dart';
 

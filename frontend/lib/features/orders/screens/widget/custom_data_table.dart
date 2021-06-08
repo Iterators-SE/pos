@@ -41,7 +41,12 @@ class _CustomDataTableState extends State<CustomDataTable> {
               .map(
                 (e) => DataRow(
                   cells: [
-                    DataCell(Text('${widget.products.where((element) => element.id == e.productId).toList()[0].name} [${e.variantName}]')),
+                    DataCell(
+                      Text(
+                        // ignore: lines_longer_than_80_chars
+                        '${widget.products.where((element) => element.id == e.productId).toList()[0].name} [${e.variantName}]',
+                      ),
+                    ),
                     DataCell(
                       Text('${e.quantity}'),
                       showEditIcon: widget.showEdit,

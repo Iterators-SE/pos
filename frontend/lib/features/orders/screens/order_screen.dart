@@ -1,8 +1,5 @@
 import 'package:either_option/either_option.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/models/tax.dart';
-import 'package:frontend/providers/inventory_provider.dart';
-import 'package:frontend/repositories/tax/tax_repository_implementation.dart';
 // ignore: unused_import
 import 'package:provider/provider.dart';
 
@@ -12,10 +9,11 @@ import '../../../core/ui/styled_text_button.dart';
 import '../../../models/discounts.dart';
 import '../../../models/product.dart';
 import '../../../models/product_variant.dart';
+import '../../../models/tax.dart';
+import '../../../providers/inventory_provider.dart';
 // ignore: unused_import
 import '../../../repositories/discount/discount_repository_implementation.dart';
-// ignore: unused_import
-import '../../../repositories/inventory/inventory_repository_implementation.dart';
+import '../../../repositories/tax/tax_repository_implementation.dart';
 import '../models/order.dart';
 import '../presenters/order_screen_presenter.dart';
 import '../views/order_screen_view.dart';

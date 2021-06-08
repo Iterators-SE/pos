@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/core/presenters/base_presenter.dart';
-import 'package:frontend/core/state/app_state.dart';
-import 'package:frontend/features/tax/views/tax_list_screen_view.dart';
+import '../../../core/presenters/base_presenter.dart';
+import '../../../core/state/app_state.dart';
+import '../views/tax_list_screen_view.dart';
 
 class TaxListScreenPresenter extends BasePresenter<TaxListScreenView> {
   Widget body() {

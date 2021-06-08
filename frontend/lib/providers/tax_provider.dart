@@ -1,11 +1,12 @@
 import 'package:either_option/either_option.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:frontend/core/error/failure.dart';
-import 'package:frontend/models/tax.dart';
-import 'package:frontend/providers/user_provider.dart';
-import 'package:frontend/repositories/tax/tax_repository_implementation.dart';
 import 'package:graphql/client.dart';
 import 'package:provider/provider.dart';
+
+import '../core/error/failure.dart';
+import '../models/tax.dart';
+import '../repositories/tax/tax_repository_implementation.dart';
+import 'user_provider.dart';
 
 class TaxProvider extends ChangeNotifier {
   Future<Either<Failure, List<Tax>>> getTaxes(BuildContext context) async {

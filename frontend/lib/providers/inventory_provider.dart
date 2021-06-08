@@ -32,13 +32,6 @@ class InventoryProvider extends ChangeNotifier {
       BuildContext context, NewProduct product) async {
     var provider =
         await Provider.of<InventoryRepository>(context, listen: false);
-    // var token = Provider.of<UserProvider>(context, listen: false).token;
-
-    // provider.remote.client = GraphQLClient(
-    //   cache: GraphQLCache(),
-    //   link: AuthLink(getToken: () => 'Bearer $token')
-    //       .concat(HttpLink('http://iterators-pos.herokuapp.com/graphql')),
-    // );
 
     var data = await provider.addProduct(product: product);
     if (data.isRight) {
@@ -51,15 +44,6 @@ class InventoryProvider extends ChangeNotifier {
       BuildContext context) async {
     var provider =
         await Provider.of<InventoryRepository>(context, listen: false);
-
-    var token = Provider.of<UserProvider>(context, listen: false).token;
-
-    provider.remote.client = GraphQLClient(
-      cache: GraphQLCache(),
-      link: AuthLink(getToken: () => 'Bearer $token')
-          .concat(HttpLink('http://iterators-pos.herokuapp.com/graphql')),
-    );
-
     var data = await provider.getProducts();
     if (data.isRight) {
       return data;

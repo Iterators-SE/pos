@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/core/state/app_state.dart';
-import 'package:frontend/features/inventory/presenters/inventory_list_presenter.dart';
-import 'package:frontend/features/tax/presenters/tax_list_presenter.dart';
-import 'package:frontend/features/tax/screens/pages/tax_list_view.dart';
-import 'package:frontend/features/tax/screens/tax_add_screen.dart';
-import 'package:frontend/features/tax/views/tax_list_screen_view.dart';
-import 'package:frontend/models/tax.dart';
-import 'package:frontend/providers/tax_provider.dart';
-import 'package:frontend/repositories/tax/tax_repository_implementation.dart';
 import 'package:provider/provider.dart';
+
+import '../../../core/state/app_state.dart';
+import '../../../models/tax.dart';
+import '../../../providers/tax_provider.dart';
+import '../presenters/tax_list_presenter.dart';
+import '../views/tax_list_screen_view.dart';
+import 'pages/tax_list_view.dart';
+import 'tax_add_screen.dart';
 
 class TaxListScreen extends StatefulWidget {
   const TaxListScreen({Key key}) : super(key: key);
