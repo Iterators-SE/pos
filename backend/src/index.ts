@@ -1,4 +1,4 @@
-import { createConnection } from "typeorm";
+import { createConnection, getConnection } from "typeorm";
 import express = require('express');
 import { ApolloServer } from 'apollo-server-express';
 import jwt = require('express-jwt');
@@ -7,6 +7,7 @@ import { createSchema } from "./utils/createSchema";
 import { Token } from "./types/token";
 import { User } from "./models/User";
 import queryComplexity, {fieldExtensionsEstimator, simpleEstimator} from "graphql-query-complexity";
+import { ApolloServerLoaderPlugin } from "type-graphql-dataloader";
 // import rateLimit =  require('express-rate-limit');
 require('dotenv').config();
 
@@ -25,26 +26,31 @@ const startServer = async () => {
 
   const server = new ApolloServer({ 
     schema, 
+    plugins: [
+      ApolloServerLoaderPlugin({
+        typeormGetConnection: getConnection
+      })
+    ],
     context: ({req, res}) => ({
       req, 
       currentUser: req.user,
       res
     }),
-    // validationRules: [
-    //   queryComplexity({
-    //     maximumComplexity: 45,
-    //     variables: {},
-    //     onComplete: (complexity: number) => {
-    //       console.log(`Query Complexity: ${complexity}`)
-    //     },
-    //     estimators: [
-    //       fieldExtensionsEstimator(),
-    //       simpleEstimator({
-    //         defaultComplexity: 1
-    //       })
-    //     ]
-    //   }) as any
-    // ],
+    validationRules: [
+      queryComplexity({
+        maximumComplexity: 45,
+        variables: {},
+        onComplete: (complexity: number) => {
+          console.log(`Query Complexity: ${complexity}`)
+        },
+        estimators: [
+          fieldExtensionsEstimator(),
+          simpleEstimator({
+            defaultComplexity: 1
+          })
+        ]
+      }) as any
+    ],
     // formatError: (err) : Error => {
     //   if (err.message.startsWith('Database Error: ')) {
     //     return new Error('Internal server error');
@@ -63,8 +69,8 @@ const startServer = async () => {
   });
 
   // app.use(rateLimit({
-  //   windowMs: 1000,
-  //   max: 1, // limit each IP to 100 requests per windowMs
+  //   windowMs: 1000 * 60,
+  //   max: 45, // limit each IP to 100 requests per windowMs
   //   message: "Too many requests created from this IP, please try again after a minute."
   // }));
 
