@@ -11,7 +11,7 @@ class TaxLocalDataSource implements ITaxLocalDataSource {
           id: tax['id'],
           name: tax['name'],
           isSelected: tax['isSelected'],
-          perccentage: tax['percentage']
+          percentage: tax['percentage']
         );
       });
       await taxes.map(local.addTax);

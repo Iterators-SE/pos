@@ -7,8 +7,7 @@ part of 'local_database.dart';
 // **************************************************************************
 
 // ignore: lines_longer_than_80_chars
-// ignore_for_file: unnecessary_brace_in_string_interps, unnecessary_this, avoid_positional_boolean_parameters, avoid_equals_and_hash_code_on_mutable_classes
-
+// ignore_for_file: unnecessary_brace_in_string_interps, unnecessary_this, avoid_equals_and_hash_code_on_mutable_classes, avoid_positional_boolean_parameters
 class Product extends DataClass implements Insertable<Product> {
   final int id;
   final String name;
@@ -1600,40 +1599,40 @@ class $TransactionsTable extends Transactions
 }
 
 class DiscountProduct extends DataClass implements Insertable<DiscountProduct> {
-  final int productid;
-  final int discountid;
-  DiscountProduct({@required this.productid, @required this.discountid});
+  final int productId;
+  final int discountId;
+  DiscountProduct({@required this.productId, @required this.discountId});
   factory DiscountProduct.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     return DiscountProduct(
-      productid: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}productid']),
-      discountid: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}discountid']),
+      productId: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}product_id']),
+      discountId: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}discount_id']),
     );
   }
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    if (!nullToAbsent || productid != null) {
-      map['productid'] = Variable<int>(productid);
+    if (!nullToAbsent || productId != null) {
+      map['product_id'] = Variable<int>(productId);
     }
-    if (!nullToAbsent || discountid != null) {
-      map['discountid'] = Variable<int>(discountid);
+    if (!nullToAbsent || discountId != null) {
+      map['discount_id'] = Variable<int>(discountId);
     }
     return map;
   }
 
   DiscountProductsCompanion toCompanion(bool nullToAbsent) {
     return DiscountProductsCompanion(
-      productid: productid == null && nullToAbsent
+      productId: productId == null && nullToAbsent
           ? const Value.absent()
-          : Value(productid),
-      discountid: discountid == null && nullToAbsent
+          : Value(productId),
+      discountId: discountId == null && nullToAbsent
           ? const Value.absent()
-          : Value(discountid),
+          : Value(discountId),
     );
   }
 
@@ -1641,80 +1640,80 @@ class DiscountProduct extends DataClass implements Insertable<DiscountProduct> {
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return DiscountProduct(
-      productid: serializer.fromJson<int>(json['productid']),
-      discountid: serializer.fromJson<int>(json['discountid']),
+      productId: serializer.fromJson<int>(json['productId']),
+      discountId: serializer.fromJson<int>(json['discountId']),
     );
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'productid': serializer.toJson<int>(productid),
-      'discountid': serializer.toJson<int>(discountid),
+      'productId': serializer.toJson<int>(productId),
+      'discountId': serializer.toJson<int>(discountId),
     };
   }
 
-  DiscountProduct copyWith({int productid, int discountid}) => DiscountProduct(
-        productid: productid ?? this.productid,
-        discountid: discountid ?? this.discountid,
+  DiscountProduct copyWith({int productId, int discountId}) => DiscountProduct(
+        productId: productId ?? this.productId,
+        discountId: discountId ?? this.discountId,
       );
   @override
   String toString() {
     return (StringBuffer('DiscountProduct(')
-          ..write('productid: $productid, ')
-          ..write('discountid: $discountid')
+          ..write('productId: $productId, ')
+          ..write('discountId: $discountId')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(productid.hashCode, discountid.hashCode));
+  int get hashCode => $mrjf($mrjc(productId.hashCode, discountId.hashCode));
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is DiscountProduct &&
-          other.productid == this.productid &&
-          other.discountid == this.discountid);
+          other.productId == this.productId &&
+          other.discountId == this.discountId);
 }
 
 class DiscountProductsCompanion extends UpdateCompanion<DiscountProduct> {
-  final Value<int> productid;
-  final Value<int> discountid;
+  final Value<int> productId;
+  final Value<int> discountId;
   const DiscountProductsCompanion({
-    this.productid = const Value.absent(),
-    this.discountid = const Value.absent(),
+    this.productId = const Value.absent(),
+    this.discountId = const Value.absent(),
   });
   DiscountProductsCompanion.insert({
-    @required int productid,
-    @required int discountid,
-  })  : productid = Value(productid),
-        discountid = Value(discountid);
+    @required int productId,
+    @required int discountId,
+  })  : productId = Value(productId),
+        discountId = Value(discountId);
   static Insertable<DiscountProduct> custom({
-    Expression<int> productid,
-    Expression<int> discountid,
+    Expression<int> productId,
+    Expression<int> discountId,
   }) {
     return RawValuesInsertable({
-      if (productid != null) 'productid': productid,
-      if (discountid != null) 'discountid': discountid,
+      if (productId != null) 'product_id': productId,
+      if (discountId != null) 'discount_id': discountId,
     });
   }
 
   DiscountProductsCompanion copyWith(
-      {Value<int> productid, Value<int> discountid}) {
+      {Value<int> productId, Value<int> discountId}) {
     return DiscountProductsCompanion(
-      productid: productid ?? this.productid,
-      discountid: discountid ?? this.discountid,
+      productId: productId ?? this.productId,
+      discountId: discountId ?? this.discountId,
     );
   }
 
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    if (productid.present) {
-      map['productid'] = Variable<int>(productid.value);
+    if (productId.present) {
+      map['product_id'] = Variable<int>(productId.value);
     }
-    if (discountid.present) {
-      map['discountid'] = Variable<int>(discountid.value);
+    if (discountId.present) {
+      map['discount_id'] = Variable<int>(discountId.value);
     }
     return map;
   }
@@ -1722,8 +1721,8 @@ class DiscountProductsCompanion extends UpdateCompanion<DiscountProduct> {
   @override
   String toString() {
     return (StringBuffer('DiscountProductsCompanion(')
-          ..write('productid: $productid, ')
-          ..write('discountid: $discountid')
+          ..write('productId: $productId, ')
+          ..write('discountId: $discountId')
           ..write(')'))
         .toString();
   }
@@ -1734,26 +1733,26 @@ class $DiscountProductsTable extends DiscountProducts
   final GeneratedDatabase _db;
   final String _alias;
   $DiscountProductsTable(this._db, [this._alias]);
-  final VerificationMeta _productidMeta = const VerificationMeta('productid');
-  GeneratedIntColumn _productid;
+  final VerificationMeta _productIdMeta = const VerificationMeta('productId');
+  GeneratedIntColumn _productId;
   @override
-  GeneratedIntColumn get productid => _productid ??= _constructProductid();
-  GeneratedIntColumn _constructProductid() {
-    return GeneratedIntColumn('productid', $tableName, false,
+  GeneratedIntColumn get productId => _productId ??= _constructProductId();
+  GeneratedIntColumn _constructProductId() {
+    return GeneratedIntColumn('product_id', $tableName, false,
         $customConstraints: 'REFERENCES products(id)');
   }
 
-  final VerificationMeta _discountidMeta = const VerificationMeta('discountid');
-  GeneratedIntColumn _discountid;
+  final VerificationMeta _discountIdMeta = const VerificationMeta('discountId');
+  GeneratedIntColumn _discountId;
   @override
-  GeneratedIntColumn get discountid => _discountid ??= _constructDiscountid();
-  GeneratedIntColumn _constructDiscountid() {
-    return GeneratedIntColumn('discountid', $tableName, false,
+  GeneratedIntColumn get discountId => _discountId ??= _constructDiscountId();
+  GeneratedIntColumn _constructDiscountId() {
+    return GeneratedIntColumn('discount_id', $tableName, false,
         $customConstraints: 'REFERENCES discounts(id)');
   }
 
   @override
-  List<GeneratedColumn> get $columns => [productid, discountid];
+  List<GeneratedColumn> get $columns => [productId, discountId];
   @override
   $DiscountProductsTable get asDslTable => this;
   @override
@@ -1765,19 +1764,19 @@ class $DiscountProductsTable extends DiscountProducts
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
-    if (data.containsKey('productid')) {
-      context.handle(_productidMeta,
-          productid.isAcceptableOrUnknown(data['productid'], _productidMeta));
+    if (data.containsKey('product_id')) {
+      context.handle(_productIdMeta,
+          productId.isAcceptableOrUnknown(data['product_id'], _productIdMeta));
     } else if (isInserting) {
-      context.missing(_productidMeta);
+      context.missing(_productIdMeta);
     }
-    if (data.containsKey('discountid')) {
+    if (data.containsKey('discount_id')) {
       context.handle(
-          _discountidMeta,
-          discountid.isAcceptableOrUnknown(
-              data['discountid'], _discountidMeta));
+          _discountIdMeta,
+          discountId.isAcceptableOrUnknown(
+              data['discount_id'], _discountIdMeta));
     } else if (isInserting) {
-      context.missing(_discountidMeta);
+      context.missing(_discountIdMeta);
     }
     return context;
   }
@@ -1800,12 +1799,12 @@ class Taxe extends DataClass implements Insertable<Taxe> {
   final int id;
   final String name;
   final bool isSelected;
-  final int perccentage;
+  final double percentage;
   Taxe(
       {@required this.id,
       @required this.name,
       @required this.isSelected,
-      @required this.perccentage});
+      @required this.percentage});
   factory Taxe.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -1815,8 +1814,8 @@ class Taxe extends DataClass implements Insertable<Taxe> {
           .mapFromDatabaseResponse(data['${effectivePrefix}name']),
       isSelected: const BoolType()
           .mapFromDatabaseResponse(data['${effectivePrefix}is_selected']),
-      perccentage: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}perccentage']),
+      percentage: const RealType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}percentage']),
     );
   }
   @override
@@ -1831,8 +1830,8 @@ class Taxe extends DataClass implements Insertable<Taxe> {
     if (!nullToAbsent || isSelected != null) {
       map['is_selected'] = Variable<bool>(isSelected);
     }
-    if (!nullToAbsent || perccentage != null) {
-      map['perccentage'] = Variable<int>(perccentage);
+    if (!nullToAbsent || percentage != null) {
+      map['percentage'] = Variable<double>(percentage);
     }
     return map;
   }
@@ -1844,9 +1843,9 @@ class Taxe extends DataClass implements Insertable<Taxe> {
       isSelected: isSelected == null && nullToAbsent
           ? const Value.absent()
           : Value(isSelected),
-      perccentage: perccentage == null && nullToAbsent
+      percentage: percentage == null && nullToAbsent
           ? const Value.absent()
-          : Value(perccentage),
+          : Value(percentage),
     );
   }
 
@@ -1857,7 +1856,7 @@ class Taxe extends DataClass implements Insertable<Taxe> {
       id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
       isSelected: serializer.fromJson<bool>(json['isSelected']),
-      perccentage: serializer.fromJson<int>(json['perccentage']),
+      percentage: serializer.fromJson<double>(json['percentage']),
     );
   }
   @override
@@ -1867,16 +1866,16 @@ class Taxe extends DataClass implements Insertable<Taxe> {
       'id': serializer.toJson<int>(id),
       'name': serializer.toJson<String>(name),
       'isSelected': serializer.toJson<bool>(isSelected),
-      'perccentage': serializer.toJson<int>(perccentage),
+      'percentage': serializer.toJson<double>(percentage),
     };
   }
 
-  Taxe copyWith({int id, String name, bool isSelected, int perccentage}) =>
+  Taxe copyWith({int id, String name, bool isSelected, double percentage}) =>
       Taxe(
         id: id ?? this.id,
         name: name ?? this.name,
         isSelected: isSelected ?? this.isSelected,
-        perccentage: perccentage ?? this.perccentage,
+        percentage: percentage ?? this.percentage,
       );
   @override
   String toString() {
@@ -1884,14 +1883,14 @@ class Taxe extends DataClass implements Insertable<Taxe> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('isSelected: $isSelected, ')
-          ..write('perccentage: $perccentage')
+          ..write('percentage: $percentage')
           ..write(')'))
         .toString();
   }
 
   @override
   int get hashCode => $mrjf($mrjc(id.hashCode,
-      $mrjc(name.hashCode, $mrjc(isSelected.hashCode, perccentage.hashCode))));
+      $mrjc(name.hashCode, $mrjc(isSelected.hashCode, percentage.hashCode))));
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1899,40 +1898,40 @@ class Taxe extends DataClass implements Insertable<Taxe> {
           other.id == this.id &&
           other.name == this.name &&
           other.isSelected == this.isSelected &&
-          other.perccentage == this.perccentage);
+          other.percentage == this.percentage);
 }
 
 class TaxesCompanion extends UpdateCompanion<Taxe> {
   final Value<int> id;
   final Value<String> name;
   final Value<bool> isSelected;
-  final Value<int> perccentage;
+  final Value<double> percentage;
   const TaxesCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.isSelected = const Value.absent(),
-    this.perccentage = const Value.absent(),
+    this.percentage = const Value.absent(),
   });
   TaxesCompanion.insert({
     @required int id,
     @required String name,
     @required bool isSelected,
-    @required int perccentage,
+    @required double percentage,
   })  : id = Value(id),
         name = Value(name),
         isSelected = Value(isSelected),
-        perccentage = Value(perccentage);
+        percentage = Value(percentage);
   static Insertable<Taxe> custom({
     Expression<int> id,
     Expression<String> name,
     Expression<bool> isSelected,
-    Expression<int> perccentage,
+    Expression<double> percentage,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (isSelected != null) 'is_selected': isSelected,
-      if (perccentage != null) 'perccentage': perccentage,
+      if (percentage != null) 'percentage': percentage,
     });
   }
 
@@ -1940,12 +1939,12 @@ class TaxesCompanion extends UpdateCompanion<Taxe> {
       {Value<int> id,
       Value<String> name,
       Value<bool> isSelected,
-      Value<int> perccentage}) {
+      Value<double> percentage}) {
     return TaxesCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
       isSelected: isSelected ?? this.isSelected,
-      perccentage: perccentage ?? this.perccentage,
+      percentage: percentage ?? this.percentage,
     );
   }
 
@@ -1961,8 +1960,8 @@ class TaxesCompanion extends UpdateCompanion<Taxe> {
     if (isSelected.present) {
       map['is_selected'] = Variable<bool>(isSelected.value);
     }
-    if (perccentage.present) {
-      map['perccentage'] = Variable<int>(perccentage.value);
+    if (percentage.present) {
+      map['percentage'] = Variable<double>(percentage.value);
     }
     return map;
   }
@@ -1973,7 +1972,7 @@ class TaxesCompanion extends UpdateCompanion<Taxe> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('isSelected: $isSelected, ')
-          ..write('perccentage: $perccentage')
+          ..write('percentage: $percentage')
           ..write(')'))
         .toString();
   }
@@ -2019,22 +2018,20 @@ class $TaxesTable extends Taxes with TableInfo<$TaxesTable, Taxe> {
     );
   }
 
-  final VerificationMeta _perccentageMeta =
-      const VerificationMeta('perccentage');
-  GeneratedIntColumn _perccentage;
+  final VerificationMeta _percentageMeta = const VerificationMeta('percentage');
+  GeneratedRealColumn _percentage;
   @override
-  GeneratedIntColumn get perccentage =>
-      _perccentage ??= _constructPerccentage();
-  GeneratedIntColumn _constructPerccentage() {
-    return GeneratedIntColumn(
-      'perccentage',
+  GeneratedRealColumn get percentage => _percentage ??= _constructPercentage();
+  GeneratedRealColumn _constructPercentage() {
+    return GeneratedRealColumn(
+      'percentage',
       $tableName,
       false,
     );
   }
 
   @override
-  List<GeneratedColumn> get $columns => [id, name, isSelected, perccentage];
+  List<GeneratedColumn> get $columns => [id, name, isSelected, percentage];
   @override
   $TaxesTable get asDslTable => this;
   @override
@@ -2065,13 +2062,13 @@ class $TaxesTable extends Taxes with TableInfo<$TaxesTable, Taxe> {
     } else if (isInserting) {
       context.missing(_isSelectedMeta);
     }
-    if (data.containsKey('perccentage')) {
+    if (data.containsKey('percentage')) {
       context.handle(
-          _perccentageMeta,
-          perccentage.isAcceptableOrUnknown(
-              data['perccentage'], _perccentageMeta));
+          _percentageMeta,
+          percentage.isAcceptableOrUnknown(
+              data['percentage'], _percentageMeta));
     } else if (isInserting) {
-      context.missing(_perccentageMeta);
+      context.missing(_percentageMeta);
     }
     return context;
   }
