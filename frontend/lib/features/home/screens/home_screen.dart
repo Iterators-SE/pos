@@ -85,13 +85,6 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
     _presenter = HomeScreenPresenter();
     _presenter.attachView(this);
 
-    drawerList = [
-      "Add User",
-      "Edit Business Detail",
-      "Tutorial",
-      "Upgrade to Pro"
-    ];
-
     defaultItemMap = {
       'PROCESS ORDERS': () => _presenter.navigate(
             context,
@@ -156,7 +149,6 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
 
   @override
   Widget build(BuildContext context) {
-    // getData(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("XPOS", textAlign: TextAlign.center),
@@ -168,19 +160,6 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
           )
         ],
       ),
-      // drawer: Drawer(
-      //   child: Container(
-      //     color: Color(XPosTheme.primaryColor),
-      //     child: Container(
-      //       margin: EdgeInsets.only(top: 250),
-      //       child: ListView(
-      //         children:
-      //             drawerList.map((item) => DrawerListItem(item: item))
-      //             .toList(),
-      //       ),
-      //     ),
-      //   ),
-      // ),
       body: ReorderableListView(
         header: Center(
           child: Image(image: AssetImage("assets/images/xpos_home_logo.png")),
