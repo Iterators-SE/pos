@@ -11,10 +11,12 @@ class UserProvider extends ChangeNotifier {
   User _user;
   String _token;
   Either<Failure, bool> _signedUp;
+  Either<Failure, User> _loggedIn;
 
   String get token => _token;
   User get user => _user;
   Either<Failure, bool> get signedUp => _signedUp;
+  Either<Failure, User> get loggedIn => _loggedIn;
 
   set token(String token) {
     _user = User(token: token);
@@ -30,12 +32,15 @@ class UserProvider extends ChangeNotifier {
       password: password,
     );
 
+    _loggedIn = data;
+
     if (data.isRight) {
       data.fold((error) => null, (user) {
         token = user.token;
       });
-      notifyListeners();
     }
+      notifyListeners();
+
   }
 
   void signup(BuildContext context,
