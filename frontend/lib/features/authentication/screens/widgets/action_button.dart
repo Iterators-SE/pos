@@ -25,15 +25,5 @@ class ActionButton extends StatelessWidget {
       ),
       onPressed: toggle,
     );
-    // MaterialButton(
-    //   child: RichText(
-    //     text: TextSpan(
-    //       text: 'Already have an account? ',
-    //       style: TextStyle(color: Colors.grey[500], fontSize: 12),
-    //       children: [TextSpan(text: 'Login!')],
-    //     ),
-    //   ),
-    //   onPressed: widget.toggle,
-    // );
   }
 }
