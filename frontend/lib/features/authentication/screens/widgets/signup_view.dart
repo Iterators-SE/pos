@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import '../../../../core/themes/config.dart';
+import 'action_button.dart';
 
 class SignupWidget extends StatefulWidget {
   final GlobalKey<FormState> formKey;
@@ -60,6 +62,17 @@ class _SignupWidgetState extends State<SignupWidget> {
               ),
             ),
             TextFormField(
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  hintText: 'Enter store name',
+                  labelText: 'Store Name'),
+              validator: (value) =>
+                  value.isEmpty ? "Store name can\'t be empty" : null,
+              onChanged: (value) => setState(() => name = value),
+            ),
+            SizedBox(height: 20),
+            TextFormField(
               autovalidateMode: AutovalidateMode.onUserInteraction,
               decoration: InputDecoration(
                   border: OutlineInputBorder(
@@ -94,23 +107,12 @@ class _SignupWidgetState extends State<SignupWidget> {
                       : null,
               onChanged: (value) => setState(() => password = value),
             ),
-            SizedBox(height: 20),
-            TextFormField(
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  hintText: 'Enter store name',
-                  labelText: 'Store Name'),
-              validator: (value) =>
-                  value.isEmpty ? "Store name can\'t be empty" : null,
-              onChanged: (value) => setState(() => name = value),
-            ),
             Spacer(),
             Container(
               height: 40,
               width: 80,
               decoration: BoxDecoration(
-                color: Colors.green[900],
+                color: xposGreen[50],
                 borderRadius: BorderRadius.circular(10),
               ),
               child: MaterialButton(
@@ -127,15 +129,10 @@ class _SignupWidgetState extends State<SignupWidget> {
             ),
             Align(
               alignment: Alignment.centerRight,
-              child: MaterialButton(
-                child: RichText(
-                  text: TextSpan(
-                    text: 'Already have an account? ',
-                    style: TextStyle(color: Colors.grey[500], fontSize: 12),
-                    children: [TextSpan(text: 'Login!')],
-                  ),
-                ),
-                onPressed: widget.toggle,
+              child: ActionButton(
+                toggle: widget.toggle,
+                text: 'Already have an account? ',
+                textSpanText: 'Login!',
               ),
             ),
             Spacer()

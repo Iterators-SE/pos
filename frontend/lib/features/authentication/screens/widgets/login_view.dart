@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'action_button.dart';
 import '../../../../core/themes/config.dart';
 
 class LoginWidget extends StatefulWidget {
@@ -116,15 +117,10 @@ class _LoginWidgetState extends State<LoginWidget> {
             ),
             Align(
               alignment: Alignment.centerRight,
-              child: MaterialButton(
-                child: RichText(
-                  text: TextSpan(
-                    text: 'New here? ',
-                    style: TextStyle(color: Colors.grey[500], fontSize: 12),
-                    children: [TextSpan(text: 'Sign up!')],
-                  ),
-                ),
-                onPressed: widget.toggle,
+              child: ActionButton(
+                toggle: widget.toggle,
+                text: 'New here? ',
+                textSpanText: 'Sign up!',
               ),
             ),
             Spacer()
