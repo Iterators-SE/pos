@@ -1,9 +1,9 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 
-import 'action_button.dart';
-import 'logo.dart';
-import 'network_button.dart';
+import 'widgets/action_button.dart';
+import 'widgets/logo.dart';
+import 'widgets/network_button.dart';
 
 class SignupWidget extends StatefulWidget {
   final GlobalKey<FormState> formKey;

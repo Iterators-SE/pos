@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 import '../../../providers/user_provider.dart';
 import '../presenter/authentication_screen_presenter.dart';
 import '../views/authentication_screen_view.dart';
-import 'widgets/login_view.dart';
-import 'widgets/signup_view.dart';
+import 'login_view.dart';
+import 'signup_view.dart';
 
 class AuthenticationScreen extends StatefulWidget {
   @override
