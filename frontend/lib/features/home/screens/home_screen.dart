@@ -11,6 +11,7 @@ import '../../inventory/screens/inventory_list_screen.dart';
 import '../../orders/screens/order_screen.dart';
 import '../../profile/screens/page/profile_page.dart';
 import '../../tax/screens/tax_list_screen.dart';
+import '../../transactions/screens/transaction_screen.dart';
 import '../models/menu_item.dart';
 import '../presenters/home_screen_presenter.dart';
 import '../views/home_screen_view.dart';
@@ -60,14 +61,14 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
   void onReorder(int oldIndex, int newIndex) {
     if (newIndex > oldIndex) {
       newIndex -= 1;
-
-      setState(() {
-        final item = menuItems.removeAt(oldIndex);
-        menuItems.insert(newIndex, item);
-      });
-
-      persistOrder();
     }
+
+    setState(() {
+      final item = menuItems.removeAt(oldIndex);
+      menuItems.insert(newIndex, item);
+    });
+
+    persistOrder();
   }
 
   @override
@@ -104,6 +105,8 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
           ),
       'TAXES': () => _presenter.navigate(
           context, MaterialPageRoute(builder: (context) => TaxListScreen())),
+      'TRANSACTIONS': () => _presenter.navigate(context,
+          MaterialPageRoute(builder: (context) => TransactionScreen())),
       'USER': () => _presenter.navigate(
             context,
             MaterialPageRoute(builder: (context) => ProfilePage()),
@@ -134,6 +137,11 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
         option: "USER",
         url: "assets/images/user.png",
         onTap: defaultItemMap['USER'],
+      ),
+      MenuItem(
+        option: "TRANSACTIONS",
+        url: "assets/images/user.png",
+        onTap: defaultItemMap['TRANSACTIONS'],
       ),
     ];
 
