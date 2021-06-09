@@ -36,31 +36,31 @@ const startServer = async () => {
       currentUser: req.user,
       res
     }),
-    validationRules: [
-      queryComplexity({
-        maximumComplexity: 45,
-        variables: {},
-        onComplete: (complexity: number) => {
-          console.log(`Query Complexity: ${complexity}`)
-        },
-        estimators: [
-          fieldExtensionsEstimator(),
-          simpleEstimator({
-            defaultComplexity: 1
-          })
-        ]
-      }) as any
-    ],
-    // formatError: (err) : Error => {
-    //   if (err.message.startsWith('Database Error: ')) {
-    //     return new Error('Internal server error');
-    //   }
-    //   if (err.message.startsWith('Argument Validation')) {
-    //     return new Error('Something went wrong with validation :( Would you like to try again?');
-    //   }
+    // validationRules: [
+    //   queryComplexity({
+    //     maximumComplexity: 45,
+    //     variables: {},
+    //     onComplete: (complexity: number) => {
+    //       console.log(`Query Complexity: ${complexity}`)
+    //     },
+    //     estimators: [
+    //       fieldExtensionsEstimator(),
+    //       simpleEstimator({
+    //         defaultComplexity: 1
+    //       })
+    //     ]
+    //   }) as any
+    // ],
+    formatError: (err) : Error => {
+      if (err.message.startsWith('Database Error: ')) {
+        return new Error('Internal server error');
+      }
+      if (err.message.startsWith('Argument Validation')) {
+        return new Error('Something went wrong with validation. Would you like to try again?');
+      }
 
-    //   return err;
-    // }
+      return err;
+    }
   });
 
   app.use(authMiddleware, (err: any, req: any, res: any, next: any)=> {
