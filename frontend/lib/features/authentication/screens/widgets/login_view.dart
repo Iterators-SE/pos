@@ -1,7 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter/material.dart';
+
 import 'action_button.dart';
-import '../../../../core/themes/config.dart';
+import 'logo.dart';
+import 'network_button.dart';
 
 class LoginWidget extends StatefulWidget {
   final GlobalKey<FormState> formKey;
@@ -30,12 +32,7 @@ class _LoginWidgetState extends State<LoginWidget> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Spacer(),
-            Container(
-              constraints: BoxConstraints(maxHeight: 150),
-              child: Image(
-                image: AssetImage('assets/images/Xpos.png'),
-              ),
-            ),
+            XposLogo(),
             Padding(
               padding: EdgeInsets.only(top: 40, bottom: 5),
               child: Align(
@@ -62,58 +59,48 @@ class _LoginWidgetState extends State<LoginWidget> {
               ),
             ),
             TextFormField(
-                key: Key('email'),
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  hintText: 'Enter Email',
-                  labelText: 'Email',
-                ),
-                validator: (value) => value.isEmpty
-                    ? 'Email can\'t be empty'
-                    : !EmailValidator.validate(value.toString())
-                        ? "Email is invalid"
-                        : null,
-                onChanged: (value) => setState(() => email = value)),
-            SizedBox(
-              height: 20,
-            ),
-            TextFormField(
-                key: Key('password'),
-                decoration: InputDecoration(
-                  suffixIcon: IconButton(
-                    icon: Icon(hide ? Icons.visibility : Icons.visibility_off),
-                    onPressed: () => setState(() => hide = !hide),
-                  ),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  hintText: 'Enter Password',
-                  labelText: 'Password',
-                ),
-                obscureText: hide,
-                validator: (value) =>
-                    value.isEmpty ? "Password can\'t be empty" : null,
-                onChanged: (value) => setState(() => password = value)),
-            Spacer(),
-            Container(
-              height: 40,
-              width: 80,
-              decoration: BoxDecoration(
-                  color: xposGreen[50],
-                  borderRadius: BorderRadius.circular(10)),
-              child: MaterialButton(
-                key: Key('login'),
-                onPressed: () {
-                  widget.formKey.currentState.validate()
-                      ? widget.login()(context, email, password)
-                      : null;
-                },
-                child: Text(
-                  'Login',
-                  style: TextStyle(color: Colors.white),
-                ),
+              key: Key('email'),
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              decoration: InputDecoration(
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                hintText: 'Enter Email',
+                labelText: 'Email',
               ),
+              validator: (value) => value.isEmpty
+                  ? 'Email can\'t be empty'
+                  : !EmailValidator.validate(value.toString())
+                      ? "Email is invalid"
+                      : null,
+              onChanged: (value) => setState(() => email = value),
+            ),
+            SizedBox(height: 20),
+            TextFormField(
+              key: Key('password'),
+              decoration: InputDecoration(
+                suffixIcon: IconButton(
+                  icon: Icon(hide ? Icons.visibility : Icons.visibility_off),
+                  onPressed: () => setState(() => hide = !hide),
+                ),
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                hintText: 'Enter Password',
+                labelText: 'Password',
+              ),
+              obscureText: hide,
+              validator: (value) =>
+                  value.isEmpty ? "Password can\'t be empty" : null,
+              onChanged: (value) => setState(() => password = value),
+            ),
+            Spacer(),
+            NetworkButton(
+              onPressed: () {
+                widget.formKey.currentState.validate()
+                    ? widget.login()(context, email, password)
+                    : null;
+              },
+              text: 'Login',
+              buttonKey: 'login',
             ),
             Align(
               alignment: Alignment.centerRight,

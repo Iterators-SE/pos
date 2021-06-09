@@ -1,7 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-import '../../../../core/themes/config.dart';
+import 'package:flutter/material.dart';
+
 import 'action_button.dart';
+import 'logo.dart';
+import 'network_button.dart';
 
 class SignupWidget extends StatefulWidget {
   final GlobalKey<FormState> formKey;
@@ -30,12 +32,7 @@ class _SignupWidgetState extends State<SignupWidget> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Spacer(),
-            Container(
-              constraints: BoxConstraints(maxHeight: 150),
-              child: Image(
-                image: AssetImage('assets/images/Xpos.png'),
-              ),
-            ),
+            XposLogo(),
             Padding(
               padding: EdgeInsets.only(top: 40, bottom: 5),
               child: Align(
@@ -108,24 +105,14 @@ class _SignupWidgetState extends State<SignupWidget> {
               onChanged: (value) => setState(() => password = value),
             ),
             Spacer(),
-            Container(
-              height: 40,
-              width: 80,
-              decoration: BoxDecoration(
-                color: xposGreen[50],
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: MaterialButton(
-                onPressed: () {
-                  widget.formKey.currentState.validate()
-                      ? widget.signup()(context, email, name, password)
-                      : null;
-                },
-                child: Text(
-                  'Signup',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
+            NetworkButton(
+              onPressed: () {
+                widget.formKey.currentState.validate()
+                    ? widget.signup()(context, email, name, password)
+                    : null;
+              },
+              text: 'Signup',
+              buttonKey: 'signup',
             ),
             Align(
               alignment: Alignment.centerRight,
