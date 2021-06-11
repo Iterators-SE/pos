@@ -120,7 +120,7 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
 
       // TODO: Alan pls fix this bug
       // List<Object> data = jsonEncode(response.data['getProducts']);
-      String data = jsonEncode(response.data['getProducts']);
+      var data = jsonEncode(response.data['getProducts']);
       List list = jsonDecode(data);
 
       print('client ${client.link}');
