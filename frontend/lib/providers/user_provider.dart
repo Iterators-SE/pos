@@ -1,6 +1,7 @@
 import 'package:either_option/either_option.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:graphql/client.dart';
 import 'package:provider/provider.dart';
 
 import '../core/error/failure.dart';
@@ -12,6 +13,11 @@ class UserProvider extends ChangeNotifier {
   String _token;
   Either<Failure, bool> _signedUp;
   Either<Failure, User> _loggedIn;
+
+  final HttpLink _httpLink = HttpLink('http://localhost:5000/graphql');
+  // final String _devUri = 'http://localhost:5000/graphql';
+  // final String _prodUri = 'http://iterators-pos.herokuapp.com/graphql';
+  // String uri = kReleaseMode ? prodUri : devUri;
 
   String get token => _token;
   User get user => _user;
@@ -39,8 +45,7 @@ class UserProvider extends ChangeNotifier {
         token = user.token;
       });
     }
-      notifyListeners();
-
+    notifyListeners();
   }
 
   void signup(BuildContext context,
@@ -68,4 +73,8 @@ class UserProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Link get link => _token != null
+      ? AuthLink(getToken: () => 'Bearer $token').concat(_httpLink)
+      : _httpLink;
 }
