@@ -85,20 +85,13 @@ void main() async {
   // ignore: unused_local_variable
   final uri = kReleaseMode ? prodUri : devUri;
 
-  _httpLink = HttpLink(prodUri);
+  // _httpLink = HttpLink(prodUri);
+  _httpLink = HttpLink(uri);
 
   _client = GraphQLClient(
     cache: GraphQLCache(),
     link: _httpLink,
   );
-
-  // _client = GraphQLClient(
-  //   cache: GraphQLCache(),
-  //   link: AuthLink(
-  //           getToken: () =>
-  //               'Bearer ')
-  //       .concat(_httpLink),
-  // );
 
   _networkInfo = NetworkInfoImplementation();
 
@@ -191,29 +184,35 @@ void main() async {
       builder: (context, child) {
         Provider.of<AuthenticationRepository>(context, listen: false)
             .getUser()
-            .then(
-          (value) {
-            var data = value.fold((e) => null, (token) => token);
+            .then((value) {
+          var data = value.fold((e) => null, (token) => token);
 
-            if (value.isRight && data != null) {
-              Provider.of<UserProvider>(context, listen: false).token =
-                  data.toString();
+          var provider = Provider.of<UserProvider>(context, listen: false);
 
-              _client = GraphQLClient(
-                cache: GraphQLCache(),
-                link: AuthLink(getToken: () => 'Bearer ${data.toString()}')
-                    .concat(_httpLink),
-              );
-            } else {
-              Provider.of<UserProvider>(context, listen: false).token = null;
-              _client = GraphQLClient(
-                cache: GraphQLCache(),
-                link: _httpLink,
-              );
-            }
-          },
-        );
+          if (value.isRight && data != null) {
+            provider.token = data.toString();
+          } else {
+            provider.token = null;
+          }
 
+          _client = GraphQLClient(
+            cache: GraphQLCache(),
+            link: provider.link,
+          );
+
+          Provider.of<ProfileRepository>(context, listen: false).remote.client =
+              _client;
+          Provider.of<TransactionRepository>(context, listen: false)
+              .remote
+              .client = _client;
+
+          Provider.of<DiscountRepository>(context, listen: false).remote;
+          Provider.of<InventoryRepository>(context, listen: false)
+              .remote
+              .client = _client;
+          Provider.of<TaxRepository>(context, listen: false).remote.client =
+              _client;
+        });
         return MyApp();
       },
     ),
@@ -231,7 +230,6 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: XPosTheme.lightTheme,
-      darkTheme: XPosTheme.darkTheme,
       themeMode: currentTheme.currentTheme,
       home: Consumer<UserProvider>(
         builder: (context, user, child) {
