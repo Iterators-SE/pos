@@ -5,13 +5,14 @@ import 'package:meta/meta.dart';
 import '../../core/error/exception.dart';
 import '../../core/error/failure.dart';
 import '../../core/network/network_info.dart';
-import '../../datasources/discount/discount_datasource.dart';
+import '../../datasources/discount/discount_local_datasource.dart';
+import '../../datasources/discount/discount_remote_datasource.dart';
 import '../../models/discounts.dart';
 import 'discount_repository.dart';
 
 class DiscountRepository implements IDiscountRepository {
-  final IDiscountRemoteDataSource remote;
-  final IDiscountLocalDataSource local;
+  final DiscountRemoteDataSource remote;
+  final DiscountLocalDataSource local;
   final NetworkInfo network;
 
   DiscountRepository(
@@ -32,14 +33,13 @@ class DiscountRepository implements IDiscountRepository {
       } catch (e) {
         return Left(UnhandledFailure());
       }
-    }
-    else {
-      try{final data = await local.getDiscount(id: id);
-      return Right(data);
-      }
-      on CacheException{
+    } else {
+      try {
+        final data = await local.getDiscount(id: id);
+        return Right(Discount.fromJson(data.toJson()));
+      } on CacheException {
         return Left(CacheFailure());
-      }catch (e){
+      } catch (e) {
         return Left(UnhandledFailure());
       }
     }
@@ -47,28 +47,29 @@ class DiscountRepository implements IDiscountRepository {
 
   @override
   Future<Either<Failure, List<Discount>>> getDiscounts() async {
-    if(await network.isConnected()){try {
-      final data = await remote.getDiscounts();
-      return Right(data);
-    } on OperationException catch (e) {
-      return Left(OperationFailure(e.graphqlErrors.first.message));
-    } on NoResultsFoundException {
-      return Left(NoResultsFoundFailure());
-    } on Exception {
-      return Left(ServerFailure());
-    } catch (e) {
-      return Left(UnhandledFailure());
-    }}
-    else {
-      try{final data = await local.getDiscounts();
-      return Right(data);
-      }
-      on CacheException{
-        return Left(CacheFailure());
-      }catch (e){
+    if (await network.isConnected()) {
+      try {
+        final data = await remote.getDiscounts();
+        return Right(data);
+      } on OperationException catch (e) {
+        return Left(OperationFailure(e.graphqlErrors.first.message));
+      } on NoResultsFoundException {
+        return Left(NoResultsFoundFailure());
+      } on Exception {
+        return Left(ServerFailure());
+      } catch (e) {
         return Left(UnhandledFailure());
       }
-
+    } else {
+      try {
+        final data = await local.getDiscounts();
+        return Right(
+            data.map((e) => Discount.fromJson(e.toJson())).toList() ?? []);
+      } on CacheException {
+        return Left(CacheFailure());
+      } catch (e) {
+        return Left(UnhandledFailure());
+      }
     }
   }
 
