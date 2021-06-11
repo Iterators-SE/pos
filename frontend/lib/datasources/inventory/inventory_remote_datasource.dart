@@ -29,6 +29,10 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
         ),
       );
 
+      if (responseProduct.hasException) {
+        throw responseProduct.exception;
+      }
+
       var data = responseProduct.data['addProduct'];
       var productId = await int.parse(data['id']);
 
@@ -114,18 +118,31 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
         throw response.exception;
       }
 
-      var data = jsonEncode(response.data['getProducts']);
-      data = jsonDecode(data);
+      // TODO: Alan pls fix this bug
+      // List<Object> data = jsonEncode(response.data['getProducts']);
+      String data = jsonEncode(response.data['getProducts']);
+      List list = jsonDecode(data);
 
+      print('client ${client.link}');
+      print('data ${list.runtimeType}');
       if (data == null) {
-        return [];
+        return <Product>[];
       }
 
-      List<Product> decoded =  jsonDecode(data)
-          .map<Product>((product) => Product.fromJson(product))
-          .toList();
-      return decoded;
+      // print(list);
+      print(list.length);
+      var i = 1;
+      // print(data.last.runtimeType);
+      // print(List<Product>.from(data.map((e) => Product.fromJson(e))));
+      return list.map<Product>((product) {
+        print(i++);
+        // print(product.runtimeType);
+        // print(product);
+        // print('PROD ${Product.fromJson(product)}');
+        return Product.fromJson(product);
+      }).toList();
     } catch (e) {
+      print('e $e');
       rethrow;
     }
   }
