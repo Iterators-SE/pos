@@ -17,9 +17,9 @@ class MutationQuery {
   }
 
   String getProducts() {
-    return """
-      {
-        getProducts{
+    return r"""
+      query getProducts {
+        getProducts {
           id,
           name,
           description,
@@ -89,7 +89,7 @@ class MutationQuery {
 
   //variantQueries
 
-    String getVariants(int productId) {
+  String getVariants(int productId) {
     return """
       query {
         getVariants(productId: $productId){
@@ -144,7 +144,7 @@ class MutationQuery {
     """;
   }
 
-    String deleteAllVariants(int productId) {
+  String deleteAllVariants(int productId) {
     return """
       mutation {
         deleteAllVariants(productId: $productId)
@@ -169,8 +169,7 @@ class MutationQuery {
   }
 
   String updateGenericDiscount(
-    int id,
-      String description, int percentage, List<int> products) {
+      int id, String description, int percentage, List<int> products) {
     return """
       mutation{
         updateGenericDiscount(
@@ -247,7 +246,7 @@ class MutationQuery {
     """;
   }
 
-  String getDiscounts() { 
+  String getDiscounts() {
     return """
     query{
       getDiscounts{
@@ -269,7 +268,8 @@ class MutationQuery {
     }
     """;
   }
-  String deleteDiscount(int id){
+
+  String deleteDiscount(int id) {
     return """
     mutation{
       deleteDiscount(id : $id){}
