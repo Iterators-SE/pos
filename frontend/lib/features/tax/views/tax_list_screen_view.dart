@@ -10,11 +10,9 @@ abstract class TaxListScreenView {
   Widget body;
   String taxToSearch;
   bool isSearching;
-  Tax selectedTax;
 
   Future<List<Tax>> getTaxes(BuildContext context);
   void selectTax(BuildContext context, Tax tax);
-  void setSelectedTax(Tax tax);
   void setTaxToSearch(String name);
   void onError();
 }
