@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../core/state/app_state.dart';
 import '../../../models/tax.dart';
-import '../../../providers/tax_provider.dart';
+import '../../../repositories/tax/tax_repository_implementation.dart';
 import '../presenters/tax_list_presenter.dart';
 import '../views/tax_list_screen_view.dart';
 import 'pages/tax_list_view.dart';
@@ -99,8 +99,8 @@ class _TaxListScreenState extends State<TaxListScreen>
     setState(() {
       state = AppState.loading;
     });
-    var taxProvider = Provider.of<TaxProvider>(context, listen: false);
-    var getTaxesResult = await taxProvider.getTaxes(context);
+    var taxProvider = Provider.of<TaxRepository>(context, listen: false);
+    var getTaxesResult = await taxProvider.getTaxes();
     var result = getTaxesResult.fold((fail) => fail, (taxes) => taxes);
     if (getTaxesResult.isRight) {
  
@@ -137,8 +137,8 @@ class _TaxListScreenState extends State<TaxListScreen>
 
     
 
-    var taxProvider = Provider.of<TaxProvider>(context, listen: false);
-    var setTaxResult = await taxProvider.selectTax(context, tax);
+    var taxProvider = Provider.of<TaxRepository>(context, listen: false);
+    var setTaxResult = await taxProvider.selectTax(tax);
     if (setTaxResult.isRight) {
       setState(() {
         state = AppState.done;
