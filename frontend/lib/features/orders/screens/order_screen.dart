@@ -10,9 +10,9 @@ import '../../../models/discounts.dart';
 import '../../../models/product.dart';
 import '../../../models/product_variant.dart';
 import '../../../models/tax.dart';
-import '../../../providers/inventory_provider.dart';
 // ignore: unused_import
 import '../../../repositories/discount/discount_repository_implementation.dart';
+import '../../../repositories/inventory/inventory_repository_implementation.dart';
 import '../../../repositories/tax/tax_repository_implementation.dart';
 import '../models/order.dart';
 import '../presenters/order_screen_presenter.dart';
@@ -96,56 +96,8 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
 
   @override
   Future<Either<Failure, List<Product>>> getProducts() async {
-    return await Provider.of<InventoryProvider>(context, listen: false)
-        .getProducts(context);
-    // return Right([
-    //   Product(id: 2, name: "Poseidon", variants: [
-    //     ProductVariant(
-    //       variantId: 1,
-    //       price: 100,
-    //       quantity: 300,
-    //       variantName: "Small",
-    //       productId: 2,
-    //     ),
-    //     ProductVariant(
-    //       variantId: 2,
-    //       price: 120,
-    //       quantity: 40,
-    //       variantName: "Regular",
-    //       productId: 2,
-    //     ),
-    //     ProductVariant(
-    //       variantId: 3,
-    //       price: 180,
-    //       quantity: 3,
-    //       variantName: "Large",
-    //       productId: 2,
-    //     ),
-    //   ]),
-    //   Product(id: 1, name: "Olympus Cappucino", variants: [
-    //     ProductVariant(
-    //       variantId: 4,
-    //       price: 100,
-    //       quantity: 300,
-    //       variantName: "Small",
-    //       productId: 1,
-    //     ),
-    //     ProductVariant(
-    //       variantId: 5,
-    //       price: 120,
-    //       quantity: 40,
-    //       variantName: "Regular",
-    //       productId: 1,
-    //     ),
-    //     ProductVariant(
-    //       variantId: 6,
-    //       price: 180,
-    //       quantity: 3,
-    //       variantName: "Large",
-    //       productId: 1,
-    //     ),
-    //   ]),
-    // ]);
+    return await Provider.of<InventoryRepository>(context, listen: false)
+        .getProducts();
   }
 
   @override
