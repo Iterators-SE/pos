@@ -182,37 +182,6 @@ void main() async {
         )
       ],
       builder: (context, child) {
-        Provider.of<AuthenticationRepository>(context, listen: false)
-            .getUser()
-            .then((value) {
-          var data = value.fold((e) => null, (token) => token);
-
-          var provider = Provider.of<UserProvider>(context, listen: false);
-
-          if (value.isRight && data != null) {
-            provider.token = data.toString();
-          } else {
-            provider.token = null;
-          }
-
-          _client = GraphQLClient(
-            cache: GraphQLCache(),
-            link: provider.link,
-          );
-
-          Provider.of<ProfileRepository>(context, listen: false).remote.client =
-              _client;
-          Provider.of<TransactionRepository>(context, listen: false)
-              .remote
-              .client = _client;
-
-          Provider.of<DiscountRepository>(context, listen: false).remote;
-          Provider.of<InventoryRepository>(context, listen: false)
-              .remote
-              .client = _client;
-          Provider.of<TaxRepository>(context, listen: false).remote.client =
-              _client;
-        });
         return MyApp();
       },
     ),
@@ -233,6 +202,30 @@ class _MyAppState extends State<MyApp> {
       themeMode: currentTheme.currentTheme,
       home: Consumer<UserProvider>(
         builder: (context, user, child) {
+
+          var _client = GraphQLClient(
+            cache: GraphQLCache(),
+            link: user.link,
+          );
+
+          Provider.of<ProfileRepository>(context, listen: false).remote.client =
+            _client;
+          Provider.of<TransactionRepository>(context, listen: false)
+            .remote
+            .client = _client;
+
+          Provider.of<DiscountRepository>(context, listen: false)
+          .remote.client = _client;
+
+          Provider.of<InventoryRepository>(context, listen: false)
+            .remote
+            .client = _client;
+
+          Provider.of<TaxRepository>(context, listen: false)
+            .remote
+            .client = _client;
+
+
           return user.token != null ? HomeScreen() : AuthenticationScreen();
         },
       ),
