@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../core/state/app_state.dart';
 import '../../../../models/user_profile.dart';
+import '../../../../repositories/profile/profile_repository_implementation.dart';
 import '../widgets/textfield_widget.dart';
 import 'edit_profile_page.dart';
 
@@ -16,14 +18,32 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void initState() {
-    state = AppState.done;
-    profileData = UserProfile(
-        address: "Fake adress",
-        email: "fake email",
-        id: 1,
-        name: "Fake name",
-        receiptMessage: "Fake id");
+    getUserDetails(context).then((value){
+      
+    if (value.email.isNotEmpty) {
+      setState(() {
+        profileData = value;
+        state = AppState.done;
+      });
+     
+    } else {
+      setState(() {
+        state = AppState.error;
+      });
+    }
+    });
     super.initState();
+  }
+
+  Future<UserProfile> getUserDetails(BuildContext context) async {
+    setState(() {
+      state = AppState.loading;
+    });
+
+    var provider = Provider.of<ProfileRepository>(context, listen: false);
+    var profileResult = await provider.getProfileInfo();
+    var profile = profileResult.fold((fail) => UserProfile(), (data) => data);
+    return profile;
   }
 
   @override

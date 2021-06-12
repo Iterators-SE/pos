@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../core/state/app_state.dart';
 import '../../../../models/user_profile.dart';
+import '../../../../repositories/profile/profile_repository_implementation.dart';
 
 class EditProfilePage extends StatefulWidget {
   final UserProfile profile;
@@ -95,8 +97,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
             ),
             SizedBox(height: 20),
             ElevatedButton(
-                onPressed: () {
-                  // updateInfo();
+                onPressed: () async {
+                  var provider =
+                      Provider.of<ProfileRepository>(context, listen: false);
+                  await provider.updateProfileInfo(profileData);
                 },
                 child: Text("Save Changes"))
           ],
