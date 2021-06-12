@@ -118,29 +118,22 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
         throw response.exception;
       }
 
-      // TODO: Alan pls fix this bug
-      // List<Object> data = jsonEncode(response.data['getProducts']);
+      print(response.data['getProducts']);
+
+
       var data = jsonEncode(response.data['getProducts']);
-      List list = jsonDecode(data);
-
-      print('client ${client.link}');
-      print('data ${list.runtimeType}');
-      if (data == null) {
-        return <Product>[];
-      }
-
-      // print(list);
-      print(list.length);
-      var i = 1;
-      // print(data.last.runtimeType);
-      // print(List<Product>.from(data.map((e) => Product.fromJson(e))));
-      return list.map<Product>((product) {
-        print(i++);
-        // print(product.runtimeType);
-        // print(product);
-        // print('PROD ${Product.fromJson(product)}');
-        return Product.fromJson(product);
+      print(data.runtimeType);
+      List listOfProductJson = jsonDecode(data);
+      var products = listOfProductJson.map((productJson) {
+        return Product.fromJson(productJson);
       }).toList();
+
+      // print(products.first.name);
+      // print(products.first.variants.first.variantName);
+      // print(products.runtimeType);
+      // print(products.first.variants.runtimeType);
+
+      return products;
     } catch (e) {
       print('e $e');
       rethrow;
