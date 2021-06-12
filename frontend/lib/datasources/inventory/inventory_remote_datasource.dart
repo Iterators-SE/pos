@@ -26,6 +26,7 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
             queries.addProduct(product.name, product.description,
                 product.isTaxable, product.photoLink),
           ),
+          fetchPolicy: FetchPolicy.networkOnly
         ),
       );
 
@@ -72,6 +73,7 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
       final responseProduct = await client.query(
         QueryOptions(
           document: gql(queries.deleteProduct(productId)),
+          fetchPolicy: FetchPolicy.networkOnly
         ),
       );
 
@@ -92,7 +94,10 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
   Future<Product> getProductDetails({int productId}) async {
     try {
       final response = await client.query(
-        QueryOptions(document: gql(queries.getProductDetails(productId))),
+        QueryOptions(
+          document: gql(queries.getProductDetails(productId)),
+          fetchPolicy: FetchPolicy.networkOnly
+        ),
       );
 
       if (response.hasException) {
@@ -112,6 +117,7 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
       final response = await client.query(
         QueryOptions(
           document: gql(queries.getProducts()),
+          fetchPolicy: FetchPolicy.networkOnly
         ),
       );
 
@@ -148,6 +154,7 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
             queries.changeProductDetails(product.id, product.name,
                 product.description, product.isTaxable, product.photoLink),
           ),
+          fetchPolicy: FetchPolicy.networkOnly
         ),
       );
 
@@ -171,7 +178,9 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
             queries.addVariant(
                 variant.name, variant.quantity, variant.price, productId),
           ),
+          fetchPolicy: FetchPolicy.networkOnly
         ),
+        
       );
 
       if (response.hasException) {
@@ -193,6 +202,7 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
           document: gql(
             queries.deleteAllVariants(productId),
           ),
+          fetchPolicy: FetchPolicy.networkOnly
         ),
       );
 
@@ -216,6 +226,7 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
           document: gql(
             queries.deleteVariant(productVariantId),
           ),
+          fetchPolicy: FetchPolicy.networkOnly
         ),
       );
 
@@ -239,6 +250,7 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
             queries.editVariant(variant.variantName, variant.quantity,
                 variant.price, variant.variantId),
           ),
+          fetchPolicy: FetchPolicy.networkOnly
         ),
       );
 
