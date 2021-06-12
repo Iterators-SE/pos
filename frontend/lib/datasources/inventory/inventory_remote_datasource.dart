@@ -20,8 +20,8 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
   @override
   Future<bool> addProduct({NewProduct product}) async {
     try {
-      final responseProduct = await client.query(
-        QueryOptions(
+      final responseProduct = await client.mutate(
+        MutationOptions(
           document: gql(
             queries.addProduct(product.name, product.description,
                 product.isTaxable, product.photoLink),
@@ -39,13 +39,14 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
       var result;
 
       for (final variant in product.variants) {
-        result = await client.query(
-          QueryOptions(
+        result = await client.mutate(
+          MutationOptions(
             document: gql(queries.addVariant(
                 variant.name, variant.quantity, variant.price, productId)),
           ),
         );
       }
+      print(await getProducts());
       return await result.data['addVariant'];
     } catch (e) {
       rethrow;
@@ -55,8 +56,8 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
   @override
   Future<bool> deleteProduct({int productId}) async {
     try {
-      final responseVariants = await client.query(
-        QueryOptions(
+      final responseVariants = await client.mutate(
+        MutationOptions(
           document: gql(
             queries.deleteAllVariants(productId),
           ),
@@ -120,7 +121,6 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
 
       print(response);
 
-
       var data = jsonEncode(response.data['getProducts']);
       List listOfProductJson = jsonDecode(data);
       var products = await listOfProductJson.map((productJson) {
@@ -132,7 +132,6 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
       // print(products.runtimeType);
       // print(products.first.variants.runtimeType);
 
-
       return products;
     } catch (e) {
       print('e $e');
@@ -143,8 +142,8 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
   @override
   Future<bool> changeProductDetails({Product product}) async {
     try {
-      final response = await client.query(
-        QueryOptions(
+      final response = await client.mutate(
+        MutationOptions(
           document: gql(
             queries.changeProductDetails(product.id, product.name,
                 product.description, product.isTaxable, product.photoLink),
@@ -166,8 +165,8 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
   @override
   Future<bool> addVariant({NewVariant variant, int productId}) async {
     try {
-      final response = await client.query(
-        QueryOptions(
+      final response = await client.mutate(
+        MutationOptions(
           document: gql(
             queries.addVariant(
                 variant.name, variant.quantity, variant.price, productId),
@@ -189,8 +188,8 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
   @override
   Future<bool> deleteAllVariants({int productId}) async {
     try {
-      final response = await client.query(
-        QueryOptions(
+      final response = await client.mutate(
+        MutationOptions(
           document: gql(
             queries.deleteAllVariants(productId),
           ),
@@ -212,8 +211,8 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
   @override
   Future<bool> deleteVariant({int productVariantId}) async {
     try {
-      final response = await client.query(
-        QueryOptions(
+      final response = await client.mutate(
+        MutationOptions(
           document: gql(
             queries.deleteVariant(productVariantId),
           ),
@@ -234,8 +233,8 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
   @override
   Future<bool> editVariant({ProductVariant variant}) async {
     try {
-      final response = await client.query(
-        QueryOptions(
+      final response = await client.mutate(
+        MutationOptions(
           document: gql(
             queries.editVariant(variant.variantName, variant.quantity,
                 variant.price, variant.variantId),
