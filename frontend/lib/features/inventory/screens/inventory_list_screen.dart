@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/repositories/inventory/inventory_repository_implementation.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/state/app_state.dart';
 import '../../../models/product.dart';
-import '../../../providers/inventory_provider.dart';
+import '../../../repositories/inventory/inventory_repository_implementation.dart';
 import '../presenters/inventory_list_presenter.dart';
 import '../views/inventory_list_screen_view.dart';
 import 'add_product_screen.dart';
