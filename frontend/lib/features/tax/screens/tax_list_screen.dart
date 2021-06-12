@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/core/themes/config.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/state/app_state.dart';
@@ -8,6 +9,7 @@ import '../presenters/tax_list_presenter.dart';
 import '../views/tax_list_screen_view.dart';
 import 'pages/tax_list_view.dart';
 import 'tax_add_screen.dart';
+
 
 class TaxListScreen extends StatefulWidget {
   const TaxListScreen({Key key}) : super(key: key);
@@ -87,10 +89,46 @@ class _TaxListScreenState extends State<TaxListScreen>
           );
         }
       ),
-      appBar: AppBar(
-        title: Text("Taxes List"),
-      ),
-      body: _presenter.body(),
+      // appBar: AppBar(
+      //   title: Text("Taxes List"),
+      // ),
+      body: Column(children: [
+        Container(
+          margin: EdgeInsets.only(bottom: 40),
+          height: 125,
+          decoration: BoxDecoration(
+            color: xposGreen[300],
+            borderRadius: BorderRadius.only(
+              //bottomLeft: Radius.circular(30),
+              bottomRight: Radius.circular(30),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey[600],
+                offset: Offset(0, 10.0),
+                blurRadius: 25,
+                spreadRadius: 1.50
+              )
+            ]
+          ),
+          //margin: EdgeInsets.only(top: 50),
+          padding: EdgeInsets.only(left: 30, right: 30, bottom: 30),
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: Text(
+                "TAXES",
+                style: TextStyle(
+                  fontFamily: "Montserrat Superbold",
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white
+                ),
+              ),
+            )
+          ),
+          _presenter.body()
+      ],),
+      //body: _presenter.body(),
     );
   }
 

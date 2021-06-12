@@ -231,6 +231,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: XPosTheme.lightTheme,
+      debugShowCheckedModeBanner: false,
       darkTheme: XPosTheme.darkTheme,
       themeMode: currentTheme.currentTheme,
       home: Consumer<UserProvider>(

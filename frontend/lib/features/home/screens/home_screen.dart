@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/core/themes/config.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -159,32 +160,56 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
     // getData(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text("XPOS", textAlign: TextAlign.center),
+        backgroundColor: xposGreen[300],
+        elevation: 0,
+        //leading: Icon(Icons.segment),
         actions: [
           IconButton(
-            icon: Icon(Icons.logout),
+            icon: Icon(
+              Icons.logout,
+              color: Colors.white,
+              ),
             onPressed: () => Provider.of<UserProvider>(context, listen: false)
                 .logout(context),
           )
         ],
       ),
-      // drawer: Drawer(
-      //   child: Container(
-      //     color: Color(XPosTheme.primaryColor),
-      //     child: Container(
-      //       margin: EdgeInsets.only(top: 250),
-      //       child: ListView(
-      //         children:
-      //             drawerList.map((item) => DrawerListItem(item: item))
-      //             .toList(),
-      //       ),
-      //     ),
-      //   ),
-      // ),
+      drawer: Drawer(
+      ),
       body: ReorderableListView(
-        header: Center(
-          child: Image(image: AssetImage("assets/images/xpos_home_logo.png")),
-        ),
+        header: Container(
+          margin: EdgeInsets.only(bottom: 40),
+          height: 125,
+          decoration: BoxDecoration(
+            color: xposGreen[300],
+            borderRadius: BorderRadius.only(
+              //bottomLeft: Radius.circular(30),
+              bottomRight: Radius.circular(30),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey[600],
+                offset: Offset(0, 10.0),
+                blurRadius: 25,
+                spreadRadius: 1.50
+              )
+            ]
+          ),
+          //margin: EdgeInsets.only(top: 50),
+          padding: EdgeInsets.only(left: 30, right: 30, bottom: 30),
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: Text(
+                "Welcome back",
+                style: TextStyle(
+                  fontFamily: "Montserrat",
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white
+                ),
+              ),
+            )
+          ),
         children: menuItems
             .map((element) => MenuItemCard(
                   key: Key(element.option),
