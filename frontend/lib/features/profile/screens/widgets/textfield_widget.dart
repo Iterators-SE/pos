@@ -18,22 +18,11 @@ class TextFieldWidget extends StatefulWidget {
 }
 
 class _TextFieldWidgetState extends State<TextFieldWidget> {
-  TextEditingController _controller = TextEditingController();
 
   // _TextFieldWidgetState(this.controller);
 
-  @override
-  void initState() {
-    super.initState();
 
-    _controller = TextEditingController(text: widget.text);
-  }
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +34,9 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
         ),
         SizedBox(height: 10),
-        TextField(
-          controller: _controller,
+        TextFormField(
+          readOnly: true,
+          initialValue: "${widget.text}",
           decoration: InputDecoration(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
