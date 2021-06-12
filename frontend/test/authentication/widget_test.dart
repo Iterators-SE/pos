@@ -1,4 +1,14 @@
 import 'package:either_option/either_option.dart';
+import 'package:frontend/datasources/discount/discount_remote_datasource.dart';
+import 'package:frontend/datasources/inventory/inventory_remote_datasource.dart';
+import 'package:frontend/datasources/profile/profile_remote_datasource.dart';
+import 'package:frontend/datasources/tax/tax_remote_datasource.dart';
+import 'package:frontend/datasources/transactions/transaction_remote_datasource.dart';
+import 'package:frontend/repositories/discount/discount_repository_implementation.dart';
+import 'package:frontend/repositories/profile/profile_repository_implementation.dart';
+import 'package:frontend/repositories/tax/tax_repository_implementation.dart';
+import 'package:frontend/repositories/transactions/transaction_repository_implementation.dart';
+import 'package:graphql/client.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter/material.dart';
@@ -37,12 +47,57 @@ class MockAuthenticationRepository extends Mock
   }
 }
 
-class MockInventoryRepository extends Mock implements InventoryRepository {}
+class MockTransactionRepository extends Mock implements TransactionRepository {
+  TransactionRemoteDataSource remote = TransactionRemoteDataSource(
+    client: GraphQLClient(link: HttpLink("fakeLink.com"), cache: GraphQLCache())
+  );
+}
+
+class MockInventoryRepository extends Mock implements InventoryRepository {
+    InventoryRemoteDataSource remote = InventoryRemoteDataSource(
+    client: GraphQLClient(
+      link: HttpLink("fakeLink.com"), 
+      cache: GraphQLCache(),
+    ),
+  );
+}
+
+class MockDiscountRepository extends Mock implements DiscountRepository {
+    DiscountRemoteDataSource remote = DiscountRemoteDataSource(
+    client: GraphQLClient(
+      link: HttpLink("fakeLink.com"), 
+      cache: GraphQLCache(),
+    ), local: null, storage: null,
+  );
+}
+
+class MockProfileRepository extends Mock implements ProfileRepository {
+  ProfileRemoteDatasource remote = ProfileRemoteDatasource(
+    client: GraphQLClient(
+      link: HttpLink("fakeLink.com"), 
+      cache: GraphQLCache(),
+    ),
+  );
+}
+
+class MockTaxRepository extends Mock implements TaxRepository {
+    TaxRemoteDataSource remote = TaxRemoteDataSource(
+    client: GraphQLClient(
+      link: HttpLink("fakeLink.com"), 
+      cache: GraphQLCache(),
+    ),
+  );
+}
 
 void main() {
   testWidgets('Authentication: Login smoke test', (tester) async {
+
     final _authenticationRepository = MockAuthenticationRepository();
     final _inventoryRepository = MockInventoryRepository();
+    final _transactionRepository = MockTransactionRepository();
+    final _discountRepository = MockDiscountRepository();
+    final _profileRepository = MockProfileRepository();
+    final _taxRepository = MockTaxRepository();
 
     await tester.pumpWidget(
       MultiProvider(
@@ -56,21 +111,20 @@ void main() {
           Provider<InventoryRepository>(
             create: (context) => _inventoryRepository,
           ),
+          Provider<TransactionRepository>(
+            create: (context) => _transactionRepository,
+          ),
+          Provider<DiscountRepository>(
+            create: (context) => _discountRepository,
+          ),
+          Provider<ProfileRepository>(
+            create: (context) => _profileRepository,
+          ),
+          Provider<TaxRepository>(
+            create: (context) => _taxRepository,
+          ),
         ],
         builder: (context, child) {
-          Provider.of<AuthenticationRepository>(context, listen: false)
-              .getUser()
-              .then(
-            (value) {
-              var data = value.fold((e) => null, (token) => token);
-
-              value.isRight && data != null
-                  ? Provider.of<UserProvider>(context, listen: false).token =
-                      data.toString()
-                  : null;
-            },
-          );
-
           return MyApp();
         },
       ),
