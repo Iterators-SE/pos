@@ -9,7 +9,7 @@ import 'transaction_datasource.dart';
 class TransactionRemoteDataSource implements ITransactionRemoteDataSource {
   TransactionRemoteDataSource({this.client});
 
-  final GraphQLClient client;
+  GraphQLClient client;
 
   @override
   Future<Transaction> createTransaction({List<Order> orders}) async {

@@ -1,5 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter/material.dart';
+
+import 'widgets/action_button.dart';
+import 'widgets/logo.dart';
+import 'widgets/network_button.dart';
 
 class SignupWidget extends StatefulWidget {
   final GlobalKey<FormState> formKey;
@@ -28,12 +32,7 @@ class _SignupWidgetState extends State<SignupWidget> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Spacer(),
-            Container(
-              constraints: BoxConstraints(maxHeight: 150),
-              child: Image(
-                image: AssetImage('assets/images/Xpos.png'),
-              ),
-            ),
+            XposLogo(),
             Padding(
               padding: EdgeInsets.only(top: 40, bottom: 5),
               child: Align(
@@ -59,6 +58,17 @@ class _SignupWidgetState extends State<SignupWidget> {
                 ),
               ),
             ),
+            TextFormField(
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  hintText: 'Enter store name',
+                  labelText: 'Store Name'),
+              validator: (value) =>
+                  value.isEmpty ? "Store name can\'t be empty" : null,
+              onChanged: (value) => setState(() => name = value),
+            ),
+            SizedBox(height: 20),
             TextFormField(
               autovalidateMode: AutovalidateMode.onUserInteraction,
               decoration: InputDecoration(
@@ -94,48 +104,22 @@ class _SignupWidgetState extends State<SignupWidget> {
                       : null,
               onChanged: (value) => setState(() => password = value),
             ),
-            SizedBox(height: 20),
-            TextFormField(
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  hintText: 'Enter store name',
-                  labelText: 'Store Name'),
-              validator: (value) =>
-                  value.isEmpty ? "Store name can\'t be empty" : null,
-              onChanged: (value) => setState(() => name = value),
-            ),
             Spacer(),
-            Container(
-              height: 40,
-              width: 80,
-              decoration: BoxDecoration(
-                color: Colors.green[900],
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: MaterialButton(
-                onPressed: () {
-                  widget.formKey.currentState.validate()
-                      ? widget.signup()(context, email, name, password)
-                      : null;
-                },
-                child: Text(
-                  'Signup',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
+            NetworkButton(
+              onPressed: () {
+                widget.formKey.currentState.validate()
+                    ? widget.signup()(context, email, name, password)
+                    : null;
+              },
+              text: 'Signup',
+              buttonKey: 'signup',
             ),
             Align(
               alignment: Alignment.centerRight,
-              child: MaterialButton(
-                child: RichText(
-                  text: TextSpan(
-                    text: 'Already have an account? ',
-                    style: TextStyle(color: Colors.grey[500], fontSize: 12),
-                    children: [TextSpan(text: 'Login!')],
-                  ),
-                ),
-                onPressed: widget.toggle,
+              child: ActionButton(
+                toggle: widget.toggle,
+                text: 'Already have an account? ',
+                textSpanText: 'Login!',
               ),
             ),
             Spacer()

@@ -2,16 +2,17 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/core/themes/config.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../core/themes/config.dart';
 import '../../../providers/user_provider.dart';
 import '../../discount/screen/discount_screen.dart';
 import '../../inventory/screens/inventory_list_screen.dart';
 import '../../orders/screens/order_screen.dart';
 import '../../profile/screens/page/profile_page.dart';
 import '../../tax/screens/tax_list_screen.dart';
+import '../../transactions/screens/transaction_screen.dart';
 import '../models/menu_item.dart';
 import '../presenters/home_screen_presenter.dart';
 import '../views/home_screen_view.dart';
@@ -61,14 +62,14 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
   void onReorder(int oldIndex, int newIndex) {
     if (newIndex > oldIndex) {
       newIndex -= 1;
-
-      setState(() {
-        final item = menuItems.removeAt(oldIndex);
-        menuItems.insert(newIndex, item);
-      });
-
-      persistOrder();
     }
+
+    setState(() {
+      final item = menuItems.removeAt(oldIndex);
+      menuItems.insert(newIndex, item);
+    });
+
+    persistOrder();
   }
 
   @override
@@ -85,13 +86,6 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
   void initState() {
     _presenter = HomeScreenPresenter();
     _presenter.attachView(this);
-
-    drawerList = [
-      "Add User",
-      "Edit Business Detail",
-      "Tutorial",
-      "Upgrade to Pro"
-    ];
 
     defaultItemMap = {
       'PROCESS ORDERS': () => _presenter.navigate(
@@ -112,6 +106,8 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
           ),
       'TAXES': () => _presenter.navigate(
           context, MaterialPageRoute(builder: (context) => TaxListScreen())),
+      'TRANSACTIONS': () => _presenter.navigate(context,
+          MaterialPageRoute(builder: (context) => TransactionScreen())),
       'USER': () => _presenter.navigate(
             context,
             MaterialPageRoute(builder: (context) => ProfilePage()),
@@ -143,6 +139,11 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
         url: "assets/images/user.png",
         onTap: defaultItemMap['USER'],
       ),
+      MenuItem(
+        option: "TRANSACTIONS",
+        url: "assets/images/user.png",
+        onTap: defaultItemMap['TRANSACTIONS'],
+      ),
     ];
 
     getMenuItems().then(
@@ -157,7 +158,6 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
 
   @override
   Widget build(BuildContext context) {
-    // getData(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: xposGreen[300],

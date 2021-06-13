@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../core/error/failure.dart';
+import '../../../core/state/app_state.dart';
 import '../../../providers/user_provider.dart';
 import '../presenter/authentication_screen_presenter.dart';
 import '../views/authentication_screen_view.dart';
-import 'widgets/login_view.dart';
-import 'widgets/signup_view.dart';
+import 'login_view.dart';
+import 'signup_view.dart';
 
 class AuthenticationScreen extends StatefulWidget {
   @override
@@ -18,6 +20,12 @@ class _AuthenticationScreenState extends State<AuthenticationScreen>
 
   @override
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  @override
+  AppState appState = AppState.done;
+
+  @override
+  Failure error;
 
   @override
   bool isLogin;
@@ -57,18 +65,36 @@ class _AuthenticationScreenState extends State<AuthenticationScreen>
 
   @override
   void onError(BuildContext context) {
-    // TODO: implement onError
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(error.message)),
+    );
   }
 
   @override
   void onLogin(BuildContext context, String email, String password) async {
+    setState(() => appState = AppState.loading);
     var provider = Provider.of<UserProvider>(context, listen: false);
     await provider.login(context, email: email, password: password);
+
+    setState(() => appState = AppState.done);
+
+    var data = provider.loggedIn;
+    var right = provider.loggedIn.fold(
+      (failure) => failure,
+      (success) => success,
+    );
+
+    if (data.isLeft) {
+      setState(() => error = right);
+      onError(context);
+    }
   }
 
   @override
   void onSignup(
       BuildContext context, String email, String name, String password) async {
+    setState(() => appState = AppState.loading);
+
     var provider = Provider.of<UserProvider>(context, listen: false);
     await provider.signup(
       context,
@@ -77,7 +103,25 @@ class _AuthenticationScreenState extends State<AuthenticationScreen>
       password: password,
     );
 
-    // show alert dialog on success or fail
+    setState(() => appState = AppState.done);
+
+    var data = provider.signedUp;
+    var right = provider.signedUp.fold(
+      (failure) => failure,
+      (success) => success,
+    );
+
+    if (data.isLeft) {
+      setState(() => error = right);
+      onError(context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+              "Don't forget to validate your account by checking your email!"),
+        ),
+      );
+    }
   }
 
   @override

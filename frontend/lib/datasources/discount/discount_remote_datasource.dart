@@ -9,12 +9,12 @@ import 'discount_datasource.dart';
 import 'discount_local_datasource.dart';
 
 class DiscountRemoteDataSource implements IDiscountRemoteDataSource {
-  DiscountRemoteDataSource(
-      {@required this.client, @required this.local, @required this.storage});
-
   final DiscountLocalDataSource local;
   final SharedPreferences storage;
-  final GraphQLClient client;
+  GraphQLClient client;
+
+  DiscountRemoteDataSource(
+      {@required this.client, @required this.local, @required this.storage});
 
   @override
   Future<Discount> getDiscount({@required int id}) async {

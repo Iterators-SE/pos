@@ -1,5 +1,4 @@
 import { Resolver, Query, Arg, Mutation, Authorized, Ctx } from "type-graphql";
-import { Any } from "typeorm";
 import { ChangeProductDetailsInput } from "../inputs/ChangeProductDetailsInput";
 import { Product } from "../models/Product";
 import { User } from "../models/User";
@@ -13,17 +12,15 @@ export class ProductResolver {
 
     async addProduct(@Ctx() ctx: Context, @Arg("name") name: string, @Arg("description") description: string, @Arg("isTaxable") isTaxable: boolean, @Arg("photoLink") photoLink: String) {
         const user = await User.findOne({id: ctx.currentUser.id});
-        let product;
-        
-        await Product.create({
+
+        let product = await Product.create({
           name: name,
           user: user,
           description: description,
           isTaxable: isTaxable,
           photoLink: `${photoLink}`,
-        }).save().then(value => product = value)
+        }).save();
 
-        console.log(product);
 
       return product;
     }

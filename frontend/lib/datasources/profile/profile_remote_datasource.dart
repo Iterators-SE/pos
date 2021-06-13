@@ -8,7 +8,7 @@ import 'profile_datasource.dart';
 class ProfileRemoteDatasource implements IProfileRemoteDataSource {
   ProfileRemoteDatasource({this.client});
 
-  final GraphQLClient client;
+  GraphQLClient client;
 
   Future<UserProfile> getProfileInfo() async {
     try {
