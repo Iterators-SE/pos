@@ -27,6 +27,9 @@ dependencies:
   email_validator: '^1.0.6'
   cupertino_icons: ^1.0.2
 
+  #SMS
+  flutter_sms: ^2.3.1
+
   # Charts
   graphic: ^0.3.0
   #Photo Storage
