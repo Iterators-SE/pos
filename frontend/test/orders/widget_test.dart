@@ -10,7 +10,6 @@ import 'package:frontend/models/discounts.dart';
 import 'package:frontend/models/product.dart';
 import 'package:frontend/models/product_variant.dart';
 import 'package:frontend/models/tax.dart';
-import 'package:frontend/providers/inventory_provider.dart';
 import 'package:frontend/providers/user_provider.dart';
 import 'package:frontend/repositories/discount/discount_repository_implementation.dart';
 import 'package:frontend/repositories/inventory/inventory_repository_implementation.dart';
@@ -131,10 +130,7 @@ void main() {
           Provider<TaxRepository>(
             create: (context) => _taxRepository,
           ),
-                  ChangeNotifierProvider<InventoryProvider>(
-          create: (_) => InventoryProvider(),
-        ),
-           ChangeNotifierProvider<UserProvider>(
+          ChangeNotifierProvider<UserProvider>(
           create: (_) => UserProvider(),
         ),
         ],
@@ -170,10 +166,7 @@ void main() {
           Provider<TaxRepository>(
             create: (context) => _taxRepository,
           ),
-                  ChangeNotifierProvider<InventoryProvider>(
-          create: (_) => InventoryProvider(),
-        ),
-                  ChangeNotifierProvider<UserProvider>(
+          ChangeNotifierProvider<UserProvider>(
           create: (_) => UserProvider(),
         ),
         ],

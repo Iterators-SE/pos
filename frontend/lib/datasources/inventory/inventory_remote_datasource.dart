@@ -20,12 +20,13 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
   @override
   Future<bool> addProduct({NewProduct product}) async {
     try {
-      final responseProduct = await client.query(
-        QueryOptions(
+      final responseProduct = await client.mutate(
+        MutationOptions(
           document: gql(
             queries.addProduct(product.name, product.description,
                 product.isTaxable, product.photoLink),
           ),
+          fetchPolicy: FetchPolicy.networkOnly
         ),
       );
 
@@ -39,13 +40,14 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
       var result;
 
       for (final variant in product.variants) {
-        result = await client.query(
-          QueryOptions(
+        result = await client.mutate(
+          MutationOptions(
             document: gql(queries.addVariant(
                 variant.name, variant.quantity, variant.price, productId)),
           ),
         );
       }
+      print(await getProducts());
       return await result.data['addVariant'];
     } catch (e) {
       rethrow;
@@ -55,8 +57,8 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
   @override
   Future<bool> deleteProduct({int productId}) async {
     try {
-      final responseVariants = await client.query(
-        QueryOptions(
+      final responseVariants = await client.mutate(
+        MutationOptions(
           document: gql(
             queries.deleteAllVariants(productId),
           ),
@@ -71,6 +73,7 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
       final responseProduct = await client.query(
         QueryOptions(
           document: gql(queries.deleteProduct(productId)),
+          fetchPolicy: FetchPolicy.networkOnly
         ),
       );
 
@@ -91,7 +94,10 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
   Future<Product> getProductDetails({int productId}) async {
     try {
       final response = await client.query(
-        QueryOptions(document: gql(queries.getProductDetails(productId))),
+        QueryOptions(
+          document: gql(queries.getProductDetails(productId)),
+          fetchPolicy: FetchPolicy.networkOnly
+        ),
       );
 
       if (response.hasException) {
@@ -111,6 +117,7 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
       final response = await client.query(
         QueryOptions(
           document: gql(queries.getProducts()),
+          fetchPolicy: FetchPolicy.networkOnly
         ),
       );
 
@@ -118,17 +125,15 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
         throw response.exception;
       }
 
-      print(response.data['getProducts']);
-
+      print(response);
 
       var data = jsonEncode(response.data['getProducts']);
-      print(data.runtimeType);
       List listOfProductJson = jsonDecode(data);
-      var products = listOfProductJson.map((productJson) {
+      var products = await listOfProductJson.map((productJson) {
         return Product.fromJson(productJson);
       }).toList();
 
-      // print(products.first.name);
+      // print(products);
       // print(products.first.variants.first.variantName);
       // print(products.runtimeType);
       // print(products.first.variants.runtimeType);
@@ -143,12 +148,13 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
   @override
   Future<bool> changeProductDetails({Product product}) async {
     try {
-      final response = await client.query(
-        QueryOptions(
+      final response = await client.mutate(
+        MutationOptions(
           document: gql(
             queries.changeProductDetails(product.id, product.name,
                 product.description, product.isTaxable, product.photoLink),
           ),
+          fetchPolicy: FetchPolicy.networkOnly
         ),
       );
 
@@ -166,13 +172,15 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
   @override
   Future<bool> addVariant({NewVariant variant, int productId}) async {
     try {
-      final response = await client.query(
-        QueryOptions(
+      final response = await client.mutate(
+        MutationOptions(
           document: gql(
             queries.addVariant(
                 variant.name, variant.quantity, variant.price, productId),
           ),
+          fetchPolicy: FetchPolicy.networkOnly
         ),
+        
       );
 
       if (response.hasException) {
@@ -189,11 +197,12 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
   @override
   Future<bool> deleteAllVariants({int productId}) async {
     try {
-      final response = await client.query(
-        QueryOptions(
+      final response = await client.mutate(
+        MutationOptions(
           document: gql(
             queries.deleteAllVariants(productId),
           ),
+          fetchPolicy: FetchPolicy.networkOnly
         ),
       );
 
@@ -212,11 +221,12 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
   @override
   Future<bool> deleteVariant({int productVariantId}) async {
     try {
-      final response = await client.query(
-        QueryOptions(
+      final response = await client.mutate(
+        MutationOptions(
           document: gql(
             queries.deleteVariant(productVariantId),
           ),
+          fetchPolicy: FetchPolicy.networkOnly
         ),
       );
 
@@ -234,12 +244,13 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
   @override
   Future<bool> editVariant({ProductVariant variant}) async {
     try {
-      final response = await client.query(
-        QueryOptions(
+      final response = await client.mutate(
+        MutationOptions(
           document: gql(
             queries.editVariant(variant.variantName, variant.quantity,
                 variant.price, variant.variantId),
           ),
+          fetchPolicy: FetchPolicy.networkOnly
         ),
       );
 

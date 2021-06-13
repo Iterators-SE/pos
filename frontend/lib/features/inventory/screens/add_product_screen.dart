@@ -51,11 +51,8 @@ class _AddProductScreenState extends State<AddProductScreen>
 
   Future<bool> addProduct(
       {BuildContext context, NewProduct product, PickedFile imageFile}) async {
+    var provider = Provider.of<InventoryRepository>(context, listen: false);
 
-      var provider =
-        await Provider.of<InventoryRepository>(context, listen: false);
-
-        
     setState(() {
       state = AppState.loading;
     });
@@ -88,10 +85,12 @@ class _AddProductScreenState extends State<AddProductScreen>
           "https://region4.uaw.org/sites/default/files/styles/large_square/public/bio/10546i3dac5a5993c8bc8c_6.jpg?itok=Iv9bC2vD&c=2e7651912d133fd4368c0dce602cd839";
     }
 
-    product.photoLink = await url;
+    product.photoLink = url;
+    print(product.name);
 
-    var result = await provider.addProduct(product: product);
-    if (result.isRight) {
+    var isSuccess =
+        await provider.addProduct(product: product);
+    if (isSuccess.isRight) {
       setState(() {
         state = AppState.successful;
       });
@@ -101,7 +100,7 @@ class _AddProductScreenState extends State<AddProductScreen>
       });
     }
 
-    return result.fold((fail) => false, (success) => success);
+    return isSuccess.isLeft;
   }
 
   @override

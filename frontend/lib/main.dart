@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:graphql/client.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,8 +29,6 @@ import 'datasources/transactions/transaction_remote_datasource.dart';
 import 'features/authentication/screens/authentication_screen.dart';
 import 'features/home/screens/home_screen.dart';
 import 'graphql/queries.dart';
-import 'providers/inventory_provider.dart';
-import 'providers/tax_provider.dart';
 import 'providers/user_provider.dart';
 import 'repositories/authentication/authentication_repository.dart';
 import 'repositories/authentication/authentication_repository_implementation.dart';
@@ -156,12 +153,6 @@ void main() async {
         ChangeNotifierProvider<UserProvider>(
           create: (_) => UserProvider(),
         ),
-        ChangeNotifierProvider<InventoryProvider>(
-          create: (_) => InventoryProvider(),
-        ),
-        ChangeNotifierProvider<TaxProvider>(
-          create: (_) => TaxProvider(),
-        ),
         Provider<ProfileRepository>(
           create: (context) => _profileRepository,
         ),
@@ -182,37 +173,6 @@ void main() async {
         )
       ],
       builder: (context, child) {
-        Provider.of<AuthenticationRepository>(context, listen: false)
-            .getUser()
-            .then((value) {
-          var data = value.fold((e) => null, (token) => token);
-
-          var provider = Provider.of<UserProvider>(context, listen: false);
-
-          if (value.isRight && data != null) {
-            provider.token = data.toString();
-          } else {
-            provider.token = null;
-          }
-
-          _client = GraphQLClient(
-            cache: GraphQLCache(),
-            link: provider.link,
-          );
-
-          Provider.of<ProfileRepository>(context, listen: false).remote.client =
-              _client;
-          Provider.of<TransactionRepository>(context, listen: false)
-              .remote
-              .client = _client;
-
-          Provider.of<DiscountRepository>(context, listen: false).remote;
-          Provider.of<InventoryRepository>(context, listen: false)
-              .remote
-              .client = _client;
-          Provider.of<TaxRepository>(context, listen: false).remote.client =
-              _client;
-        });
         return MyApp();
       },
     ),
@@ -234,6 +194,30 @@ class _MyAppState extends State<MyApp> {
       themeMode: currentTheme.currentTheme,
       home: Consumer<UserProvider>(
         builder: (context, user, child) {
+
+          var _client = GraphQLClient(
+            cache: GraphQLCache(),
+            link: user.link,
+          );
+
+          Provider.of<ProfileRepository>(context, listen: false).remote.client =
+            _client;
+          Provider.of<TransactionRepository>(context, listen: false)
+            .remote
+            .client = _client;
+
+          Provider.of<DiscountRepository>(context, listen: false)
+          .remote.client = _client;
+
+          Provider.of<InventoryRepository>(context, listen: false)
+            .remote
+            .client = _client;
+
+          Provider.of<TaxRepository>(context, listen: false)
+            .remote
+            .client = _client;
+
+
           return user.token != null ? HomeScreen() : AuthenticationScreen();
         },
       ),

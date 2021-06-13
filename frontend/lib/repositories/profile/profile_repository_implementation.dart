@@ -24,7 +24,7 @@ class ProfileRepository implements IProfileRepository {
 
   @override
   Future<Either<Failure, dynamic>> getProfileInfo() async {
-    if (await network.isConnected()) {
+    if (true) {
       try {
         final data = await remote.getProfileInfo();
         // await print("Repo");
@@ -40,22 +40,23 @@ class ProfileRepository implements IProfileRepository {
       } catch (e) {
         return Left(UnhandledFailure());
       }
-    } else {
-      try {
-        final data = await local.getProfileInfo();
-        return Right(data);
-      } on CacheException {
-        return Left(CacheFailure());
-      } catch (e) {
-        return Left(UnhandledFailure());
-      }
-    }
+    } 
+    // else {
+    //   try {
+    //     final data = await local.getProfileInfo();
+    //     return Right(data);
+    //   } on CacheException {
+    //     return Left(CacheFailure());
+    //   } catch (e) {
+    //     return Left(UnhandledFailure());
+    //   }
+    // }
   }
 
   @override
   Future<Either<Failure, UserProfile>> updateProfileInfo(
       UserProfile userProfile) async {
-    if (await network.isConnected()) {
+    if (true) {
       try {
         final data = await remote.updateProfileInfo(userProfile);
         // await print("Repo");
@@ -73,6 +74,6 @@ class ProfileRepository implements IProfileRepository {
       }
     }
 
-    return Left(UnhandledFailure());
+    // return Left(UnhandledFailure());
   }
 }

@@ -3,16 +3,12 @@ import '../../../../models/tax.dart';
 
 class TaxListPage extends StatefulWidget {
   final List<Tax> taxes;
-  final Tax selectedTax;
   final Function onSelect;
-  final Function setSelectedTaxLocal;
 
   const TaxListPage(
       {Key key,
       this.taxes,
-      this.onSelect,
-      this.selectedTax,
-      this.setSelectedTaxLocal})
+      this.onSelect,})
       : super(key: key);
 
   @override
@@ -20,21 +16,14 @@ class TaxListPage extends StatefulWidget {
 }
 
 class _TaxListPageState extends State<TaxListPage> {
-  Tax selectedTaxLocal;
-  @override
-  void initState() {
-    selectedTaxLocal = widget.selectedTax;
-    super.initState();
-  }
 
-  List<Widget> createRadioListTaxes(Tax theSelectedTax) {
+  List<Widget> createRadioListTaxes() {
     return widget.taxes.map((tax) {
       return ListTile(
         onTap: () {
           setState(() {
             print("selecting: $tax");
             widget.onSelect(context, tax);
-            selectedTaxLocal = tax;
           });
         },
         title: Card(
@@ -48,7 +37,7 @@ class _TaxListPageState extends State<TaxListPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Flexible(
-                  child: tax == selectedTaxLocal
+                  child: tax.isSelected
                       ? Icon(Icons.check_circle_outlined)
                       : SizedBox(
                           width: 20,
@@ -92,13 +81,12 @@ class _TaxListPageState extends State<TaxListPage> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.selectedTax);
     return Container(
       child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
-            children: createRadioListTaxes(widget.selectedTax),
+            children: createRadioListTaxes(),
           ),
         ),
       ),

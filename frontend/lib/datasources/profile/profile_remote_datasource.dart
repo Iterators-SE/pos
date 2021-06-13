@@ -12,58 +12,22 @@ class ProfileRemoteDatasource implements IProfileRemoteDataSource {
 
   Future<UserProfile> getProfileInfo() async {
     try {
-      final query = r'''
-        query getUserDetails(){
-          action: getUserDetails(){
+      final query = '''
+        query {
+          getUserDetails{
             id,
             name,
             email,
             receiptMessage,
             address
           }
-      }''';
-
-      final response = await client.query(
-        QueryOptions(document: gql(query)),
-      );
-
-      // print(await response);
-
-      if (response.hasException) {
-        throw response.exception;
-      }
-
-      var data = jsonEncode(response.data['action']);
-      return UserProfile.fromJson(jsonDecode(data));
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<UserProfile> updateProfileInfo(UserProfile userProfile) async {
-      try {
-      final query = r'''
-        mutation changeUserDetails($data: ChangeUserDetailsInput!){
-          action: changeUserDetails(data: $data){
-            id,
-            name,
-            email,
-            receiptMessage,
-            address
-          }
-      }''';
+        }
+      ''';
 
       final response = await client.query(
         QueryOptions(
           document: gql(query),
-          variables: {
-            'data': {
-              "name": userProfile.name,
-              "email": userProfile.email,
-              "address": userProfile.address,
-              "receiptMessage": userProfile.receiptMessage
-            }
-          }
+          fetchPolicy: FetchPolicy.networkOnly,
         ),
       );
 
@@ -73,7 +37,46 @@ class ProfileRemoteDatasource implements IProfileRemoteDataSource {
         throw response.exception;
       }
 
-      var data = jsonEncode(response.data['action']);
+      var data = jsonEncode(response.data['getUserDetails']);
+      return UserProfile.fromJson(jsonDecode(data));
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<UserProfile> updateProfileInfo(UserProfile userProfile) async {
+    try {
+      final query = '''
+        mutation {
+          changeUserDetails(data: {
+            name: "${userProfile.name}",
+            email: "${userProfile.email}",
+            address:"${userProfile.address}",
+            receiptMessage: "${userProfile.receiptMessage}"
+          }){
+            id,
+            name,
+            email,
+            receiptMessage,
+            address
+          }
+        }
+      ''';
+
+      final response = await client.mutate(
+        MutationOptions(
+          document: gql(query),
+          fetchPolicy: FetchPolicy.networkOnly
+        ),
+      );
+
+      // print(await response);
+
+      if (response.hasException) {
+        throw response.exception;
+      }
+
+      var data = jsonEncode(response.data['changeUserDetails']);
       return UserProfile.fromJson(jsonDecode(data));
     } catch (e) {
       rethrow;
