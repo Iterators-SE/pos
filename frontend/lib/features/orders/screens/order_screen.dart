@@ -1,7 +1,5 @@
 import 'package:either_option/either_option.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/repositories/inventory/inventory_repository_implementation.dart';
-import 'package:frontend/repositories/profile/profile_repository_implementation.dart';
 // ignore: unused_import
 import 'package:provider/provider.dart';
 
@@ -13,6 +11,8 @@ import '../../../models/product.dart';
 import '../../../models/product_variant.dart';
 import '../../../models/tax.dart';
 import '../../../models/user_profile.dart';
+import '../../../repositories/inventory/inventory_repository_implementation.dart';
+import '../../../repositories/profile/profile_repository_implementation.dart';
 // import '../../../repositories/discount/discount_repository_implementation.dart';
 import '../../../repositories/tax/tax_repository_implementation.dart';
 import '../models/order.dart';
@@ -290,6 +290,7 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
                                       DataCell(Text("Total")),
                                       DataCell(
                                         Text(
+                                          // ignore: lines_longer_than_80_chars
                                           '${order.total - order.discountTotal}',
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
