@@ -48,7 +48,10 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
       title: Center(
         child: Text("Add a Product"),
       ),
-      content: Form(
+      content: Container(
+        height: 300.0,
+        width: 280.0,
+      child: Form(
         key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -157,7 +160,7 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
             )
           ],
         ),
-      ),
+      )),
       actions: [
         FloatingActionButton.extended(
           label: Text("Add Product"),
