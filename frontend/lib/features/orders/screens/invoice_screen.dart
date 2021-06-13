@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sms/flutter_sms.dart';
+// import 'package:frontend/features/orders/screens/phone_number.dart';
+import 'package:frontend/models/product_variant.dart';
+import 'package:frontend/models/user_profile.dart';
 import 'package:meta/meta.dart';
 
 import '../../../models/product.dart';
@@ -10,12 +14,14 @@ import 'widget/order_button.dart';
 class InvoiceScreen extends StatefulWidget {
   final Order order;
   final List<Product> allProducts;
+  final UserProfile userProfileData;
 
-  const InvoiceScreen({
-    Key key,
-    @required this.order,
-    @required this.allProducts,
-  }) : super(key: key);
+  const InvoiceScreen(
+      {Key key,
+      @required this.order,
+      @required this.allProducts,
+      @required this.userProfileData})
+      : super(key: key);
 
   @override
   _InvoiceScreenState createState() => _InvoiceScreenState();
@@ -24,11 +30,134 @@ class InvoiceScreen extends StatefulWidget {
 class _InvoiceScreenState extends State<InvoiceScreen> {
   final _formKey = GlobalKey<FormState>();
   double amount;
+  String message;
+
+  void sendReceipt(String message, List<String> recipients) async {
+    var result = await sendSMS(message: message, recipients: recipients)
+        .catchError(print);
+    print(result);
+  }
 
   @override
   void initState() {
     amount = widget.order.total;
+
+    // for (var variant in widget.order.products) {
+    //   body.add(
+    //     // ignore: lines_longer_than_80_chars
+    //     "${getProductName(variant)} [${variant.variantName}]: \t\t ${variant.quantity}x ${variant.price}\n");
+    // }
+
+    // // ignore: lines_longer_than_80_chars
+    // message =
+    //   // ignore: lines_longer_than_80_chars
+    //   '${widget.userProfileData.name}\n${widget.userProfileData.email}\n\nOrders:\n${body.join()}\n\nVAT:${widget.order.currentTax.percentage}%\nTotal: ${widget.order.total}\nAmount Paid: $amount\nChange:${amount - widget.order.total}\n\nThanks for ordering! ';
+
+    // print(message);
     super.initState();
+  }
+
+  String getProductName(ProductVariant variant) {
+    var product = widget.allProducts
+        .where((element) => element.id == variant.productId)
+        .toList();
+
+    return product.first.name;
+  }
+
+  Future<void> showIncorrectAmount() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Payment"),
+          content: SingleChildScrollView(
+              child: Text(
+                  "Please enter the right amount.")),
+          actions: [
+            TextButton(
+                child: Text("Okay"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                }),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> showSmsDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        var localKey = GlobalKey<FormState>();
+        var phoneNumber = "";
+        var body = [];
+        for (var variant in widget.order.products) {
+          // ignore: lines_longer_than_80_chars
+          body.add("${getProductName(variant)} [${variant.variantName}]: ${variant.quantity}x  ${variant.price}\n");
+        }
+        // print("body final");
+        // print(body);
+        // ignore: lines_longer_than_80_chars
+        message = '${widget.userProfileData.name}\n${widget.userProfileData.address}\n${widget.userProfileData.email}\n\nOrders:\n${body.join()}\nTax (${widget.order.currentTax.percentage * 100}%): ${widget.order.totalAmountTax}\nTotal: ${widget.order.total + widget.order.totalAmountTax}\nAmount Paid: $amount\nChange: ${amount - widget.order.total - widget.order.totalAmountTax < 0 ? 0 : amount - widget.order.total - widget.order.totalAmountTax}\n\n${widget.userProfileData.receiptMessage} ';
+
+        return StatefulBuilder(builder: (context, setState) {
+          return AlertDialog(
+            title: Text("Send SMS"),
+            content: SingleChildScrollView(
+              child: Form(
+                key: localKey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      key: Key("customerNumber"),
+                      initialValue: "$phoneNumber",
+                      decoration: InputDecoration(
+                        labelText: '  Phone Number',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (int.tryParse(value) == null || value.length != 11) {
+                          return 'Invalid Number!';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        print(value);
+                        phoneNumber = value;
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            actions: [
+              TextButton(
+                  child: Text("Submit"),
+                  onPressed: () {
+                    if (localKey.currentState.validate()) {
+                    sendReceipt(message, ['$phoneNumber']);
+                    print(message);
+                      return;
+                    } else {
+                      Navigator.of(context).pop();
+                    }
+                  }),
+              TextButton(
+                  child: Text("Cancel"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  }),
+            ],
+          );
+        });
+      },
+    );
   }
 
   @override
@@ -183,13 +312,9 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                 OrderButton(
                   onPressed:
                       amount >= widget.order.total + widget.order.totalAmountTax
-                          ? () {
-                              print("Order Complete!");
-                            }
-                          : () {
-                              print("Not Complete!");
-                            },
-                  text: "Print",
+                          ? showSmsDialog
+                          : showIncorrectAmount,
+                  text: "Create Receipt",
                 )
               ],
             ),
