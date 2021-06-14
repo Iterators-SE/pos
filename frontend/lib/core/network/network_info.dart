@@ -1,13 +1,13 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
 
-class NetworkInfoImplementation {
-  NetworkInfoImplementation._internal();
+class NetworkInfo {
+  NetworkInfo._internal();
 
-  static final NetworkInfoImplementation _singleton =
-      NetworkInfoImplementation._internal();
+  static final NetworkInfo _singleton =
+      NetworkInfo._internal();
 
-  static NetworkInfoImplementation getInstance() => _singleton;
+  static NetworkInfo getInstance() => _singleton;
 
   Future<bool> isConnected() async {
     // TODO: NOTE THAT THIS METHOD WILL NOT WORK ON WEB DUE TO DATACONNECTIONCHECKER PACKAGE
