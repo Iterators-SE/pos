@@ -262,4 +262,5 @@ void main() {
 
     expect(customDataTable, findsNWidgets(2));
   });
+
 }

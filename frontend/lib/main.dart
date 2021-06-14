@@ -209,10 +209,6 @@ class _MyAppState extends State<MyApp> {
             link: user.link,
           );
 
-          Provider.of<AuthenticationRepository>(context, listen: false)
-              .remote
-              .client = client;
-
           Provider.of<ProfileRepository>(context, listen: false).remote.client =
               client;
 
