@@ -115,40 +115,41 @@ class TransactionRemoteDataSource implements ITransactionRemoteDataSource {
       List listOfTransactions = jsonDecode(data);
 
       // DUMMY DATA
-      var transactions = <Transaction>[
-            Transaction(
-              id: 1,
-              orders: [
-                Order(
-                  id: 1,
-                  product:
-                      Product(id: 1, name: "Kopi", description: "Best KOPI"),
-                  variant: ProductVariant(
-                    variantId: 1,
-                    productId: 1,
-                    variantName: 'Small',
-                    quantity: 400,
-                    price: 100,
-                  ),
-                  quantity: 3,
-                ),
-                Order(
-                  id: 1,
-                  product:
-                      Product(id: 1, name: "Kopi", description: "Best KOPI"),
-                  variant: ProductVariant(
-                    variantId: 2,
-                    productId: 1,
-                    variantName: 'Small',
-                    quantity: 200,
-                    price: 160,
-                  ),
-                  quantity: 5,
-                )
-              ],
-              createdAt: DateTime.now(),
-            )
-          ] ??
+      var transactions =
+      //  <Transaction>[
+      //       Transaction(
+      //         id: 1,
+      //         orders: [
+      //           Order(
+      //             id: 1,
+      //             product:
+      //                 Product(id: 1, name: "Kopi", description: "Best KOPI"),
+      //             variant: ProductVariant(
+      //               variantId: 1,
+      //               productId: 1,
+      //               variantName: 'Small',
+      //               quantity: 400,
+      //               price: 100,
+      //             ),
+      //             quantity: 3,
+      //           ),
+      //           Order(
+      //             id: 1,
+      //             product:
+      //                 Product(id: 1, name: "Kopi", description: "Best KOPI"),
+      //             variant: ProductVariant(
+      //               variantId: 2,
+      //               productId: 1,
+      //               variantName: 'Small',
+      //               quantity: 200,
+      //               price: 160,
+      //             ),
+      //             quantity: 5,
+      //           )
+      //         ],
+      //         createdAt: DateTime.now(),
+      //       )
+      //     ] ??
           listOfTransactions
               ?.map((transaction) => Transaction.fromJson(transaction))
               ?.toList() ??
