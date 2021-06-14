@@ -221,6 +221,9 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
                 SliverFillRemaining(
                   child: body = hasProducts
                       ? SingleChildScrollView(
+                        child: Container(
+                        margin: const EdgeInsets.all(15.0),
+                        padding: const EdgeInsets.all(5.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -244,6 +247,7 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
                                       ),
                                     ),
                               ),
+                              SizedBox(height: 20),
                               CustomDataTable(
                                 products: allProducts,
                                 columns: [
@@ -301,6 +305,7 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
                                   ),
                                 ],
                               ),
+                              SizedBox(height: 30),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
@@ -319,7 +324,7 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
                               )
                             ],
                           ),
-                        )
+                        ))
                       : Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,

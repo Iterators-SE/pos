@@ -175,22 +175,20 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
   @override
   Widget build(BuildContext context) {
     print(widget.order.products);
-    return Container(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Invoice'),
+      ),
+      body: Center(
+      child: Container(
+        margin: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.all(5.0),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(height: 20),
-            Center(
-              child: Text(
-                'INVOICE',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 23,
-                ),
-              ),
-            ),
             CustomDataTable(
               products: widget.allProducts,
               order: widget.order,
@@ -333,6 +331,6 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
           ],
         ),
       ),
-    );
+    )));
   }
 }

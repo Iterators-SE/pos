@@ -76,7 +76,7 @@ class TransactionRepository implements ITransactionRepository {
     if (await network.isConnected()) {
       try {
         final data = await remote.getTransactions();
-        await local.cacheTransactions(data);
+        // await local.cacheTransactions(data);
         return Right(data);
       } on OperationException catch (e) {
         return Left(OperationFailure(e.graphqlErrors.first.message));

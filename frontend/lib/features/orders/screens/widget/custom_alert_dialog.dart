@@ -48,7 +48,7 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
       title: Center(
         child: Text("Add a Product"),
       ),
-      content: Form(
+      content:  Form(
         key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

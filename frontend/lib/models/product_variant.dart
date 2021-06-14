@@ -13,14 +13,15 @@ class ProductVariant {
     this.price,
   });
 
-  factory ProductVariant.fromJson(Map<String, dynamic> json, int productId) => 
-  ProductVariant(
-    variantId: int.parse(json["id"]),
-    price: json["price"],
-    quantity: json["quantity"],
-    variantName: json["name"],
-    productId: productId,
-  );
+  factory ProductVariant.fromJson(Map<String, dynamic> json, int productId) {
+      return ProductVariant(
+        variantId: int.tryParse(json['id']) ?? json['id'],
+        price: int.tryParse(json['price']) ?? json['price'],
+        quantity: int.tryParse(json['quantity']) ?? json['quantity'],
+        variantName: json['name'],
+        productId: productId,
+      );
+  }
 
   ProductVariant copyWith({
     int id,
@@ -38,7 +39,7 @@ class ProductVariant {
     );
   }
 
-    @override
+  @override
   String toString() {
     return 'id: $variantId, name: $variantName, productId: $productId';
   }

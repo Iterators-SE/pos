@@ -60,7 +60,11 @@ class _AuthenticationScreenState extends State<AuthenticationScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: _presenter.body());
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: _presenter.body(),
+      ),
+    );
   }
 
   @override

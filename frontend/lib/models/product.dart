@@ -22,29 +22,35 @@ class Product {
     this.variants = const [],
     this.discount = 0,
   }) {
-    quantity = variants.fold(
-      0,
-      (previousValue, item) => previousValue + item.quantity ?? 0,
-    );
+    // TODO: Alan pls fix - major bug with transactions bc of this
+    
+    // quantity = variants?.fold(
+    //   0,
+    //   (previousValue, item) => previousValue + item.quantity ?? 0,
+    // );
 
-    variants.sort((a, b) => a.price.compareTo(b.price));
-    max = variants.last.price;
-    min = variants.first.price;
+    // variants?.sort((a, b) => a.price.compareTo(b.price));
+    // max = variants?.last?.price;
+    // min = variants?.first?.price;
   }
 
   factory Product.fromJson(Map<String, dynamic> productJson) {
     return Product(
-        id: int.parse(productJson['id']),
-        name: productJson['name'],
-        description: productJson['description'],
-        photoLink: productJson['photoLink'],
-        isTaxable: productJson['isTaxable'],
-        variants: productJson['variant']
-            .map<ProductVariant>((variant) => ProductVariant.fromJson(
-              variant, 
-              int.parse(productJson['id']
-            )))
-            .toList());
+      id: int.tryParse(productJson['id']) ?? productJson['id'],
+      name: productJson['name'],
+      description: productJson['description'],
+      photoLink: productJson['photoLink'] ?? '',
+      isTaxable: productJson['isTaxable'] ?? false,
+      variants: productJson['variant']
+              ?.map<ProductVariant>(
+                (variant) => ProductVariant.fromJson(
+                  variant,
+                  int.tryParse(productJson['id']) ?? productJson['id'],
+                ),
+              )
+              ?.toList() ??
+          [],
+    );
   }
 
   String toString() {

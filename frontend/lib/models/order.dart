@@ -16,13 +16,17 @@ class Order {
     @required this.quantity,
   });
 
-  factory Order.fromJson(Map<String, dynamic> json) => Order(
-        id: json["id"],
-        product: Product.fromJson(json["product"]),
-        variant: ProductVariant.fromJson(json["variant"], 
-        int.parse(json["product"]['id'])),
-        quantity: json["quantity"],
-      );
+  factory Order.fromJson(Map<String, dynamic> json) {
+    return Order(
+      id: int.tryParse(json["id"]) ?? json["id"],
+      product: Product.fromJson(json["product"]),
+      variant: ProductVariant.fromJson(
+        json["variant"],
+        int.tryParse(json["product"]['id']) ?? json["product"]['id'],
+      ),
+      quantity: int.tryParse(json["quantity"]) ?? json["quantity"],
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "id": id,

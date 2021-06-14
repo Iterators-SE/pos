@@ -9,7 +9,7 @@ class AuthenticationRemoteDataSource implements IAuthenticationDataSource {
   AuthenticationRemoteDataSource({this.client, this.storage});
 
   static final _posToken = 'POS_TOKEN';
-  final GraphQLClient client;
+  GraphQLClient client;
   final SharedPreferences storage;
 
   @override

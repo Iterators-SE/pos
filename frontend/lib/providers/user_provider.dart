@@ -14,10 +14,12 @@ class UserProvider extends ChangeNotifier {
   Either<Failure, bool> _signedUp;
   Either<Failure, User> _loggedIn;
 
-  final HttpLink _httpLink = HttpLink('http://localhost:5000/graphql');
-  // final String _devUri = 'http://localhost:5000/graphql';
+  // final HttpLink _httpLink = HttpLink('http://localhost:5000/graphql'); // WEB
+    // final String _devUri = 'http://localhost:5000/graphql';
   // final String _prodUri = 'http://iterators-pos.herokuapp.com/graphql';
-  // String uri = kReleaseMode ? prodUri : devUri;
+  // String uri = kReleaseMode ? _prodUri : _devUri;
+  final HttpLink _httpLink = HttpLink('http://10.0.2.2:5000/graphql'); // ANDROID
+
 
   String get token => _token;
   User get user => _user;

@@ -26,39 +26,41 @@ class TopProductsWidget extends StatelessWidget {
     return products.isNotEmpty
         ? Padding(
             padding: const EdgeInsets.all(8.0),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 8.0,
-                  right: 8.0,
-                  top: 8.0,
-                  bottom: 20,
-                ),
-                child: Text(
-                  'Top Products of the ${toSentenceCase(interval)}',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 8.0,
+                      right: 8.0,
+                      top: 8.0,
+                      bottom: 20,
+                    ),
+                    child: Text(
+                      'Top Products of the ${toSentenceCase(interval)}',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              // Center this
-              Expanded(
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  semanticChildCount: products.length,
-                  children: products
-                      .map(
-                        (e) => TopProductWidget(
-                          product: e,
-                          onPressed: () => print(e.name),
-                        ),
-                      )
-                      .toList(),
-                ),
-              ),
-            ]),
+                  // Center this
+                  Expanded(
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      semanticChildCount: products.length,
+                      children: products
+                          .map(
+                            (e) => TopProductWidget(
+                              product: e,
+                              onPressed: () => print(e.name),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ),
+                ]),
           )
         : SizedBox.shrink();
   }
