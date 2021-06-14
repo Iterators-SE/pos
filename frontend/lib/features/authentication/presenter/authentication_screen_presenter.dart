@@ -16,12 +16,12 @@ class AuthenticationScreenPresenter
           getView().isLogin ? getView().login : getView().signup,
           getView().appState == AppState.loading
               ? Container(
-                height: double.maxFinite,
+                  height: double.maxFinite,
                   color: Colors.black54,
                   child: Center(
                     child: CircularProgressIndicator(
-                      color: xposGreen[50],
-                    ),
+                        // color: xposGreen[50],
+                        ),
                   ),
                 )
               : SizedBox.shrink()

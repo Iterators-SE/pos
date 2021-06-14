@@ -1,4 +1,7 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
+import 'package:frontend/core/themes/config.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/state/app_state.dart';
@@ -18,19 +21,17 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void initState() {
-    getUserDetails(context).then((value){
-      
-    if (value.email.isNotEmpty) {
-      setState(() {
-        profileData = value;
-        state = AppState.done;
-      });
-     
-    } else {
-      setState(() {
-        state = AppState.error;
-      });
-    }
+    getUserDetails(context).then((value) {
+      if (value.email.isNotEmpty) {
+        setState(() {
+          profileData = value;
+          state = AppState.done;
+        });
+      } else {
+        setState(() {
+          state = AppState.error;
+        });
+      }
     });
     super.initState();
   }
@@ -66,36 +67,81 @@ class _ProfilePageState extends State<ProfilePage> {
           )
         ]),
         body: state == AppState.done
-            ? ListView(
-                padding: EdgeInsets.symmetric(horizontal: 28),
-                physics: BouncingScrollPhysics(),
+            ? Column(
                 children: [
-                  SizedBox(
-                    height: 10,
+                  Center(
+                    child: Image(
+                      image: AssetImage("assets/images/xpos_home_logo.png"),
+                    ),
                   ),
-                  SizedBox(height: 10),
-                  TextFieldWidget(
-                    label: 'FULL NAME',
-                    text: profileData.name,
-                    onChanged: (name) {},
-                  ),
-                  SizedBox(height: 20),
-                  TextFieldWidget(
-                    label: 'Email',
-                    text: profileData.email,
-                    onChanged: (email) {},
-                  ),
-                  SizedBox(height: 20),
-                  TextFieldWidget(
-                    label: 'Address',
-                    text: profileData.address,
-                    onChanged: (address) {},
-                  ),
-                  SizedBox(height: 20),
-                  TextFieldWidget(
-                    label: 'Receipt Message',
-                    text: profileData.receiptMessage,
-                    onChanged: (message) {},
+                  //   child: Stack(children: [
+                  //     Container(
+                  //       height: 150,
+                  //       // color: xposGreen,
+                  //       decoration: BoxDecoration(
+                  //         color: xposGreen,
+                  //         borderRadius: BorderRadius.only(
+                  //             bottomLeft: Radius.circular(50),
+                  //             bottomRight: Radius.circular(50)),
+                  //             image:
+                  //       ),
+                  //     ),
+                  //     Positioned(
+                  //         bottom: 100,
+                  //         child: Image.asset(
+                  //           "assets/images/Xpos.png",
+                  //           scale: 6,
+                  //         )
+                  //         // child: Image(
+                  //         //   color: Colors.wh,
+                  //         //   image: AssetImage("assets/images/Xpos.png"),
+                  //         ),
+                  //   ]),
+                  // ),
+                  // SizedBox(
+                  //   height: 5,
+                  // ),
+                  Container(
+                    margin: EdgeInsets.all(10),
+                    height: 430,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: xposGreen, width: 5),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Center(
+                      child: ListView(
+                        padding: EdgeInsets.symmetric(horizontal: 28),
+                        physics: BouncingScrollPhysics(),
+                        children: [
+                          SizedBox(
+                            height: 20,
+                          ),
+                          SizedBox(height: 10),
+                          TextFieldWidget(
+                            label: 'Store Name',
+                            text: profileData.name,
+                            onChanged: (name) {},
+                          ),
+                          SizedBox(height: 20),
+                          TextFieldWidget(
+                            label: 'Email',
+                            text: profileData.email,
+                            onChanged: (email) {},
+                          ),
+                          SizedBox(height: 20),
+                          TextFieldWidget(
+                            label: 'Address',
+                            text: profileData.address,
+                            onChanged: (address) {},
+                          ),
+                          SizedBox(height: 20),
+                          TextFieldWidget(
+                            label: 'Receipt Message',
+                            text: profileData.receiptMessage,
+                            onChanged: (message) {},
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               )
