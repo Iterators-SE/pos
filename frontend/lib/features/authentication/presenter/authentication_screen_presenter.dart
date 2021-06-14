@@ -20,7 +20,6 @@ class AuthenticationScreenPresenter
                   color: Colors.black54,
                   child: Center(
                     child: CircularProgressIndicator(
-                      color: xposGreen[50],
                     ),
                   ),
                 )
