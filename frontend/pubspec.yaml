@@ -37,6 +37,10 @@ dependencies:
   firebase_core: ^1.1.0
   image_picker: ^0.7.4
   cached_network_image: ^3.0.0
+  
+  #PDF
+  pdf: ^3.3.0
+  open_file: ^3.2.1
 
 
 
