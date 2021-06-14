@@ -10,6 +10,7 @@ class NetworkInfo {
   static NetworkInfo getInstance() => _singleton;
 
   Future<bool> isConnected() async {
+    // ignore: lines_longer_than_80_chars
     // TODO: NOTE THAT THIS METHOD WILL NOT WORK ON WEB DUE TO DATACONNECTIONCHECKER PACKAGE
     try {
       var connectivityResult = await (Connectivity().checkConnectivity());
