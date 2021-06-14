@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:graphql/client.dart';
 
 import '../../models/order.dart';
-import '../../models/product.dart';
-import '../../models/product_variant.dart';
+// import '../../models/product.dart';
+// import '../../models/product_variant.dart';
 import '../../models/transaction.dart';
 import 'transaction_datasource.dart';
 

@@ -169,11 +169,11 @@ class _TransactionScreenState extends State<TransactionScreen>
         );
 
         if (indexOfOrder != -1) {
-          var modifiedOrder = result[indexOfOrder];
+          // var modifiedOrder = result[indexOfOrder];
 
-          var modifiedVariant = modifiedOrder.variants?.firstWhere(
-            (element) => element.variantId == order.variant.variantId,
-          );
+          // var modifiedVariant = modifiedOrder.variants?.firstWhere(
+          // (element) => element.variantId == order.variant.variantId,
+          // );
 
           // if (modifiedVariant != null) {
           //   result[indexOfOrder] = result[indexOfOrder]
