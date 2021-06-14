@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sms/flutter_sms.dart';
+import 'package:frontend/apis/receipt_api/receipt_builder_api.dart';
+import 'package:frontend/apis/receipt_api/receipt_save_api.dart';
+
 import 'package:meta/meta.dart';
 
 import '../../../models/product.dart';
@@ -73,8 +76,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
         return AlertDialog(
           title: Text("Payment"),
           content: SingleChildScrollView(
-              child: Text(
-                  "Please enter the right amount.")),
+              child: Text("Please enter the right amount.")),
           actions: [
             TextButton(
                 child: Text("Okay"),
@@ -87,6 +89,14 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
     );
   }
 
+  void createPdf() async {
+    var pdf =
+        await PdfGeneratorApi.generate(widget.order, widget.userProfileData);
+    print(pdf.path);
+    var pdfApi = PdfApi.openFile(pdf);
+    showSmsDialog();
+  }
+
   Future<void> showSmsDialog() async {
     return showDialog<void>(
       context: context,
@@ -97,12 +107,14 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
         var body = [];
         for (var variant in widget.order.products) {
           // ignore: lines_longer_than_80_chars
-          body.add("${getProductName(variant)} [${variant.variantName}]: ${variant.quantity}x  ${variant.price}\n");
+          body.add(
+              "${getProductName(variant)} [${variant.variantName}]: ${variant.quantity}x  ${variant.price}\n");
         }
         // print("body final");
         // print(body);
         // ignore: lines_longer_than_80_chars
-        message = '${widget.userProfileData.name}\n${widget.userProfileData.address}\n${widget.userProfileData.email}\n\nOrders:\n${body.join()}\nTax (${widget.order.currentTax.percentage * 100}%): ${widget.order.totalAmountTax}\nTotal: ${widget.order.total + widget.order.totalAmountTax}\nAmount Paid: $amount\nChange: ${amount - widget.order.total - widget.order.totalAmountTax < 0 ? 0 : amount - widget.order.total - widget.order.totalAmountTax}\n\n${widget.userProfileData.receiptMessage} ';
+        message =
+            '${widget.userProfileData.name}\n${widget.userProfileData.address}\n${widget.userProfileData.email}\n\nOrders:\n${body.join()}\nTax (${widget.order.currentTax.percentage * 100}%): ${widget.order.totalAmountTax}\nTotal: ${widget.order.total + widget.order.totalAmountTax}\nAmount Paid: $amount\nChange: ${amount - widget.order.total - widget.order.totalAmountTax < 0 ? 0 : amount - widget.order.total - widget.order.totalAmountTax}\n\n${widget.userProfileData.receiptMessage} ';
 
         return StatefulBuilder(builder: (context, setState) {
           return AlertDialog(
@@ -141,8 +153,8 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                   child: Text("Submit"),
                   onPressed: () {
                     if (localKey.currentState.validate()) {
-                    sendReceipt(message, ['$phoneNumber']);
-                    print(message);
+                      sendReceipt(message, ['$phoneNumber']);
+                      print(message);
                       return;
                     } else {
                       Navigator.of(context).pop();
@@ -312,7 +324,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                 OrderButton(
                   onPressed:
                       amount >= widget.order.total + widget.order.totalAmountTax
-                          ? showSmsDialog
+                          ? createPdf
                           : showIncorrectAmount,
                   text: "Create Receipt",
                 )
