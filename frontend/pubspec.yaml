@@ -15,6 +15,7 @@ dependencies:
   provider: ^5.0.0
   # Remote
   data_connection_checker: ^0.3.4
+  connectivity: ^3.0.6
   graphql: 
   # Local
   shared_preferences: ^2.0.5
