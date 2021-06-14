@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../core/state/app_state.dart';
 import '../../../models/tax.dart';
-import '../../../providers/tax_provider.dart';
+import '../../../repositories/tax/tax_repository_implementation.dart';
 import '../presenters/tax_list_presenter.dart';
 import '../views/tax_list_screen_view.dart';
 import 'pages/tax_list_view.dart';
@@ -36,9 +36,6 @@ class _TaxListScreenState extends State<TaxListScreen>
   List<Tax> taxes;
 
   @override
-  Tax selectedTax;
-
-  @override
   void initState() {
     _presenter = TaxListScreenPresenter();
     _presenter.attachView(this);
@@ -51,9 +48,6 @@ class _TaxListScreenState extends State<TaxListScreen>
       body = TaxListPage(
         taxes: value,
         onSelect: selectTax,
-        setSelectedTaxLocal: setSelectedTax,
-        selectedTax:
-            value.where((element) => element.isSelected).toList().first,
       );
     });
 
@@ -62,31 +56,27 @@ class _TaxListScreenState extends State<TaxListScreen>
 
   @override
   Widget build(BuildContext context) {
+    print(taxes);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => AddTaxScreen()),
-          ).then((value) async {
-
-            await getTaxes(context).then((value){
-              setState(() {
-                body = TaxListPage(
-                  taxes: value,
-                  onSelect: selectTax,
-                  setSelectedTaxLocal: setSelectedTax,
-                  selectedTax:
-                  value.where((element) => element.isSelected).toList().first,
-                );
-              });
-            });
-
-            },
-          );
-        }
-      ),
+          child: Icon(Icons.add),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AddTaxScreen()),
+            ).then(
+              (value) async {
+                await getTaxes(context).then((value) {
+                  setState(() {
+                    body = TaxListPage(
+                      taxes: value,
+                      onSelect: selectTax,
+                    );
+                  });
+                });
+              },
+            );
+          }),
       appBar: AppBar(
         title: Text("Taxes List"),
       ),
@@ -99,11 +89,10 @@ class _TaxListScreenState extends State<TaxListScreen>
     setState(() {
       state = AppState.loading;
     });
-    var taxProvider = Provider.of<TaxProvider>(context, listen: false);
-    var getTaxesResult = await taxProvider.getTaxes(context);
+    var taxProvider = Provider.of<TaxRepository>(context, listen: false);
+    var getTaxesResult = await taxProvider.getTaxes();
     var result = getTaxesResult.fold((fail) => fail, (taxes) => taxes);
     if (getTaxesResult.isRight) {
- 
       setState(() {
         taxes = result;
         state = AppState.done;
@@ -127,21 +116,19 @@ class _TaxListScreenState extends State<TaxListScreen>
   void selectTax(BuildContext context, Tax tax) async {
     setState(() {
       state = AppState.loading;
-      body = TaxListPage(
-        taxes: taxes,
-        onSelect: selectTax,
-        setSelectedTaxLocal: setSelectedTax,
-        selectedTax:tax
-      );
     });
-
-    
-
-    var taxProvider = Provider.of<TaxProvider>(context, listen: false);
-    var setTaxResult = await taxProvider.selectTax(context, tax);
+    var taxProvider = Provider.of<TaxRepository>(context, listen: false);
+    var setTaxResult = await taxProvider.selectTax(tax);
+    var newTaxesResult = await taxProvider.getTaxes();
+    var newTaxes = newTaxesResult.fold((fail) => [], (taxes) => taxes);
+    newTaxes.sort((a, b) => a.id.compareTo(b.id));
     if (setTaxResult.isRight) {
       setState(() {
         state = AppState.done;
+        body = TaxListPage(
+          taxes: newTaxes,
+          onSelect: selectTax,
+        );
       });
     }
   }
@@ -149,12 +136,5 @@ class _TaxListScreenState extends State<TaxListScreen>
   @override
   void setTaxToSearch(String name) {
     // TODO: implement setTaxToSearch
-  }
-
-  @override
-  void setSelectedTax(Tax tax) {
-    setState(() {
-      selectedTax = tax;
-    });
   }
 }

@@ -10,42 +10,45 @@ dependencies:
   draggable_flutter_list: ^1.0.3
   flutter:
     sdk: flutter
+
   # State Management
   graphql_flutter: ^5.0.0-nullsafety.1
   provider: ^5.0.0
+
   # Remote
   data_connection_checker: ^0.3.4
   connectivity: ^3.0.6
   graphql: 
+
   # Local
   shared_preferences: ^2.0.5
   flutter_secure_storage:
   sqflite: 
   moor_flutter:
+
   # fp
   either_option: ^1.0.6
+
   #auth
   jwt_decoder: ^2.0.0
   email_validator: '^1.0.6'
   cupertino_icons: ^1.0.2
 
+  #SMS
+  flutter_sms: ^2.3.1
+
   # Charts
   graphic: ^0.3.0
+  
   #Photo Storage
   firebase_storage: ^8.0.5
   firebase_core: ^1.1.0
   image_picker: ^0.7.4
-
   cached_network_image: ^3.0.0
 
-  #Receipt PDF
-  open_file: ^3.2.1
-  pdf: ^3.3.0
-  intl: 
 
 
 dev_dependencies:
-  image_test_utils: ^1.0.0
   flutter_test:
     sdk: flutter
   effective_dart: ^1.3.0

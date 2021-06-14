@@ -20,8 +20,11 @@ class TaxRemoteDataSource implements ITaxRemoteDataSource {
         }
       """;
 
-      final response = await client.query(
-        QueryOptions(document: gql(query)),
+      final response = await client.mutate(
+        MutationOptions(
+          document: gql(query),
+          fetchPolicy: FetchPolicy.networkOnly
+        ),
       );
 
       if (response.hasException) {
@@ -43,8 +46,11 @@ class TaxRemoteDataSource implements ITaxRemoteDataSource {
         }
       """;
 
-      final response = await client.query(
-        QueryOptions(document: gql(query)),
+      final response = await client.mutate(
+        MutationOptions(
+          document: gql(query),
+          fetchPolicy: FetchPolicy.networkOnly
+        ),
       );
 
       if (response.hasException) {
@@ -70,7 +76,12 @@ class TaxRemoteDataSource implements ITaxRemoteDataSource {
       }
         """;
 
-      final response = await client.query(QueryOptions(document: gql(query)));
+      final response = await client.mutate(
+        MutationOptions(
+          document: gql(query),
+          fetchPolicy: FetchPolicy.networkOnly
+        ),
+      );
 
       if (response.hasException) {
         throw response.exception;
@@ -97,7 +108,10 @@ class TaxRemoteDataSource implements ITaxRemoteDataSource {
         ''';
 
       final response = await client.query(
-        QueryOptions(document: gql(query)),
+        QueryOptions(
+          document: gql(query),
+          fetchPolicy: FetchPolicy.networkOnly
+        ),
       );
 
       // print(await response);
@@ -128,7 +142,10 @@ class TaxRemoteDataSource implements ITaxRemoteDataSource {
       """;
 
       final response = await client.query(
-        QueryOptions(document: gql(query)),
+        QueryOptions(
+          document: gql(query),
+          fetchPolicy: FetchPolicy.networkOnly
+        ),
       );
 
       if (response.hasException) {
@@ -157,7 +174,10 @@ class TaxRemoteDataSource implements ITaxRemoteDataSource {
       """;
 
       final response = await client.query(
-        QueryOptions(document: gql(query)),
+        QueryOptions(
+          document: gql(query),
+          fetchPolicy: FetchPolicy.networkOnly
+        ),
       );
 
       if (response.hasException) {
@@ -183,9 +203,10 @@ class TaxRemoteDataSource implements ITaxRemoteDataSource {
          selectTax(taxId: ${tax.id})
         }''';
 
-      final response = await client.query(
-        QueryOptions(
+      final response = await client.mutate(
+        MutationOptions(
           document: gql(query),
+          fetchPolicy: FetchPolicy.networkOnly
         ),
       );
 

@@ -20,7 +20,6 @@ abstract class OrderScreenView {
   Widget body;
   Failure failure;
 
-
   void addProduct(ProductVariant product);
 
   void addDiscount(List<Discount> discounts);

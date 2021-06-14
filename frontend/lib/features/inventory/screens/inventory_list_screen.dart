@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../core/state/app_state.dart';
 import '../../../models/product.dart';
-import '../../../providers/inventory_provider.dart';
+import '../../../repositories/inventory/inventory_repository_implementation.dart';
 import '../presenters/inventory_list_presenter.dart';
 import '../views/inventory_list_screen_view.dart';
 import 'add_product_screen.dart';
@@ -69,7 +69,6 @@ class _InventoryListScreenState extends State<InventoryListScreen>
               context,
               MaterialPageRoute(builder: (context) => AddProductScreen()),
             ).then((value) async {
-
               await getProducts(context);
               setState(() {
                 body = ProductListPage(
@@ -79,7 +78,6 @@ class _InventoryListScreenState extends State<InventoryListScreen>
                   productToSearch: productToSearch,
                 );
               });
-              
             });
           }),
       appBar: AppBar(
@@ -150,9 +148,10 @@ class _InventoryListScreenState extends State<InventoryListScreen>
     });
 
     var resultProducts =
-        await Provider.of<InventoryProvider>(context, listen: false)
-            .getProducts(context);
+        await Provider.of<InventoryRepository>(context, listen: false)
+            .getProducts();
     var result = resultProducts.fold((fail) => [], (products) => products);
+    print(result);
 
     if (resultProducts.isRight) {
       setState(() {
@@ -167,9 +166,6 @@ class _InventoryListScreenState extends State<InventoryListScreen>
       });
       return result;
     }
-
-    // await Provider.of<InventoryRepository>(context, listen: false)
-    //     .getProducts();
   }
 
   @override
