@@ -18,7 +18,7 @@ class UserProvider extends ChangeNotifier {
     // final String _devUri = 'http://localhost:5000/graphql';
   // final String _prodUri = 'http://iterators-pos.herokuapp.com/graphql';
   // String uri = kReleaseMode ? _prodUri : _devUri;
-  final HttpLink _httpLink = HttpLink('http://10.0.2.2:5000/graphql'); // ANDROID
+  final HttpLink _httpLink = HttpLink('https://iterators-pos.herokuapp.com/graphql'); // ANDROID
 
 
   String get token => _token;

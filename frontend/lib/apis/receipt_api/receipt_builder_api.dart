@@ -1,11 +1,11 @@
 import 'dart:io';
 
-import 'package:frontend/features/orders/models/order.dart';
-import 'package:frontend/models/user_profile.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:pdf/widgets.dart';
 
+import '../../features/orders/models/order.dart';
+import '../../models/user_profile.dart';
 import 'receipt_save_api.dart';
 
 class PdfGeneratorApi {
@@ -138,6 +138,7 @@ class PdfGeneratorApi {
   }
 
   static Widget buildTotal(Order order) {
+    // ignore: unused_local_variable
     final total = order.totalAmountTax + order.total;
 
     return Container(
@@ -188,11 +189,12 @@ class PdfGeneratorApi {
           // Divider(),
           SizedBox(height: 2 * PdfPageFormat.mm),
           buildSimpleText(title: 'Email Address', value: user.email),
-          // SizedBox(height: 1 * PdfPageFormat.mm),
-          // buildSimpleText(title: 'Paypal', value: invoice.supplier.paymentInfo),
+      // SizedBox(height: 1 * PdfPageFormat.mm),
+      // buildSimpleText(title: 'Paypal', value: invoice.supplier.paymentInfo),
         ],
       );
 
+  // ignore: type_annotate_public_apis
   static buildSimpleText({
     String title,
     String value,
@@ -210,6 +212,7 @@ class PdfGeneratorApi {
     );
   }
 
+  // ignore: type_annotate_public_apis
   static buildText({
     String title,
     String value,

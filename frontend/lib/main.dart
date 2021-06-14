@@ -79,12 +79,12 @@ void main() async {
   AppDatabase local;
 
   final devUri = 'http://10.0.2.2:5000/graphql';
-  final prodUri = 'http://iterators-pos.herokuapp.com/graphql';
+  final prodUri = 'https://iterators-pos.herokuapp.com/graphql';
   // ignore: unused_local_variable
   final uri = kReleaseMode ? prodUri : devUri;
 
   // _httpLink = HttpLink(prodUri);
-  _httpLink = HttpLink(uri);
+  _httpLink = HttpLink(prodUri);
 
   _client = GraphQLClient(
     cache: GraphQLCache(),
