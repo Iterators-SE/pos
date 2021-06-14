@@ -80,7 +80,7 @@ void main() async {
   SharedPreferences _storage;
   AppDatabase local;
 
-  final devUri = 'http://localhost:5000/graphql';
+  final devUri = 'http://10.0.2.2:5000/graphql';
   final prodUri = 'http://iterators-pos.herokuapp.com/graphql';
   // ignore: unused_local_variable
   final uri = kReleaseMode ? prodUri : devUri;
@@ -93,7 +93,7 @@ void main() async {
     link: _httpLink,
   );
 
-  _networkInfo = NetworkInfoImplementation();
+  _networkInfo = NetworkInfo.getInstance();
 
   _authenticationDataSource = AuthenticationRemoteDataSource(
     client: _client,
@@ -194,24 +194,6 @@ void main() async {
           } else {
             provider.token = null;
           }
-
-          _client = GraphQLClient(
-            cache: GraphQLCache(),
-            link: provider.link,
-          );
-
-          Provider.of<ProfileRepository>(context, listen: false).remote.client =
-              _client;
-          Provider.of<TransactionRepository>(context, listen: false)
-              .remote
-              .client = _client;
-
-          Provider.of<DiscountRepository>(context, listen: false).remote;
-          Provider.of<InventoryRepository>(context, listen: false)
-              .remote
-              .client = _client;
-          Provider.of<TaxRepository>(context, listen: false).remote.client =
-              _client;
         });
         return MyApp();
       },
@@ -233,6 +215,33 @@ class _MyAppState extends State<MyApp> {
       themeMode: currentTheme.currentTheme,
       home: Consumer<UserProvider>(
         builder: (context, user, child) {
+          var client = GraphQLClient(
+            cache: GraphQLCache(),
+            link: user.link,
+          );
+
+          Provider.of<AuthenticationRepository>(context, listen: false)
+              .remote
+              .client = client;
+
+          Provider.of<ProfileRepository>(context, listen: false).remote.client =
+              client;
+
+          Provider.of<TransactionRepository>(context, listen: false)
+              .remote
+              .client = client;
+
+          Provider.of<DiscountRepository>(context, listen: false)
+              .remote
+              .client = client;
+
+          Provider.of<InventoryRepository>(context, listen: false)
+              .remote
+              .client = client;
+
+          Provider.of<TaxRepository>(context, listen: false).remote.client =
+              client;
+
           return user.token != null ? HomeScreen() : AuthenticationScreen();
         },
       ),
