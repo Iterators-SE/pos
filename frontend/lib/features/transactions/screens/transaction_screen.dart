@@ -87,7 +87,7 @@ class _TransactionScreenState extends State<TransactionScreen>
             products: monthProductList ?? [],
             topThree: monthTopThree ?? [],
           );
-          
+
           state = LoadingState.done;
         });
       } else {
@@ -156,6 +156,7 @@ class _TransactionScreenState extends State<TransactionScreen>
         .where((t) => t.createdAt.difference(DateTime.now()).inDays <= diff)
         .map((t) => t.orders)
         .toList();
+    print(orders);
 
     for (var index = 0; index < orders.length; index++) {
       var element = orders[index];
@@ -170,18 +171,18 @@ class _TransactionScreenState extends State<TransactionScreen>
         if (indexOfOrder != -1) {
           var modifiedOrder = result[indexOfOrder];
 
-          var modifiedVariant = modifiedOrder.variants.firstWhere(
-              (element) => element.variantId == order.variant.variantId,
-              orElse: () => null);
+          var modifiedVariant = modifiedOrder.variants?.firstWhere(
+            (element) => element.variantId == order.variant.variantId,
+          );
 
-          if (modifiedVariant != null) {
-            result[indexOfOrder] = result[indexOfOrder]
-              ..quantity += order.quantity;
-          } else {
-            result[indexOfOrder] = result[indexOfOrder]
-              ..variants = [...result[indexOfOrder].variants, order.variant]
-              ..quantity += order.quantity;
-          }
+          // if (modifiedVariant != null) {
+          //   result[indexOfOrder] = result[indexOfOrder]
+          //     ..quantity += order.quantity;
+          // } else {
+          //   result[indexOfOrder] = result[indexOfOrder]
+          //     ..variants = [...result[indexOfOrder].variants, order.variant]
+          //     ..quantity += order.quantity;
+          // }
         } else {
           result.add(order.product..quantity = order.quantity);
         }
