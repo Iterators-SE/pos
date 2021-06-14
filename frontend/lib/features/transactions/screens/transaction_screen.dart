@@ -68,50 +68,37 @@ class _TransactionScreenState extends State<TransactionScreen>
     _presenter = TransactionScreenPresenter();
     _presenter.attachView(this);
 
-    // getTransactions().then((value) => value);
+    getTransactions().then((value) {
+      var transaction = value.fold((left) => left, (right) => right);
 
-    // MOCK LOADING && DATA FETCHING
-    Future.delayed(Duration(seconds: 10)).then((value) => {
-          getTransactionsMock().then((value) {
-            var data = value.fold((fail) => fail, (pass) => pass);
+      if (value.isRight) {
+        setState(() => transactions = transaction);
+        getProductLists();
+        setState(() {
+          day = DayViewWidget(
+            products: dayProductList ?? [],
+            topThree: dayTopThree ?? [],
+          );
 
-            if (value.isRight) {
-              setState(() {
-                transactions = data;
+          week = WeekViewWidget(
+            products: weekProductList ?? [],
+            topThree: weekTopThree ?? [],
+          );
 
-                dayProductList = productHelper(1);
-                weekProductList = productHelper(7);
-                monthProductList = productHelper(31);
-
-                dayTopThree = dayProductList.take(3).toList();
-                weekTopThree = weekProductList.take(3).toList();
-                monthTopThree = monthProductList.take(3).toList();
-
-                day = DayViewWidget(
-                  products: dayProductList ?? [],
-                  topThree: dayTopThree ?? [],
-                );
-
-                week = WeekViewWidget(
-                  products: weekProductList ?? [],
-                  topThree: weekTopThree ?? [],
-                );
-
-                month = MonthViewWidget(
-                  products: monthProductList ?? [],
-                  topThree: monthTopThree ?? [],
-                );
-                state = LoadingState.done;
-              });
-              getProductLists();
-            } else {
-              setState(() {
-                failure = data;
-                state = LoadingState.error;
-              });
-            }
-          })
+          month = MonthViewWidget(
+            products: monthProductList ?? [],
+            topThree: monthTopThree ?? [],
+          );
+          
+          state = LoadingState.done;
         });
+      } else {
+        setState(() {
+          failure = transaction;
+          state = LoadingState.error;
+        });
+      }
+    });
 
     super.initState();
   }
@@ -162,66 +149,7 @@ class _TransactionScreenState extends State<TransactionScreen>
     var data = await Provider.of<TransactionRepository>(context, listen: false)
         .getTransactions();
 
-    var transaction = data.fold((left) => left, (right) => right);
-
-    if (data.isRight) {
-      setState(() => transactions = transaction);
-      getProductLists();
-    } else {
-      setState(() {
-        failure = transaction;
-        state = LoadingState.error;
-      });
-    }
-  }
-
-  // FAKE
-  Future<Either<Failure, List<Transaction>>> getTransactionsMock() async {
-    var data = await <Transaction>[
-      Transaction(
-        id: 1,
-        orders: [
-          Order(
-            id: 1,
-            product: Product(id: 1, name: 'Rando'),
-            variant: ProductVariant(
-              productId: 1,
-              variantId: 1,
-              quantity: 7,
-              price: 100,
-              variantName: 'Small',
-            ),
-            quantity: 7,
-          ),
-          Order(
-            id: 2,
-            product: Product(id: 2, name: 'Rando2'),
-            variant: ProductVariant(
-              productId: 2,
-              variantId: 2,
-              quantity: 70,
-              variantName: 'Small',
-              price: 150,
-            ),
-            quantity: 10,
-          ),
-          Order(
-            id: 3,
-            product: Product(id: 1, name: 'Rando'),
-            variant: ProductVariant(
-                productId: 1,
-                variantId: 3,
-                quantity: 10,
-                price: 120,
-                variantName: 'Regular'),
-            quantity: 7,
-          ),
-        ],
-        createdAt: DateTime(2021, 5, 22),
-      )
-    ];
-
-    return data.isNotEmpty ? Right(data) : Left(NoResultsFoundFailure());
+    return data;
   }
 
   List<Product> productHelper(int diff) {
@@ -261,6 +189,9 @@ class _TransactionScreenState extends State<TransactionScreen>
         }
       }
     }
+
+    print('result');
+    print(result);
 
     result?.sort(
       (a, b) =>
