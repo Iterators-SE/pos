@@ -8,7 +8,9 @@ class TransactionScreenPresenter extends BasePresenter<TransactionScreenView> {
   Widget body() {
     checkViewAttached();
 
-    if (isViewAttached && getView().state == LoadingState.done) {
+    if (isViewAttached &&
+        getView().state == LoadingState.done &&
+        getView().transactions.isNotEmpty) {
       switch (getView().interval) {
         case interval_i.Interval.day:
           return getView().day;
@@ -22,6 +24,10 @@ class TransactionScreenPresenter extends BasePresenter<TransactionScreenView> {
         default:
           return getView().day;
       }
+    } else if (isViewAttached &&
+        getView().state == LoadingState.done &&
+        getView().transactions.isEmpty) {
+      return Center(child: Text("No transactions yet!"));
     } else if (isViewAttached && getView().state == LoadingState.loading) {
       return Center(child: CircularProgressIndicator());
     } else if (isViewAttached && getView().state == LoadingState.error) {
