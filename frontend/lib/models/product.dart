@@ -19,19 +19,19 @@ class Product {
     this.name,
     this.description,
     this.photoLink,
-    this.variants = const [],
+    this.variants,
     this.discount = 0,
   }) {
     // TODO: Alan pls fix - major bug with transactions bc of this
     
-    // quantity = variants?.fold(
-    //   0,
-    //   (previousValue, item) => previousValue + item.quantity ?? 0,
-    // );
+    quantity = variants?.fold(
+      0,
+      (previousValue, item) => previousValue + item.quantity ?? 0,
+    );
 
-    // variants?.sort((a, b) => a.price.compareTo(b.price));
-    // max = variants?.last?.price;
-    // min = variants?.first?.price;
+    variants?.sort((a, b) => a.price.compareTo(b.price));
+    max = variants?.last?.price;
+    min = variants?.first?.price;
   }
 
   factory Product.fromJson(Map<String, dynamic> productJson) {
