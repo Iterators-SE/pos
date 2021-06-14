@@ -1,15 +1,16 @@
 import 'dart:io';
 
 import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
 import 'package:pdf/widgets.dart';
 
 import '../../features/orders/models/order.dart';
+import '../../models/product.dart';
 import '../../models/user_profile.dart';
 import 'receipt_save_api.dart';
 
 class PdfGeneratorApi {
-  static Future<File> generate(Order order, UserProfile user) async {
+  static Future<File> generate(
+      Order order, UserProfile user, List<Product> products) async {
     final pdf = Document();
 
     pdf.addPage(MultiPage(
@@ -17,7 +18,7 @@ class PdfGeneratorApi {
         buildHeader(user),
         SizedBox(height: 3 * PdfPageFormat.cm),
         buildTitle(),
-        buildReceipt(order),
+        buildReceipt(order, products),
         Divider(),
         buildTotal(order),
       ],
@@ -82,6 +83,7 @@ class PdfGeneratorApi {
           Text(user.name, style: TextStyle(fontWeight: FontWeight.bold)),
           SizedBox(height: 1 * PdfPageFormat.mm),
           Text(user.address),
+           Text(user.email),
         ],
       );
 
@@ -96,7 +98,7 @@ class PdfGeneratorApi {
         ],
       );
 
-  static Widget buildReceipt(Order order) {
+  static Widget buildReceipt(Order order, List<Product> products) {
     final headers = [
       'Product Name',
       'Variant',
@@ -107,15 +109,16 @@ class PdfGeneratorApi {
     ];
     final data = order.products.map((product) {
       // final total = product.price * product.quantity;
-      final total = product.price * product.quantity * order.tax.percentage;
+    // final totalVat = product.price * product.quantity * order.tax.percentage;
 
       return [
+        products.where((element) => element.id == product.productId)
+        .toList().first.name,
         product.variantName,
-        "variant name",
         '${product.quantity}',
         'Php ${product.price}',
         '${order.tax.percentage * 100} %',
-        'Php ${total.toStringAsFixed(2)}',
+        'Php ${product.price * product.quantity}',
       ];
     }).toList();
 
@@ -128,11 +131,11 @@ class PdfGeneratorApi {
       cellHeight: 30,
       cellAlignments: {
         0: Alignment.centerLeft,
-        1: Alignment.centerRight,
-        2: Alignment.centerRight,
-        3: Alignment.centerRight,
-        4: Alignment.centerRight,
-        5: Alignment.centerRight,
+        1: Alignment.centerLeft,
+        2: Alignment.center,
+        3: Alignment.centerLeft,
+        4: Alignment.centerLeft,
+        5: Alignment.centerLeft,
       },
     );
   }
@@ -153,22 +156,22 @@ class PdfGeneratorApi {
               children: [
                 buildText(
                   title: 'Net total',
-                  value: "${order.total}",
+                  value: "Php ${order.total}",
                   unite: true,
                 ),
                 buildText(
                   title: '${order.tax.name}: ${order.tax.percentage * 100}%',
-                  value: "${order.totalAmountTax}",
+                  value: "Php ${order.totalAmountTax}",
                   unite: true,
                 ),
                 Divider(),
                 buildText(
-                  title: 'Total amount due',
+                  title: 'Grand total',
                   titleStyle: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                   ),
-                  value: "${order.total + order.totalAmountTax}",
+                  value: "Php ${order.total + order.totalAmountTax}",
                   unite: true,
                 ),
                 SizedBox(height: 2 * PdfPageFormat.mm),
@@ -188,29 +191,30 @@ class PdfGeneratorApi {
         children: [
           // Divider(),
           SizedBox(height: 2 * PdfPageFormat.mm),
-          buildSimpleText(title: 'Email Address', value: user.email),
-      // SizedBox(height: 1 * PdfPageFormat.mm),
-      // buildSimpleText(title: 'Paypal', value: invoice.supplier.paymentInfo),
+          Text(user.receiptMessage)
+          // buildSimpleText(title: 'Email Address', value: user.email),
+          // SizedBox(height: 1 * PdfPageFormat.mm),
+    // buildSimpleText(title: 'Paypal', value: invoice.supplier.paymentInfo),
         ],
       );
 
   // ignore: type_annotate_public_apis
-  static buildSimpleText({
-    String title,
-    String value,
-  }) {
-    final style = TextStyle(fontWeight: FontWeight.bold);
+  // static buildSimpleText({
+  //   String title,
+  //   String value,
+  // }) {
+  //   final style = TextStyle(fontWeight: FontWeight.bold);
 
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: pw.CrossAxisAlignment.end,
-      children: [
-        Text(title, style: style),
-        SizedBox(width: 2 * PdfPageFormat.mm),
-        Text(value),
-      ],
-    );
-  }
+  //   return Row(
+  //     mainAxisSize: MainAxisSize.min,
+  //     crossAxisAlignment: pw.CrossAxisAlignment.end,
+  //     children: [
+  //       Text(title, style: style),
+  //       SizedBox(width: 2 * PdfPageFormat.mm),
+  //       Text(value),
+  //     ],
+  //   );
+  // }
 
   // ignore: type_annotate_public_apis
   static buildText({
