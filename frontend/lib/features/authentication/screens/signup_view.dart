@@ -23,8 +23,10 @@ class _SignupWidgetState extends State<SignupWidget> {
 
   @override
   Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
     return Container(
       padding: EdgeInsets.only(top: 80, left: 40, right: 40),
+      height: height,
       child: Form(
         key: widget.formKey,
         child: Column(
