@@ -55,6 +55,7 @@ class _EditDetailPageState extends State<EditDetailPage> {
       barrierDismissible: false, // user must tap button!
       builder: (context) {
         return AlertDialog(
+          key: Key("addVariant"),
           insetPadding: EdgeInsets.all(5),
           title: Center(child: Text('Add a variant')),
           content: SingleChildScrollView(

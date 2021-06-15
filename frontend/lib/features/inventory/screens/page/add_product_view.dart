@@ -52,6 +52,7 @@ class _AddProductPageState extends State<AddProductPage> {
 
   Widget buildProductName() {
     return TextFormField(
+      key: Key("productName"),
       decoration: InputDecoration(
         labelText: '  Product Name',
         border: OutlineInputBorder(
@@ -72,6 +73,7 @@ class _AddProductPageState extends State<AddProductPage> {
 
   Widget buildDescription() {
     return TextFormField(
+      key: Key("productDescription"),
       decoration: InputDecoration(
           labelText: '  Description',
           border: OutlineInputBorder(
@@ -113,6 +115,7 @@ class _AddProductPageState extends State<AddProductPage> {
       barrierDismissible: false, // user must tap button!
       builder: (context) {
         return AlertDialog(
+          key: Key("variantDialog"),
           insetPadding: EdgeInsets.all(5),
           title: Center(child: Text('Add a variant')),
           content: SingleChildScrollView(
@@ -122,6 +125,7 @@ class _AddProductPageState extends State<AddProductPage> {
                 child: Column(
                   children: <Widget>[
                     TextFormField(
+                      key: Key("variantName"),
                       decoration: InputDecoration(
                           labelText: 'Name',
                           border: OutlineInputBorder(
@@ -144,6 +148,7 @@ class _AddProductPageState extends State<AddProductPage> {
                       height: 10.0,
                     ),
                     TextFormField(
+                      key: Key("variantQuantity"),
                       decoration: InputDecoration(
                         labelText: 'Quantity',
                         border: OutlineInputBorder(
@@ -171,6 +176,7 @@ class _AddProductPageState extends State<AddProductPage> {
                       height: 10.0,
                     ),
                     TextFormField(
+                      key: Key("variantPrice"),
                       decoration: InputDecoration(
                         labelText: 'Price',
                         border: OutlineInputBorder(
