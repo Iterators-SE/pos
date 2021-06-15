@@ -36,6 +36,7 @@ class Transaction {
   Map<String, dynamic> toJson() => {
         "id": id,
         "orders": orders,
+        "link": link,
         "createdAt": createdAt.toString(),
       };
 
