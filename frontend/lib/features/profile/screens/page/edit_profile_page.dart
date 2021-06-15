@@ -1,79 +1,110 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../../models/user.dart';
-import '../../utils/user_preferences.dart';
-import '../widgets/profile_widget.dart';
-import '../widgets/textfield_widget.dart';
-import 'profile_page.dart';
+import '../../../../core/state/app_state.dart';
+import '../../../../models/user_profile.dart';
+import '../../../../repositories/profile/profile_repository_implementation.dart';
 
 class EditProfilePage extends StatefulWidget {
+  final UserProfile profile;
+
+  EditProfilePage({Key key, this.profile}) : super(key: key);
+
   @override
   _EditProfilePageState createState() => _EditProfilePageState();
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  User user = UserPreferences.myUser;
+  UserProfile profileData;
+  AppState state = AppState.done;
+
+  @override
+  void initState() {
+    profileData = widget.profile;
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          leading: BackButton(
-              color: Colors.white,
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => ProfilePage()),
-                );
-              }),
-          title: Text("Profile"),
-          actions: [
-            IconButton(
-              icon: Icon(
-                Icons.save_alt_rounded,
-              ),
-                onPressed: null, //TODO: Add onPressed()
-            ),
+        title: Text("Profile"),
+      ),
+      body: Form(
+        child: ListView(
+          padding: EdgeInsets.symmetric(horizontal: 28),
+          physics: BouncingScrollPhysics(),
+          children: [
             SizedBox(
-              width: 10,
-            )
-          ]),
-      body: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 28),
-        physics: BouncingScrollPhysics(),
-        children: [
-          SizedBox(
-            height: 10,
-          ),
-          ProfileWidget(
-              imagePath: user.imagePath, isEdit: true, onClicked: () {}),
-          SizedBox(height: 10),
-          TextFieldWidget(
-            label: 'FULL NAME',
-            text: user.name,
-            onChanged: (name) {},
-          ),
-          SizedBox(height: 20),
-          TextFieldWidget(
-            label: 'Email',
-            text: user.email,
-            onChanged: (email) {},
-          ),
-          SizedBox(height: 20),
-          TextFieldWidget(
-            label: 'Address',
-            text: user.address,
-            onChanged: (address) {},
-          ),
-          SizedBox(height: 20),
-          TextFieldWidget(
-            label: 'Receipt Message',
-            text: user.message,
-            onChanged: (message) {},
-          ),
-
-          // FloatingActionButton(
-          //   onPressed: onPressed)
-        ],
+              height: 10,
+            ),
+            SizedBox(height: 10),
+            TextFormField(
+              readOnly: false,
+              decoration: InputDecoration(
+                labelText: ' Store name',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              initialValue: "${widget.profile.name}",
+              onChanged: (value) {
+                print(value);
+                profileData.name = value;
+              },
+            ),
+            SizedBox(height: 20),
+            TextFormField(
+              readOnly: true,
+              decoration: InputDecoration(
+                labelText: ' Email',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              initialValue: "${widget.profile.email}",
+            ),
+            SizedBox(height: 20),
+            TextFormField(
+              readOnly: false,
+              decoration: InputDecoration(
+                labelText: ' Address',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              initialValue: "${widget.profile.address}",
+              onChanged: (value) {
+                print(value);
+                profileData.address = value;
+              },
+            ),
+            SizedBox(height: 20),
+            TextFormField(
+              readOnly: false,
+              decoration: InputDecoration(
+                labelText: ' Receipt Message',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              initialValue: "${widget.profile.receiptMessage}",
+              onChanged: (value) {
+                profileData.receiptMessage = value;
+              },
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+                onPressed: () async {
+                  var provider =
+                      Provider.of<ProfileRepository>(context, listen: false);
+                  await provider.updateProfileInfo(profileData);
+                },
+                child: Text("Save Changes"))
+          ],
+        ),
       ),
     );
   }
