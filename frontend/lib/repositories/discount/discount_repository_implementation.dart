@@ -25,7 +25,11 @@ class DiscountRepository implements IDiscountRepository {
         final data = await remote.getDiscount(id: id);
         return Right(data);
       } on OperationException catch (e) {
-        return Left(OperationFailure(e.graphqlErrors.first.message));
+        return Left(
+          OperationFailure(
+            e.graphqlErrors?.first?.message ?? "Something went wrong.",
+          ),
+        );
       } on NoResultsFoundException {
         return Left(NoResultsFoundFailure());
       } on Exception {
@@ -52,7 +56,11 @@ class DiscountRepository implements IDiscountRepository {
         final data = await remote.getDiscounts();
         return Right(data);
       } on OperationException catch (e) {
-        return Left(OperationFailure(e.graphqlErrors.first.message));
+        return Left(
+          OperationFailure(
+            e.graphqlErrors?.first?.message ?? "Something went wrong.",
+          ),
+        );
       } on NoResultsFoundException {
         return Left(NoResultsFoundFailure());
       } on Exception {
@@ -84,7 +92,11 @@ class DiscountRepository implements IDiscountRepository {
           description: description, percentage: percentage, products: products);
       return Right(data);
     } on OperationException catch (e) {
-      return Left(OperationFailure(e.graphqlErrors.first.message));
+      return Left(
+        OperationFailure(
+          e.graphqlErrors?.first?.message ?? "Something went wrong.",
+        ),
+      );
     } on NoResultsFoundException {
       return Left(NoResultsFoundFailure());
     } on Exception {
@@ -117,7 +129,11 @@ class DiscountRepository implements IDiscountRepository {
 
       return Right(data);
     } on OperationException catch (e) {
-      return Left(OperationFailure(e.graphqlErrors.first.message));
+      return Left(
+        OperationFailure(
+          e.graphqlErrors?.first?.message ?? "Something went wrong.",
+        ),
+      );
     } on NoResultsFoundException {
       return Left(NoResultsFoundFailure());
     } on Exception {
@@ -144,7 +160,11 @@ class DiscountRepository implements IDiscountRepository {
 
       return Right(data);
     } on OperationException catch (e) {
-      return Left(OperationFailure(e.graphqlErrors.first.message));
+      return Left(
+        OperationFailure(
+          e.graphqlErrors?.first?.message ?? "Something went wrong.",
+        ),
+      );
     } on NoResultsFoundException {
       return Left(NoResultsFoundFailure());
     } on Exception {
@@ -179,7 +199,11 @@ class DiscountRepository implements IDiscountRepository {
 
       return Right(data);
     } on OperationException catch (e) {
-      return Left(OperationFailure(e.graphqlErrors.first.message));
+      return Left(
+        OperationFailure(
+          e.graphqlErrors?.first?.message ?? "Something went wrong.",
+        ),
+      );
     } on NoResultsFoundException {
       return Left(NoResultsFoundFailure());
     } on Exception {
@@ -194,7 +218,11 @@ class DiscountRepository implements IDiscountRepository {
       final data = await remote.deleteDiscount(id: id);
       return Right(data);
     } on OperationException catch (e) {
-      return Left(OperationFailure(e.graphqlErrors.first.message));
+      return Left(
+        OperationFailure(
+          e.graphqlErrors?.first?.message ?? "Something went wrong.",
+        ),
+      );
     } on NoResultsFoundException {
       return Left(NoResultsFoundFailure());
     } on Exception {
