@@ -112,12 +112,13 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
     }).toList();
 
     var result = await provider.createTransaction(orders);
+    // var result = await provider.getTransactions();
+    // print(result);
     if (result.isRight) {
       showTransactionResultSuccess();
     } else {
       showTransactionResultFail();
     }
-
   }
 
   Future<void> showTransactionResultSuccess() async {
@@ -277,7 +278,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                     if (localKey.currentState.validate()) {
                       Navigator.of(context).pop();
                       await createTransaction();
-                      // sendReceipt(message, ['$phoneNumber']);
+                      await sendReceipt(message, ['$phoneNumber']);
                       print(message);
                       return;
                     } else {
