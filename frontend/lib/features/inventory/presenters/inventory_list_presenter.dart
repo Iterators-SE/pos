@@ -17,7 +17,26 @@ class InventoryListScreenPresenter
       return getView().body;
     } else {
       print(getView().state);
-      return Center(child: Text("Your inventory is empty."));
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Center(child: Image(
+              image: AssetImage(
+              'images/empty_inventory.png',),
+                width: 150,
+                height: 160,
+              )
+            ), 
+            Align(
+              alignment: Alignment.center, 
+              child:Text("Your inventory is empty"),
+            ),
+          ],
+        ),
+      );
     }
   }
 }
+ 

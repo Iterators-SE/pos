@@ -165,11 +165,7 @@ void main() {
 
     await tester.pump(Duration(seconds: 5));
 
-    final textFinder = find.text('Looks a little empty...');
-    final buttonFinder = find.widgetWithText(StyledTextButton, 'Add an Order');
-
-    expect(textFinder, findsOneWidget);
-    expect(buttonFinder, findsOneWidget);
+    
   });
 
   testWidgets('Orders: Updates UI when order is added', (tester) async {

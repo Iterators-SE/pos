@@ -21,6 +21,8 @@ class UserProvider extends ChangeNotifier {
   final HttpLink _httpLink = HttpLink('https://iterators-pos.herokuapp.com/graphql'); // ANDROID
 
 
+  //final HttpLink _httpLink = HttpLink('httpsr://iterators-pos.herokuapp.com/graphql');
+
   String get token => _token;
   User get user => _user;
   Either<Failure, bool> get signedUp => _signedUp;
@@ -75,8 +77,9 @@ class UserProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-
+  
   Link get link => _token != null
       ? AuthLink(getToken: () => 'Bearer $token').concat(_httpLink)
       : _httpLink;
+      
 }
