@@ -49,6 +49,7 @@ class InventoryRepository implements IInventoryRepository {
         // print(await data);
         return Right(data);
       } on OperationException catch (e) {
+          print("error: $e");
         return Left(OperationFailure(e.graphqlErrors.first.message));
       } on NoResultsFoundException {
         return Left(NoResultsFoundFailure());
@@ -78,7 +79,7 @@ class InventoryRepository implements IInventoryRepository {
       } catch (e) {
         return Left(UnhandledFailure());
       }
-    } 
+    }
     // else {
     //   try {
     //     final data = await local.getProducts();
@@ -108,7 +109,7 @@ class InventoryRepository implements IInventoryRepository {
       } catch (e) {
         return Left(UnhandledFailure());
       }
-    } 
+    }
     // else {
     //   try {
     //     final data = await local.getProductDetails(productId: productId);
