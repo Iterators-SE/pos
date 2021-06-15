@@ -22,8 +22,6 @@ class Product {
     this.variants,
     this.discount = 0,
   }) {
-    // TODO: Alan pls fix - major bug with transactions bc of this
-    
     quantity = variants?.fold(
       0,
       (previousValue, item) => previousValue + item.quantity ?? 0,
