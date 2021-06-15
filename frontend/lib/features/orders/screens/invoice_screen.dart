@@ -288,6 +288,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
     return Center(
       child: Container(
         margin: const EdgeInsets.all(1.0),
+        // padding: const EdgeInsets.all(5.0),
         decoration: BoxDecoration(
           border: Border.all(
             width: 3.0,
