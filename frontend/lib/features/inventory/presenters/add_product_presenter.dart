@@ -14,11 +14,11 @@ class AddProductScreenPresenter extends BasePresenter<AddProductScreenView> {
     } else if (isViewAttached && getView().state == AppState.done) {
       return getView().body;
     } else if (isViewAttached && getView().state == AppState.successful) {
-
       Future.delayed(Duration(milliseconds: 100), () {
         Navigator.pop(context, AppState.successful);
       });
 
+      return SizedBox();
       // return Center(
       //   child: Column(
       //     mainAxisAlignment: MainAxisAlignment.center,
@@ -31,9 +31,9 @@ class AddProductScreenPresenter extends BasePresenter<AddProductScreenView> {
       //       //     width: 150,
       //       //     height: 160,
       //       //   )
-      //       // ), 
+      //       // ),
       //       Align(
-      //         alignment: Alignment.center, 
+      //         alignment: Alignment.center,
       //         child: Text("Product added to inventory"),
       //       ),
       //       SizedBox(height: 30),
@@ -49,6 +49,8 @@ class AddProductScreenPresenter extends BasePresenter<AddProductScreenView> {
       Future.delayed(Duration(seconds: 1), () {
         Navigator.pop(context, AppState.error);
       });
+
+      return SizedBox();
     }
   }
 }

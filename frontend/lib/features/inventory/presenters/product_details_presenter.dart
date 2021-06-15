@@ -20,6 +20,7 @@ class ProductDetailScreenPresenter
       Future.delayed(Duration(milliseconds: 150), () {
         Navigator.pop(context, AppState.successful);
       });
+      return SizedBox();
       // return Center(
       //   child: Column(
       //     mainAxisAlignment: MainAxisAlignment.center,
@@ -51,6 +52,7 @@ class ProductDetailScreenPresenter
       Future.delayed(Duration(milliseconds: 150), () {
         Navigator.pop(context, AppState.error);
       });
+      return SizedBox();
       // return Center(
       //   child: Column(
       //     mainAxisAlignment: MainAxisAlignment.center,
