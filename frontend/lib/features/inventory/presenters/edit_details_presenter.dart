@@ -18,7 +18,17 @@ class EditDetailScreenPresenter extends BasePresenter<EditDetailScreenView> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text("Product has been updated."),
+            Center(child: Image(
+              image: AssetImage(
+              'images/blue_edited.png',),
+                width: 170,
+                height: 180,
+              )
+            ), 
+            Align(
+              alignment: Alignment.center, 
+              child: Text("Product has been updated"),
+            ),
             ElevatedButton(
                 onPressed: () {
                  Navigator.pop(context);

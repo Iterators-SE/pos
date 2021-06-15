@@ -32,7 +32,7 @@ class _InventoryListScreenState extends State<InventoryListScreen>
   String productToSearch = "";
 
   @override
-  List<Product> products = [];
+  List<dynamic> products = [];
 
   @override
   AppState state;

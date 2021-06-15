@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 
 import '../../../core/error/failure.dart';
 import '../../../models/product.dart';
-import '../../../models/transaction.dart';
 import '../../../repositories/transactions/interval.dart' as interval_i;
 import '../../../repositories/transactions/transaction_repository_implementation.dart';
 import '../presenter/transaction_screen_presenter.dart';
@@ -29,7 +28,7 @@ class _TransactionScreenState extends State<TransactionScreen>
   Failure failure;
 
   @override
-  List<Transaction> transactions = [];
+  List<dynamic> transactions = [];
 
   @override
   interval_i.Interval interval = interval_i.Interval.day;

@@ -27,7 +27,7 @@ import 'datasources/tax/tax_remote_datasource.dart';
 import 'datasources/transactions/transaction_datasource.dart';
 import 'datasources/transactions/transaction_local_datasource.dart';
 import 'datasources/transactions/transaction_remote_datasource.dart';
-import 'features/authentication/screens/authentication_screen.dart';
+import 'features/authentication/screens/authentication_screen.dart';  
 import 'features/home/screens/home_screen.dart';
 import 'graphql/queries.dart';
 import 'providers/user_provider.dart';
@@ -76,13 +76,12 @@ void main() async {
   ITaxRepository _taxRepository;
 
   SharedPreferences _storage;
-  AppDatabase local;
+  AppDatabase _local;
 
   final devUri = 'http://10.0.2.2:5000/graphql';
   final prodUri = 'https://iterators-pos.herokuapp.com/graphql';
   // ignore: unused_local_variable
   final uri = kReleaseMode ? prodUri : devUri;
-
   // _httpLink = HttpLink(prodUri);
   _httpLink = HttpLink(prodUri);
 
@@ -102,7 +101,7 @@ void main() async {
     remote: _authenticationDataSource,
   );
 
-  _transactionLocalDataSource = TransactionLocalDataSource(local: local);
+  _transactionLocalDataSource = TransactionLocalDataSource(local: _local);
   _transactionRemoteDataSource = TransactionRemoteDataSource(client: _client);
 
   _transactionRepository = TransactionRepository(
@@ -112,14 +111,15 @@ void main() async {
   );
   _discountRemoteDataSource = DiscountRemoteDataSource(
       client: _client, storage: _storage, local: _discountLocalDataSource);
-  _discountLocalDataSource = DiscountLocalDataSource(local: local);
+  _discountLocalDataSource = DiscountLocalDataSource(local: _local);
   _discountRepository = DiscountRepository(
       remote: _discountRemoteDataSource,
       local: _discountLocalDataSource,
       network: _networkInfo);
 
-  _inventoryLocalDataSource = InventoryLocalDataSource(local: local);
+  _inventoryLocalDataSource = InventoryLocalDataSource(local: _local);
   _inventoryRemoteDataSource = InventoryRemoteDataSource(
+    local: _inventoryLocalDataSource,
     client: _client,
     queries: MutationQuery(),
   );
@@ -147,6 +147,7 @@ void main() async {
       remote: _taxRemoteDataSource,
       local: _taxLocalDataSource,
       network: _networkInfo);
+  print(_local);
 
   runApp(
     MultiProvider(
@@ -201,6 +202,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: XPosTheme.lightTheme,
+      debugShowCheckedModeBanner: false,
       themeMode: currentTheme.currentTheme,
       home: Consumer<UserProvider>(
         builder: (context, user, child) {

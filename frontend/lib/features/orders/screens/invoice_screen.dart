@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../../apis/firebase_cloud_storage_api/firebase_storage_api.dart';
 import '../../../apis/receipt_api/receipt_builder_api.dart';
+import '../../../core/themes/config.dart';
 import '../../../models/order.dart' as t_order;
 
 import '../../../models/product.dart';
@@ -275,6 +276,13 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
     return Center(
       child: Container(
         margin: const EdgeInsets.all(1.0),
+        decoration: BoxDecoration(
+        border: Border.all(
+          width: 3.0,
+          color: xposGreen[300],
+        ),
+        borderRadius: BorderRadius.circular(12),
+      ),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,

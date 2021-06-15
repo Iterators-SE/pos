@@ -9,6 +9,7 @@ import '../views/tax_list_screen_view.dart';
 import 'pages/tax_list_view.dart';
 import 'tax_add_screen.dart';
 
+
 class TaxListScreen extends StatefulWidget {
   const TaxListScreen({Key key}) : super(key: key);
 
@@ -33,7 +34,7 @@ class _TaxListScreenState extends State<TaxListScreen>
   String taxToSearch;
 
   @override
-  List<Tax> taxes;
+  List<dynamic> taxes;
 
   @override
   void initState() {

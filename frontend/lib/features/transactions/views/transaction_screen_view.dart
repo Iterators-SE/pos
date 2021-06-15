@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../core/error/failure.dart';
 import '../../../models/product.dart';
-import '../../../models/transaction.dart';
 import '../../../repositories/transactions/interval.dart' as interval_i;
 
 enum LoadingState { loading, retry, error, done }
@@ -13,7 +12,7 @@ abstract class TransactionScreenView {
   LoadingState state = LoadingState.loading;
   Failure failure;
 
-  List<Transaction> transactions = [];
+  List<dynamic> transactions = [];
 
   List<Product> dayTopThree = [];
   List<Product> weekTopThree = [];

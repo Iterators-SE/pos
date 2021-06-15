@@ -31,8 +31,8 @@ class _DiscountScreenState extends State<DiscountScreen>
   Widget body;
 
   @override
-  List<Discount> discounts = [];
-  List<Product> products = [];
+  List<dynamic> discounts = [];
+  List<dynamic> products = [];
 
   @override
   void initState() {
