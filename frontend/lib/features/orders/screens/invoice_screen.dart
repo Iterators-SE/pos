@@ -43,8 +43,12 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
 
   // TODO: Show Dialog on fail
   void sendReceipt(String message, List<String> recipients) async {
-    await sendSMS(message: message, recipients: recipients)
-        .catchError(print);
+    await sendSMS(message: message, recipients: recipients).catchError(print);
+  }
+
+  void onCreateReceipt() {
+    createTransaction();
+    showReceiptChoices();
   }
 
   @override
@@ -95,9 +99,18 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
     var result = await provider.createTransaction(orders, link: pdfLink);
 
     if (result.isRight) {
-      showTransactionResultSuccess();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Transaction saved to database!"),
+        ),
+      );
     } else {
-      showTransactionResultFail();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+              "Transaction didn't save correctly. Please check your internet."),
+        ),
+      );
     }
   }
 
@@ -252,7 +265,6 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                     if (localKey.currentState.validate()) {
                       Navigator.of(context).pop();
                       //  TODO : Show Loading Indicator
-                      await createTransaction();
                       await sendReceipt(message, ['$phoneNumber']);
                       return;
                     } else {
@@ -277,12 +289,12 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
       child: Container(
         margin: const EdgeInsets.all(1.0),
         decoration: BoxDecoration(
-        border: Border.all(
-          width: 3.0,
-          color: xposGreen[300],
+          border: Border.all(
+            width: 3.0,
+            color: xposGreen[300],
+          ),
+          borderRadius: BorderRadius.circular(12),
         ),
-        borderRadius: BorderRadius.circular(12),
-      ),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -420,7 +432,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                   OrderButton(
                     onPressed: amount >=
                             widget.order.total + widget.order.totalAmountTax
-                        ? showReceiptChoices
+                        ? onCreateReceipt
                         : showIncorrectAmount,
                     text: "Create Receipt",
                   )
