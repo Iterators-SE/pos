@@ -25,6 +25,6 @@ export class Transaction extends BaseEntity {
     createdAt: Date;
 
     @Field({nullable: true})
-    @Column({type: "text"})
+    @Column({type: "text", nullable: true})
     link: string;
 }
