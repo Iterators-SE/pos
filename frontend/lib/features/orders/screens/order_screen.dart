@@ -331,7 +331,7 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
                           children: [
                             Center(child: Image(
                               image: AssetImage(
-                              'images/empty_orders.png',),
+                              'assets/images/empty_orders.png',),
                                 width: 120,
                                 height: 160,
                               )
