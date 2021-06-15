@@ -81,6 +81,7 @@ flutter:
     - assets/images/user.png
     - assets/images/empty_orders.png
     - assets/images/blue_added.png
+    - assets/images/blue_edited.png
 
   fonts:
     - family: Montserrat Bold
