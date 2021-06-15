@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../../core/themes/config.dart';
 
-//import '../../../../core/ui/styled_text_button.dart';
+import '../../../../core/themes/config.dart';
 import '../../../../models/product.dart';
 
-// TODO: Add styling
 class CustomAlertDialog extends StatefulWidget {
   final List<Product> allProducts;
   final Function onPressed;

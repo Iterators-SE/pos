@@ -8,10 +8,8 @@ import '../../../apis/firebase_cloud_storage_api/firebase_storage_api.dart';
 import '../../../apis/receipt_api/receipt_builder_api.dart';
 import '../../../core/themes/config.dart';
 import '../../../models/order.dart' as t_order;
-// import 'package:provider/provider.dart';
 
 import '../../../models/product.dart';
-// import 'package:frontend/features/orders/screens/phone_number.dart';
 import '../../../models/product_variant.dart';
 import '../../../models/user_profile.dart';
 import '../../../repositories/transactions/transaction_repository_implementation.dart';
@@ -36,50 +34,34 @@ class InvoiceScreen extends StatefulWidget {
   _InvoiceScreenState createState() => _InvoiceScreenState();
 }
 
+// TODO: REVISIT NAVIGATION HERE
 class _InvoiceScreenState extends State<InvoiceScreen> {
   final _formKey = GlobalKey<FormState>();
   double amount;
   String message;
   String pdfLink;
 
+  // TODO: Show Dialog on fail
   void sendReceipt(String message, List<String> recipients) async {
-    var result = await sendSMS(message: message, recipients: recipients)
+    await sendSMS(message: message, recipients: recipients)
         .catchError(print);
-    print(result);
   }
 
   @override
   void initState() {
     amount = widget.order.total;
-
-    // for (var variant in widget.order.products) {
-    //   body.add(
-    //     // ignore: lines_longer_than_80_chars
-    //     "${getProductName(variant)} [${variant.variantName}]: \t\t ${variant.quantity}x ${variant.price}\n");
-    // }
-
-    // // ignore: lines_longer_than_80_chars
-    // message =
-    //   // ignore: lines_longer_than_80_chars
-    //   '${widget.userProfileData.name}\n${widget.userProfileData.email}\n\nOrders:\n${body.join()}\n\nVAT:${widget.order.currentTax.percentage}%\nTotal: ${widget.order.total}\nAmount Paid: $amount\nChange:${amount - widget.order.total}\n\nThanks for ordering! ';
-
-    // print(message);
     super.initState();
   }
-
-// void createTransaction() {
-//   var provider = Provider.of<TransactionRepository>(context, listen: false);
-//   provider.createTransaction();
-// }
 
   void createPdf() async {
     var pdf = await PdfGeneratorApi.generate(
         widget.order, widget.userProfileData, widget.allProducts);
+
     var link = await CloudApi().uploadPdf(pdf);
+
     setState(() {
       pdfLink = link;
     });
-    // return link;
   }
 
   String getProductName(ProductVariant variant) {
@@ -104,17 +86,14 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
           .toList()
           .first;
 
-      //TODO: Create a field for pdf link in transactions
-
       var order = t_order.Order(
           id: 0, product: product, quantity: e.quantity, variant: variant);
 
       return order;
     }).toList();
 
-    var result = await provider.createTransaction(orders);
-    // var result = await provider.getTransactions();
-    // print(result);
+    var result = await provider.createTransaction(orders, link: pdfLink);
+
     if (result.isRight) {
       showTransactionResultSuccess();
     } else {
@@ -182,12 +161,6 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                   showSmsDialog();
                 },
               ),
-              // ElevatedButton(
-              //   child: Text("Email"),
-              //   onPressed: () {
-
-              //   },
-              // ),
             ],
           )),
           actions: [
@@ -234,7 +207,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
         for (var variant in widget.order.products) {
           body.add(
               // ignore: lines_longer_than_80_chars
-              "${getProductName(variant)} [${variant.variantName}]: ${variant.quantity}x  ${variant.price}\n");
+              "${getProductName(variant)} [${variant.variantName}]: ${variant.quantity} x  ${variant.price}\n");
         }
         message =
             // ignore: lines_longer_than_80_chars
@@ -278,9 +251,9 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                   onPressed: () async {
                     if (localKey.currentState.validate()) {
                       Navigator.of(context).pop();
+                      //  TODO : Show Loading Indicator
                       await createTransaction();
                       await sendReceipt(message, ['$phoneNumber']);
-                      print(message);
                       return;
                     } else {
                       Navigator.of(context).pop();
@@ -300,11 +273,9 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.order.products);
     return Center(
       child: Container(
         margin: const EdgeInsets.all(1.0),
-        // padding: const EdgeInsets.all(5.0),
         decoration: BoxDecoration(
         border: Border.all(
           width: 3.0,
@@ -317,7 +288,6 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // SizedBox(height: 20),
               CustomDataTable(
                 products: widget.allProducts,
                 order: widget.order,
@@ -399,7 +369,6 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                             border: OutlineInputBorder(),
                           ),
                           onChanged: (value) {
-                            // ignore: lines_longer_than_80_chars
                             if (double.tryParse(value) >=
                                 widget.order.total +
                                     widget.order.totalAmountTax) {

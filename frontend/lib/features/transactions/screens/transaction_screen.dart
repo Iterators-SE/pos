@@ -168,20 +168,20 @@ class _TransactionScreenState extends State<TransactionScreen>
         );
 
         if (indexOfOrder != -1) {
-          // var modifiedOrder = result[indexOfOrder];
+          var modifiedOrder = result[indexOfOrder];
 
-          // var modifiedVariant = modifiedOrder.variants?.firstWhere(
-          // (element) => element.variantId == order.variant.variantId,
-          // );
+          var modifiedVariant = modifiedOrder.variants?.firstWhere(
+          (element) => element.variantId == order.variant.variantId,
+          );
 
-          // if (modifiedVariant != null) {
-          //   result[indexOfOrder] = result[indexOfOrder]
-          //     ..quantity += order.quantity;
-          // } else {
-          //   result[indexOfOrder] = result[indexOfOrder]
-          //     ..variants = [...result[indexOfOrder].variants, order.variant]
-          //     ..quantity += order.quantity;
-          // }
+          if (modifiedVariant != null) {
+            result[indexOfOrder] = result[indexOfOrder]
+              ..quantity += order.quantity;
+          } else {
+            result[indexOfOrder] = result[indexOfOrder]
+              ..variants = [...result[indexOfOrder].variants, order.variant]
+              ..quantity += order.quantity;
+          }
         } else {
           result.add(order.product..quantity = order.quantity);
         }

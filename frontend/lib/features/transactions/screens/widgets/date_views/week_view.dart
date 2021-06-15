@@ -14,7 +14,7 @@ class WeekViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Make infinitely scrollable
+    // 
     return  Column(
           mainAxisSize: MainAxisSize.max,
           children: [

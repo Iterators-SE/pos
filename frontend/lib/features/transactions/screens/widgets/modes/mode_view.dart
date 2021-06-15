@@ -5,7 +5,6 @@ import 'detailed_view_widget.dart';
 import 'generic_view_widget.dart';
 import 'toggle_view_widget.dart';
 
-// TODO: FIX OVERFLOW PROBLEM
 class ModeView extends StatefulWidget {
   final List<Product> products;
 

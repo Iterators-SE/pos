@@ -1,6 +1,6 @@
 import { Field, ID, ObjectType } from "type-graphql";
 import { TypeormLoader } from "type-graphql-dataloader";
-import { BaseEntity, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Order } from "./Order";
 import { User } from "./User";
 
@@ -23,4 +23,8 @@ export class Transaction extends BaseEntity {
     @Field(() => Date)
     @CreateDateColumn()
     createdAt: Date;
+
+    @Field({nullable: true})
+    @Column({type: "text", nullable: true})
+    link: string;
 }
