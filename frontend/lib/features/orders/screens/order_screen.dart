@@ -311,14 +311,13 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Center(
-                            //   child: Image(
-                            //   image: AssetImage(
-                            //   'assets/images/empty_orders.png',),
-                            //     width: 120,
-                            //     height: 160,
-                            //   )
-                            // ), 
+                            Center(child: Image(
+                              image: AssetImage(
+                              'assets/images/empty_orders.png',),
+                                width: 120,
+                                height: 160,
+                              )
+                            ), 
                             Align(
                               alignment: Alignment.center, 
                               child: Text("Looks a little empty ..."),

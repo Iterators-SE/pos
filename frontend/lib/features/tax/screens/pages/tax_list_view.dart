@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/core/themes/config.dart';
 import '../../../../models/tax.dart';
 
 class TaxListPage extends StatefulWidget {
