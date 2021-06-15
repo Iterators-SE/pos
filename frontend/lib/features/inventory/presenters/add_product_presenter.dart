@@ -19,7 +19,18 @@ class AddProductScreenPresenter extends BasePresenter<AddProductScreenView> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text("Product added to inventory!"),
+            Center(child: Image(
+              image: AssetImage(
+              'images/blue_added.png',),
+                width: 150,
+                height: 160,
+              )
+            ), 
+            Align(
+              alignment: Alignment.center, 
+              child: Text("Product added to inventory"),
+            ),
+            SizedBox(height: 30),
             ElevatedButton(
                 onPressed: () async {
                   Navigator.pop(context);
