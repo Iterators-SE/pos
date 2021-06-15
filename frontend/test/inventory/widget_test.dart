@@ -255,7 +255,7 @@ void main() {
       await tester.tap(yesButton);
       await tester.pumpAndSettle();
 
-      final deleteMessage = find.text("Product has been deleted.");
+      // final deleteMessage = find.text("Product has been deleted.");
       final okayButton = find.widgetWithText(ElevatedButton, "Okay");
       // expect(deleteMessage, findsOneWidget);
       expect(okayButton, findsOneWidget);
