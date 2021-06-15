@@ -62,7 +62,7 @@ class _TaxListPageState extends State<TaxListPage> {
                       tax.name,
                       style: TextStyle(
                         fontFamily: "Montserrat Superbold",
-                        fontSize: 30,
+                        fontSize: 20,
                       ),
                     )
                   ],
