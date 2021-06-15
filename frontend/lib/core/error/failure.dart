@@ -30,3 +30,7 @@ class UnhandledFailure implements Failure {
   @override
   String get message => "Unhandled error. Please try again later.";
 }
+class NoConnectionFailure implements Failure {
+  @override
+  String get message => "No connection.";
+}

@@ -23,7 +23,10 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   @override
   Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
+
     return Container(
+      height: height,
       padding: EdgeInsets.only(top: 80, left: 40, right: 40),
       child: Form(
         key: widget.formKey,

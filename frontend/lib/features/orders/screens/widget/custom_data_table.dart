@@ -35,6 +35,8 @@ class _CustomDataTableState extends State<CustomDataTable> {
     print("Products in custom data table");
     print(widget.products);
     return DataTable(
+      
+      dataRowHeight: 55,
       columns: widget.columns,
       rows: widget.rows ??
           widget.order.products

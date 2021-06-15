@@ -18,11 +18,12 @@ class TopProductWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
-            height: 300,
+            height: 200,
             width: 300,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(25),
