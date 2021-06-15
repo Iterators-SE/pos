@@ -4,12 +4,10 @@ import '../../../../models/tax.dart';
 class TaxListPage extends StatefulWidget {
   final List<Tax> taxes;
   final Function onSelect;
+  final Function onDelete;
 
-  const TaxListPage({
-    Key key,
-    this.taxes,
-    this.onSelect,
-  }) : super(key: key);
+  const TaxListPage({Key key, this.taxes, this.onSelect, this.onDelete})
+      : super(key: key);
 
   @override
   _TaxListPageState createState() => _TaxListPageState();
@@ -91,9 +89,11 @@ class _TaxListPageState extends State<TaxListPage> {
               ),
               Container(
                 // padding: EdgeInsets.only(left: 10),
-                child: IconButton(
+                child: tax.isSelected
+                ? SizedBox()
+                : IconButton(
                   onPressed: () {
-                    print('delete');
+                    widget.onDelete(context, tax);
                   },
                   icon: Icon(Icons.delete),
                 ),
