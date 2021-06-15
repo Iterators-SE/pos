@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sms/flutter_sms.dart';
+import 'package:frontend/features/orders/screens/order_screen.dart';
 // import 'package:frontend/repositories/transactions/transaction_repository_implementation.dart';
 import 'package:meta/meta.dart';
 import 'package:provider/provider.dart';
@@ -107,8 +108,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text(
-              "Please check your internet. Transaction didn't save"),
+          content: Text("Please check your internet. Transaction didn't save."),
         ),
       );
     }
@@ -266,7 +266,11 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                       Navigator.of(context).pop();
                       //  TODO : Show Loading Indicator
                       await sendReceipt(message, ['$phoneNumber']);
-                      return;
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) => OrderScreen()),
+                          (route) => false);
+                      // return;
                     } else {
                       Navigator.of(context).pop();
                     }
