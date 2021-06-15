@@ -1,6 +1,5 @@
 import 'package:either_option/either_option.dart';
 import 'package:flutter/material.dart';
-// ignore: unused_import
 import 'package:provider/provider.dart';
 
 import '../../../core/error/failure.dart';
@@ -11,13 +10,14 @@ import '../../../models/product.dart';
 import '../../../models/product_variant.dart';
 import '../../../models/tax.dart';
 import '../../../models/user_profile.dart';
+import '../../../repositories/discount/discount_repository_implementation.dart';
 import '../../../repositories/inventory/inventory_repository_implementation.dart';
 import '../../../repositories/profile/profile_repository_implementation.dart';
-// import '../../../repositories/discount/discount_repository_implementation.dart';
 import '../../../repositories/tax/tax_repository_implementation.dart';
 import '../models/order.dart';
 import '../presenters/order_screen_presenter.dart';
 import '../views/order_screen_view.dart';
+
 import 'invoice_screen.dart';
 import 'widget/custom_alert_dialog.dart';
 import 'widget/custom_data_table.dart';
@@ -81,13 +81,10 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
     var taxResult = await Provider.of<TaxRepository>(context, listen: false)
         .getSelectedTax();
 
-    print(taxResult);
-
     if (taxResult.isLeft) {
       return Right(Tax(id: 0, isSelected: true, name: "None", percentage: 0));
     }
 
-    print(taxResult);
     return taxResult;
   }
 
@@ -117,23 +114,8 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
 
   @override
   Future<Either<Failure, List<Discount>>> getDiscounts() async {
-    // return await Provider.of<DiscountRepository>(context, listen: false)
-    //     .getDiscounts();
-
-    return Right([
-      Discount(
-        id: 1,
-        percentage: 20,
-        products: [1, 2],
-        description: "Senior Citizen",
-      ),
-      Discount(
-        id: 2,
-        percentage: 15,
-        products: [1, 2],
-        description: "PWD",
-      )
-    ]);
+    return await Provider.of<DiscountRepository>(context, listen: false)
+        .getDiscounts();
   }
 
   @override
@@ -221,9 +203,9 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
                 SliverFillRemaining(
                   child: body = hasProducts
                       ? SingleChildScrollView(
-                        child: Container(
-                        // margin: const EdgeInsets.all(15.0),
-                        // padding: const EdgeInsets.all(5.0),
+                          child: Container(
+                          // margin: const EdgeInsets.all(15.0),
+                          // padding: const EdgeInsets.all(5.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
