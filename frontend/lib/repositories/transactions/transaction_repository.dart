@@ -20,5 +20,6 @@ abstract class ITransactionRepository {
 
   Future<Either<Failure, List<dynamic>>> getTransactions();
   Future<Either<Failure, dynamic>> getTransaction({@required int id});
-  Future<Either<Failure, Transaction>> createTransaction(List<Order> orders);
+  Future<Either<Failure, Transaction>> createTransaction(List<Order> orders,
+      {String link});
 }

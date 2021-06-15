@@ -52,10 +52,10 @@ class TransactionRepository implements ITransactionRepository {
 
   @override
   Future<Either<Failure, Transaction>> createTransaction(
-      List<Order> orders) async {
+      List<Order> orders, {String link}) async {
     if (await network.isConnected()) {
       try {
-        final data = await remote.createTransaction(orders: orders);
+        final data = await remote.createTransaction(orders: orders, link: link);
         return Right(data);
       } on OperationException catch (e) {
         return Left(OperationFailure(e.graphqlErrors.first.message));
