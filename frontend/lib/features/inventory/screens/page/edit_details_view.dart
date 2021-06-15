@@ -483,21 +483,21 @@ class _EditDetailPageState extends State<EditDetailPage> {
     );
   }
 
-  Widget buildCheckBox() {
-    return CheckboxListTile(
-        value: product.isTaxable,
-        title: Text("Apply tax to this product."),
-        controlAffinity: ListTileControlAffinity.leading,
-        onChanged: (value) {
-          setState(() {
-            if (product.isTaxable) {
-              product.isTaxable = false;
-            } else {
-              product.isTaxable = true;
-            }
-          });
-        });
-  }
+  // Widget buildCheckBox() {
+  //   return CheckboxListTile(
+  //       value: product.isTaxable,
+  //       title: Text("Apply tax to this product."),
+  //       controlAffinity: ListTileControlAffinity.leading,
+  //       onChanged: (value) {
+  //         setState(() {
+  //           if (product.isTaxable) {
+  //             product.isTaxable = false;
+  //           } else {
+  //             product.isTaxable = true;
+  //           }
+  //         });
+  //       });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -520,7 +520,7 @@ class _EditDetailPageState extends State<EditDetailPage> {
                 SizedBox(height: 10),
                 buildDescription(),
                 SizedBox(height: 10),
-                buildCheckBox(),
+                // buildCheckBox(),
                 SizedBox(height: 15),
                 Text(
                   'Variants',
