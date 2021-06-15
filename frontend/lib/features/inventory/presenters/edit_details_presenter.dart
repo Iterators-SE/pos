@@ -21,8 +21,8 @@ class EditDetailScreenPresenter extends BasePresenter<EditDetailScreenView> {
             Center(child: Image(
               image: AssetImage(
               'images/blue_edited.png',),
-                width: 150,
-                height: 160,
+                width: 170,
+                height: 180,
               )
             ), 
             Align(
