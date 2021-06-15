@@ -47,9 +47,12 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
     await sendSMS(message: message, recipients: recipients).catchError(print);
   }
 
-  void onCreateReceipt() {
-    createTransaction();
-    showReceiptChoices();
+  void onCreateReceipt() async {
+    showLoading();
+    await createTransaction();
+    Navigator.of(context).pop();
+
+    await showReceiptChoices();
   }
 
   @override
@@ -112,6 +115,30 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
         ),
       );
     }
+  }
+
+  Future<void> showLoading() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Loading"),
+          content: Row(
+            children: [
+              Container(
+                margin: EdgeInsets.fromLTRB(40, 0, 0, 0),
+                child: Text("Please wait"), 
+              ),
+              Container(
+                margin: EdgeInsets.fromLTRB(30, 0, 0, 0),
+                child: CircularProgressIndicator(),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Future<void> showTransactionResultSuccess() async {
@@ -264,12 +291,8 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                   onPressed: () async {
                     if (localKey.currentState.validate()) {
                       Navigator.of(context).pop();
-                      //  TODO : Show Loading Indicator
                       await sendReceipt(message, ['$phoneNumber']);
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                              builder: (context) => OrderScreen()),
-                          (route) => false);
+                      Navigator.of(context).popUntil((route) => route.isFirst);
                       // return;
                     } else {
                       Navigator.of(context).pop();
