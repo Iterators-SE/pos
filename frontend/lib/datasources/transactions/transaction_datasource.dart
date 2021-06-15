@@ -9,7 +9,8 @@ abstract class ITransactionDataSource {
 }
 
 abstract class ITransactionRemoteDataSource implements ITransactionDataSource {
-  Future<Transaction> createTransaction({@required List<Order> orders});
+  Future<Transaction> createTransaction(
+      {@required List<Order> orders, String link});
 }
 
 abstract class ITransactionLocalDataSource implements ITransactionDataSource {

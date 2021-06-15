@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:graphql/client.dart';
+import 'package:meta/meta.dart';
 
 import '../../models/order.dart';
 // import '../../models/product.dart';
@@ -13,44 +14,9 @@ class TransactionRemoteDataSource implements ITransactionRemoteDataSource {
 
   GraphQLClient client;
 
-  // @override
-  // Future<Transaction> createTransaction({List<Order> orders}) async {
-  //   try {
-  //     final query = r'''
-  //       mutation createTransaction($orders: OrderInput){
-  //         action: createTransaction(orders: $orders)
-  //       }''';
-
-  //     final productIds = orders.map((e) => e.product.id).toList();
-  //     final variantIds = orders.map((e) => e.variant.variantId).toList();
-  //     final quantity = orders.map((e) => e.quantity).toList();
-
-  //     final response = await client.mutate(
-  //       MutationOptions(
-  //         document: gql(query),
-  //         variables: {
-  //           'orders': {
-  //             'productIds': productIds,
-  //             'variantIds': variantIds,
-  //             'quantity': quantity
-  //           },
-  //         },
-  //       ),
-  //     );
-
-  //     if (response.hasException) {
-  //       throw response.exception;
-  //     }
-
-  //     final data = jsonDecode(jsonEncode(response.data["action"])) as Map;
-  //     return Transaction.fromJson(data);
-  //   } catch (e) {
-  //     rethrow;
-  //   }
-  // }
-
   @override
-  Future<Transaction> createTransaction({List<Order> orders}) async {
+  Future<Transaction> createTransaction(
+      {@required List<Order> orders, String link}) async {
     try {
       final productIds = orders.map((e) => e.product.id).toList();
       final variantIds = orders.map((e) => e.variant.variantId).toList();
@@ -62,10 +28,9 @@ class TransactionRemoteDataSource implements ITransactionRemoteDataSource {
           productIds: $productIds,
           variantIds: $variantIds,
           quantity: $quantity
-        }){
+        }, link: $link) {
           id,
-          orders{
-            
+          orders {
             id,
             product{
               id,
@@ -89,6 +54,7 @@ class TransactionRemoteDataSource implements ITransactionRemoteDataSource {
             quantity,
           },
           createdAt,
+          link
         }
       }
       ''';
@@ -102,23 +68,7 @@ class TransactionRemoteDataSource implements ITransactionRemoteDataSource {
         throw response.exception;
       }
 
-      print(response);
-
       final data = jsonDecode(jsonEncode(response.data["createTransaction"]));
-
-      // print(data['id'].runtimeType);
-      // print(data['orders'][0]['id'].runtimeType);
-      // print(data["orders"][0].runtimeType);
-      // var x = Order.fromJson(data["orders"][0]);
-      // print(x.id);
-      // print(x.product);
-      // print(x.variant);
-      // print(x.quantity);
-
-      // var orders = data["orders"]
-      //.map((order) => Order.fromJson(order)).toList();
-      // print(orders);
-
       return Transaction.fromJson(data);
     } catch (e) {
       print(e);
@@ -227,7 +177,7 @@ class TransactionRemoteDataSource implements ITransactionRemoteDataSource {
 
       var transactions = <Transaction>[];
       final data = jsonDecode(jsonEncode(response.data["getTransactions"]));
-      
+
       for (var i = 0; i < data.length; i++) {
         transactions.add(Transaction.fromJson(data[i]));
       }
