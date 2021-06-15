@@ -174,8 +174,8 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
           )
         ],
       ),
-      drawer: Drawer(
-      ),
+      // drawer: Drawer(
+      // ),
       body: ReorderableListView(
         header: Container(
           margin: EdgeInsets.only(bottom: 40),

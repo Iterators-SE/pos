@@ -10,9 +10,11 @@ import 'package:frontend/models/discounts.dart';
 import 'package:frontend/models/product.dart';
 import 'package:frontend/models/product_variant.dart';
 import 'package:frontend/models/tax.dart';
+import 'package:frontend/models/user_profile.dart';
 import 'package:frontend/providers/user_provider.dart';
 import 'package:frontend/repositories/discount/discount_repository_implementation.dart';
 import 'package:frontend/repositories/inventory/inventory_repository_implementation.dart';
+import 'package:frontend/repositories/profile/profile_repository_implementation.dart';
 import 'package:frontend/repositories/tax/tax_repository_implementation.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
@@ -111,12 +113,30 @@ class MockTaxRepository extends Mock implements TaxRepository {
   }
 }
 
+class MockProfileRepository extends Mock implements ProfileRepository {
+  Future<Either<Failure, UserProfile>> getProfileInfo() async {
+    try {
+      final data = UserProfile(
+          address: "Fake address",
+          email: "fakeemail@gmail.com",
+          id: 0,
+          name: "Fake Store",
+          receiptMessage: "Fake Thank You!");
+
+      return Right(data);
+    } catch (e) {
+      return Left(e);
+    }
+  }
+}
+
 void main() {
   testWidgets('Orders: Shows correct message when first opened',
       (tester) async {
     final _inventoryRepository = MockInventoryRepository();
     final _discountRepository = MockDiscountRepository();
     final _taxRepository = MockTaxRepository();
+    final _profileRepository = MockProfileRepository();
 
     await tester.pumpWidget(
       MultiProvider(
@@ -130,9 +150,12 @@ void main() {
           Provider<TaxRepository>(
             create: (context) => _taxRepository,
           ),
+          Provider<ProfileRepository>(
+            create: (context) => _profileRepository,
+          ),
           ChangeNotifierProvider<UserProvider>(
-          create: (_) => UserProvider(),
-        ),
+            create: (_) => UserProvider(),
+          ),
         ],
         builder: (context, child) {
           return MaterialApp(home: OrderScreen());
@@ -153,6 +176,7 @@ void main() {
     final _inventoryRepository = MockInventoryRepository();
     final _discountRepository = MockDiscountRepository();
     final _taxRepository = MockTaxRepository();
+    final _profileRepository = MockProfileRepository();
 
     await tester.pumpWidget(
       MultiProvider(
@@ -166,9 +190,12 @@ void main() {
           Provider<TaxRepository>(
             create: (context) => _taxRepository,
           ),
+          Provider<ProfileRepository>(
+            create: (context) => _profileRepository,
+          ),
           ChangeNotifierProvider<UserProvider>(
-          create: (_) => UserProvider(),
-        ),
+            create: (_) => UserProvider(),
+          ),
         ],
         builder: (context, child) {
           return MaterialApp(home: OrderScreen());
