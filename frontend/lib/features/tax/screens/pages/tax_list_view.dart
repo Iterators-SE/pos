@@ -90,7 +90,7 @@ class _TaxListPageState extends State<TaxListPage> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.only(left: 10),
+                // padding: EdgeInsets.only(left: 10),
                 child: IconButton(
                   onPressed: () {
                     print('delete');
