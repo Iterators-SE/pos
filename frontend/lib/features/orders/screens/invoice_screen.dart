@@ -42,7 +42,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
 
   // TODO: Show Dialog on fail
   void sendReceipt(String message, List<String> recipients) async {
-    var result = await sendSMS(message: message, recipients: recipients)
+    await sendSMS(message: message, recipients: recipients)
         .catchError(print);
   }
 
