@@ -300,164 +300,159 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
   @override
   Widget build(BuildContext context) {
     print(widget.order.products);
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('Invoice'),
-        ),
-        body: Center(
-            child: Container(
-          margin: const EdgeInsets.all(15.0),
-          padding: const EdgeInsets.all(5.0),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(height: 20),
-                CustomDataTable(
-                  products: widget.allProducts,
-                  order: widget.order,
-                  onPressed: null,
-                  showEdit: false,
-                ),
-                CustomDataTable(
-                  order: widget.order,
-                  products: widget.allProducts,
-                  onPressed: () => (productVariant) async => await showDialog(
-                        context: context,
-                        builder: (context) => CustomAlertDialog(
-                          chosenProduct: widget.allProducts.firstWhere(
-                            (e) => e.id == productVariant.productId,
-                          ),
-                          quantity: productVariant.quantity,
-                          chosenVariant: productVariant.variantName,
-                          allProducts: widget.allProducts,
+    return Center(
+      child: Container(
+        margin: const EdgeInsets.all(1.0),
+        // padding: const EdgeInsets.all(5.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // SizedBox(height: 20),
+              CustomDataTable(
+                products: widget.allProducts,
+                order: widget.order,
+                onPressed: null,
+                showEdit: false,
+              ),
+              CustomDataTable(
+                order: widget.order,
+                products: widget.allProducts,
+                onPressed: () => (productVariant) async => await showDialog(
+                      context: context,
+                      builder: (context) => CustomAlertDialog(
+                        chosenProduct: widget.allProducts.firstWhere(
+                          (e) => e.id == productVariant.productId,
                         ),
+                        quantity: productVariant.quantity,
+                        chosenVariant: productVariant.variantName,
+                        allProducts: widget.allProducts,
                       ),
-                  columns: [
-                    DataColumn(label: Text('')),
-                    DataColumn(label: Text(''), numeric: true),
-                  ],
-                  rows: [
-                    DataRow(
-                      cells: [
-                        DataCell(Text("Price")),
-                        DataCell(
-                          Text(
-                            widget.order.total.toString(),
-                          ),
-                        )
-                      ],
                     ),
-                    DataRow(
-                      cells: [
-                        DataCell(Text("Discount")),
-                        DataCell(
-                          Text(
-                            widget.order.discountTotal.toString(),
+                columns: [
+                  DataColumn(label: Text('')),
+                  DataColumn(label: Text(''), numeric: true),
+                ],
+                rows: [
+                  DataRow(
+                    cells: [
+                      DataCell(Text("Price")),
+                      DataCell(
+                        Text(
+                          widget.order.total.toString(),
+                        ),
+                      )
+                    ],
+                  ),
+                  DataRow(
+                    cells: [
+                      DataCell(Text("Discount")),
+                      DataCell(
+                        Text(
+                          widget.order.discountTotal.toString(),
+                        ),
+                      )
+                    ],
+                  ),
+                  DataRow(
+                    cells: [
+                      DataCell(Text("VAT")),
+                      DataCell(
+                        Text(
+                          "${widget.order.currentTax.percentage * 100}%",
+                        ),
+                      )
+                    ],
+                  ),
+                  DataRow(
+                    cells: [
+                      DataCell(Text("Total")),
+                      DataCell(
+                        Text(
+                          // ignore: lines_longer_than_80_chars
+                          '${widget.order.total - widget.order.discountTotal + widget.order.totalAmountTax}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
                           ),
-                        )
-                      ],
-                    ),
-                    DataRow(
-                      cells: [
-                        DataCell(Text("VAT")),
-                        DataCell(
-                          Text(
-                            "${widget.order.currentTax.percentage * 100}%",
+                        ),
+                      )
+                    ],
+                  ),
+                  DataRow(
+                    cells: [
+                      DataCell(Text("Cash Tendered")),
+                      DataCell(
+                        TextFormField(
+                          key: _formKey,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          decoration: InputDecoration(
+                            hintText: '0',
+                            border: OutlineInputBorder(),
                           ),
-                        )
-                      ],
-                    ),
-                    DataRow(
-                      cells: [
-                        DataCell(Text("Total")),
-                        DataCell(
-                          Text(
+                          onChanged: (value) {
                             // ignore: lines_longer_than_80_chars
-                            '${widget.order.total - widget.order.discountTotal + widget.order.totalAmountTax}',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    DataRow(
-                      cells: [
-                        DataCell(Text("Cash Tendered")),
-                        DataCell(
-                          TextFormField(
-                            key: _formKey,
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            decoration: InputDecoration(
-                              hintText: '0',
-                              border: OutlineInputBorder(),
-                            ),
-                            onChanged: (value) {
-                              // ignore: lines_longer_than_80_chars
-                              if (double.tryParse(value) >=
+                            if (double.tryParse(value) >=
+                                widget.order.total +
+                                    widget.order.totalAmountTax) {
+                              setState(() => amount = double.tryParse(value) ??
                                   widget.order.total +
-                                      widget.order.totalAmountTax) {
-                                setState(() => amount =
-                                    double.tryParse(value) ??
-                                        widget.order.total +
-                                            widget.order.totalAmountTax);
-                              }
-                            },
-                            validator: (value) {
-                              if (double.tryParse(value) != null &&
-                                  double.parse(value) >= widget.order.total) {
-                                return null;
-                              }
+                                      widget.order.totalAmountTax);
+                            }
+                          },
+                          validator: (value) {
+                            if (double.tryParse(value) != null &&
+                                double.parse(value) >= widget.order.total) {
+                              return null;
+                            }
 
-                              return "Insufficient amount";
-                            },
+                            return "Insufficient amount";
+                          },
+                        ),
+                      )
+                    ],
+                  ),
+                  DataRow(
+                    cells: [
+                      DataCell(Text("Change")),
+                      DataCell(
+                        Text(
+                          // ignore: lines_longer_than_80_chars
+                          '${amount - widget.order.total - widget.order.totalAmountTax < 0 ? 0 : amount - widget.order.total - widget.order.totalAmountTax}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
                           ),
-                        )
-                      ],
-                    ),
-                    DataRow(
-                      cells: [
-                        DataCell(Text("Change")),
-                        DataCell(
-                          Text(
-                            // ignore: lines_longer_than_80_chars
-                            '${amount - widget.order.total - widget.order.totalAmountTax < 0 ? 0 : amount - widget.order.total - widget.order.totalAmountTax}',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
-                      child: Text("This serves as an official receipt"),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 30),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    OrderButton(
-                      onPressed: amount >=
-                              widget.order.total + widget.order.totalAmountTax
-                          ? showReceiptChoices
-                          : showIncorrectAmount,
-                      text: "Create Receipt",
-                    )
-                  ],
-                ),
-              ],
-            ),
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    child: Text("This serves as an official receipt"),
+                  ),
+                ],
+              ),
+              SizedBox(height: 30),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  OrderButton(
+                    onPressed: amount >=
+                            widget.order.total + widget.order.totalAmountTax
+                        ? showReceiptChoices
+                        : showIncorrectAmount,
+                    text: "Create Receipt",
+                  )
+                ],
+              ),
+            ],
           ),
-        )));
+        ),
+      ),
+    );
   }
 }
