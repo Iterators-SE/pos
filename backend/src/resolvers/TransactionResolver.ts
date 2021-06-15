@@ -29,7 +29,7 @@ export class TransactionResolver {
 
     @Authorized()
     @Mutation(() => Transaction, { nullable: true })
-    async createTransaction(@Ctx() ctx: Context, @Arg("orders") orders: OrderInput) {
+    async createTransaction(@Ctx() ctx: Context, @Arg("orders") orders: OrderInput, @Arg("link", {nullable: true}) link: string) {
         try {
             const user = await User.findOne(ctx.currentUser.id);
 
@@ -64,6 +64,7 @@ export class TransactionResolver {
             if (orderList) {
                 const transaction = await Transaction.create({
                     owner: user,
+                    link: link ?? null,
                     orders: orderList
                 }).save()
 
