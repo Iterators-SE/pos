@@ -44,7 +44,12 @@ class _ProductListPageState extends State<ProductListPage> {
       child: ListView.builder(
           itemCount: widget.products.length,
           itemBuilder: (contex, index) {
-            return ProductListTile(
+            return Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+            ),
+            elevation: 4,
+            child: ProductListTile(
                 product: widget.products[index],
                 functionOnTap: widget.functionOnTap);
           }),
