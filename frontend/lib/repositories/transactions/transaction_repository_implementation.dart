@@ -30,7 +30,11 @@ class TransactionRepository implements ITransactionRepository {
         await local.cacheTransaction(data);
         return Right(data);
       } on OperationException catch (e) {
-        return Left(OperationFailure(e.graphqlErrors.first.message));
+        return Left(
+          OperationFailure(
+            e.graphqlErrors?.first?.message ?? "Something went wrong.",
+          ),
+        );
       } on NoResultsFoundException {
         return Left(NoResultsFoundFailure());
       } on Exception {
@@ -51,14 +55,18 @@ class TransactionRepository implements ITransactionRepository {
   }
 
   @override
-  Future<Either<Failure, Transaction>> createTransaction(
-      List<Order> orders, {String link}) async {
+  Future<Either<Failure, Transaction>> createTransaction(List<Order> orders,
+      {String link}) async {
     if (await network.isConnected()) {
       try {
         final data = await remote.createTransaction(orders: orders, link: link);
         return Right(data);
       } on OperationException catch (e) {
-        return Left(OperationFailure(e.graphqlErrors.first.message));
+        return Left(
+          OperationFailure(
+            e.graphqlErrors?.first?.message ?? "Something went wrong.",
+          ),
+        );
       } on NoResultsFoundException {
         return Left(NoResultsFoundFailure());
       } on Exception {
@@ -79,7 +87,11 @@ class TransactionRepository implements ITransactionRepository {
         // await local.cacheTransactions(data);
         return Right(data);
       } on OperationException catch (e) {
-        return Left(OperationFailure(e.graphqlErrors.first.message));
+        return Left(
+          OperationFailure(
+            e.graphqlErrors?.first?.message ?? "Something went wrong.",
+          ),
+        );
       } on NoResultsFoundException {
         return Left(NoResultsFoundFailure());
       } on Exception {
