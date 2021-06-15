@@ -22,7 +22,18 @@ class ProductDetailScreenPresenter
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text("Product has been deleted."),
+            Center(child: Image(
+              image: AssetImage(
+              'images/blue_deleted.png',),
+                width: 170,
+                height: 180,
+              )
+            ), 
+            Align(
+              alignment: Alignment.center, 
+              child: Text("Product has been deleted"),
+            ),
+            SizedBox(height: 30),
             ElevatedButton(
                 onPressed: () async {
                   Navigator.pop(context);
