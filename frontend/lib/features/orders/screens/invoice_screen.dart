@@ -108,7 +108,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(
-              "Transaction didn't save correctly. Please check your internet."),
+              "Please check your internet. Transaction didn't save"),
         ),
       );
     }
