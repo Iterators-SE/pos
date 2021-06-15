@@ -29,7 +29,7 @@ class _TransactionScreenState extends State<TransactionScreen>
   Failure failure;
 
   @override
-  List<Transaction> transactions = [];
+  List<dynamic> transactions = [];
 
   @override
   interval_i.Interval interval = interval_i.Interval.day;

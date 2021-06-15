@@ -137,6 +137,10 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
       // print(products.first.variants.first.variantName);
       // print(products.runtimeType);
       // print(products.first.variants.runtimeType);
+      print("Products $products");
+      // print(local);
+      // await local.cacheProducts(products);
+      // print(await local.getProducts());
 
       return products;
     } catch (e) {
