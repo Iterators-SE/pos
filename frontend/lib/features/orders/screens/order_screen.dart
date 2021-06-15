@@ -222,8 +222,8 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
                   child: body = hasProducts
                       ? SingleChildScrollView(
                         child: Container(
-                        margin: const EdgeInsets.all(15.0),
-                        padding: const EdgeInsets.all(5.0),
+                        // margin: const EdgeInsets.all(15.0),
+                        // padding: const EdgeInsets.all(5.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,

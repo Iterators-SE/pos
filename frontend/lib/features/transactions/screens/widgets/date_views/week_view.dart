@@ -15,16 +15,17 @@ class WeekViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: Make infinitely scrollable
-    return Column(
-      children: [
-        Expanded(
-          child: TopProductsWidget(
-            products: topThree,
-            interval: interval_i.Interval.week,
-          ),
-        ),
-        ModeView(products: products),
-      ],
+    return  Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Expanded(
+              child: TopProductsWidget(
+                  products: topThree,
+                  interval: interval_i.Interval.week,
+                ),
+            ),
+            Expanded(child: ModeView(products: products)),
+          ],
     );
   }
 }

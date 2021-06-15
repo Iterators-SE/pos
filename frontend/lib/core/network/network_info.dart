@@ -1,24 +1,27 @@
-import 'dart:io';
-// import 'package:data_connection_checker/data_connection_checker.dart';
+import 'package:connectivity/connectivity.dart';
+import 'package:data_connection_checker/data_connection_checker.dart';
 
-// ignore: one_member_abstracts
-abstract class NetworkInfo {
-  Future<bool> isConnected();
-}
+class NetworkInfo {
+  NetworkInfo._internal();
 
-class NetworkInfoImplementation implements NetworkInfo {
-  // final DataConnectionChecker connectionChecker;
+  static final NetworkInfo _singleton =
+      NetworkInfo._internal();
 
-  // NetworkInfoImplementation(this.connectionChecker);
+  static NetworkInfo getInstance() => _singleton;
 
-  @override
   Future<bool> isConnected() async {
+    // ignore: lines_longer_than_80_chars
+    // TODO: NOTE THAT THIS METHOD WILL NOT WORK ON WEB DUE TO DATACONNECTIONCHECKER PACKAGE
     try {
-      final response = await InternetAddress.lookup('www.google.com');
-      return response.isNotEmpty;
-    } on SocketException {
-      return false;
-    } catch (error) {
+      var connectivityResult = await (Connectivity().checkConnectivity());
+
+      if (connectivityResult != ConnectivityResult.none) {
+        return await DataConnectionChecker().hasConnection;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print(e);
       return false;
     }
   }
