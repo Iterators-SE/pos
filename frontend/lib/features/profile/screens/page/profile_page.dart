@@ -138,6 +138,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           SizedBox(height: 10),
                           TextFormField(
+                            key: Key("profileName"),
                             readOnly: true,
                             style: TextStyle(
                               fontSize: 20, 
@@ -153,6 +154,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           SizedBox(height: 30),
                            TextFormField(
+                            key: Key("profileEmail"),
                             readOnly: true,
                             style: TextStyle(
                               fontSize: 20, 
@@ -168,6 +170,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           SizedBox(height: 30),
                           TextFormField(
+                            key: Key("profileAddress"),
                             readOnly: true,
                             style: TextStyle(
                               fontSize: 20, 
@@ -183,6 +186,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           SizedBox(height: 30),
                           TextFormField(
+                            key: Key("profileReceiptMessage"),
                             readOnly: true,
                             style: TextStyle(
                               fontSize: 20, 
