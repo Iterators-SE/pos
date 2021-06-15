@@ -33,7 +33,7 @@ class _TaxListScreenState extends State<TaxListScreen>
   String taxToSearch;
 
   @override
-  List<Tax> taxes;
+  List<dynamic> taxes;
 
   @override
   void initState() {

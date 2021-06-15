@@ -13,7 +13,7 @@ abstract class TransactionScreenView {
   LoadingState state = LoadingState.loading;
   Failure failure;
 
-  List<Transaction> transactions = [];
+  List<dynamic> transactions = [];
 
   List<Product> dayTopThree = [];
   List<Product> weekTopThree = [];
