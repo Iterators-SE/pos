@@ -22,13 +22,14 @@ class ProductDetailScreenPresenter
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Center(child: Image(
-              image: AssetImage(
-              'images/blue_deleted.png',),
-                width: 170,
-                height: 180,
-              )
-            ), 
+            // Center(
+            //   child: Image(
+            //   image: AssetImage(
+            //   'images/blue_deleted.png',),
+            //     width: 170,
+            //     height: 180,
+            //   )
+            // ), 
             Align(
               alignment: Alignment.center, 
               child: Text("Product has been deleted"),
