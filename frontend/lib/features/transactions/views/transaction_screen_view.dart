@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../core/error/failure.dart';
 import '../../../models/product.dart';
-import '../../../models/transaction.dart';
 import '../../../repositories/transactions/interval.dart' as interval_i;
 
 enum LoadingState { loading, retry, error, done }
