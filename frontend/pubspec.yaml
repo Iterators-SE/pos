@@ -79,6 +79,7 @@ flutter:
     - assets/images/discount.png
     - assets/images/taxes.png
     - assets/images/user.png
+    - assets/images/empty_orders.png
 
   fonts:
     - family: Montserrat Bold
