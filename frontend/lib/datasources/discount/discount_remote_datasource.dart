@@ -21,7 +21,17 @@ class DiscountRemoteDataSource implements IDiscountRemoteDataSource {
     try {
       final query = r'''
         query getDiscount($id : Number!) {
-          action: getDiscount(id: $id)
+          action: getDiscount(id: $id) {
+            id,
+            description,
+            percentage,
+            products {
+              id
+            }
+            inclusiveDates,
+            startTime,
+            endTime
+          }
         }''';
 
       final response = await client.query(
@@ -49,8 +59,18 @@ class DiscountRemoteDataSource implements IDiscountRemoteDataSource {
   Future<List<Discount>> getDiscounts() async {
     try {
       final query = r'''
-        query getDiscounts() {
-          action: getDiscounts()
+        query {
+          getDiscounts {
+            id,
+            description,
+            percentage,
+            products {
+              id
+            }
+            inclusiveDates,
+            startTime,
+            endTime
+          }
         }''';
 
       final response = await client.query(QueryOptions(document: gql(query)));
@@ -59,10 +79,17 @@ class DiscountRemoteDataSource implements IDiscountRemoteDataSource {
         throw response.exception;
       }
 
-      final data = jsonEncode(response.data['action']);
-      await local.cacheDiscounts(data);
-      return jsonDecode(data);
+      final data = jsonDecode(jsonEncode(response.data['getDiscounts']));
+      // await local.cacheDiscounts(data); // NOT YET INSTANTIATED
+
+      var discounts = <Discount>[];
+
+      for (var i = 0; i < data.length; i++) {
+        discounts.add(CustomDiscount.fromJson(data[i]));
+      }
+      return discounts;
     } catch (e) {
+      print(e);
       rethrow;
     }
   }
@@ -76,7 +103,14 @@ class DiscountRemoteDataSource implements IDiscountRemoteDataSource {
     try {
       final query = r'''
         mutation createGenericDiscount($input: DiscountInput!) {
-          action: createGenericDiscount(input: $input)
+          action: createGenericDiscount(input: $input) {
+            id,
+            description,
+            percentage,
+            products {
+              id
+            }
+          }
         }''';
 
       final response = await client.query(
@@ -97,7 +131,7 @@ class DiscountRemoteDataSource implements IDiscountRemoteDataSource {
       }
 
       final data = jsonEncode(response.data['action']);
-      return jsonDecode(data);
+      return Discount.fromJson(jsonDecode(data));
     } catch (e) {
       rethrow;
     }
@@ -116,7 +150,17 @@ class DiscountRemoteDataSource implements IDiscountRemoteDataSource {
     try {
       final query = r'''
           mutation createCustomDiscount($input: DiscountInput!, $custom: CustomDiscountInput) {
-          action: createCustomDiscount(input: $input, custom: $custom)
+          action: createCustomDiscount(input: $input, custom: $custom) {
+            id,
+            description,
+            percentage,
+            products {
+              id
+            }
+            inclusiveDates,
+            startTime,
+            endTime
+          }
         }''';
 
       final response = await client.query(
@@ -145,7 +189,7 @@ class DiscountRemoteDataSource implements IDiscountRemoteDataSource {
       }
 
       final data = jsonEncode(response.data['action']);
-      return jsonDecode(data);
+      return CustomDiscount.fromJson(jsonDecode(data));
     } catch (e) {
       rethrow;
     }
@@ -161,7 +205,14 @@ class DiscountRemoteDataSource implements IDiscountRemoteDataSource {
     try {
       final query = r'''
         mutation updateGenericDiscount($id: Number!, $input: DiscountInput!) {
-          action: updateGenericDiscount(id: $id, input: $input)
+          action: updateGenericDiscount(id: $id, input: $input) {
+            id,
+            description,
+            percentage,
+            products {
+              id
+            }
+          }
         }''';
 
       final response = await client.query(
@@ -183,7 +234,7 @@ class DiscountRemoteDataSource implements IDiscountRemoteDataSource {
       }
 
       final data = jsonEncode(response.data['action']);
-      return jsonDecode(data);
+      return CustomDiscount.fromJson(jsonDecode(data));
     } catch (e) {
       rethrow;
     }
@@ -233,7 +284,7 @@ class DiscountRemoteDataSource implements IDiscountRemoteDataSource {
       }
 
       final data = jsonEncode(response.data['action']);
-      return jsonDecode(data);
+      return CustomDiscount.fromJson(jsonDecode(data));
     } catch (e) {
       rethrow;
     }
