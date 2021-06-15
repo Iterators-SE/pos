@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sms/flutter_sms.dart';
 // import 'package:frontend/repositories/transactions/transaction_repository_implementation.dart';
 import 'package:meta/meta.dart';
+import 'package:provider/provider.dart';
 
 import '../../../apis/firebase_cloud_storage_api/firebase_storage_api.dart';
 import '../../../apis/receipt_api/receipt_builder_api.dart';
+import '../../../models/order.dart' as t_order;
 // import 'package:provider/provider.dart';
 
 import '../../../models/product.dart';
 // import 'package:frontend/features/orders/screens/phone_number.dart';
 import '../../../models/product_variant.dart';
 import '../../../models/user_profile.dart';
+import '../../../repositories/transactions/transaction_repository_implementation.dart';
 import '../models/order.dart';
 import 'widget/custom_alert_dialog.dart';
 import 'widget/custom_data_table.dart';
@@ -86,6 +89,79 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
     return product.first.name;
   }
 
+  void createTransaction() async {
+    var provider = Provider.of<TransactionRepository>(context, listen: false);
+
+    var orders = widget.order.products.map((e) {
+      var product = widget.allProducts
+          .where((element) => element.id == e.productId)
+          .toList()
+          .first;
+
+      var variant = product.variants
+          .where((element) => element.variantId == e.variantId)
+          .toList()
+          .first;
+
+      //TODO: Create a field for pdf link in transactions
+
+      var order = t_order.Order(
+          id: 0, product: product, quantity: e.quantity, variant: variant);
+
+      return order;
+    }).toList();
+
+    var result = await provider.createTransaction(orders);
+    if (result.isRight) {
+      showTransactionResultSuccess();
+    } else {
+      showTransactionResultFail();
+    }
+
+  }
+
+  Future<void> showTransactionResultSuccess() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Transaction"),
+          content: SingleChildScrollView(
+              child: Text("Transaction has been saved to database!")),
+          actions: [
+            TextButton(
+                child: Text("Okay"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                }),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> showTransactionResultFail() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Transaction"),
+          content: SingleChildScrollView(
+              child: Text("Please check your net. Transaction not saved!")),
+          actions: [
+            TextButton(
+                child: Text("Okay"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                }),
+          ],
+        );
+      },
+    );
+  }
+
   Future<void> showReceiptChoices() async {
     await createPdf();
     return showDialog<void>(
@@ -100,7 +176,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
               ElevatedButton(
                 child: Text("via SMS"),
                 onPressed: () {
-                   Navigator.of(context).pop();
+                  Navigator.of(context).pop();
                   showSmsDialog();
                 },
               ),
@@ -155,11 +231,11 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
         var body = [];
         for (var variant in widget.order.products) {
           body.add(
-          // ignore: lines_longer_than_80_chars
+              // ignore: lines_longer_than_80_chars
               "${getProductName(variant)} [${variant.variantName}]: ${variant.quantity}x  ${variant.price}\n");
         }
         message =
-        // ignore: lines_longer_than_80_chars
+            // ignore: lines_longer_than_80_chars
             '${widget.userProfileData.name}\n${widget.userProfileData.address}\n${widget.userProfileData.email}\n\nOrders:\n${body.join()}\nTax (${widget.order.currentTax.percentage * 100}%): ${widget.order.totalAmountTax}\nTotal: ${widget.order.total + widget.order.totalAmountTax}\nAmount Paid: $amount\nChange: ${amount - widget.order.total - widget.order.totalAmountTax < 0 ? 0 : amount - widget.order.total - widget.order.totalAmountTax}\n\n${widget.userProfileData.receiptMessage}\n\nPDF link: $pdfLink';
 
         return StatefulBuilder(builder: (context, setState) {
@@ -197,9 +273,11 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
             actions: [
               TextButton(
                   child: Text("Submit"),
-                  onPressed: () {
+                  onPressed: () async {
                     if (localKey.currentState.validate()) {
-                      sendReceipt(message, ['$phoneNumber']);
+                      Navigator.of(context).pop();
+                      await createTransaction();
+                      // sendReceipt(message, ['$phoneNumber']);
                       print(message);
                       return;
                     } else {
