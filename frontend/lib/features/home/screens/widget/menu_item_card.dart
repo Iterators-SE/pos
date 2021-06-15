@@ -1,4 +1,3 @@
-import 'package:either_option/either_option.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
