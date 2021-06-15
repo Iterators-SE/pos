@@ -90,13 +90,7 @@ void main() async {
     link: _httpLink,
   );
 
-<<<<<<< HEAD
-  _local = AppDatabase();
-
-  _networkInfo = NetworkInfoImplementation();
-=======
   _networkInfo = NetworkInfo.getInstance();
->>>>>>> 5827b65b0c5decfd524f7774e57738f7b518ee20
 
   _authenticationDataSource = AuthenticationRemoteDataSource(
     client: _client,
