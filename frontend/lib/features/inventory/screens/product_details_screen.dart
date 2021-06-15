@@ -72,7 +72,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
-                        EditDetailScreen(product: widget.product),
+                        EditDetailScreen(product: productData),
                   ),
                 ).then((value) async {
                   await updateProductData(productData, context);
