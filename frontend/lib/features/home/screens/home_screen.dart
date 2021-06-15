@@ -23,6 +23,7 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
+// TODO: FIX HOME COLOR SCHEME
 class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
   HomeScreenPresenter _presenter;
 
