@@ -1,22 +1,14 @@
 import 'package:either_option/either_option.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/core/error/failure.dart';
-import 'package:frontend/core/ui/styled_text_button.dart';
 import 'package:frontend/features/discount/screen/discount_screen.dart';
-import 'package:frontend/features/orders/screens/order_screen.dart';
-import 'package:frontend/features/orders/screens/widget/custom_data_table.dart';
 import 'package:frontend/models/discounts.dart';
 import 'package:frontend/models/product.dart';
 import 'package:frontend/models/product_variant.dart';
-import 'package:frontend/models/tax.dart';
-import 'package:frontend/models/user_profile.dart';
 import 'package:frontend/providers/user_provider.dart';
 import 'package:frontend/repositories/discount/discount_repository_implementation.dart';
 import 'package:frontend/repositories/inventory/inventory_repository_implementation.dart';
-import 'package:frontend/repositories/profile/profile_repository_implementation.dart';
-import 'package:frontend/repositories/tax/tax_repository_implementation.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 
@@ -131,7 +123,7 @@ void main() {
     final pwd = find.text('PWD');
 
     await tester.pumpAndSettle();
-    
+
     expect(senior, findsOneWidget);
     expect(pwd, findsOneWidget);
   });
