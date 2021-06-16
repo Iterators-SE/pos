@@ -125,26 +125,13 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
         throw response.exception;
       }
 
-      print(response);
-
       var data = jsonEncode(response.data['getProducts']);
       List listOfProductJson = jsonDecode(data);
       var products = await listOfProductJson.map((productJson) {
         return Product.fromJson(productJson);
       }).toList();
-
-      // print(products);
-      // print(products.first.variants.first.variantName);
-      // print(products.runtimeType);
-      // print(products.first.variants.runtimeType);
-      print("Products $products");
-      // print(local);
-      // await local.cacheProducts(products);
-      // print(await local.getProducts());
-
       return products;
     } catch (e) {
-      print('e $e');
       rethrow;
     }
   }
