@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/features/profile/screens/widgets/header_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/state/app_state.dart';
-import '../../../../core/themes/config.dart';
 import '../../../../models/user_profile.dart';
 import '../../../../repositories/profile/profile_repository_implementation.dart';
+import '../widgets/header_widget.dart';
 import 'edit_profile_page.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -89,8 +88,8 @@ class _ProfilePageState extends State<ProfilePage> {
           )
         ]),
         body: state == AppState.done
-            ? Column(
-                children: [
+            ? SingleChildScrollView(
+                child: Column(children: [
                   Header(),
                   // Center(
                   //   child: Image(
@@ -207,7 +206,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 ],
-              )
+              ))
             : Center(child: CircularProgressIndicator()));
 
     // Widget buildName(UserProfile user) => Column(
