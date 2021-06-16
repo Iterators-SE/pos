@@ -85,7 +85,7 @@ void main() async {
   // ignore: unused_local_variable
   final uri = kReleaseMode ? prodUri : devUri;
   // _httpLink = HttpLink(prodUri);
-  _httpLink = HttpLink(finalUri);
+  _httpLink = HttpLink('https://iterators-pos-all.herokuapp.com/graphql');
 
   _client = GraphQLClient(
     cache: GraphQLCache(),

@@ -189,9 +189,9 @@ class TaxRemoteDataSource implements ITaxRemoteDataSource {
       List<Tax> decoded = await jsonDecode(data)
           .map<Tax>((product) => Tax.fromJson(product))
           .toList();
-      if ((await local.getTaxes()).isEmpty){
-        local.cacheTaxes(decoded);
-      }
+      // if ((await local.getTaxes()).isEmpty){
+      //   local.cacheTaxes(decoded);
+      // }
       return decoded;
     } catch (e) {
       rethrow;

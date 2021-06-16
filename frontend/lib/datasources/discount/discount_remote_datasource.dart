@@ -37,6 +37,7 @@ class DiscountRemoteDataSource implements IDiscountRemoteDataSource {
       final response = await client.query(
         QueryOptions(
           document: gql(query),
+          fetchPolicy: FetchPolicy.networkOnly,
           variables: {
             'id': id,
           },
@@ -48,7 +49,7 @@ class DiscountRemoteDataSource implements IDiscountRemoteDataSource {
       }
 
       final data = jsonEncode(response.data['action']);
-      await local.cacheDiscounts(data);
+      // await local.cacheDiscounts(data);
       return jsonDecode(data);
     } catch (e) {
       rethrow;
@@ -73,7 +74,14 @@ class DiscountRemoteDataSource implements IDiscountRemoteDataSource {
           }
         }''';
 
-      final response = await client.query(QueryOptions(document: gql(query)));
+      final response = await client.query(
+        QueryOptions(
+          document: gql(query),
+          fetchPolicy: FetchPolicy.networkOnly
+          )
+        );
+
+      print(response);
 
       if (response.hasException) {
         throw response.exception;
@@ -81,10 +89,10 @@ class DiscountRemoteDataSource implements IDiscountRemoteDataSource {
 
       final data = jsonDecode(jsonEncode(response.data['getDiscounts']));
       ("Data: $data");
-      if ((await local.getDiscounts()).isEmpty) {
-        await local.cacheDiscounts(data);
-        print(await local.getDiscounts());
-      }
+      // if ((await local.getDiscounts()).isEmpty) {
+      //   await local.cacheDiscounts(data);
+      //   print(await local.getDiscounts());
+      // }
 
       var discounts = <Discount>[];
 
@@ -120,6 +128,7 @@ class DiscountRemoteDataSource implements IDiscountRemoteDataSource {
       final response = await client.query(
         QueryOptions(
           document: gql(query),
+          fetchPolicy: FetchPolicy.networkOnly,
           variables: {
             'input': {
               'description': description,
@@ -170,6 +179,7 @@ class DiscountRemoteDataSource implements IDiscountRemoteDataSource {
       final response = await client.query(
         QueryOptions(
           document: gql(query),
+          fetchPolicy: FetchPolicy.networkOnly,
           variables: {
             'input': {
               'description': description,
@@ -222,6 +232,7 @@ class DiscountRemoteDataSource implements IDiscountRemoteDataSource {
       final response = await client.query(
         QueryOptions(
           document: gql(query),
+          fetchPolicy: FetchPolicy.networkOnly,
           variables: {
             'id': id,
             'input': {
@@ -264,6 +275,7 @@ class DiscountRemoteDataSource implements IDiscountRemoteDataSource {
       final response = await client.query(
         QueryOptions(
           document: gql(query),
+          fetchPolicy: FetchPolicy.networkOnly,
           variables: {
             'id': id,
             'input': {
@@ -308,7 +320,10 @@ class DiscountRemoteDataSource implements IDiscountRemoteDataSource {
         }''';
 
       final response = await client.mutate(
-        MutationOptions(document: gql(query)),
+        MutationOptions(
+          document: gql(query),
+          fetchPolicy: FetchPolicy.networkOnly
+        ),
       );
 
       print(response);

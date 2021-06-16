@@ -155,10 +155,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30))),
                           onPressed: () async {
-                            var provider = Provider.of<ProfileRepository>(
-                                context,
-                                listen: false);
-                            await provider.updateProfileInfo(profileData);
+                            onSave();
                           },
                           child: Text("Save Changes")),
                     )

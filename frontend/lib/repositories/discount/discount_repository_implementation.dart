@@ -19,7 +19,7 @@ class DiscountRepository implements IDiscountRepository {
       {@required this.remote, @required this.network, this.local});
 
   @override
-  Future<Either<Failure, dynamic>> getDiscount({@required int id}) async {
+  Future<Either<Failure, Discount>> getDiscount({@required int id}) async {
     if (await network.isConnected()) {
       try {
         final data = await remote.getDiscount(id: id);
@@ -50,7 +50,7 @@ class DiscountRepository implements IDiscountRepository {
   }
 
   @override
-  Future<Either<Failure, List<dynamic>>> getDiscounts() async {
+  Future<Either<Failure, List<Discount>>> getDiscounts() async {
     if (await network.isConnected()) {
       try {
         final data = await remote.getDiscounts();

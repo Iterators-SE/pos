@@ -34,6 +34,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void updateProfileData(UserProfile data) {
+    print("onChange!!!!");
     setState(() {
       print(data.name);
       profileData = data;
@@ -59,12 +60,14 @@ class _ProfilePageState extends State<ProfilePage> {
           IconButton(
             icon: Icon(Icons.edit),
             onPressed: () {
-              print(profileData.name);
+              // print(profileData.name);
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
                           EditProfilePage(profile: profileData))).then((value) {
+                updateProfileData(value[1]);
+
                 if (value[0] == AppState.successful) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
@@ -78,8 +81,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   );
                 }
-
-                updateProfileData(value[1]);
               });
             },
           ),
@@ -89,7 +90,8 @@ class _ProfilePageState extends State<ProfilePage> {
         ]),
         body: state == AppState.done
             ? SingleChildScrollView(
-                child: Column(children: [
+                child: Column(
+                children: [
                   Header(),
                   // Center(
                   //   child: Image(
@@ -127,6 +129,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     height: 10,
                   ),
                   Container(
+                    
                     margin: EdgeInsets.all(10),
                     height: 500,
                     child: Center(
@@ -138,27 +141,44 @@ class _ProfilePageState extends State<ProfilePage> {
                             height: 30,
                           ),
                           SizedBox(height: 10),
+                          // TextFormField(
+                          //   // key: Key("profileName"),
+                          //   readOnly: true,
+                          //   style: TextStyle(
+                          //     fontSize: 20,
+                          //     // fontWeight: FontWeight.bold
+                          //   ),
+                          //   initialValue: profileData.name,
+                          //   decoration: InputDecoration(
+                          //     labelText: 'Product Name',
+                          //     border: OutlineInputBorder(
+                          //       borderRadius: BorderRadius.circular(10),
+                          //     ),
+                          //   ),
+                          // ),
                           TextFormField(
-                            key: Key("profileName"),
+                            key: Key(profileData.name),
                             readOnly: true,
                             style: TextStyle(
-                              fontSize: 20, 
+                              fontSize: 20,
                               // fontWeight: FontWeight.bold
                             ),
                             initialValue: profileData.name,
                             decoration: InputDecoration(
-                              labelText: 'Product Name',
+                              labelText: 'Email',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
                           ),
+                          // Text(profileData.name),
                           SizedBox(height: 30),
-                           TextFormField(
-                            key: Key("profileEmail"),
+                          TextFormField(
+                            key: Key(profileData.email),
+                            // key: Key("profileEmail"),
                             readOnly: true,
                             style: TextStyle(
-                              fontSize: 20, 
+                              fontSize: 20,
                               // fontWeight: FontWeight.bold
                             ),
                             initialValue: profileData.email,
@@ -171,10 +191,11 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           SizedBox(height: 30),
                           TextFormField(
-                            key: Key("profileAddress"),
+                            key: Key(profileData.address),
+                            // key: Key("profileAddress"),
                             readOnly: true,
                             style: TextStyle(
-                              fontSize: 20, 
+                              fontSize: 20,
                               // fontWeight: FontWeight.bold
                             ),
                             initialValue: profileData.address,
@@ -187,10 +208,11 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           SizedBox(height: 30),
                           TextFormField(
-                            key: Key("profileReceiptMessage"),
+                            key: Key(profileData.receiptMessage),
+                            // key: Key("profileReceiptMessage"),
                             readOnly: true,
                             style: TextStyle(
-                              fontSize: 20, 
+                              fontSize: 20,
                               // fontWeight: FontWeight.bold
                             ),
                             initialValue: profileData.receiptMessage,
