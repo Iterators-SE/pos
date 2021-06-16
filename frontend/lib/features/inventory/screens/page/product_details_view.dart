@@ -28,18 +28,18 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   }
 
   // ignore: avoid_positional_boolean_parameters
-  Widget isTaxable(bool taxable) {
-    if (taxable) {
-      return Text(
-        "Taxes apply to this product",
-        style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
-      );
-    }
-    return Text(
-      "Taxes do not apply to this product",
-      style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
-    );
-  }
+  // Widget isTaxable(bool taxable) {
+  //   if (taxable) {
+  //     return Text(
+  //       "Taxes apply to this product",
+  //       style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
+  //     );
+  //   }
+  //   return Text(
+  //     "Taxes do not apply to this product",
+  //     style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +107,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 ),
               ),
               SizedBox(height: 10),
-              isTaxable(widget.product.isTaxable),
+              // isTaxable(widget.product.isTaxable),
               SizedBox(height: 20),
               Text(
                 "Variants",

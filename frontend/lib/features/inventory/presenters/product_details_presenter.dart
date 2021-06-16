@@ -17,48 +17,57 @@ class ProductDetailScreenPresenter
         getView().state == AppState.done) {
       return getView().body;
     } else if(getView().state == AppState.successful && isViewAttached){
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Center(child: Image(
-              image: AssetImage(
-              'images/blue_deleted.png',),
-                width: 170,
-                height: 180,
-              )
-            ), 
-            Align(
-              alignment: Alignment.center, 
-              child: Text("Product has been deleted"),
-            ),
-            SizedBox(height: 30),
-            ElevatedButton(
-                onPressed: () async {
-                  Navigator.pop(context);
-                },
-                child: Text("Okay")
-            ),
-          ],
-        ),
-      );
+      Future.delayed(Duration(milliseconds: 150), () {
+        Navigator.pop(context, AppState.successful);
+      });
+      return SizedBox();
+      // return Center(
+      //   child: Column(
+      //     mainAxisAlignment: MainAxisAlignment.center,
+      //     crossAxisAlignment: CrossAxisAlignment.center,
+      //     children: [
+      //       // Center(
+      //       //   child: Image(
+      //       //   image: AssetImage(
+      //       //   'images/blue_deleted.png',),
+      //       //     width: 170,
+      //       //     height: 180,
+      //       //   )
+      //       // ), 
+      //       Align(
+      //         alignment: Alignment.center, 
+      //         child: Text("Product has been deleted"),
+      //       ),
+      //       SizedBox(height: 30),
+      //       ElevatedButton(
+      //           onPressed: () async {
+      //             Navigator.pop(context);
+      //           },
+      //           child: Text("Okay")
+      //       ),
+      //     ],
+      //   ),
+      // );
     } else {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text("An error has occured during deletion."),
-            ElevatedButton(
-                onPressed: () async {
-                  Navigator.pop(context);
-                },
-                child: Text("Okay")
-            ),
-          ],
-        ),
-      );
+      Future.delayed(Duration(milliseconds: 150), () {
+        Navigator.pop(context, AppState.error);
+      });
+      return SizedBox();
+      // return Center(
+      //   child: Column(
+      //     mainAxisAlignment: MainAxisAlignment.center,
+      //     crossAxisAlignment: CrossAxisAlignment.center,
+      //     children: [
+      //       Text("An error has occured during deletion."),
+      //       ElevatedButton(
+      //           onPressed: () async {
+      //             Navigator.pop(context);
+      //           },
+      //           child: Text("Okay")
+      //       ),
+      //     ],
+      //   ),
+      // );
     }
   }
 }

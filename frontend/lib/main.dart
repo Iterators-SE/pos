@@ -27,7 +27,7 @@ import 'datasources/tax/tax_remote_datasource.dart';
 import 'datasources/transactions/transaction_datasource.dart';
 import 'datasources/transactions/transaction_local_datasource.dart';
 import 'datasources/transactions/transaction_remote_datasource.dart';
-import 'features/authentication/screens/authentication_screen.dart';  
+import 'features/authentication/screens/authentication_screen.dart';
 import 'features/home/screens/home_screen.dart';
 import 'graphql/queries.dart';
 import 'providers/user_provider.dart';
@@ -89,6 +89,8 @@ void main() async {
     cache: GraphQLCache(),
     link: _httpLink,
   );
+
+  _local = AppDatabase();
 
   _networkInfo = NetworkInfo.getInstance();
 

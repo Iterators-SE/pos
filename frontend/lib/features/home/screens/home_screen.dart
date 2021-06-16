@@ -180,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
       body: ReorderableListView(
         header: Container(
           margin: EdgeInsets.only(bottom: 40),
-          height: 125,
+          height: 140,
           decoration: BoxDecoration(
             color: xposGreen[300],
             borderRadius: BorderRadius.only(

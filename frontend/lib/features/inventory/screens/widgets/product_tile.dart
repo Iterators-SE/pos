@@ -15,6 +15,7 @@ class ProductListTile extends StatelessWidget {
       height: 115,
       child: Card(
           child: ListTile(
+              key: Key("productListTile"),
               isThreeLine: true,
               leading: CircleAvatar(
                 radius: 38,

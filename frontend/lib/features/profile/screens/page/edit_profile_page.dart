@@ -26,6 +26,44 @@ class _EditProfilePageState extends State<EditProfilePage> {
     super.initState();
   }
 
+  Future<void> showLoading() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Loading"),
+          content: Row(
+            children: [
+              Container(
+                margin: EdgeInsets.fromLTRB(40, 0, 0, 0),
+                child: Text("Please wait"),
+              ),
+              Container(
+                margin: EdgeInsets.fromLTRB(30, 0, 0, 0),
+                child: CircularProgressIndicator(),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void onSave() async {
+    showLoading();
+    var provider = Provider.of<ProfileRepository>(context, listen: false);
+    var newProfileData = await provider.updateProfileInfo(profileData);
+    Navigator.of(context).pop();
+
+    var foldedProfileData =
+        newProfileData.fold((fail) => UserProfile(), (data) => data);
+
+    if (newProfileData.isRight) {
+      Navigator.pop(context, [AppState.successful, foldedProfileData]);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,9 +136,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             SizedBox(height: 20),
             ElevatedButton(
                 onPressed: () async {
-                  var provider =
-                      Provider.of<ProfileRepository>(context, listen: false);
-                  await provider.updateProfileInfo(profileData);
+                  onSave();
                 },
                 child: Text("Save Changes"))
           ],
