@@ -60,7 +60,6 @@ class _GenericDiscountPageState extends State<GenericDiscountPage> {
       }
     }
 
-
     super.initState();
   }
 
@@ -164,7 +163,11 @@ class _GenericDiscountPageState extends State<GenericDiscountPage> {
                 await Provider.of<DiscountRepository>(context, listen: false)
                     .network
                     .isConnected()) {
-              widget.onSave();
+              widget.onSave(
+                description: _description,
+                includedProducts: includedProducts,
+                percentage: _percentage,
+              );
             }
           },
           label: "SAVE",
