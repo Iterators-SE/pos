@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../core/state/app_state.dart';
 import '../../../models/tax.dart';
 import '../../../repositories/tax/tax_repository_implementation.dart';
+import '../../appBar.dart';
 import '../presenters/tax_list_presenter.dart';
 import '../views/tax_list_screen_view.dart';
 import 'pages/tax_list_view.dart';
@@ -78,9 +79,7 @@ class _TaxListScreenState extends State<TaxListScreen>
               },
             );
           }),
-      appBar: AppBar(
-        title: Text("Taxes List"),
-      ),
+      appBar: appBar("Tax List"),
       body: _presenter.body(),
     );
   }

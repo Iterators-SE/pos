@@ -21,10 +21,10 @@ class MenuItemCard extends StatelessWidget {
       height: 120,
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
       decoration: BoxDecoration(
-        color: xposGreen[600],
+        color: Colors.white,
         gradient: LinearGradient(
-          colors: [xposGreen[600], xposGreen[300]],
-          stops: [0.0, 0.5]
+          colors: [xposGreen[50], xposGreen[300]],
+          stops: [0.0, 0.7]
         ),
         borderRadius: BorderRadius.circular(20),
         image: DecorationImage(
@@ -44,7 +44,7 @@ class MenuItemCard extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.only(left: 130),
         child: Padding(
-        padding: const EdgeInsets.only(left: 20),
+        padding: const EdgeInsets.only(left: 18),
         child: Align(
           alignment: Alignment.centerLeft,
           child: Text(
@@ -52,9 +52,8 @@ class MenuItemCard extends StatelessWidget {
             textAlign: TextAlign.left,
             style: TextStyle(
               color: Colors.black,
-              fontFamily: "Montserrat Bold",
-              fontSize: 23,
-              fontWeight: FontWeight.bold
+              fontFamily: "Montserrat Superbold",
+              fontSize: 20,
             ),
           ),
         ),

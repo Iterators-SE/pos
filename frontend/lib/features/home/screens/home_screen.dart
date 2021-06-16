@@ -142,17 +142,17 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
       ),
       MenuItem(
         option: "TRANSACTIONS",
-        url: "assets/images/user.png",
+        url: "assets/images/transaction.png",
         onTap: defaultItemMap['TRANSACTIONS'],
       ),
     ];
 
-    getMenuItems().then(
-      (value) => value.isNotEmpty
-          ? setState(() => menuItems = value ?? menuItems)
-          : null,
-      onError: (error) => setState(() => menuItems = menuItems),
-    );
+    // getMenuItems().then(
+    //   (value) => value.isNotEmpty
+    //       ? setState(() => menuItems = value ?? menuItems)
+    //       : null,
+    //   onError: (error) => setState(() => menuItems = menuItems),
+    // );
 
     super.initState();
   }
@@ -160,57 +160,45 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: xposGreen[300],
-        elevation: 0,
-        //leading: Icon(Icons.segment),
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.logout,
-              color: Colors.white,
-              ),
-            onPressed: () => Provider.of<UserProvider>(context, listen: false)
-                .logout(context),
-          )
-        ],
-      ),
-      // drawer: Drawer(
+      // appBar: AppBar(
+      //   title: Text(
+      //     "XPOS",
+      //     style: TextStyle(
+      //       fontFamily: "Montserrat Superbold"
+      //     ),
+      //   ),
       // ),
       body: ReorderableListView(
         header: Container(
-          margin: EdgeInsets.only(bottom: 40),
-          height: 140,
-          decoration: BoxDecoration(
-            color: xposGreen[300],
-            borderRadius: BorderRadius.only(
-              //bottomLeft: Radius.circular(30),
-              bottomRight: Radius.circular(30),
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey[600],
-                offset: Offset(0, 10.0),
-                blurRadius: 25,
-                spreadRadius: 1.50
-              )
-            ]
-          ),
-          //margin: EdgeInsets.only(top: 50),
-          padding: EdgeInsets.only(left: 30, right: 30, bottom: 30),
-            child: Align(
-              alignment: Alignment.bottomLeft,
-              child: Text(
-                "Welcome back",
-                style: TextStyle(
-                  fontFamily: "Montserrat",
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white
-                ),
+          width: MediaQuery.of(context).size.width,
+          margin: EdgeInsets.only(top:60, left: 20, bottom: 30),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 4,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Image.asset(
+                  'assets/images/Xpos.png',
+                  height: 60,
               ),
-            )
-          ),
+                )
+            ),
+              Expanded(
+                flex: 1,
+                child: IconButton(
+                  onPressed: () => 
+                  Provider.of<UserProvider>(context, listen: false)
+                .logout(context),
+                  icon: Icon(
+                    Icons.logout,
+                    color: xposGreen[300],
+                    ),
+                ),
+              )
+            ],
+          )
+        ),
         children: menuItems
             .map((element) => MenuItemCard(
                   key: Key(element.option),
@@ -223,3 +211,37 @@ class _HomeScreenState extends State<HomeScreen> implements HomeScreenView {
     );
   }
 }
+
+// List<Widget> _buildMuneList() {
+//   return Reord
+// }
+
+
+
+// CustomScrollView(
+//         slivers: [
+//           SliverAppBar(
+//             elevation: 4,
+//             floating: true,
+//             //pinned: true,
+//             expandedHeight: 150,
+//             //title: Text("Welcome back!"),
+//             centerTitle: true,
+//             flexibleSpace: FlexibleSpaceBar(
+//               title: ,
+//             ),
+//           ),
+//           ReorderableSliverList(
+//             delegate: ReorderableSliverChildListDelegate(
+//               menuItems
+//             .map((element) => MenuItemCard(
+//                   key: Key(element.option),
+//                   element: element,
+//                   imagePath: element.url,
+//                 ))
+//             .toList(),
+//             ),
+//             onReorder: onReorder,
+//           )
+//         ],
+//         )

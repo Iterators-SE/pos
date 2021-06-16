@@ -20,30 +20,33 @@ class _ModeViewState extends State<ModeView> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ToggleViewWidget(
-                isSelected: isSelected,
-                icons: const [
-                  Icon(Icons.list, semanticLabel: 'Generic View'),
-                  Icon(Icons.description, semanticLabel: 'Detailed View'),
-                ],
-                onPressed: (index) {
-                  setState(() {
-                    isSelected = isSelected.map((e) => e == false).toList();
-                    isSelected[index] = true;
-                  });
-                },
-              )
-            ],
-          ),
-          isSelected.first
-              ? GenericViewWidget(products: widget.products)
-              : DetailedViewWidget(products: widget.products)
-        ],
+      child: Container(
+        padding: EdgeInsets.only(top: 20),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ToggleViewWidget(
+                  isSelected: isSelected,
+                  icons: const [
+                  Icon(Icons.table_chart , semanticLabel: 'Generic View'),
+                  Icon(Icons.list_alt_outlined, semanticLabel: 'Detailed View'),
+                  ],
+                  onPressed: (index) {
+                    setState(() {
+                      isSelected = isSelected.map((e) => e == false).toList();
+                      isSelected[index] = true;
+                    });
+                  },
+                )
+              ],
+            ),
+            isSelected.first
+                ? GenericViewWidget(products: widget.products)
+                : DetailedViewWidget(products: widget.products)
+          ],
+        ),
       ),
     );
   }

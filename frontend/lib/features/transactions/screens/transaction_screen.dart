@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/error/failure.dart';
+import '../../../core/themes/config.dart';
 import '../../../models/product.dart';
 import '../../../repositories/transactions/interval.dart' as interval_i;
 import '../../../repositories/transactions/transaction_repository_implementation.dart';
@@ -104,17 +105,22 @@ class _TransactionScreenState extends State<TransactionScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: BackButton(
+          color: xposGreen[300],
+        ),
+        backgroundColor: Colors.white,
+        elevation: 0,
         actions: [
           IconButton(
-            icon: Icon(Icons.view_day),
+            icon: Icon(Icons.view_day, color: xposGreen[300],),
             onPressed: () => toggleView(interval_i.Interval.day),
           ),
           IconButton(
-            icon: Icon(Icons.view_week),
+            icon: Icon(Icons.view_week, color: xposGreen[300]),
             onPressed: () => toggleView(interval_i.Interval.week),
           ),
           IconButton(
-            icon: Icon(Icons.calendar_today),
+            icon: Icon(Icons.calendar_today, color: xposGreen[300]),
             onPressed: () => toggleView(interval_i.Interval.month),
           ),
         ],
@@ -168,20 +174,20 @@ class _TransactionScreenState extends State<TransactionScreen>
         );
 
         if (indexOfOrder != -1) {
-          var modifiedOrder = result[indexOfOrder];
+          // var modifiedOrder = result[indexOfOrder];
 
-          var modifiedVariant = modifiedOrder.variants?.firstWhere(
-          (element) => element.variantId == order.variant.variantId,
-          );
+          // var modifiedVariant = modifiedOrder.variants?.firstWhere(
+          // (element) => element.variantId == order.variant.variantId,
+          // );
 
-          if (modifiedVariant != null) {
-            result[indexOfOrder] = result[indexOfOrder]
-              ..quantity += order.quantity;
-          } else {
-            result[indexOfOrder] = result[indexOfOrder]
-              ..variants = [...result[indexOfOrder].variants, order.variant]
-              ..quantity += order.quantity;
-          }
+          // if (modifiedVariant != null) {
+          //   result[indexOfOrder] = result[indexOfOrder]
+          //     ..quantity += order.quantity;
+          // } else {
+          //   result[indexOfOrder] = result[indexOfOrder]
+          //     ..variants = [...result[indexOfOrder].variants, order.variant]
+          //     ..quantity += order.quantity;
+          // }
         } else {
           result.add(order.product..quantity = order.quantity);
         }

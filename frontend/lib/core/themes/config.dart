@@ -6,8 +6,8 @@ XPosTheme currentTheme = XPosTheme();
 
 Map<int, Color> _color = {
   10: Color.fromRGBO(194,222,228, .8),
-  50: Color.fromRGBO(194,222,228, 1),
-  100: Color.fromRGBO(150,195,204, 1),
+  50: Color.fromRGBO(204,234,240, 1),
+  100: Color.fromRGBO(132,180, 195, 1),
   200: Color.fromRGBO(80,146,163, .8),
   300: Color.fromRGBO(80,146,163, 1),
   400: Color.fromRGBO(118,181,197, 1),

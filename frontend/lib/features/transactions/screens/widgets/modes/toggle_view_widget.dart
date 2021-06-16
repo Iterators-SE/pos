@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
+import '../../../../../core/themes/config.dart';
+
 class ToggleViewWidget extends StatefulWidget {
   final List<bool> isSelected;
   final List<Icon> icons;
@@ -22,8 +24,9 @@ class _ToggleViewWidgetState extends State<ToggleViewWidget> {
   @override
   Widget build(BuildContext context) {
     return ToggleButtons(
+      borderRadius: BorderRadius.circular(10),
       color: Colors.grey,
-      selectedColor: Colors.blueAccent,
+      selectedColor: xposGreen[300],
       children: widget.icons,
       isSelected: widget.isSelected,
       highlightColor: Colors.white10,

@@ -8,6 +8,7 @@ import '../../../core/error/failure.dart';
 import '../../../core/state/app_state.dart';
 import '../../../models/discounts.dart';
 import '../../../models/product.dart';
+import '../../appBar.dart';
 // import '../../../repositories/discount/discount_repository_implementation.dart';
 import '../presenter/discount_screen_presenter.dart';
 import '../view/discount_screen_view.dart';
@@ -129,12 +130,7 @@ class _DiscountScreenState extends State<DiscountScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Discounts",
-          style: TextStyle(fontFamily: "Montserrat Bold"),
-        ),
-      ),
+      appBar: appBar("Discounts"),
       floatingActionButton: CustomDiscountFAB(
         onPressed: () => Navigator.push(
           context,

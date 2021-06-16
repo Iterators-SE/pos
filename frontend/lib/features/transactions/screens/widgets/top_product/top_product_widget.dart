@@ -18,15 +18,23 @@ class TopProductWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
+        //mainAxisSize: MainAxisSize.,
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
+            margin: EdgeInsets.only(right: 5, left: 20),
             height: 200,
-            width: 300,
+            width: 150,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(25),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey[400],
+                  offset: Offset(5.0, 8.0),
+                  blurRadius: 7.0,
+                  spreadRadius: 1.50)
+                ],
+              borderRadius: BorderRadius.circular(20),
               image: DecorationImage(
                 fit: BoxFit.cover,
                 image: NetworkImage(
@@ -36,12 +44,7 @@ class TopProductWidget extends StatelessWidget {
               ),
             ),
           ),
-          FractionalTranslation(
-            translation: Offset(0, -0.5),
-            child: Container(
-              width: 160,
-              height: 70,
-              child: Center(
+          Center(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
@@ -50,19 +53,12 @@ class TopProductWidget extends StatelessWidget {
                     maxLines: 2,
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.white,
+                      color: Colors.grey,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
               ),
-              decoration: BoxDecoration(
-                color: Colors.blueAccent,
-                borderRadius: BorderRadius.circular(50),
-                border: Border.all(width: 5, color: Colors.white),
-              ),
-            ),
-          ),
         ],
       ),
     );

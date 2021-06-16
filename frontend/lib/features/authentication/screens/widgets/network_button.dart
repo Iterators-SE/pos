@@ -21,7 +21,7 @@ class NetworkButton extends StatelessWidget {
       height: 40,
       width: 80,
       decoration: BoxDecoration(
-        color: xposGreen[50],
+        color: xposGreen[300],
         borderRadius: BorderRadius.circular(10),
       ),
       child: MaterialButton(

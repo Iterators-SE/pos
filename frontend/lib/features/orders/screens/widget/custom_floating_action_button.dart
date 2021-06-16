@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../../../core/themes/config.dart';
 
-import '../../../../core/themes/xpos_theme.dart';
 import 'floating_action_button_wrapper.dart';
 
 class CustomFAB extends StatefulWidget {
@@ -35,9 +35,9 @@ class _CustomFABState extends State<CustomFAB>
       end: 1.0,
     ).animate(_animationController);
 
-    _buttonColor = ColorTween(
-      begin: Color(XPosTheme.primaryColor),
-      end: Colors.red,
+  _buttonColor = ColorTween(
+      begin: xposGreen[300],
+      end: xposGreen[100],
     ).animate(
       CurvedAnimation(
         parent: _animationController,

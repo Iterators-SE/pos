@@ -61,6 +61,7 @@ dev_dependencies:
   lint:
   mockito:
   network_image_mock: ^2.0.1
+  reorderables: ^0.4.1
 
 flutter:
   uses-material-design: true
@@ -80,6 +81,7 @@ flutter:
     - assets/images/discount.png
     - assets/images/taxes.png
     - assets/images/user.png
+    - assets/images/transaction.png
     - assets/images/empty_orders.png
     - assets/images/blue_added.png
     - assets/images/blue_edited.png

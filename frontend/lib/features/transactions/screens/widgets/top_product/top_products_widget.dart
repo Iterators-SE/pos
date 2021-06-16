@@ -24,27 +24,41 @@ class TopProductsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return products.isNotEmpty
-        ? Padding(
-            padding: const EdgeInsets.all(8.0),
+        ? Container(
+          //color: Colors.white,
+           margin: const EdgeInsets.only(bottom: 4.0),
+           decoration: BoxDecoration(
+             color: Colors.white,
+            boxShadow: [
+                BoxShadow(
+                  color: Colors.grey[400],
+                  offset: Offset(5.0, 8.0),
+                  blurRadius: 7.0,
+                  spreadRadius: 1.50)
+                ],
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(20),
+              bottomRight: Radius.circular(20),
+            ),
+          //   border: Border(
+          //   bottom: BorderSide(color: xposGreen[300]),
+          // )
+        ),
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(
-                      left: 8.0,
-                      right: 8.0,
-                      top: 8.0,
-                      bottom: 20,
-                    ),
-                    child: Text(
-                      'Top Products of the ${toSentenceCase(interval)}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24,
+                      padding: const EdgeInsets.only(top: 20, left: 20),
+                      child: Text(
+                        'Top Products of the ${toSentenceCase(interval)}',
+                        style: TextStyle(
+                          fontFamily: "Montserrat Superbold",
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24,
+                        ),
                       ),
                     ),
-                  ),
                   // Center this
                   Expanded(
                     child: ListView(

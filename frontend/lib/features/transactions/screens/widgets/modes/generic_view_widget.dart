@@ -12,9 +12,11 @@ class GenericViewWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-        height: 300,
+        margin: EdgeInsets.only(top: 10),
+        height: 280,
         width: MediaQuery.of(context).size.width,
-        child: Chart(
+        child: Container(
+          child: Chart(
           data: products
               .map((e) => {'product': e.name, 'sold': e.quantity})
               .toList(),
@@ -36,6 +38,7 @@ class GenericViewWidget extends StatelessWidget {
             'product': Defaults.horizontalAxis,
             'sold': Defaults.verticalAxis,
           },
+        ),
         ),
       ),
     );

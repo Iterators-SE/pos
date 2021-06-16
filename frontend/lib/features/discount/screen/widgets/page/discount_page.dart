@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../../core/themes/config.dart';
 
 import '../../../../../models/discounts.dart';
 import '../../../../../models/product.dart';
@@ -18,7 +19,7 @@ class DiscountPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 50, right: 50),
+      padding: const EdgeInsets.only(top: 30),
       child: GridView.builder(
           itemCount: discounts.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -31,9 +32,11 @@ class DiscountPage extends StatelessWidget {
           ),
           itemBuilder: (context, index) {
             return Padding(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(15.0),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
+                  primary: xposGreen[300],
+                  elevation: 10,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),

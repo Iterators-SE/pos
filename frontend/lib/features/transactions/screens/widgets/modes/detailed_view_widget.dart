@@ -22,27 +22,30 @@ class DetailedViewWidget extends StatelessWidget {
 // TODO: ADD ROW PER VARIANT
   @override
   Widget build(BuildContext context) {
-    return DataTable(
-      columns: const [
-        DataColumn(label: Text("Product")),
-        DataColumn(label: Text("Quantity Sold"), numeric: true),
-        // DataColumn(label: Text("Most Popular Variant"), numeric: true),
-        DataColumn(label: Text("Total"), numeric: true)
-      ],
-      rows: products.isNotEmpty
-          ? products
-              ?.map(
-                (e) => DataRow(
-                  cells: [
-                    DataCell(Text('${e.name}')),
-                    DataCell(Text('${e.quantity}')),
-                    // DataCell(Text(getPopularVariantData(e))),
-                    DataCell(Text('${e.quantity}')), // Dummy
-                  ],
-                ),
-              )
-              ?.toList()
-          : <DataRow>[],
+    return Container(
+      height: 305,
+      child: DataTable(
+        columns: const [
+          DataColumn(label: Text("Product")),
+          DataColumn(label: Text("Quantity Sold"), numeric: true),
+          // DataColumn(label: Text("Most Popular Variant"), numeric: true),
+          DataColumn(label: Text("Total"), numeric: true)
+        ],
+        rows: products.isNotEmpty
+            ? products
+                ?.map(
+                  (e) => DataRow(
+                    cells: [
+                      DataCell(Text('${e.name}')),
+                      DataCell(Text('${e.quantity}')),
+                      // DataCell(Text(getPopularVariantData(e))),
+                      DataCell(Text('${e.quantity}')), // Dummy
+                    ],
+                  ),
+                )
+                ?.toList()
+            : <DataRow>[],
+      ),
     );
   }
 }

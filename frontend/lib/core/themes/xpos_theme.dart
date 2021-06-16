@@ -15,14 +15,17 @@ class XPosTheme extends ChangeNotifier {
 
   static ThemeData get lightTheme {
     return ThemeData(
+      appBarTheme: AppBarTheme(
+        backgroundColor: xposGreen[300],
+      ),
       primarySwatch: xposGreen,
       scaffoldBackgroundColor: Color(backgroundColor),
       fontFamily: 'Montserrat',
       buttonTheme: ButtonThemeData(
-        buttonColor: xposGreen[50],
+        buttonColor: xposGreen[300],
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: xposGreen[50],
+        backgroundColor: xposGreen[300],
       ),
     );
   }

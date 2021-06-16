@@ -14,10 +14,10 @@ import '../../../repositories/discount/discount_repository_implementation.dart';
 import '../../../repositories/inventory/inventory_repository_implementation.dart';
 import '../../../repositories/profile/profile_repository_implementation.dart';
 import '../../../repositories/tax/tax_repository_implementation.dart';
+import '../../appBar.dart';
 import '../models/order.dart';
 import '../presenters/order_screen_presenter.dart';
 import '../views/order_screen_view.dart';
-
 import 'invoice_screen.dart';
 import 'widget/custom_alert_dialog.dart';
 import 'widget/custom_data_table.dart';
@@ -193,9 +193,7 @@ class _OrderScreenState extends State<OrderScreen> implements OrderScreenView {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Orders"),
-      ),
+      appBar: appBar("Orders"),
       body: state == AppState.loading
           ? Center(child: CircularProgressIndicator())
           : CustomScrollView(

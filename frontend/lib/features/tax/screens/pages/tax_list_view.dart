@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/themes/config.dart';
 import '../../../../models/tax.dart';
 
 class TaxListPage extends StatefulWidget {
@@ -22,9 +23,9 @@ class _TaxListPageState extends State<TaxListPage> {
         padding: EdgeInsets.only(left: 30),
         height: 90,
         width: MediaQuery.of(context).size.width,
-        margin: EdgeInsets.symmetric(vertical: 7.0, horizontal: 15),
+        margin: EdgeInsets.symmetric(vertical: 7.0, horizontal: 12),
         decoration: BoxDecoration(
-            color: Colors.white,
+            color: tax.isSelected ? xposGreen[100] : Colors.white,
             boxShadow: [
               BoxShadow(
                   color: Colors.grey[400],
@@ -48,8 +49,9 @@ class _TaxListPageState extends State<TaxListPage> {
                       width: 20,
                     ),
               Container(
-                width: 80,
-                margin: EdgeInsets.only(left: 30, top: 10, bottom: 20),
+                height: double.maxFinite,
+                width: 130,
+                margin: EdgeInsets.only(left: 20, top: 10, bottom: 20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,17 +62,18 @@ class _TaxListPageState extends State<TaxListPage> {
                     ),
                     Text(
                       tax.name,
+                      //maxLines: 1,
                       style: TextStyle(
-                        fontFamily: "Montserrat Superbold",
-                        fontSize: 20,
+                      fontFamily: "Montserrat bold",
+                      fontSize: 28
+                      ),                     
                       ),
-                    )
                   ],
                 ),
               ),
               Container(
-                width: 80,
-                margin: EdgeInsets.only(left: 20, top: 10, bottom: 20),
+                width: 65,
+                margin: EdgeInsets.only(left: 5, top: 10, bottom: 20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,20 +86,29 @@ class _TaxListPageState extends State<TaxListPage> {
                       '${tax.percentage * 100}%',
                       style: TextStyle(
                         fontFamily: "Montserrat Superbold",
-                        fontSize: 25,
+                        fontSize: 18,
                       ),
                     )
                   ],
                 ),
               ),
               Container(
-                padding: EdgeInsets.only(left: 10),
-                child: IconButton(
+                width: 70,
+                //   decoration: BoxDecoration(
+                //   border: Border.all(
+                //     color: Colors.black
+                //   )
+                // ),
+                padding: EdgeInsets.only(left: 3, top: 20),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: IconButton(
                   onPressed: () {
                     print('delete');
                   },
                   icon: Icon(Icons.delete),
                 ),
+                )
               )
             ],
           ),
