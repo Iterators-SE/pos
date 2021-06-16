@@ -18,10 +18,13 @@ class Discount {
 
   factory Discount.fromJson(Map<String, dynamic> json) {
     return Discount(
-      id: json["id"],
+      id: int.tryParse(json["id"]) ?? json["id"],
       description: json["description"],
       percentage: json["percentage"],
-      products: json["products"],
+      products: json["products"]
+              ?.map<int>((prod) => int.parse(prod['id']))
+              ?.toList() ??
+          [],
     );
   }
 
@@ -54,10 +57,13 @@ class CustomDiscount extends Discount {
 
   factory CustomDiscount.fromJson(Map<String, dynamic> json) {
     return CustomDiscount(
-      discountId: json["id"],
+      discountId: int.tryParse(json["id"]) ?? json["id"],
       description: json["description"],
       percentage: json["percentage"],
-      products: json["products"],
+      products: json["products"]
+              ?.map<int>((prod) => int.parse(prod['id']))
+              ?.toList() ??
+          [],
       inclusiveDates: json["inlcusiveDates"],
       startTime: json["startTime"],
       endTime: json["endTime"],
