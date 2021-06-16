@@ -36,10 +36,20 @@ class _AddProductPageState extends State<AddProductPage> {
   Widget renderImage() {
     if (imageFile != null) {
       if (kIsWeb) {
-        return Image.network(imageFile.path);
+        return Image.network(
+          imageFile.path,
+          fit: BoxFit.fitWidth,
+          height: 250,
+          width: 800,
+        );
       } else {
         return Semantics(
-            child: Image.file(File(imageFile.path)),
+            child: Image.file(
+              File(imageFile.path),
+              fit: BoxFit.fitWidth,
+              height: 225,
+              width: 800,
+            ),
             label: 'image_picker_example_picked_image');
       }
     } else {
@@ -50,8 +60,10 @@ class _AddProductPageState extends State<AddProductPage> {
     }
   }
 
+
   Widget buildProductName() {
     return TextFormField(
+      key: Key("productName"),
       decoration: InputDecoration(
         labelText: '  Product Name',
         border: OutlineInputBorder(
@@ -72,6 +84,7 @@ class _AddProductPageState extends State<AddProductPage> {
 
   Widget buildDescription() {
     return TextFormField(
+      key: Key("productDescription"),
       decoration: InputDecoration(
           labelText: '  Description',
           border: OutlineInputBorder(
@@ -90,21 +103,21 @@ class _AddProductPageState extends State<AddProductPage> {
     );
   }
 
-  Widget buildCheckBox() {
-    return CheckboxListTile(
-        value: product.isTaxable,
-        title: Text("Apply tax to this product."),
-        controlAffinity: ListTileControlAffinity.leading,
-        onChanged: (value) {
-          setState(() {
-            if (product.isTaxable) {
-              product.isTaxable = false;
-            } else {
-              product.isTaxable = true;
-            }
-          });
-        });
-  }
+  // Widget buildCheckBox() {
+  //   return CheckboxListTile(
+  //       value: product.isTaxable,
+  //       title: Text("Apply tax to this product."),
+  //       controlAffinity: ListTileControlAffinity.leading,
+  //       onChanged: (value) {
+  //         setState(() {
+  //           if (product.isTaxable) {
+  //             product.isTaxable = false;
+  //           } else {
+  //             product.isTaxable = true;
+  //           }
+  //         });
+  //       });
+  // }
 
   Future<void> variantForm() async {
     var _variantKey = GlobalKey<FormState>();
@@ -113,6 +126,7 @@ class _AddProductPageState extends State<AddProductPage> {
       barrierDismissible: false, // user must tap button!
       builder: (context) {
         return AlertDialog(
+          key: Key("variantDialog"),
           insetPadding: EdgeInsets.all(5),
           title: Center(child: Text('Add a variant')),
           content: SingleChildScrollView(
@@ -122,6 +136,7 @@ class _AddProductPageState extends State<AddProductPage> {
                 child: Column(
                   children: <Widget>[
                     TextFormField(
+                      key: Key("variantName"),
                       decoration: InputDecoration(
                           labelText: 'Name',
                           border: OutlineInputBorder(
@@ -144,6 +159,7 @@ class _AddProductPageState extends State<AddProductPage> {
                       height: 10.0,
                     ),
                     TextFormField(
+                      key: Key("variantQuantity"),
                       decoration: InputDecoration(
                         labelText: 'Quantity',
                         border: OutlineInputBorder(
@@ -171,6 +187,7 @@ class _AddProductPageState extends State<AddProductPage> {
                       height: 10.0,
                     ),
                     TextFormField(
+                      key: Key("variantPrice"),
                       decoration: InputDecoration(
                         labelText: 'Price',
                         border: OutlineInputBorder(
@@ -307,7 +324,7 @@ class _AddProductPageState extends State<AddProductPage> {
               showVariant(),
               variantAddDelete(),
               SizedBox(height: 20),
-              buildCheckBox(),
+              // buildCheckBox(),
               SizedBox(height: 40),
               ElevatedButton(
                 child: Text(

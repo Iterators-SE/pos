@@ -6,7 +6,6 @@ import '../../../../core/state/app_state.dart';
 import '../../../../core/themes/config.dart';
 import '../../../../models/user_profile.dart';
 import '../../../../repositories/profile/profile_repository_implementation.dart';
-import '../widgets/textfield_widget.dart';
 import 'edit_profile_page.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -16,7 +15,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   UserProfile profileData;
-  AppState state = AppState.loading;
+  AppState state = AppState.done;
 
   @override
   void initState() {
@@ -35,6 +34,13 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
   }
 
+  void updateProfileData(UserProfile data) {
+    setState(() {
+      print(data.name);
+      profileData = data;
+    });
+  }
+
   Future<UserProfile> getUserDetails(BuildContext context) async {
     setState(() {
       state = AppState.loading;
@@ -48,6 +54,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    print("rebuilt");
     return Scaffold(
         appBar: AppBar(title: Text("Profile"), actions: [
           IconButton(
@@ -58,7 +65,23 @@ class _ProfilePageState extends State<ProfilePage> {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          EditProfilePage(profile: profileData)));
+                          EditProfilePage(profile: profileData))).then((value) {
+                if (value[0] == AppState.successful) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Successful!"),
+                    ),
+                  );
+                } else if (value[0] == AppState.error) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("An error has occured. Unsuccessful!"),
+                    ),
+                  );
+                }
+
+                updateProfileData(value[1]);
+              });
             },
           ),
           SizedBox(
@@ -113,31 +136,71 @@ class _ProfilePageState extends State<ProfilePage> {
                         physics: BouncingScrollPhysics(),
                         children: [
                           SizedBox(
-                            height: 20,
+                            height: 30,
                           ),
                           SizedBox(height: 10),
-                          TextFieldWidget(
-                            label: 'Store Name',
-                            text: profileData.name,
-                            onChanged: (name) {},
+                          TextFormField(
+                            key: Key("profileName"),
+                            readOnly: true,
+                            style: TextStyle(
+                              fontSize: 20, 
+                              // fontWeight: FontWeight.bold
+                            ),
+                            initialValue: profileData.name,
+                            decoration: InputDecoration(
+                              labelText: 'Product Name',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
                           ),
-                          SizedBox(height: 20),
-                          TextFieldWidget(
-                            label: 'Email',
-                            text: profileData.email,
-                            onChanged: (email) {},
+                          SizedBox(height: 30),
+                           TextFormField(
+                            key: Key("profileEmail"),
+                            readOnly: true,
+                            style: TextStyle(
+                              fontSize: 20, 
+                              // fontWeight: FontWeight.bold
+                            ),
+                            initialValue: profileData.email,
+                            decoration: InputDecoration(
+                              labelText: 'Email',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
                           ),
-                          SizedBox(height: 20),
-                          TextFieldWidget(
-                            label: 'Address',
-                            text: profileData.address,
-                            onChanged: (address) {},
+                          SizedBox(height: 30),
+                          TextFormField(
+                            key: Key("profileAddress"),
+                            readOnly: true,
+                            style: TextStyle(
+                              fontSize: 20, 
+                              // fontWeight: FontWeight.bold
+                            ),
+                            initialValue: profileData.address,
+                            decoration: InputDecoration(
+                              labelText: 'Address',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
                           ),
-                          SizedBox(height: 20),
-                          TextFieldWidget(
-                            label: 'Receipt Message',
-                            text: profileData.receiptMessage,
-                            onChanged: (message) {},
+                          SizedBox(height: 30),
+                          TextFormField(
+                            key: Key("profileReceiptMessage"),
+                            readOnly: true,
+                            style: TextStyle(
+                              fontSize: 20, 
+                              // fontWeight: FontWeight.bold
+                            ),
+                            initialValue: profileData.receiptMessage,
+                            decoration: InputDecoration(
+                              labelText: 'Receipt Message',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
                           ),
                         ],
                       ),
