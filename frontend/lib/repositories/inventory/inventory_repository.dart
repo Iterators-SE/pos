@@ -18,7 +18,7 @@ abstract class IInventoryRepository {
       {@required this.remote, @required this.local, @required this.network});
 
   Future<Either<Failure, bool>> addProduct({NewProduct product}); //done
-  Future<Either<Failure, List<Product>>> getProducts(); //done
+  Future<Either<Failure, List<dynamic>>> getProducts(); //done
   Future<Either<Failure, bool>> deleteProduct({int productId}); //done
   Future<Either<Failure, Product>> getProductDetails({int productId}); // done
   Future<Either<Failure, bool>> changeProductDetails({Product product}); // done

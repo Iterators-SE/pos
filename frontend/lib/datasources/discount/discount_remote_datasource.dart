@@ -80,7 +80,11 @@ class DiscountRemoteDataSource implements IDiscountRemoteDataSource {
       }
 
       final data = jsonDecode(jsonEncode(response.data['getDiscounts']));
-      // await local.cacheDiscounts(data); // NOT YET INSTANTIATED
+      ("Data: $data");
+      if ((await local.getDiscounts()).isEmpty) {
+        await local.cacheDiscounts(data);
+        print(await local.getDiscounts());
+      }
 
       var discounts = <Discount>[];
 

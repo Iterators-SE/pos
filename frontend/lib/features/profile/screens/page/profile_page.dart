@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/features/profile/screens/widgets/header_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/state/app_state.dart';
@@ -90,11 +91,12 @@ class _ProfilePageState extends State<ProfilePage> {
         body: state == AppState.done
             ? Column(
                 children: [
-                  Center(
-                    child: Image(
-                      image: AssetImage("assets/images/xpos_home_logo.png"),
-                    ),
-                  ),
+                  Header(),
+                  // Center(
+                  //   child: Image(
+                  //     image: AssetImage("assets/images/xpos_home_logo.png"),
+                  //   ),
+                  // ),
                   //   child: Stack(children: [
                   //     Container(
                   //       height: 150,
@@ -122,12 +124,12 @@ class _ProfilePageState extends State<ProfilePage> {
                   // SizedBox(
                   //   height: 5,
                   // ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Container(
                     margin: EdgeInsets.all(10),
-                    height: 430,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: xposGreen, width: 5),
-                        borderRadius: BorderRadius.circular(10)),
+                    height: 500,
                     child: Center(
                       child: ListView(
                         padding: EdgeInsets.symmetric(horizontal: 28),
