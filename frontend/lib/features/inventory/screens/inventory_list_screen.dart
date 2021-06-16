@@ -84,15 +84,15 @@ class _InventoryListScreenState extends State<InventoryListScreen>
                   ),
                 );
               }
-              // await getProducts(context);
-              // setState(() {
-              //   body = ProductListPage(
-              //     functionOnTap: onProductTilePressed,
-              //     products: products,
-              //     isSearching: isSearching,
-              //     productToSearch: productToSearch,
-              //   );
-              // });
+              await getProducts(context);
+              setState(() {
+                body = ProductListPage(
+                  functionOnTap: onProductTilePressed,
+                  products: products,
+                  isSearching: isSearching,
+                  productToSearch: productToSearch,
+                );
+              });
             });
           }),
       appBar: AppBar(
