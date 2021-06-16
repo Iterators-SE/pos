@@ -67,8 +67,7 @@ class _GenericDiscountScreenState extends State<GenericDiscountScreen>
   @override
   void onPressed() {
     if (isAdd) {
-      Navigator.pushReplacement(
-        context,
+      Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => CustomDiscountScreen(
             isAdd: isAdd,

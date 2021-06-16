@@ -97,9 +97,24 @@ class _DiscountScreenState extends State<DiscountScreen>
           style: TextStyle(fontFamily: "Montserrat Bold"),
         ),
       ),
+      // floatingActionButton: CustomDiscountFAB(
+      //   onPressed: () => Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //       builder: (context) => GenericDiscountScreen(
+      //         discounts: discounts,
+      //         allProducts: products,
+      //       ),
+      //     ),
+      //   ),
+      //   label: "ADD",
+      //   icon: Icons.add,
+      // ),
+      body: _presenter.body(),
       floatingActionButton: CustomDiscountFAB(
-        onPressed: () => Navigator.push(
-          context,
+        label: "ADD DISCOUNT",
+        icon: Icons.attach_money,
+        onPressed: () => Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => GenericDiscountScreen(
               discounts: discounts,
@@ -107,10 +122,8 @@ class _DiscountScreenState extends State<DiscountScreen>
             ),
           ),
         ),
-        label: "ADD",
-        icon: Icons.add,
+
       ),
-      body: _presenter.body(),
     );
   }
 }
