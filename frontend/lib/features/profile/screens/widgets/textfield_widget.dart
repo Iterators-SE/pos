@@ -18,11 +18,7 @@ class TextFieldWidget extends StatefulWidget {
 }
 
 class _TextFieldWidgetState extends State<TextFieldWidget> {
-
   // _TextFieldWidgetState(this.controller);
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +31,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
         ),
         SizedBox(height: 10),
         TextFormField(
+          enabled: false,
           readOnly: true,
           initialValue: "${widget.text}",
           decoration: InputDecoration(

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/features/profile/screens/widgets/header_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/state/app_state.dart';
@@ -29,83 +30,103 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Profile"),
-      ),
-      body: Form(
-        child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 28),
-          physics: BouncingScrollPhysics(),
-          children: [
-            SizedBox(
-              height: 10,
-            ),
-            SizedBox(height: 10),
-            TextFormField(
-              readOnly: false,
-              decoration: InputDecoration(
-                labelText: ' Store name',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              initialValue: "${widget.profile.name}",
-              onChanged: (value) {
-                print(value);
-                profileData.name = value;
-              },
-            ),
-            SizedBox(height: 20),
-            TextFormField(
-              readOnly: true,
-              decoration: InputDecoration(
-                labelText: ' Email',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              initialValue: "${widget.profile.email}",
-            ),
-            SizedBox(height: 20),
-            TextFormField(
-              readOnly: false,
-              decoration: InputDecoration(
-                labelText: ' Address',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              initialValue: "${widget.profile.address}",
-              onChanged: (value) {
-                print(value);
-                profileData.address = value;
-              },
-            ),
-            SizedBox(height: 20),
-            TextFormField(
-              readOnly: false,
-              decoration: InputDecoration(
-                labelText: ' Receipt Message',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              initialValue: "${widget.profile.receiptMessage}",
-              onChanged: (value) {
-                profileData.receiptMessage = value;
-              },
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-                onPressed: () async {
-                  var provider =
-                      Provider.of<ProfileRepository>(context, listen: false);
-                  await provider.updateProfileInfo(profileData);
-                },
-                child: Text("Save Changes"))
-          ],
+        appBar: AppBar(
+          title: Text("Profile"),
         ),
-      ),
-    );
+        body: state == AppState.done
+            ? Form(
+                child: ListView(
+                  physics: BouncingScrollPhysics(),
+                  children: [
+                    Header(),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    SizedBox(height: 10),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 28),
+                      child: TextFormField(
+                        readOnly: false,
+                        decoration: InputDecoration(
+                          labelText: ' Store name',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        initialValue: "${widget.profile.name}",
+                        onChanged: (value) {
+                          print(value);
+                          profileData.name = value;
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 28),
+                      child: TextFormField(
+                        readOnly: true,
+                        decoration: InputDecoration(
+                          labelText: ' Email',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        initialValue: "${widget.profile.email}",
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 28),
+                      child: TextFormField(
+                        readOnly: false,
+                        decoration: InputDecoration(
+                          labelText: ' Address',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        initialValue: "${widget.profile.address}",
+                        onChanged: (value) {
+                          print(value);
+                          profileData.address = value;
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 28),
+                      child: TextFormField(
+                        readOnly: false,
+                        decoration: InputDecoration(
+                          labelText: ' Receipt Message',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        initialValue: "${widget.profile.receiptMessage}",
+                        onChanged: (value) {
+                          profileData.receiptMessage = value;
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 28),
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30))),
+                          onPressed: () async {
+                            var provider = Provider.of<ProfileRepository>(
+                                context,
+                                listen: false);
+                            await provider.updateProfileInfo(profileData);
+                          },
+                          child: Text("Save Changes")),
+                    )
+                  ],
+                ),
+              )
+            : Center(child: CircularProgressIndicator()));
   }
 }
