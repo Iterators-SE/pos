@@ -3,12 +3,17 @@ class Discount {
   String description;
   int percentage;
   List<int> products;
-
+  String inclusiveDates;
+  String startTime;
+  String endTime;
   Discount({
     this.id,
     this.description,
     this.percentage,
     this.products,
+    this.inclusiveDates,
+    this.startTime,
+    this.endTime,
   });
 
   int get discId => id;
@@ -18,46 +23,13 @@ class Discount {
 
   factory Discount.fromJson(Map<String, dynamic> json) {
     return Discount(
-      id: json["id"],
+      id: int.tryParse(json["id"]) ?? json["id"],
       description: json["description"],
       percentage: json["percentage"],
-      products: json["products"],
-    );
-  }
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "description": description,
-        "percentage": percentage,
-        "products": products
-      };
-}
-
-class CustomDiscount extends Discount {
-  String inclusiveDates;
-  String startTime;
-  String endTime;
-
-  CustomDiscount({
-    this.inclusiveDates,
-    this.startTime,
-    this.endTime,
-    int discountId,
-    String description,
-    int percentage,
-    List<int> products,
-  }) : super(id: discountId, description: description, products: products);
-
-  String get dateInclusive => inclusiveDates;
-  String get timeStarted => startTime;
-  String get timeEnded => endTime;
-
-  factory CustomDiscount.fromJson(Map<String, dynamic> json) {
-    return CustomDiscount(
-      discountId: json["id"],
-      description: json["description"],
-      percentage: json["percentage"],
-      products: json["products"],
+      products: json["products"]
+              ?.map<int>((prod) => int.parse(prod['id']))
+              ?.toList() ??
+          [],
       inclusiveDates: json["inlcusiveDates"],
       startTime: json["startTime"],
       endTime: json["endTime"],

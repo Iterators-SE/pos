@@ -1,10 +1,17 @@
 import * as nodemailer from "nodemailer";
 
 export async function sendEmail(name: string, email: string, url: string, { confirm = true }) {
-    let account = await nodemailer.createTestAccount();
+    const transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true, // true for 465, false for other ports
+        auth: {
+            user: process.env.NODEMAILER_USER,
+            pass: process.env.NODEMAILER_PASSWORD,
+        },
+    });
 
-    const transporter = nodemailer.createTransport(`smtp://${account.user}:${account.pass}@smtp.ethereal.email?pool=true`);
-    
+    console.log(`transporter ${transporter}`)
 
     const message = confirm ? `
     <p>Welcome to XPOS!<p><br><p>You've taken the first steps towards levelling up <strong>${name}</strong>, now all that's left to do is confirm!<p>
@@ -24,7 +31,7 @@ export async function sendEmail(name: string, email: string, url: string, { conf
     `;
 
     let mailOptions = {
-        from: account.user, // sender
+        from: process.env.NODEMAILER_USER, // sender
         to: email, //recipient
         subject: "Please confirm your email for XPOS",
         text: "test",
@@ -36,6 +43,6 @@ export async function sendEmail(name: string, email: string, url: string, { conf
 
     // debugging purposes only
     // TODO [03-21-2021]: REMOVE THIS
-    // console.log(`Message: ${info.messageId}`);
-    // console.log(`Preview URL: ${nodemailer.getTestMessageUrl(info)}`);
+    console.log(`Message: ${info.messageId}`);
+    console.log(`Preview URL: ${nodemailer.getTestMessageUrl(info)}`);
 }

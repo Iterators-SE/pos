@@ -16,7 +16,7 @@ import 'widgets/page/custom_discount_page.dart';
 class CustomDiscountScreen extends StatefulWidget {
   final List<Product> products;
   final List<Product> allProducts;
-  final CustomDiscount discount;
+  final Discount discount;
   final bool isAdd;
 
   const CustomDiscountScreen(
@@ -36,10 +36,10 @@ class _CustomDiscountScreenState extends State<CustomDiscountScreen>
   CustomDiscountScreenPresenter _presenter;
 
   @override
-  AppState state;
+  AppState state = AppState.done;
 
   @override
-  CustomDiscount discount;
+  Discount discount;
 
   @override
   Widget body;
@@ -84,8 +84,7 @@ class _CustomDiscountScreenState extends State<CustomDiscountScreen>
 
   @override
   void onPressed() {
-    Navigator.pushReplacement(
-      context,
+    Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => isAdd
             ? GenericDiscountScreen(
@@ -154,22 +153,21 @@ class _CustomDiscountScreenState extends State<CustomDiscountScreen>
     _presenter = CustomDiscountScreenPresenter();
     _presenter.view = this;
 
-    state = AppState.loading;
-
     isAdd = widget.isAdd;
 
-    includedProducts = widget.discount.products;
+    includedProducts = widget?.discount?.products ?? [];
     allProducts = widget.allProducts;
-    percentage = widget.discount.percentage;
+    percentage = widget?.discount?.percentage;
 
     body = CustomDiscountPage(
-        onSave: onSave,
-        onPressed: onPressed,
-        label: isAdd ? "Create Generic Discount" : "Create Custom Discount",
-        iconLabel: isAdd ? Icons.add : Icons.edit,
-        products: widget.allProducts,
-        discounts: discounts,
-        discount: discount);
+      onSave: onSave,
+      onPressed: onPressed,
+      label: isAdd ? "Create Generic Discount" : "Create Custom Discount",
+      iconLabel: isAdd ? Icons.add : Icons.edit,
+      products: allProducts,
+      discounts: discounts,
+      discount: discount,
+    );
 
     super.initState();
   }

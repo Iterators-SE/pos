@@ -1,8 +1,8 @@
 import 'package:either_option/either_option.dart';
 import 'package:flutter/material.dart';
-
-// import 'package:frontend/repositories/inventory/inventory_repository_implementation.dart';
-// import 'package:provider/provider.dart';
+import 'package:frontend/repositories/discount/discount_repository_implementation.dart';
+import 'package:frontend/repositories/inventory/inventory_repository_implementation.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/error/failure.dart';
 import '../../../core/state/app_state.dart';
@@ -74,57 +74,20 @@ class _DiscountScreenState extends State<DiscountScreen>
 
   @override
   Future<Either<Failure, List<Product>>> getProducts() async {
-    // var products =
-    //     await Provider.of<InventoryRepository>(context, listen: false)
-    //         .getProducts();
+    var products =
+        await Provider.of<InventoryRepository>(context, listen: false)
+            .getProducts();
 
-    // return products;
-    var fake = await [
-      Product(
-        id: 1,
-        name: 'Fake',
-        description: 'Frapucapucino',
-      ),
-      Product(
-        id: 2,
-        name: 'Faker',
-        description: "Kape",
-      ),
-      Product(
-        id: 3,
-        name: 'Fake Kopi',
-        description: "Kopi",
-      ),
-    ];
-
-    return Right(fake);
+    return products;
   }
 
   @override
   Future<Either<Failure, List<Discount>>> getDiscounts() async {
-    // var discounts =
-    //     await Provider.of<DiscountRepository>(context, listen: false)
-    //         .getDiscounts();
+    var discounts =
+        await Provider.of<DiscountRepository>(context, listen: false)
+            .getDiscounts();
 
-    // return discounts;
-
-    // MOCK
-    var fake = await [
-      Discount(
-        id: 1,
-        percentage: 20,
-        products: [1, 2, 3],
-        description: "Senior Citizen",
-      ),
-      Discount(
-        id: 2,
-        percentage: 15,
-        products: [1, 3],
-        description: "PWD",
-      )
-    ];
-
-    return Right(fake);
+    return discounts;
   }
 
   @override
@@ -132,8 +95,9 @@ class _DiscountScreenState extends State<DiscountScreen>
     return Scaffold(
       appBar: appBar("Discounts"),
       floatingActionButton: CustomDiscountFAB(
-        onPressed: () => Navigator.push(
-          context,
+        label: "ADD DISCOUNT",
+        icon: Icons.attach_money,
+        onPressed: () => Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => GenericDiscountScreen(
               discounts: discounts,
@@ -141,10 +105,8 @@ class _DiscountScreenState extends State<DiscountScreen>
             ),
           ),
         ),
-        label: "ADD",
-        icon: Icons.add,
+
       ),
-      body: _presenter.body(),
     );
   }
 }

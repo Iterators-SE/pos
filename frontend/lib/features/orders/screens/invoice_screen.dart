@@ -8,7 +8,6 @@ import '../../../apis/firebase_cloud_storage_api/firebase_storage_api.dart';
 import '../../../apis/receipt_api/receipt_builder_api.dart';
 import '../../../core/themes/config.dart';
 import '../../../models/order.dart' as t_order;
-
 import '../../../models/product.dart';
 import '../../../models/product_variant.dart';
 import '../../../models/user_profile.dart';
@@ -43,8 +42,15 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
 
   // TODO: Show Dialog on fail
   void sendReceipt(String message, List<String> recipients) async {
-    await sendSMS(message: message, recipients: recipients)
-        .catchError(print);
+    await sendSMS(message: message, recipients: recipients).catchError(print);
+  }
+
+  void onCreateReceipt() async {
+    showLoading();
+    await createTransaction();
+    Navigator.of(context).pop();
+
+    await showReceiptChoices();
   }
 
   @override
@@ -95,10 +101,42 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
     var result = await provider.createTransaction(orders, link: pdfLink);
 
     if (result.isRight) {
-      showTransactionResultSuccess();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Transaction saved to database!"),
+        ),
+      );
     } else {
-      showTransactionResultFail();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Please check your internet. Transaction didn't save."),
+        ),
+      );
     }
+  }
+
+  Future<void> showLoading() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Loading"),
+          content: Row(
+            children: [
+              Container(
+                margin: EdgeInsets.fromLTRB(40, 0, 0, 0),
+                child: Text("Please wait"), 
+              ),
+              Container(
+                margin: EdgeInsets.fromLTRB(30, 0, 0, 0),
+                child: CircularProgressIndicator(),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Future<void> showTransactionResultSuccess() async {
@@ -251,10 +289,9 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                   onPressed: () async {
                     if (localKey.currentState.validate()) {
                       Navigator.of(context).pop();
-                      //  TODO : Show Loading Indicator
-                      await createTransaction();
                       await sendReceipt(message, ['$phoneNumber']);
-                      return;
+                      Navigator.of(context).popUntil((route) => route.isFirst);
+                      // return;
                     } else {
                       Navigator.of(context).pop();
                     }
@@ -278,12 +315,12 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
         margin: const EdgeInsets.all(1.0),
         // padding: const EdgeInsets.all(5.0),
         decoration: BoxDecoration(
-        border: Border.all(
-          width: 3.0,
-          color: xposGreen[300],
+          border: Border.all(
+            width: 3.0,
+            color: xposGreen[300],
+          ),
+          borderRadius: BorderRadius.circular(12),
         ),
-        borderRadius: BorderRadius.circular(12),
-      ),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -421,7 +458,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                   OrderButton(
                     onPressed: amount >=
                             widget.order.total + widget.order.totalAmountTax
-                        ? showReceiptChoices
+                        ? onCreateReceipt
                         : showIncorrectAmount,
                     text: "Create Receipt",
                   )

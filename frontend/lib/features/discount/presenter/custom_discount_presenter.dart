@@ -12,12 +12,10 @@ class CustomDiscountScreenPresenter
     if (isViewAttached && getView().state == AppState.loading) {
       return Center(child: CircularProgressIndicator());
     } else if (isViewAttached &&
-        getView().state == AppState.done &&
-        getView().discounts.isNotEmpty) {
+        getView().state == AppState.done) {
       return getView().body;
     } else {
-      // return error
-      return Center(child: Text("No discount found"));
+      return Center(child: Text("Something went wrong."));
     }
   }
 }

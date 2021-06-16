@@ -20,7 +20,12 @@ abstract class GenericDiscountScreenView {
 
   void onError();
 
-  void onSave();
+  void onSave({
+    String description,
+    List<int> includedProducts,
+    int percentage,
+    int id,
+  });
 
   void onPressed();
 }

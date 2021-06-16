@@ -53,9 +53,7 @@ class DiscountPage extends StatelessWidget {
                     ),
                   );
                 },
-                child: discountTitles(
-                  discounts[index].description,
-                ),
+                child: discountTitles(discounts[index].description),
               ),
             );
           }),

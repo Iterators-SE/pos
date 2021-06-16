@@ -36,10 +36,20 @@ class _AddProductPageState extends State<AddProductPage> {
   Widget renderImage() {
     if (imageFile != null) {
       if (kIsWeb) {
-        return Image.network(imageFile.path);
+        return Image.network(
+          imageFile.path,
+          fit: BoxFit.fitWidth,
+          height: 250,
+          width: 800,
+        );
       } else {
         return Semantics(
-            child: Image.file(File(imageFile.path)),
+            child: Image.file(
+              File(imageFile.path),
+              fit: BoxFit.fitWidth,
+              height: 225,
+              width: 800,
+            ),
             label: 'image_picker_example_picked_image');
       }
     } else {
@@ -49,6 +59,7 @@ class _AddProductPageState extends State<AddProductPage> {
       );
     }
   }
+
 
   Widget buildProductName() {
     return TextFormField(
@@ -92,21 +103,21 @@ class _AddProductPageState extends State<AddProductPage> {
     );
   }
 
-  Widget buildCheckBox() {
-    return CheckboxListTile(
-        value: product.isTaxable,
-        title: Text("Apply tax to this product."),
-        controlAffinity: ListTileControlAffinity.leading,
-        onChanged: (value) {
-          setState(() {
-            if (product.isTaxable) {
-              product.isTaxable = false;
-            } else {
-              product.isTaxable = true;
-            }
-          });
-        });
-  }
+  // Widget buildCheckBox() {
+  //   return CheckboxListTile(
+  //       value: product.isTaxable,
+  //       title: Text("Apply tax to this product."),
+  //       controlAffinity: ListTileControlAffinity.leading,
+  //       onChanged: (value) {
+  //         setState(() {
+  //           if (product.isTaxable) {
+  //             product.isTaxable = false;
+  //           } else {
+  //             product.isTaxable = true;
+  //           }
+  //         });
+  //       });
+  // }
 
   Future<void> variantForm() async {
     var _variantKey = GlobalKey<FormState>();
@@ -313,7 +324,7 @@ class _AddProductPageState extends State<AddProductPage> {
               showVariant(),
               variantAddDelete(),
               SizedBox(height: 20),
-              buildCheckBox(),
+              // buildCheckBox(),
               SizedBox(height: 40),
               ElevatedButton(
                 child: Text(

@@ -67,8 +67,7 @@ class _GenericDiscountScreenState extends State<GenericDiscountScreen>
   @override
   void onPressed() {
     if (isAdd) {
-      Navigator.pushReplacement(
-        context,
+      Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => CustomDiscountScreen(
             isAdd: isAdd,
@@ -81,7 +80,12 @@ class _GenericDiscountScreenState extends State<GenericDiscountScreen>
   }
 
   @override
-  void onSave() async {
+  Future onSave({
+    String description,
+    List<int> includedProducts,
+    int percentage,
+    int id,
+  }) async {
     Either<Failure, Discount> result;
 
     if (isAdd) {
@@ -119,7 +123,11 @@ class _GenericDiscountScreenState extends State<GenericDiscountScreen>
     discounts = widget.discounts;
 
     body = GenericDiscountPage(
-      onSave: onSave,
+      onSave: ({description, includedProducts, percentage, id}) => onSave(
+          description: description,
+          includedProducts: includedProducts,
+          percentage: percentage,
+          id: id),
       onPressed: onPressed,
       iconLabel: isAdd ? Icons.add : Icons.edit,
       label: isAdd ? "Create Generic Discount" : "Edit Custom Discount",
@@ -135,6 +143,8 @@ class _GenericDiscountScreenState extends State<GenericDiscountScreen>
 
   @override
   Widget build(BuildContext context) {
-    return _presenter.body();
+    return Scaffold(
+      body: _presenter.body(),
+    );
   }
 }

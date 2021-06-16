@@ -49,6 +49,7 @@ class _TaxListScreenState extends State<TaxListScreen>
 
       body = TaxListPage(
         taxes: value,
+        onDelete: deleteTax,
         onSelect: selectTax,
       );
     });
@@ -72,6 +73,7 @@ class _TaxListScreenState extends State<TaxListScreen>
                   setState(() {
                     body = TaxListPage(
                       taxes: value,
+                      onDelete: deleteTax,
                       onSelect: selectTax,
                     );
                   });
@@ -127,6 +129,7 @@ class _TaxListScreenState extends State<TaxListScreen>
         state = AppState.done;
         body = TaxListPage(
           taxes: newTaxes,
+          onDelete: deleteTax,
           onSelect: selectTax,
         );
       });
@@ -136,5 +139,27 @@ class _TaxListScreenState extends State<TaxListScreen>
   @override
   void setTaxToSearch(String name) {
     // TODO: implement setTaxToSearch
+  }
+
+  @override
+  void deleteTax(BuildContext context, Tax tax) async {
+    setState(() {
+      state = AppState.loading;
+    });
+    var taxProvider = Provider.of<TaxRepository>(context, listen: false);
+    var deleteTaxResult = await taxProvider.deleteTax(tax);
+    var newTaxesResult = await taxProvider.getTaxes();
+    var newTaxes = newTaxesResult.fold((fail) => [], (taxes) => taxes);
+    newTaxes.sort((a, b) => a.id.compareTo(b.id));
+    if (deleteTaxResult.isRight) {
+      setState(() {
+        state = AppState.done;
+        body = TaxListPage(
+          taxes: newTaxes,
+          onDelete: deleteTax,
+          onSelect: selectTax,
+        );
+      });
+    }
   }
 }

@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/state/app_state.dart';
-import '../../../../core/themes/config.dart';
 import '../../../../models/user_profile.dart';
 import '../../../../repositories/profile/profile_repository_implementation.dart';
-import '../widgets/textfield_widget.dart';
+import '../widgets/header_widget.dart';
 import 'edit_profile_page.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -15,7 +14,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   UserProfile profileData;
-  AppState state = AppState.loading;
+  AppState state = AppState.done;
 
   @override
   void initState() {
@@ -34,6 +33,14 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
   }
 
+  void updateProfileData(UserProfile data) {
+    print("onChange!!!!");
+    setState(() {
+      print(data.name);
+      profileData = data;
+    });
+  }
+
   Future<UserProfile> getUserDetails(BuildContext context) async {
     setState(() {
       state = AppState.loading;
@@ -47,17 +54,34 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    print("rebuilt");
     return Scaffold(
         appBar: AppBar(title: Text("Profile"), actions: [
           IconButton(
             icon: Icon(Icons.edit),
             onPressed: () {
-              print(profileData.name);
+              // print(profileData.name);
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          EditProfilePage(profile: profileData)));
+                          EditProfilePage(profile: profileData))).then((value) {
+                updateProfileData(value[1]);
+
+                if (value[0] == AppState.successful) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Successful!"),
+                    ),
+                  );
+                } else if (value[0] == AppState.error) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("An error has occured. Unsuccessful!"),
+                    ),
+                  );
+                }
+              });
             },
           ),
           SizedBox(
@@ -65,13 +89,15 @@ class _ProfilePageState extends State<ProfilePage> {
           )
         ]),
         body: state == AppState.done
-            ? Column(
+            ? SingleChildScrollView(
+                child: Column(
                 children: [
-                  Center(
-                    child: Image(
-                      image: AssetImage("assets/images/xpos_home_logo.png"),
-                    ),
-                  ),
+                  Header(),
+                  // Center(
+                  //   child: Image(
+                  //     image: AssetImage("assets/images/xpos_home_logo.png"),
+                  //   ),
+                  // ),
                   //   child: Stack(children: [
                   //     Container(
                   //       height: 150,
@@ -99,50 +125,110 @@ class _ProfilePageState extends State<ProfilePage> {
                   // SizedBox(
                   //   height: 5,
                   // ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Container(
+                    
                     margin: EdgeInsets.all(10),
-                    height: 430,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: xposGreen, width: 5),
-                        borderRadius: BorderRadius.circular(10)),
+                    height: 500,
                     child: Center(
                       child: ListView(
                         padding: EdgeInsets.symmetric(horizontal: 28),
                         physics: BouncingScrollPhysics(),
                         children: [
                           SizedBox(
-                            height: 20,
+                            height: 30,
                           ),
                           SizedBox(height: 10),
-                          TextFieldWidget(
-                            label: 'Store Name',
-                            text: profileData.name,
-                            onChanged: (name) {},
+                          // TextFormField(
+                          //   // key: Key("profileName"),
+                          //   readOnly: true,
+                          //   style: TextStyle(
+                          //     fontSize: 20,
+                          //     // fontWeight: FontWeight.bold
+                          //   ),
+                          //   initialValue: profileData.name,
+                          //   decoration: InputDecoration(
+                          //     labelText: 'Product Name',
+                          //     border: OutlineInputBorder(
+                          //       borderRadius: BorderRadius.circular(10),
+                          //     ),
+                          //   ),
+                          // ),
+                          TextFormField(
+                            key: Key(profileData.name),
+                            readOnly: true,
+                            style: TextStyle(
+                              fontSize: 20,
+                              // fontWeight: FontWeight.bold
+                            ),
+                            initialValue: profileData.name,
+                            decoration: InputDecoration(
+                              labelText: 'Email',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
                           ),
-                          SizedBox(height: 20),
-                          TextFieldWidget(
-                            label: 'Email',
-                            text: profileData.email,
-                            onChanged: (email) {},
+                          // Text(profileData.name),
+                          SizedBox(height: 30),
+                          TextFormField(
+                            key: Key(profileData.email),
+                            // key: Key("profileEmail"),
+                            readOnly: true,
+                            style: TextStyle(
+                              fontSize: 20,
+                              // fontWeight: FontWeight.bold
+                            ),
+                            initialValue: profileData.email,
+                            decoration: InputDecoration(
+                              labelText: 'Email',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
                           ),
-                          SizedBox(height: 20),
-                          TextFieldWidget(
-                            label: 'Address',
-                            text: profileData.address,
-                            onChanged: (address) {},
+                          SizedBox(height: 30),
+                          TextFormField(
+                            key: Key(profileData.address),
+                            // key: Key("profileAddress"),
+                            readOnly: true,
+                            style: TextStyle(
+                              fontSize: 20,
+                              // fontWeight: FontWeight.bold
+                            ),
+                            initialValue: profileData.address,
+                            decoration: InputDecoration(
+                              labelText: 'Address',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
                           ),
-                          SizedBox(height: 20),
-                          TextFieldWidget(
-                            label: 'Receipt Message',
-                            text: profileData.receiptMessage,
-                            onChanged: (message) {},
+                          SizedBox(height: 30),
+                          TextFormField(
+                            key: Key(profileData.receiptMessage),
+                            // key: Key("profileReceiptMessage"),
+                            readOnly: true,
+                            style: TextStyle(
+                              fontSize: 20,
+                              // fontWeight: FontWeight.bold
+                            ),
+                            initialValue: profileData.receiptMessage,
+                            decoration: InputDecoration(
+                              labelText: 'Receipt Message',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
                           ),
                         ],
                       ),
                     ),
                   ),
                 ],
-              )
+              ))
             : Center(child: CircularProgressIndicator()));
 
     // Widget buildName(UserProfile user) => Column(

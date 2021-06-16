@@ -76,6 +76,22 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
                   ),
                 ).then((value) async {
                   await updateProductData(productData, context);
+
+                  if (value == AppState.successful) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Successful!"),
+                      ),
+                    );
+                  } else if(value == AppState.error){
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                          "An error has occured. Unsuccessful!"
+                        ),
+                      ),
+                    );
+                  }
                 });
               }),
         ],

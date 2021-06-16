@@ -14,5 +14,6 @@ abstract class TaxListScreenView {
   Future<List<dynamic>> getTaxes(BuildContext context);
   void selectTax(BuildContext context, Tax tax);
   void setTaxToSearch(String name);
+  void deleteTax(BuildContext context, Tax tax);
   void onError();
 }

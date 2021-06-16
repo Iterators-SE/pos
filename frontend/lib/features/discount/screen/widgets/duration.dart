@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'duration_container.dart';
 
-Widget duration() {
+Widget duration({
+  String startDate,
+  String endDate,
+  String startTime,
+  String endTime,
+}) {
   return Container(
     padding: EdgeInsets.only(left: 10),
     child: Column(
@@ -17,7 +22,7 @@ Widget duration() {
           padding: EdgeInsets.only(right: 10, left: 10),
           child: Row(
             children: <Widget>[
-              Expanded(flex: 2, child: durationContainer("Feb 1")),
+              Expanded(flex: 2, child: durationContainer(startDate)),
               Expanded(
                   flex: 1,
                   child: Align(
@@ -26,7 +31,7 @@ Widget duration() {
                   )),
               Expanded(
                 flex: 2,
-                child: durationContainer("Feb 19"),
+                child: durationContainer(endDate),
               ),
             ],
           ),
@@ -42,7 +47,7 @@ Widget duration() {
           padding: EdgeInsets.only(right: 10, left: 10),
           child: Row(
             children: <Widget>[
-              Expanded(flex: 2, child: durationContainer("9:00 am")),
+              Expanded(flex: 2, child: durationContainer(startTime)),
               Expanded(
                   flex: 1,
                   child: Align(
@@ -51,7 +56,7 @@ Widget duration() {
                   )),
               Expanded(
                 flex: 2,
-                child: durationContainer("5:00 pm"),
+                child: durationContainer(endTime),
               ),
             ],
           ),

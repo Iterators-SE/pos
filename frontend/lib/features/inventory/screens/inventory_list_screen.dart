@@ -69,6 +69,21 @@ class _InventoryListScreenState extends State<InventoryListScreen>
               context,
               MaterialPageRoute(builder: (context) => AddProductScreen()),
             ).then((value) async {
+              if (value == AppState.successful) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Successful!"),
+                  ),
+                );
+              } else if(value == AppState.error) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      "An error has occured. Unsuccessful!"
+                    ),
+                  ),
+                );
+              }
               await getProducts(context);
               setState(() {
                 body = ProductListPage(
@@ -142,7 +157,7 @@ class _InventoryListScreenState extends State<InventoryListScreen>
   }
 
   @override
-  Future<List<Product>> getProducts(BuildContext context) async {
+  Future<List<dynamic>> getProducts(BuildContext context) async {
     setState(() {
       state = AppState.loading;
     });
@@ -151,7 +166,7 @@ class _InventoryListScreenState extends State<InventoryListScreen>
         await Provider.of<InventoryRepository>(context, listen: false)
             .getProducts();
     var result = resultProducts.fold((fail) => [], (products) => products);
-    print(result);
+    print("Products $result");
 
     if (resultProducts.isRight) {
       setState(() {
@@ -176,10 +191,26 @@ class _InventoryListScreenState extends State<InventoryListScreen>
   @override
   void onProductTilePressed({Product product, BuildContext context}) async {
     Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ProductDetailScreen(product: product)))
+      context,
+      MaterialPageRoute(
+        builder: (context) => ProductDetailScreen(product: product)))
         .then((value) async {
+        if (value == AppState.successful) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Successful!"),
+            ),
+          );
+        } else if(value == AppState.error){
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                "An error has occured. Unsuccessful!"
+              ),
+            ),
+          );
+        }
+          
       body = ProductListPage(
         functionOnTap: onProductTilePressed,
         products: await getProducts(context),
