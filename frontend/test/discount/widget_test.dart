@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/core/error/failure.dart';
 import 'package:frontend/features/discount/screen/discount_screen.dart';
+import 'package:frontend/features/discount/screen/widgets/page/discount_details.dart';
+import 'package:frontend/features/discount/screen/widgets/page/generic_discount_page.dart';
 import 'package:frontend/models/discounts.dart';
 import 'package:frontend/models/product.dart';
 import 'package:frontend/models/product_variant.dart';
@@ -96,7 +98,8 @@ class MockDiscountRepository extends Mock implements DiscountRepository {
 }
 
 void main() {
-  testWidgets('Discounts: Shows discounts', (tester) async {
+  testWidgets('Discounts: Shows discounts when data is not empty',
+      (tester) async {
     final _inventoryRepository = MockInventoryRepository();
     final _discountRepository = MockDiscountRepository();
 
@@ -123,8 +126,77 @@ void main() {
     final pwd = find.text('PWD');
 
     await tester.pumpAndSettle();
-
     expect(senior, findsOneWidget);
     expect(pwd, findsOneWidget);
+  });
+
+  testWidgets('Discounts: Navigates to DiscountDetail onTap', (tester) async {
+    final _inventoryRepository = MockInventoryRepository();
+    final _discountRepository = MockDiscountRepository();
+
+    await tester.pumpWidget(
+      MultiProvider(
+        providers: [
+          Provider<InventoryRepository>(
+            create: (context) => _inventoryRepository,
+          ),
+          Provider<DiscountRepository>(
+            create: (context) => _discountRepository,
+          ),
+          ChangeNotifierProvider<UserProvider>(
+            create: (_) => UserProvider(),
+          ),
+        ],
+        builder: (context, child) {
+          return MaterialApp(home: DiscountScreen());
+        },
+      ),
+    );
+
+    final senior = find.text('Senior Citizen');
+
+    await tester.pumpAndSettle();
+    expect(senior, findsOneWidget);
+
+    await tester.tap(senior);
+    await tester.pumpAndSettle();
+
+    expect(find.byType(DiscountDetails), findsOneWidget);
+  });
+
+  testWidgets('Discounts: Navigates to GenericDiscount when FAB is pressed',
+      (tester) async {
+    final _inventoryRepository = MockInventoryRepository();
+    final _discountRepository = MockDiscountRepository();
+
+    await tester.pumpWidget(
+      MultiProvider(
+        providers: [
+          Provider<InventoryRepository>(
+            create: (context) => _inventoryRepository,
+          ),
+          Provider<DiscountRepository>(
+            create: (context) => _discountRepository,
+          ),
+          ChangeNotifierProvider<UserProvider>(
+            create: (_) => UserProvider(),
+          ),
+        ],
+        builder: (context, child) {
+          return MaterialApp(home: DiscountScreen());
+        },
+      ),
+    );
+
+    final fab = find.text('ADD DISCOUNT');
+
+    await tester.pumpAndSettle();
+
+    expect(fab, findsOneWidget);
+
+    await tester.tap(fab);
+    await tester.pumpAndSettle();
+
+    expect(find.byType(GenericDiscountPage), findsOneWidget);
   });
 }
