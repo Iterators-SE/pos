@@ -9,19 +9,23 @@ import { sendEmail } from "../utils/sendEmail";
 @Resolver()
 export class SignupResolver {
     @Mutation(() => Boolean, { nullable: true })
-    async signup(@Ctx() ctx: Context, @Arg("data") {name, email, password}: SignupInput) {
+    async signup(@Ctx() ctx: Context, @Arg("data") { name, email, password }: SignupInput) {
         if (ctx.currentUser) throw new Error("Already logged in.");
 
-        const hashedPassword = await hash(password, 10);
+        try {
+            const hashedPassword = await hash(password, 10);
 
-        const user = await User.create({
-            name,
-            email,
-            password: hashedPassword
-        }).save();
+            const user = await User.create({
+                name,
+                email,
+                password: hashedPassword
+            }).save();
 
-        await sendEmail(name, email, await createConfirmationUrl(user.id), {confirm: true});
+            await sendEmail(name, email, await createConfirmationUrl(user.id), { confirm: true });
 
-        return true;
+            return true;
+        } catch {
+            throw Error("Something went wrong.")
+        }
     }
 }
