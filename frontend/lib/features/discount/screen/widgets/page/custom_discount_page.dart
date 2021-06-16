@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/features/discount/screen/widgets/time_date.dart';
 import 'package:meta/meta.dart';
 import 'package:provider/provider.dart';
 
@@ -8,6 +7,7 @@ import '../../../../../models/product.dart';
 import '../../../../../repositories/discount/discount_repository_implementation.dart';
 import '../custom_discount_fab.dart';
 import '../subtitle.dart';
+import '../time_date.dart';
 import '../title.dart';
 
 class CustomDiscountPage extends StatefulWidget {

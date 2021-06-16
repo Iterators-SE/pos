@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/features/profile/screens/widgets/header_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/state/app_state.dart';
 import '../../../../models/user_profile.dart';
 import '../../../../repositories/profile/profile_repository_implementation.dart';
+import '../widgets/header_widget.dart';
 
 class EditProfilePage extends StatefulWidget {
   final UserProfile profile;

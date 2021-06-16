@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:frontend/core/themes/config.dart';
+import '../../../../core/themes/config.dart';
 
 class Header extends StatelessWidget {
   @override
