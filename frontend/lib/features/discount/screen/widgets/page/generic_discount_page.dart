@@ -101,26 +101,21 @@ class _GenericDiscountPageState extends State<GenericDiscountPage> {
                 shrinkWrap: true,
                 itemCount: products.length,
                 itemBuilder: (context, index) {
-                  return Row(
-                    children: [
-                      Checkbox(
-                        value: checkbox[index],
-                        onChanged: (value) {
-                          setState(() {
-                            checkbox[index] = value;
-                            if (checkbox[index] == false) {
-                              if (includedProducts
-                                  .contains(products[index].id)) {
-                                includedProducts.remove(products[index].id);
-                              }
-                            } else {
-                              includedProducts.add(products[index].id);
-                            }
-                          });
-                        },
-                      ),
-                      Text(products[index].name)
-                    ],
+                  return CheckboxListTile(
+                    value: includedProducts.contains(products[index].id),
+                    onChanged: (value) {
+                      setState(() {
+                        checkbox[index] = value;
+                        if (checkbox[index] == false) {
+                          if (includedProducts.contains(products[index].id)) {
+                            includedProducts.remove(products[index].id);
+                          }
+                        } else {
+                          includedProducts.add(products[index].id);
+                        }
+                      });
+                    },
+                    title: Text(products[index].name),
                   );
                 }),
             subtitle("Discount Percentage:"),
@@ -152,11 +147,11 @@ class _GenericDiscountPageState extends State<GenericDiscountPage> {
         ),
       ),
       persistentFooterButtons: [
-        CustomDiscountFAB(
-          onPressed: widget.onPressed,
-          label: widget.label,
-          icon: widget.iconLabel,
-        ),
+        // CustomDiscountFAB(
+        //   onPressed: widget.onPressed,
+        //   label: widget.label,
+        //   icon: widget.iconLabel,
+        // ),
         CustomDiscountFAB(
           onPressed: () async {
             if (_formKey.currentState.validate() &&
