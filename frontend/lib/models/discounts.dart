@@ -49,7 +49,12 @@ class CustomDiscount extends Discount {
     String description,
     int percentage,
     List<int> products,
-  }) : super(id: discountId, description: description, products: products);
+  }) : super(
+          id: discountId,
+          description: description,
+          products: products,
+          percentage: percentage,
+        );
 
   String get dateInclusive => inclusiveDates;
   String get timeStarted => startTime;
