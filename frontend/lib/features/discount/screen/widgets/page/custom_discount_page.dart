@@ -7,10 +7,11 @@ import '../../../../../models/product.dart';
 import '../../../../../repositories/discount/discount_repository_implementation.dart';
 import '../custom_discount_fab.dart';
 import '../subtitle.dart';
+import '../time_date.dart';
 import '../title.dart';
 
 class CustomDiscountPage extends StatefulWidget {
-  final CustomDiscount discount;
+  final Discount discount;
   final Function onSave;
   final Function onPressed;
   final String label;
@@ -40,6 +41,10 @@ class _CustomDiscountPageState extends State<CustomDiscountPage> {
   String _description;
   // ignore: unused_field
   int _percentage;
+  String startTime; 
+  String endTime; 
+  String endDate; 
+  String startDate; 
 
   List<Product> products = [];
 
@@ -122,6 +127,12 @@ class _CustomDiscountPageState extends State<CustomDiscountPage> {
                     ],
                   );
                 }),
+            TimeAndDate(
+                setEndDate: (value) => setState(() => endDate = value),
+                setEndTime: (value) => setState(() => endTime = value),
+                setStartDate: (value) => setState(() => startDate = value),
+                setStartTime: (value) => setState(() => startTime = value),
+            ),
             subtitle("Discount Percentage:"),
             Container(
               padding: EdgeInsets.only(right: 200),
@@ -148,11 +159,6 @@ class _CustomDiscountPageState extends State<CustomDiscountPage> {
         ),
       ),
       persistentFooterButtons: [
-        CustomDiscountFAB(
-          onPressed: widget.onPressed,
-          label: widget.label,
-          icon: widget.iconLabel,
-        ),
         CustomDiscountFAB(
           onPressed: () async {
             if (_formKey.currentState.validate() &&

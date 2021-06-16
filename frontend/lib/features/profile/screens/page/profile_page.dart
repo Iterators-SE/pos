@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/state/app_state.dart';
-import '../../../../core/themes/config.dart';
 import '../../../../models/user_profile.dart';
 import '../../../../repositories/profile/profile_repository_implementation.dart';
+import '../widgets/header_widget.dart';
 import 'edit_profile_page.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -88,13 +88,14 @@ class _ProfilePageState extends State<ProfilePage> {
           )
         ]),
         body: state == AppState.done
-            ? Column(
-                children: [
-                  Center(
-                    child: Image(
-                      image: AssetImage("assets/images/xpos_home_logo.png"),
-                    ),
-                  ),
+            ? SingleChildScrollView(
+                child: Column(children: [
+                  Header(),
+                  // Center(
+                  //   child: Image(
+                  //     image: AssetImage("assets/images/xpos_home_logo.png"),
+                  //   ),
+                  // ),
                   //   child: Stack(children: [
                   //     Container(
                   //       height: 150,
@@ -122,12 +123,12 @@ class _ProfilePageState extends State<ProfilePage> {
                   // SizedBox(
                   //   height: 5,
                   // ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Container(
                     margin: EdgeInsets.all(10),
-                    height: 430,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: xposGreen, width: 5),
-                        borderRadius: BorderRadius.circular(10)),
+                    height: 500,
                     child: Center(
                       child: ListView(
                         padding: EdgeInsets.symmetric(horizontal: 28),
@@ -205,7 +206,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 ],
-              )
+              ))
             : Center(child: CircularProgressIndicator()));
 
     // Widget buildName(UserProfile user) => Column(

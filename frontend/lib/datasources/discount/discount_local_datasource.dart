@@ -19,15 +19,15 @@ class DiscountLocalDataSource implements IDiscountLocalDataSource {
 
   @override
   Future<void> cacheDiscounts(dynamic data) async {
-    final List<Discount> discounts = data.map((discount){
-      return Discount(
+     var discounts = data.map((discount){
+      local.addDiscount(Discount(
         description:discount['description'],
         id: discount['id'],
         percentage: discount['percentage'],
         inclusiveDates: discount['inclusiveDates'],
         startTime: discount['startTime'],
-        endTime: discount['endTime'] );
+        endTime: discount['endTime'] ));
     });
-    await discounts.map(local.addDiscount);
+    print(discounts);
   }
 }

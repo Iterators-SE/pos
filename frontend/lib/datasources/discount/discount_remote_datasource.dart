@@ -80,12 +80,16 @@ class DiscountRemoteDataSource implements IDiscountRemoteDataSource {
       }
 
       final data = jsonDecode(jsonEncode(response.data['getDiscounts']));
-      // await local.cacheDiscounts(data); // NOT YET INSTANTIATED
+      ("Data: $data");
+      if ((await local.getDiscounts()).isEmpty) {
+        await local.cacheDiscounts(data);
+        print(await local.getDiscounts());
+      }
 
       var discounts = <Discount>[];
 
       for (var i = 0; i < data.length; i++) {
-        discounts.add(CustomDiscount.fromJson(data[i]));
+        discounts.add(Discount.fromJson(data[i]));
       }
       return discounts;
     } catch (e) {
@@ -189,7 +193,7 @@ class DiscountRemoteDataSource implements IDiscountRemoteDataSource {
       }
 
       final data = jsonEncode(response.data['action']);
-      return CustomDiscount.fromJson(jsonDecode(data));
+      return Discount.fromJson(jsonDecode(data));
     } catch (e) {
       rethrow;
     }
@@ -234,7 +238,7 @@ class DiscountRemoteDataSource implements IDiscountRemoteDataSource {
       }
 
       final data = jsonEncode(response.data['action']);
-      return CustomDiscount.fromJson(jsonDecode(data));
+      return Discount.fromJson(jsonDecode(data));
     } catch (e) {
       rethrow;
     }
@@ -284,7 +288,7 @@ class DiscountRemoteDataSource implements IDiscountRemoteDataSource {
       }
 
       final data = jsonEncode(response.data['action']);
-      return CustomDiscount.fromJson(jsonDecode(data));
+      return Discount.fromJson(jsonDecode(data));
     } catch (e) {
       rethrow;
     }
@@ -293,26 +297,29 @@ class DiscountRemoteDataSource implements IDiscountRemoteDataSource {
   @override
   Future<bool> deleteDiscount({@required int id}) async {
     try {
-      final query = r'''
-        mutation deleteDiscount($id: Number!) {
-          action: deleteDiscount(id: $id)
+      // TODO: Fix Discount and make nullable
+      final query = '''
+        mutation  {
+          deleteDiscount(id: $id) {
+            products {
+              id
+            }
+          }
         }''';
 
-      final response = await client.query(
-        QueryOptions(
-          document: gql(query),
-          variables: {
-            'id': id,
-          },
-        ),
+      final response = await client.mutate(
+        MutationOptions(document: gql(query)),
       );
+
+      print(response);
 
       if (response.hasException) {
         throw response.exception;
       }
 
-      final data = jsonEncode(response.data['action']);
-      return jsonDecode(data);
+      final data = jsonEncode(response.data['deleteDiscount']);
+      print(data);
+      return true;
     } catch (e) {
       rethrow;
     }

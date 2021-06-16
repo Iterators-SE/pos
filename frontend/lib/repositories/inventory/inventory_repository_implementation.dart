@@ -65,9 +65,10 @@ class InventoryRepository implements IInventoryRepository {
 
   @override
   Future<Either<Failure, List<Product>>> getProducts() async {
-    if (true) {
+    if (await network.isConnected()) {
       try {
         final data = await remote.getProducts();
+        
         // await local.cacheProducts(data);
         return Right(data);
       } on OperationException catch (e) {
@@ -80,21 +81,22 @@ class InventoryRepository implements IInventoryRepository {
         return Left(UnhandledFailure());
       }
     }
-    // else {
-    //   try {
-    //     final data = await local.getProducts();
-    //     return Right(data);
-    //   } on CacheException {
-    //     return Left(CacheFailure());
-    //   } catch (e) {
-    //     return Left(UnhandledFailure());
-    //   }
-    // }
+    else {
+      try {
+        final data = await local.getProducts();
+        print(data);
+        return Right(data);
+      } on CacheException {
+        return Left(CacheFailure());
+      } catch (e) {
+        return Left(UnhandledFailure());
+      }
+    }
   }
 
   @override
   Future<Either<Failure, Product>> getProductDetails({int productId}) async {
-    if (true) {
+    if (await network.isConnected()) {
       try {
         final data = await remote.getProductDetails(productId: productId);
         print(data.variants);
@@ -110,16 +112,17 @@ class InventoryRepository implements IInventoryRepository {
         return Left(UnhandledFailure());
       }
     }
-    // else {
-    //   try {
-    //     final data = await local.getProductDetails(productId: productId);
-    //     return Right(data);
-    //   } on CacheException {
-    //     return Left(CacheFailure());
-    //   } catch (e) {
-    //     return Left(UnhandledFailure());
-    //   }
-    // }
+    else {
+      try {
+        final data = await local.getProductDetails(productId: productId);
+        print(data);
+        return Right(data);
+      } on CacheException {
+        return Left(CacheFailure());
+      } catch (e) {
+        return Left(UnhandledFailure());
+      }
+    }
   }
 
   @override

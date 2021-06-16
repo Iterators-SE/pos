@@ -7,7 +7,7 @@ import '../../../models/product.dart';
 abstract class CustomDiscountScreenView {
   AppState state;
   List<Discount> discounts = [];
-  CustomDiscount discount;
+  Discount discount;
 
   bool isAdd = true;
 

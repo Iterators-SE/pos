@@ -3,7 +3,7 @@ import 'time_date_container.dart';
 
 class TimeAndDate extends StatefulWidget {
   final Function setStartTime;
-  final Function setEndtime;
+  final Function setEndTime;
   final Function setStartDate;
   final Function setEndDate;
 
@@ -12,7 +12,7 @@ class TimeAndDate extends StatefulWidget {
     this.setEndDate,
     this.setStartDate,
     this.setStartTime,
-    this.setEndtime,
+    this.setEndTime,
   }) : super(key: key);
 
   @override
@@ -161,7 +161,7 @@ class _TimeAndDateState extends State<TimeAndDate> {
     if (newTime != null) {
       setState(() {
         timeUntil = newTime;
-        widget.setEndtime(timeUntil);
+        widget.setEndTime(timeUntil);
       });
     }
   }

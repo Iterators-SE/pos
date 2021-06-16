@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../../../models/product.dart';
+// import '../../../../models/product.dart';
 import '../widgets/product_tile.dart';
 
 class ProductListPage extends StatefulWidget {
   final Function functionOnTap;
-  final List<Product> products;
+  final List<dynamic> products;
   final bool isSearching;
   final String productToSearch;
 

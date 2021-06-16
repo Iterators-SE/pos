@@ -5,9 +5,9 @@ import '../../core/error/failure.dart';
 import '../../models/discounts.dart';
 
 abstract class IDiscountRepository {
-  Future<Either<Failure, Discount>> getDiscount({@required int id});
+  Future<Either<Failure, dynamic>> getDiscount({@required int id});
 
-  Future<Either<Failure, List<Discount>>> getDiscounts();
+  Future<Either<Failure, List<dynamic>>> getDiscounts();
 
   Future<Either<Failure, Discount>> createGenericDiscount({
     @required String description,

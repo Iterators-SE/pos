@@ -157,7 +157,7 @@ class _InventoryListScreenState extends State<InventoryListScreen>
   }
 
   @override
-  Future<List<Product>> getProducts(BuildContext context) async {
+  Future<List<dynamic>> getProducts(BuildContext context) async {
     setState(() {
       state = AppState.loading;
     });
@@ -166,7 +166,7 @@ class _InventoryListScreenState extends State<InventoryListScreen>
         await Provider.of<InventoryRepository>(context, listen: false)
             .getProducts();
     var result = resultProducts.fold((fail) => [], (products) => products);
-    print(result);
+    print("Products $result");
 
     if (resultProducts.isRight) {
       setState(() {
