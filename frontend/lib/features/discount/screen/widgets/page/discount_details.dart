@@ -35,9 +35,20 @@ class _DiscountDetailsState extends State<DiscountDetails> {
       id: widget.discount.id,
     );
 
-    // TODO: SEE SCAFFOLD MSSG BAR
     if (result.isRight) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('${widget.discount.description} successfully deleted!'),
+        ),
+      );
+
       Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Could not delete ${widget.discount.description}.'),
+        ),
+      );
     }
   }
 
