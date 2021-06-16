@@ -22,12 +22,11 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
     try {
       final responseProduct = await client.mutate(
         MutationOptions(
-          document: gql(
-            queries.addProduct(product.name, product.description,
-                product.isTaxable, product.photoLink),
-          ),
-          fetchPolicy: FetchPolicy.networkOnly
-        ),
+            document: gql(
+              queries.addProduct(product.name, product.description,
+                  product.isTaxable, product.photoLink),
+            ),
+            fetchPolicy: FetchPolicy.networkOnly),
       );
 
       if (responseProduct.hasException) {
@@ -72,9 +71,8 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
 
       final responseProduct = await client.query(
         QueryOptions(
-          document: gql(queries.deleteProduct(productId)),
-          fetchPolicy: FetchPolicy.networkOnly
-        ),
+            document: gql(queries.deleteProduct(productId)),
+            fetchPolicy: FetchPolicy.networkOnly),
       );
 
       if (responseProduct.hasException) {
@@ -95,9 +93,8 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
     try {
       final response = await client.query(
         QueryOptions(
-          document: gql(queries.getProductDetails(productId)),
-          fetchPolicy: FetchPolicy.networkOnly
-        ),
+            document: gql(queries.getProductDetails(productId)),
+            fetchPolicy: FetchPolicy.networkOnly),
       );
 
       if (response.hasException) {
@@ -112,13 +109,12 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
   }
 
   @override
-  Future<List<Product>> getProducts() async {
+  Future<List<dynamic>> getProducts() async {
     try {
       final response = await client.query(
         QueryOptions(
-          document: gql(queries.getProducts()),
-          fetchPolicy: FetchPolicy.networkOnly
-        ),
+            document: gql(queries.getProducts()),
+            fetchPolicy: FetchPolicy.networkOnly),
       );
 
       if (response.hasException) {
@@ -137,10 +133,21 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
       // print(products.first.variants.first.variantName);
       // print(products.runtimeType);
       // print(products.first.variants.runtimeType);
-      print("Products $products");
       // print(local);
-      // await local.cacheProducts(products);
-      // print(await local.getProducts());
+      await local.cacheProducts(products);
+      // for (var product in await local.getProducts()) {
+      //   for (var remoteProduct in products) {
+      //           print(product);
+      //           print(remoteProduct);
+      //     if (product.productId == remoteProduct.id) {
+      //       break;
+      //     } else if (product.id != remoteProduct.id &&
+      //         remoteProduct == products[products.length]) {
+      //           local.cacheProducts(remoteProduct);
+      //         }
+      //   }
+      // }
+      print("Local Products: ${await local.getProducts()}");
 
       return products;
     } catch (e) {
@@ -154,12 +161,11 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
     try {
       final response = await client.mutate(
         MutationOptions(
-          document: gql(
-            queries.changeProductDetails(product.id, product.name,
-                product.description, product.isTaxable, product.photoLink),
-          ),
-          fetchPolicy: FetchPolicy.networkOnly
-        ),
+            document: gql(
+              queries.changeProductDetails(product.id, product.name,
+                  product.description, product.isTaxable, product.photoLink),
+            ),
+            fetchPolicy: FetchPolicy.networkOnly),
       );
 
       if (response.hasException) {
@@ -178,13 +184,11 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
     try {
       final response = await client.mutate(
         MutationOptions(
-          document: gql(
-            queries.addVariant(
-                variant.name, variant.quantity, variant.price, productId),
-          ),
-          fetchPolicy: FetchPolicy.networkOnly
-        ),
-        
+            document: gql(
+              queries.addVariant(
+                  variant.name, variant.quantity, variant.price, productId),
+            ),
+            fetchPolicy: FetchPolicy.networkOnly),
       );
 
       if (response.hasException) {
@@ -203,11 +207,10 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
     try {
       final response = await client.mutate(
         MutationOptions(
-          document: gql(
-            queries.deleteAllVariants(productId),
-          ),
-          fetchPolicy: FetchPolicy.networkOnly
-        ),
+            document: gql(
+              queries.deleteAllVariants(productId),
+            ),
+            fetchPolicy: FetchPolicy.networkOnly),
       );
 
       if (response.hasException) {
@@ -227,11 +230,10 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
     try {
       final response = await client.mutate(
         MutationOptions(
-          document: gql(
-            queries.deleteVariant(productVariantId),
-          ),
-          fetchPolicy: FetchPolicy.networkOnly
-        ),
+            document: gql(
+              queries.deleteVariant(productVariantId),
+            ),
+            fetchPolicy: FetchPolicy.networkOnly),
       );
 
       if (response.hasException) {
@@ -250,12 +252,11 @@ class InventoryRemoteDataSource implements IInventoryRemoteDataSource {
     try {
       final response = await client.mutate(
         MutationOptions(
-          document: gql(
-            queries.editVariant(variant.variantName, variant.quantity,
-                variant.price, variant.variantId),
-          ),
-          fetchPolicy: FetchPolicy.networkOnly
-        ),
+            document: gql(
+              queries.editVariant(variant.variantName, variant.quantity,
+                  variant.price, variant.variantId),
+            ),
+            fetchPolicy: FetchPolicy.networkOnly),
       );
 
       if (response.hasException) {

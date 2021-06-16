@@ -5,10 +5,11 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import '../../features/tax/models/new_tax.dart';
 import '../../models/tax.dart';
 import 'tax_datasource.dart';
+import 'tax_local_datasource.dart';
 
 class TaxRemoteDataSource implements ITaxRemoteDataSource {
-  TaxRemoteDataSource({this.client});
-
+  TaxRemoteDataSource({this.client, this.local});
+  TaxLocalDataSource local;
   GraphQLClient client;
 
   @override
@@ -188,7 +189,9 @@ class TaxRemoteDataSource implements ITaxRemoteDataSource {
       List<Tax> decoded = await jsonDecode(data)
           .map<Tax>((product) => Tax.fromJson(product))
           .toList();
-
+      if ((await local.getTaxes()).isEmpty){
+        local.cacheTaxes(decoded);
+      }
       return decoded;
     } catch (e) {
       rethrow;
